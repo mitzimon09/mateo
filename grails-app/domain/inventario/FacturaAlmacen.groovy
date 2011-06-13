@@ -54,9 +54,9 @@ class FacturaAlmacen {//implements java.io.Serializable {
         }
 
         relaciones {
-            estatus {
+            /*estatus {
                 order 'prioridad', 'asc'
-            }
+            }*/
             order 'folio', 'desc'
         }
     }

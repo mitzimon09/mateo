@@ -24,9 +24,9 @@ class CancelacionAlmacen {//implements java.io.Serializable {
         creador(blank:false, maxSize:64)
     }
 
-    /*static mapping = {
+    static mapping = {
         table 'cancelaciones_almacen'
-    }*/
+    }
 
     String toString() {
         return folio

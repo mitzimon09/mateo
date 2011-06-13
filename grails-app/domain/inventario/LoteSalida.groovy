@@ -17,7 +17,7 @@ class LoteSalida {//implements java.io.Serializable {
         iva(scale:2,precision:8)
     }
 
-    /*static mapping = {
+    static mapping = {
         table 'lotes_salida'
     }
 
@@ -31,7 +31,7 @@ class LoteSalida {//implements java.io.Serializable {
             }
             order 'precioUnitario', 'asc'
         }
-    }*/
+    }
 
     String toString() {
         "$producto : $cantidad : $precioUnitario"

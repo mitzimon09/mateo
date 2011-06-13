@@ -9,7 +9,7 @@ class Salida {//implements java.io.Serializable {
     BigDecimal total = new BigDecimal("0.00")
     String empleado
     String reporte
-    //String atendio //el empleado ya está, si una persona atendió ¿qué hece el empleado?
+    //String atendio //el empleado ya está, si una persona atendió ¿qué hace el empleado?
     String departamento
     String estatus
     Boolean facturada = false
@@ -27,7 +27,7 @@ class Salida {//implements java.io.Serializable {
 
     static constraints = {
         folio(unique:'almacen', maxSize:64, blank:false)
-        atendio(nullable:true,maxSize:64)
+        //atendio(nullable:true,maxSize:64)
         reporte(nullable:true,maxSize:64)
         iva(scale:2,precision:8)
         total(scale:2,precision:8)
@@ -67,7 +67,7 @@ class Salida {//implements java.io.Serializable {
             or {
                 ilike 'folio', filtro
                 ilike 'reporte', filtro
-                ilike 'atendio', filtro
+                //ilike 'atendio', filtro
                 ilike 'empleado', filtro
                 ilike 'departamento', filtro
                 ilike 'comentarios', filtro

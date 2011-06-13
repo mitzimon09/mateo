@@ -68,9 +68,9 @@ class Entrada {//implements java.io.Serializable {
             or {
                 ilike 'folio', filtro
                 ilike 'factura', filtro
-                estatus {
+                /*estatus {
                     ilike 'nombre', filtro
-                }
+                }*/
                 proveedor {
                     or {
                         ilike 'nombre', filtro

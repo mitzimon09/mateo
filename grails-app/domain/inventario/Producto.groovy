@@ -68,7 +68,7 @@ class Producto {//implements java.io.Serializable {
                 ilike 'descripcion', filtro
                 ilike 'marca', filtro
                 ilike 'modelo', filtro
-                ilike 'ubicacion', filtro
+                //ilike 'ubicacion', filtro
                 tipoProducto {
                     ilike 'nombre', filtro
                 }
@@ -86,10 +86,10 @@ class Producto {//implements java.io.Serializable {
             ilike 'codigo', filtro
         }
 
-        buscaPorSKU { filtro ->
+        /*buscaPorSKU { filtro ->
             filtro = "%$filtro%"
             ilike 'sku', filtro
-        }
+        }*/
 
         buscaPorNombre { filtro ->
             filtro = "%$filtro%"
@@ -124,7 +124,7 @@ class Producto {//implements java.io.Serializable {
     }
 
     String toString() {
-        "${sku}|${nombre}"
+        /*"${sku}|*/"${nombre}"
     }
 
 }

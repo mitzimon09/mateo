@@ -7,7 +7,7 @@ class Almacen {//implements java.io.Serializable {
     String codigo
     String nombre
     Empresa empresa
-    String nombreCompleto
+    //String nombreCompleto
     Set productos
     Set tiposProducto
     Set entradas
