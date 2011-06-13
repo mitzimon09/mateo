@@ -1,6 +1,6 @@
 package inventario
 
-class LoteEntrada implements {//java.io.Serializable {
+class LoteEntrada {//implements java.io.Serializable {
     BigDecimal cantidad = new BigDecimal("0.00")
     BigDecimal precioUnitario = new BigDecimal("0.00")
     BigDecimal iva = new BigDecimal("0.00")

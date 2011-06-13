@@ -1,10 +1,6 @@
 package inventario
 
-/**
- *
- * @author jdmr
- */
-class LoteSalida implements java.io.Serializable {
+class LoteSalida {//implements java.io.Serializable {
     BigDecimal cantidad = new BigDecimal("0")
     BigDecimal precioUnitario = new BigDecimal("0.00")
     BigDecimal iva = new BigDecimal("0.00")

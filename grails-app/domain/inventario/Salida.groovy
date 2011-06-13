@@ -1,9 +1,8 @@
 package inventario
 
 import general.Cliente
-import general.Estatus
 
-class Salida implements {//java.io.Serializable {
+class Salida {//implements java.io.Serializable {
     String folio
     String comentarios
     BigDecimal iva = new BigDecimal("0.00")
@@ -22,7 +21,7 @@ class Salida implements {//java.io.Serializable {
     //Boolean cerrada = false //esto está in incluido en el estatus
     FacturaAlmacen facturaAlmacen
 
-    static belongsTo = [Cliente, Almacen, Estatus, FacturaAlmacen]
+    static belongsTo = [Cliente, Almacen, FacturaAlmacen]
 
     static hasMany = [lotes: LoteSalida]
 

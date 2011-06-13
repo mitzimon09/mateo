@@ -1,9 +1,6 @@
 package inventario
 
-/**
- * @author jdmr
- */
-class FolioInventario implements {//java.io.Serializable {
+class FolioInventario {//implements java.io.Serializable {
     String nombre
     Long valor
     Almacen almacen

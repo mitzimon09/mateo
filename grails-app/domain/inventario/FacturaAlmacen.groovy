@@ -2,7 +2,7 @@ package inventario
 
 import general.*
 
-class FacturaAlmacen implements {//java.io.Serializable {
+class FacturaAlmacen {//implements java.io.Serializable {
     String folio
     String estatus
     String comentarios
@@ -16,15 +16,15 @@ class FacturaAlmacen implements {//java.io.Serializable {
     Set salidas
     Set entradas
 
-    static belongsTo = [Cliente, Almacen, Estatus]
+    static belongsTo = [Cliente, Almacen]
 
     static hasMany = [salidas: Salida, entradas: Entrada]
 
     static constraints = {
-        folio unique:'almacen', maxSize:64
-        comentarios nullable:true, maxSize:128
-        iva scale:2, precision:8
-        total scale:2, precision:8
+        folio(unique:'almacen', maxSize:64)
+        comentarios(nullable:true, maxSize:128)
+        iva(scale:2, precision:8)
+        total(scale:2, precision:8)
         estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
     }
 

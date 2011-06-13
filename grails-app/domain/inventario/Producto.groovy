@@ -1,6 +1,7 @@
 package inventario
+import general.*
 
-class Producto implements {//java.io.Serializable {
+class Producto {//implements java.io.Serializable {
     String codigo 
     //String sku //it already has codigo, also nombre should be diferent in each
     //Stock-keeping unit, used to identify each unique product or item for sale in a store or other business.

@@ -1,6 +1,6 @@
 package inventario
 
-class TipoProducto implements {//java.io.Serializable {
+class TipoProducto {//implements java.io.Serializable {
 	String nombre
 	String descripcion
 	//Boolean base = false
@@ -10,7 +10,7 @@ class TipoProducto implements {//java.io.Serializable {
 	
 
     static constraints = {
-    	nombre(blank:false maxSize: 64)
+    	nombre(blank:false, maxSize: 64)
     	descripcion(maxSize:200)
     }
     

@@ -1,13 +1,7 @@
 package inventario
 
 import general.Proveedor
-import general.Estatus
-
-/**
- *
- * @author jdmr
- */
-class Entrada implements {//java.io.Serializable {
+class Entrada {//implements java.io.Serializable {
     String folio
     String factura
     Date fechaFactura
@@ -29,7 +23,7 @@ class Entrada implements {//java.io.Serializable {
 
     //static transients = ['totalFactura']
 
-    static belongsTo = [Proveedor, Almacen, Estatus, FacturaAlmacen]
+    static belongsTo = [Proveedor, Almacen, FacturaAlmacen]
 
     static hasMany = [lotes: LoteEntrada]
 
