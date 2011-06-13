@@ -51,9 +51,9 @@ class Entrada {//implements java.io.Serializable {
         relaciones { 
             join 'estatus'
             join 'proveedor'
-            estatus {
+            /*estatus {
                 order 'prioridad', 'asc'
-            }
+            }*///estatus es un string ahora
             order 'folio', 'desc'
         }
 
