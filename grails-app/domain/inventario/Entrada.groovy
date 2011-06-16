@@ -1,6 +1,6 @@
 package inventario
 
-import general.Proveedor
+import general.*
 class Entrada {//implements java.io.Serializable {
     String folio
     String factura
@@ -10,16 +10,16 @@ class Entrada {//implements java.io.Serializable {
     BigDecimal iva = new BigDecimal("0.00")
     BigDecimal total = new BigDecimal("0.00")
     Boolean devolucion = false //es una devolución?
-    String estatus
+    String estatus = 'ABIERTA'
     //Boolean pendiente = false //??
     Proveedor proveedor
     Almacen almacen
     Date dateCreated
     Date lastUpdated
-    Set lotes //??
+    //Set lotes //??
     BigDecimal totalFactura = new BigDecimal("0")
     //Boolean facturada = false //
-    FacturaAlmacen facturaAlmacen //
+    //FacturaAlmacen facturaAlmacen //
 
     //static transients = ['totalFactura']
 
@@ -30,13 +30,13 @@ class Entrada {//implements java.io.Serializable {
     static constraints = {
         folio(maxSize:64,unique:'almacen')
         factura(blank:false, maxSize:64, unique:'almacen')
-        fechaFactura()
+        fechaFactura(nullable:true)
         iva(scale:2,precision:8,min:new BigDecimal('0'))
         total(scale:2,precision:8,min:new BigDecimal('0'))
         estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
         tipoCambio(nullable:true,scale:2,precision:8)
         comentarios(nullable:true,maxSize:128)
-        facturaAlmacen(nullable:true)
+        //facturaAlmacen(nullable:true)
         
     }
 

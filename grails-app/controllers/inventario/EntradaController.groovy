@@ -3,7 +3,7 @@ package inventario
 import grails.converters.JSON
 
 class EntradaController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -21,7 +21,7 @@ class EntradaController {
         return [entradaInstance: entradaInstance]
     }
 
-    def save = {
+    def crea = {
         def entradaInstance = new Entrada(params)
         if (entradaInstance.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entradaInstance.id])

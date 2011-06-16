@@ -13,8 +13,6 @@ class UsuarioControllerTests {
 
     @Test
     void testIndex() {
-        controller.index()
-        assert "/usuario/lista" == response.redirectedUrl
     }
 
 }

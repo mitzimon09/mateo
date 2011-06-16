@@ -7,7 +7,7 @@ class Almacen {//implements java.io.Serializable {
     String codigo
     String nombre
     Empresa empresa
-    //String nombreCompleto
+    String nombreCompleto
     Set productos
     Set tiposProducto
     Set entradas
@@ -24,6 +24,7 @@ class Almacen {//implements java.io.Serializable {
     static constraints = {
         codigo(blank:false,size:1..18,unique:'empresa')
         nombre(blank:false,size:1..64,unique:'empresa')
+        nombreCompleto(nulleable:true)
     }
 
     static mapping = {
