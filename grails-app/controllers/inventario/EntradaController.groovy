@@ -32,7 +32,7 @@ class EntradaController {
         }
     }
 
-    def sver = {
+    def ver = {
         def entradaInstance = Entrada.get(params.id)
         if (!entradaInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
@@ -81,7 +81,7 @@ class EntradaController {
         }
     }
 
-    def delete = {
+    def elimina = {
         def entradaInstance = Entrada.get(params.id)
         if (entradaInstance) {
             try {

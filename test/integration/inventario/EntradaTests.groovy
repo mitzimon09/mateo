@@ -61,9 +61,9 @@ class EntradaTests extends BaseIntegrationTest {
         def controller = new EntradaController()
         controller.springSecurityService = springSecurityService
         controller.index()
-        assertEquals '/entrada/list', controller.response.redirectedUrl
+        assertEquals '/entrada/lista', controller.response.redirectedUrl
 		
-		def model = controller.list()
+		def model = controller.lista()
 		assertNotNull model
 		assertNotNull model.entradaInstanceList
 		
@@ -104,7 +104,7 @@ class EntradaTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         
         //controller.springSecurityService = springSecurityService
-        def model = controller.create()
+        def model = controller.nueva()
         assert model
         assert model.entradaInstance
         
@@ -114,11 +114,11 @@ class EntradaTests extends BaseIntegrationTest {
         controller.params.tipoCambio = "0.00"
         controller.params.proveedor = proveedor
         controller.params.almacen = almacen
-        controller.save()
+        controller.crea()
         
         assert controller
  
-        assert controller.response.redirectedUrl.startsWith('/entrada/show')
+        assert controller.response.redirectedUrl.startsWith('/entrada/ver')
     }
     
     @Test
@@ -162,20 +162,20 @@ class EntradaTests extends BaseIntegrationTest {
         def controller = new EntradaController()
         controller.springSecurityService = springSecurityService
         controller.params.id = entrada.id
-        def model = controller.show()
+        def model = controller.ver()
         assert model.entradaInstance
         assertEquals "001", model.entradaInstance.folio
 
         controller.params.id = entrada.id
-        model = controller.edit()
+        model = controller.edita()
         assert model.entradaInstance
         assertEquals "10000", model.entradaInstance.factura
 
         controller.params.id = entrada.id
         controller.params.version = entrada.version
         controller.params.folio = '10002'
-        controller.update()
-        assertEquals "/entrada/show/${entrada.id}", controller.response.redirectedUrl
+        controller.actualiza()
+        assertEquals "/entrada/ver/${entrada.id}", controller.response.redirectedUrl
 
         entrada.refresh()
         assertEquals '10002', entrada.folio
@@ -222,13 +222,13 @@ class EntradaTests extends BaseIntegrationTest {
         def controller = new EntradaController()
         controller.springSecurityService = springSecurityService
         controller.params.id = entrada.id
-        def model = controller.show()
+        def model = controller.ver()
         assert model.entradaInstance
         assertEquals "001", model.entradaInstance.folio
 
         controller.params.id = entrada.id
-        controller.delete()
-        assertEquals "/entrada/list", controller.response.redirectedUrl
+        controller.elimina()
+        assertEquals "/entrada/lista", controller.response.redirectedUrl
 
         model = Entrada.get(entrada.id)
         assert !model
