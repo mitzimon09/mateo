@@ -12,67 +12,67 @@ class SalidaController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[salidaInstanceList: Salida.list(params), salidaInstanceTotal: Salida.count()]
+		[salidas: Salida.list(params), totalDeSalidas: Salida.count()]
 	}
 
     def nueva = {
-        def salidaInstance = new Salida()
-        salidaInstance.properties = params
-        return [salidaInstance: salidaInstance]
+        def salida = new Salida()
+        salida.properties = params
+        return [salida: salida]
     }
 
     def crea = {
-        def salidaInstance = new Salida(params)
-        if (salidaInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'salida.label', default: 'Salida'), salidaInstance.id])
-            redirect(action: "ver", id: salidaInstance.id)
+        def salida = new Salida(params)
+        if (salida.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'salida.label', default: 'Salida'), salida.id])
+            redirect(action: "ver", id: salida.id)
         }
         else {
-            render(view: "nueva", model: [salidaInstance: salidaInstance])
+            render(view: "nueva", model: [salida: salida])
         }
     }
 
     def ver = {
-        def salidaInstance = Salida.get(params.id)
-        if (!salidaInstance) {
+        def salida = Salida.get(params.id)
+        if (!salida) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'salida.label', default: 'Salida'), params.id])
             redirect(action: "lista")
         }
         else {
-            [salidaInstance: salidaInstance]
+            [salida: salida]
         }
     }
 
     def edita = {
-        def salidaInstance = Salida.get(params.id)
-        if (!salidaInstance) {
+        def salida = Salida.get(params.id)
+        if (!salida) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'salida.label', default: 'Salida'), params.id])
             redirect(action: "lista")
         }
         else {
-            return [salidaInstance: salidaInstance]
+            return [salida: salida]
         }
     }
 
     def actualiza = {
-        def salidaInstance = Salida.get(params.id)
-        if (salidaInstance) {
+        def salida = Salida.get(params.id)
+        if (salida) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (salidaInstance.version > version) {
+                if (salida.version > version) {
                     
-                    salidaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'salida.label', default: 'Salida')] as Object[], "Another user has updated this Salida while you were editing")
-                    render(view: "edita", model: [salidaInstance: salidaInstance])
+                    salida.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'salida.label', default: 'Salida')] as Object[], "Another user has updated this Salida while you were editing")
+                    render(view: "edita", model: [salida: salida])
                     return
                 }
             }
-            salidaInstance.properties = params
-            if (!salidaInstance.hasErrors() && salidaInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'salida.label', default: 'Salida'), salidaInstance.id])
-                redirect(action: "ver", id: salidaInstance.id)
+            salida.properties = params
+            if (!salida.hasErrors() && salida.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'salida.label', default: 'Salida'), salida.id])
+                redirect(action: "ver", id: salida.id)
             }
             else {
-                render(view: "edita", model: [salidaInstance: salidaInstance])
+                render(view: "edita", model: [salida: salida])
             }
         }
         else {
@@ -82,10 +82,10 @@ class SalidaController {
     }
 
     def elimina = {
-        def salidaInstance = Salida.get(params.id)
-        if (salidaInstance) {
+        def salida = Salida.get(params.id)
+        if (salida) {
             try {
-                salidaInstance.delete(flush: true)
+                salida.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'salida.label', default: 'Salida'), params.id])
                 redirect(action: "lista")
             }

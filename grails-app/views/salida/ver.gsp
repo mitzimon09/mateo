@@ -23,137 +23,137 @@
 			</g:if>
 			<ol class="property-list salida">
 			
-				<g:if test="${salidaInstance?.folio}">
+				<g:if test="${salida?.folio}">
 				<li class="fieldcontain">
 					<span id="folio-label" class="property-label"><g:message code="salida.folio.label" default="Folio" /></span>
 					
-						<span class="property-value" aria-labelledby="folio-label"><g:fieldValue bean="${salidaInstance}" field="folio"/></span>
+						<span class="property-value" aria-labelledby="folio-label"><g:fieldValue bean="${salida}" field="folio"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.reporte}">
+				<g:if test="${salida?.reporte}">
 				<li class="fieldcontain">
 					<span id="reporte-label" class="property-label"><g:message code="salida.reporte.label" default="Reporte" /></span>
 					
-						<span class="property-value" aria-labelledby="reporte-label"><g:fieldValue bean="${salidaInstance}" field="reporte"/></span>
+						<span class="property-value" aria-labelledby="reporte-label"><g:fieldValue bean="${salida}" field="reporte"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.iva}">
+				<g:if test="${salida?.iva}">
 				<li class="fieldcontain">
 					<span id="iva-label" class="property-label"><g:message code="salida.iva.label" default="Iva" /></span>
 					
-						<span class="property-value" aria-labelledby="iva-label"><g:fieldValue bean="${salidaInstance}" field="iva"/></span>
+						<span class="property-value" aria-labelledby="iva-label"><g:fieldValue bean="${salida}" field="iva"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.total}">
+				<g:if test="${salida?.total}">
 				<li class="fieldcontain">
 					<span id="total-label" class="property-label"><g:message code="salida.total.label" default="Total" /></span>
 					
-						<span class="property-value" aria-labelledby="total-label"><g:fieldValue bean="${salidaInstance}" field="total"/></span>
+						<span class="property-value" aria-labelledby="total-label"><g:fieldValue bean="${salida}" field="total"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.empleado}">
+				<g:if test="${salida?.empleado}">
 				<li class="fieldcontain">
 					<span id="empleado-label" class="property-label"><g:message code="salida.empleado.label" default="Empleado" /></span>
 					
-						<span class="property-value" aria-labelledby="empleado-label"><g:fieldValue bean="${salidaInstance}" field="empleado"/></span>
+						<span class="property-value" aria-labelledby="empleado-label"><g:fieldValue bean="${salida}" field="empleado"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.departamento}">
+				<g:if test="${salida?.departamento}">
 				<li class="fieldcontain">
 					<span id="departamento-label" class="property-label"><g:message code="salida.departamento.label" default="Departamento" /></span>
 					
-						<span class="property-value" aria-labelledby="departamento-label"><g:fieldValue bean="${salidaInstance}" field="departamento"/></span>
+						<span class="property-value" aria-labelledby="departamento-label"><g:fieldValue bean="${salida}" field="departamento"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.comentarios}">
+				<g:if test="${salida?.comentarios}">
 				<li class="fieldcontain">
 					<span id="comentarios-label" class="property-label"><g:message code="salida.comentarios.label" default="Comentarios" /></span>
 					
-						<span class="property-value" aria-labelledby="comentarios-label"><g:fieldValue bean="${salidaInstance}" field="comentarios"/></span>
+						<span class="property-value" aria-labelledby="comentarios-label"><g:fieldValue bean="${salida}" field="comentarios"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.facturaAlmacen}">
+				<g:if test="${salida?.facturaAlmacen}">
 				<li class="fieldcontain">
 					<span id="facturaAlmacen-label" class="property-label"><g:message code="salida.facturaAlmacen.label" default="Factura Almacen" /></span>
 					
-						<span class="property-value" aria-labelledby="facturaAlmacen-label"><g:link controller="facturaAlmacen" action="show" id="${salidaInstance?.facturaAlmacen?.id}">${salidaInstance?.facturaAlmacen?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="facturaAlmacen-label"><g:link controller="facturaAlmacen" action="show" id="${salida?.facturaAlmacen?.id}">${salida?.facturaAlmacen?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.estatus}">
+				<g:if test="${salida?.estatus}">
 				<li class="fieldcontain">
 					<span id="estatus-label" class="property-label"><g:message code="salida.estatus.label" default="Estatus" /></span>
 					
-						<span class="property-value" aria-labelledby="estatus-label"><g:fieldValue bean="${salidaInstance}" field="estatus"/></span>
+						<span class="property-value" aria-labelledby="estatus-label"><g:fieldValue bean="${salida}" field="estatus"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.almacen}">
+				<g:if test="${salida?.almacen}">
 				<li class="fieldcontain">
 					<span id="almacen-label" class="property-label"><g:message code="salida.almacen.label" default="Almacen" /></span>
 					
-						<span class="property-value" aria-labelledby="almacen-label"><g:link controller="almacen" action="show" id="${salidaInstance?.almacen?.id}">${salidaInstance?.almacen?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="almacen-label"><g:link controller="almacen" action="show" id="${salida?.almacen?.id}">${salida?.almacen?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.cliente}">
+				<g:if test="${salida?.cliente}">
 				<li class="fieldcontain">
 					<span id="cliente-label" class="property-label"><g:message code="salida.cliente.label" default="Cliente" /></span>
 					
-						<span class="property-value" aria-labelledby="cliente-label"><g:link controller="cliente" action="show" id="${salidaInstance?.cliente?.id}">${salidaInstance?.cliente?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="cliente-label"><g:link controller="cliente" action="show" id="${salida?.cliente?.id}">${salida?.cliente?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.dateCreated}">
+				<g:if test="${salida?.dateCreated}">
 				<li class="fieldcontain">
 					<span id="dateCreated-label" class="property-label"><g:message code="salida.dateCreated.label" default="Date Created" /></span>
 					
-						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${salidaInstance?.dateCreated}" /></span>
+						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${salida?.dateCreated}" /></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.facturada}">
+				<g:if test="${salida?.facturada}">
 				<li class="fieldcontain">
 					<span id="facturada-label" class="property-label"><g:message code="salida.facturada.label" default="Facturada" /></span>
 					
-						<span class="property-value" aria-labelledby="facturada-label"><g:formatBoolean boolean="${salidaInstance?.facturada}" /></span>
+						<span class="property-value" aria-labelledby="facturada-label"><g:formatBoolean boolean="${salida?.facturada}" /></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.lastUpdated}">
+				<g:if test="${salida?.lastUpdated}">
 				<li class="fieldcontain">
 					<span id="lastUpdated-label" class="property-label"><g:message code="salida.lastUpdated.label" default="Last Updated" /></span>
 					
-						<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${salidaInstance?.lastUpdated}" /></span>
+						<span class="property-value" aria-labelledby="lastUpdated-label"><g:formatDate date="${salida?.lastUpdated}" /></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${salidaInstance?.lotes}">
+				<g:if test="${salida?.lotes}">
 				<li class="fieldcontain">
 					<span id="lotes-label" class="property-label"><g:message code="salida.lotes.label" default="Lotes" /></span>
 					
-						<g:each in="${salidaInstance.lotes}" var="l">
+						<g:each in="${salida.lotes}" var="l">
 						<span class="property-value" aria-labelledby="lotes-label"><g:link controller="loteSalida" action="ver" id="${l.id}">${l?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
@@ -163,8 +163,8 @@
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${salidaInstance?.id}" />
-					<g:link class="edit" action="edita" id="${salidaInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:hiddenField name="id" value="${salida?.id}" />
+					<g:link class="edit" action="edita" id="${salida?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

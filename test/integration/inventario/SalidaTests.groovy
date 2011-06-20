@@ -75,10 +75,10 @@ class SalidaTests extends BaseIntegrationTest {
 		
 		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.salidaInstanceList
+		assertNotNull model.salidas
 		
-        assertEquals 10, model.salidaInstanceList.size()
-        assert 20 <= model.salidaInstanceTotal
+        assertEquals 10, model.salidas.size()
+        assert 20 <= model.totalDeSalidas
     }
     
     @Test
@@ -125,7 +125,7 @@ class SalidaTests extends BaseIntegrationTest {
         //controller.springSecurityService = springSecurityService
         def model = controller.nueva()
         assert model
-        assert model.salidaInstance
+        assert model.salida
         
         controller.params.folio = "folio"
         controller.params.comentarion = "no"
@@ -196,13 +196,13 @@ class SalidaTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.params.id = salida.id
         def model = controller.ver()
-        assert model.salidaInstance
-        assertEquals "001", model.salidaInstance.folio
+        assert model.salida
+        assertEquals "001", model.salida.folio
 
         controller.params.id = salida.id
         model = controller.edita()
-        assert model.salidaInstance
-        assertEquals "julian", model.salidaInstance.empleado
+        assert model.salida
+        assertEquals "julian", model.salida.empleado
 
         controller.params.id = salida.id
         controller.params.version = salida.version
@@ -268,8 +268,8 @@ class SalidaTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.params.id = salida.id
         def model = controller.ver()
-        assert model.salidaInstance
-        assertEquals "001", model.salidaInstance.folio
+        assert model.salida
+        assertEquals "001", model.salida.folio
 
         controller.params.id = salida.id
         controller.elimina()

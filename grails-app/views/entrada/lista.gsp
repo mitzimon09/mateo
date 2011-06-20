@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${entradaInstanceList}" status="i" var="entradaInstance">
+				<g:each in="${entradas}" status="i" var="entrada">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${entradaInstance.id}">${fieldValue(bean: entradaInstance, field: "folio")}</g:link></td>
+						<td><g:link action="show" id="${entrada.id}">${fieldValue(bean: entrada, field: "folio")}</g:link></td>
 					
-						<td>${fieldValue(bean: entradaInstance, field: "factura")}</td>
+						<td>${fieldValue(bean: entrada, field: "factura")}</td>
 					
-						<td><g:formatDate date="${entradaInstance.fechaFactura}" /></td>
+						<td><g:formatDate date="${entrada.fechaFactura}" /></td>
 					
-						<td>${fieldValue(bean: entradaInstance, field: "iva")}</td>
+						<td>${fieldValue(bean: entrada, field: "iva")}</td>
 					
-						<td>${fieldValue(bean: entradaInstance, field: "total")}</td>
+						<td>${fieldValue(bean: entrada, field: "total")}</td>
 					
-						<td>${fieldValue(bean: entradaInstance, field: "estatus")}</td>
+						<td>${fieldValue(bean: entrada, field: "estatus")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${entradaInstanceTotal}" />
+				<g:paginate total="${entradaTotal}" />
 			</div>
 		</div>
 	</body>

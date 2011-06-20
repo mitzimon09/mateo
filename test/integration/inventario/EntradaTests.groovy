@@ -65,10 +65,10 @@ class EntradaTests extends BaseIntegrationTest {
 		
 		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.entradaInstanceList
+		assertNotNull model.entradas
 		
-        assertEquals 10, model.entradaInstanceList.size()
-        assert 20 <= model.entradaInstanceTotal
+        assertEquals 10, model.entradas.size()
+        assert 20 <= model.totalDeEntradas
     }
     
     @Test
@@ -106,7 +106,7 @@ class EntradaTests extends BaseIntegrationTest {
         //controller.springSecurityService = springSecurityService
         def model = controller.nueva()
         assert model
-        assert model.entradaInstance
+        assert model.entrada
         
         controller.params.folio = "folio"
         controller.params.factura = "factura"
@@ -163,13 +163,13 @@ class EntradaTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.params.id = entrada.id
         def model = controller.ver()
-        assert model.entradaInstance
-        assertEquals "001", model.entradaInstance.folio
+        assert model.entrada
+        assertEquals "001", model.entrada.folio
 
         controller.params.id = entrada.id
         model = controller.edita()
-        assert model.entradaInstance
-        assertEquals "10000", model.entradaInstance.factura
+        assert model.entrada
+        assertEquals "10000", model.entrada.factura
 
         controller.params.id = entrada.id
         controller.params.version = entrada.version
@@ -223,8 +223,8 @@ class EntradaTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.params.id = entrada.id
         def model = controller.ver()
-        assert model.entradaInstance
-        assertEquals "001", model.entradaInstance.folio
+        assert model.entrada
+        assertEquals "001", model.entrada.folio
 
         controller.params.id = entrada.id
         controller.elimina()

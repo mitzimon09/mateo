@@ -12,67 +12,67 @@ class EntradaController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[entradaInstanceList: Entrada.list(params), entradaInstanceTotal: Entrada.count()]
+		[entradas: Entrada.list(params), totalDeEntradas: Entrada.count()]
 	}
 
     def nueva = {
-        def entradaInstance = new Entrada()
-        entradaInstance.properties = params
-        return [entradaInstance: entradaInstance]
+        def entrada = new Entrada()
+        entrada.properties = params
+        return [entrada: entrada]
     }
 
     def crea = {
-        def entradaInstance = new Entrada(params)
-        if (entradaInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entradaInstance.id])
-            redirect(action: "ver", id: entradaInstance.id)
+        def entrada = new Entrada(params)
+        if (entrada.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.id])
+            redirect(action: "ver", id: entrada.id)
         }
         else {
-            render(view: "nueva", model: [entradaInstance: entradaInstance])
+            render(view: "nueva", model: [entrada: entrada])
         }
     }
 
     def ver = {
-        def entradaInstance = Entrada.get(params.id)
-        if (!entradaInstance) {
+        def entrada = Entrada.get(params.id)
+        if (!entrada) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
             redirect(action: "lista")
         }
         else {
-            [entradaInstance: entradaInstance]
+            [entrada: entrada]
         }
     }
 
     def edita = {
-        def entradaInstance = Entrada.get(params.id)
-        if (!entradaInstance) {
+        def entrada = Entrada.get(params.id)
+        if (!entrada) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
             redirect(action: "lista")
         }
         else {
-            return [entradaInstance: entradaInstance]
+            return [entrada: entrada]
         }
     }
 
     def actualiza = {
-        def entradaInstance = Entrada.get(params.id)
-        if (entradaInstance) {
+        def entrada = Entrada.get(params.id)
+        if (entrada) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (entradaInstance.version > version) {
+                if (entrada.version > version) {
                     
-                    entradaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'entrada.label', default: 'Entrada')] as Object[], "Another user has updated this Entrada while you were editing")
-                    render(view: "edita", model: [entradaInstance: entradaInstance])
+                    entrada.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'entrada.label', default: 'Entrada')] as Object[], "Another user has updated this Entrada while you were editing")
+                    render(view: "edita", model: [entrada: entrada])
                     return
                 }
             }
-            entradaInstance.properties = params
-            if (!entradaInstance.hasErrors() && entradaInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'entrada.label', default: 'Entrada'), entradaInstance.id])
-                redirect(action: "ver", id: entradaInstance.id)
+            entrada.properties = params
+            if (!entrada.hasErrors() && entrada.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.id])
+                redirect(action: "ver", id: entrada.id)
             }
             else {
-                render(view: "edita", model: [entradaInstance: entradaInstance])
+                render(view: "edita", model: [entrada: entrada])
             }
         }
         else {
@@ -82,10 +82,10 @@ class EntradaController {
     }
 
     def elimina = {
-        def entradaInstance = Entrada.get(params.id)
-        if (entradaInstance) {
+        def entrada = Entrada.get(params.id)
+        if (entrada) {
             try {
-                entradaInstance.delete(flush: true)
+                entrada.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
                 redirect(action: "lista")
             }
