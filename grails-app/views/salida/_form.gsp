@@ -106,10 +106,10 @@
 	
 <ul class="one-to-many">
 <g:each in="${salidaInstance?.lotes?}" var="l">
-    <li><g:link controller="loteSalida" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+    <li><g:link controller="loteSalida" action="ver" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="loteSalida" action="create" params="['salida.id': salidaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'loteSalida.label', default: 'LoteSalida')])}</g:link>
+<g:link controller="loteSalida" action="nueva" params="['salida.id': salidaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'loteSalida.label', default: 'LoteSalida')])}</g:link>
 </li>
 </ul>
 

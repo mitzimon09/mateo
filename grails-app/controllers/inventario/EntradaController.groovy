@@ -1,21 +1,21 @@
 package inventario
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class EntradaController {
 	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[entradaInstanceList: Entrada.list(params), entradaInstanceTotal: Entrada.count()]
 	}
 
-    def create = {
+    def nueva = {
         def entradaInstance = new Entrada()
         entradaInstance.properties = params
         return [entradaInstance: entradaInstance]
@@ -25,36 +25,36 @@ class EntradaController {
         def entradaInstance = new Entrada(params)
         if (entradaInstance.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entradaInstance.id])
-            redirect(action: "show", id: entradaInstance.id)
+            redirect(action: "ver", id: entradaInstance.id)
         }
         else {
-            render(view: "create", model: [entradaInstance: entradaInstance])
+            render(view: "nueva", model: [entradaInstance: entradaInstance])
         }
     }
 
-    def show = {
+    def sver = {
         def entradaInstance = Entrada.get(params.id)
         if (!entradaInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
             [entradaInstance: entradaInstance]
         }
     }
 
-    def edit = {
+    def edita = {
         def entradaInstance = Entrada.get(params.id)
         if (!entradaInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
             return [entradaInstance: entradaInstance]
         }
     }
 
-    def update = {
+    def actualiza = {
         def entradaInstance = Entrada.get(params.id)
         if (entradaInstance) {
             if (params.version) {
@@ -62,22 +62,22 @@ class EntradaController {
                 if (entradaInstance.version > version) {
                     
                     entradaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'entrada.label', default: 'Entrada')] as Object[], "Another user has updated this Entrada while you were editing")
-                    render(view: "edit", model: [entradaInstance: entradaInstance])
+                    render(view: "edita", model: [entradaInstance: entradaInstance])
                     return
                 }
             }
             entradaInstance.properties = params
             if (!entradaInstance.hasErrors() && entradaInstance.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'entrada.label', default: 'Entrada'), entradaInstance.id])
-                redirect(action: "show", id: entradaInstance.id)
+                redirect(action: "ver", id: entradaInstance.id)
             }
             else {
-                render(view: "edit", model: [entradaInstance: entradaInstance])
+                render(view: "edita", model: [entradaInstance: entradaInstance])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
@@ -87,16 +87,16 @@ class EntradaController {
             try {
                 entradaInstance.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

@@ -4,7 +4,7 @@ import general.*
 
 class FacturaAlmacen {//implements java.io.Serializable {
     String folio
-    String estatus
+    String estatus = 'ABIERTA'
     String comentarios
     Date fecha
     BigDecimal iva = new BigDecimal('0')
@@ -26,6 +26,7 @@ class FacturaAlmacen {//implements java.io.Serializable {
         iva(scale:2, precision:8)
         total(scale:2, precision:8)
         estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
+        fecha(nullable:true)
     }
 
     static mapping = {

@@ -4,7 +4,7 @@ package general
  *
  * @author jdmr
  */
-class TipoCliente implements java.io.Serializable {
+class TipoCliente {//implements java.io.Serializable {
     String nombre
     String descripcion
     BigDecimal margenUtilidad = new BigDecimal("0.20")

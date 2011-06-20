@@ -19,7 +19,7 @@ class Entrada {//implements java.io.Serializable {
     //Set lotes //??
     BigDecimal totalFactura = new BigDecimal("0")
     //Boolean facturada = false //
-    //FacturaAlmacen facturaAlmacen //
+    FacturaAlmacen facturaAlmacen //
 
     //static transients = ['totalFactura']
 
@@ -36,7 +36,7 @@ class Entrada {//implements java.io.Serializable {
         estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
         tipoCambio(nullable:true,scale:2,precision:8)
         comentarios(nullable:true,maxSize:128)
-        //facturaAlmacen(nullable:true)
+        facturaAlmacen(nullable:true)
         
     }
 

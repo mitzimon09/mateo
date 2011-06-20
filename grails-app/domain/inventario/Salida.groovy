@@ -1,6 +1,6 @@
 package inventario
 
-import general.Cliente
+import general.*
 
 class Salida {//implements java.io.Serializable {
     String folio
@@ -11,7 +11,7 @@ class Salida {//implements java.io.Serializable {
     String reporte
     //String atendio //el empleado ya está, si una persona atendió ¿qué hace el empleado?
     String departamento
-    String estatus
+    String estatus ='ABIERTA'
     Boolean facturada = false
     Cliente cliente
     Almacen almacen
@@ -36,6 +36,7 @@ class Salida {//implements java.io.Serializable {
         comentarios(nullable:true,maxSize:254)
         facturaAlmacen(nullable:true)
         estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
+        cliente(nullable: true)
     }
 
     static mapping = {

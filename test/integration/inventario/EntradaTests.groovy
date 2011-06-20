@@ -6,8 +6,6 @@ import grails.test.*
 import grails.test.mixin.*
 //import grails.test.mixin.support.*
 import org.junit.*
-import org.codehaus.groovy.grails.plugins.GrailsPluginManager
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -48,7 +46,6 @@ class EntradaTests extends BaseIntegrationTest {
 		assertNotNull almacen
 		
 		
-        //def flag = true
         for(i in 1..20) {
             new Entrada (
             	folio: "folio$i"
@@ -70,7 +67,7 @@ class EntradaTests extends BaseIntegrationTest {
 		assertNotNull model
 		assertNotNull model.entradaInstanceList
 		
-        assertEquals 10, model.entradaInstanceList.size()//////////////////////////////
+        assertEquals 10, model.entradaInstanceList.size()
         assert 20 <= model.entradaInstanceTotal
     }
     
@@ -84,16 +81,12 @@ class EntradaTests extends BaseIntegrationTest {
             , nombreCompleto: 'TEST-1'
         ).save()
         
-        assertNotNull organizacion
-        
 		def empresa1 = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
-                , nombreCompleto: "emptest"
+                , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-            
-            assertNotNull empresa1
 		
 		def proveedor = new Proveedor(
 			nombre: 'proveedor'
@@ -101,43 +94,34 @@ class EntradaTests extends BaseIntegrationTest {
 			, rfc: '3333333333333'
 			, empresa: empresa1			
 		).save()
-		
-		assertNotNull proveedor
-		
 		def almacen = new Almacen(
 			codigo: '222'
-			, nombre: 'almacen1'
+			, nombre: "almacen1"
 			, empresa: empresa1			
 		).save()
 		
-		assertNotNull almacen
-		
-		
-		assertNotNull almacen
-		
-        def entrada = new Entrada (
-				factura: '10000'
-				, almacen: almacen
-				, proveedor: proveedor
-            ).save()
-            
-            assertNotNull entrada
-
         def controller = new EntradaController()
+        controller.springSecurityService = springSecurityService
+        
         //controller.springSecurityService = springSecurityService
         def model = controller.create()
+        assert model
         assert model.entradaInstance
-
-        controller.params.folio = '001'
-        controller.params.factura = "10000"
-        controller.params.tipoCambio= '12'
-        controller.params.estatus='ABIERTA'
-        controller.create()
+        
+        controller.params.folio = "folio"
+        controller.params.factura = "factura"
+        controller.params.comentarion = "no"
+        controller.params.tipoCambio = "0.00"
+        controller.params.proveedor = proveedor
+        controller.params.almacen = almacen
+        controller.save()
+        
         assert controller
+ 
         assert controller.response.redirectedUrl.startsWith('/entrada/show')
     }
     
-    /*@Test
+    @Test
     void debieraActualizarEntrada() {
         authenticateAdmin()
 		
@@ -150,68 +134,103 @@ class EntradaTests extends BaseIntegrationTest {
 		def empresa1 = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
-                , nombreCompleto: "emptest"
+                , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
 		
 		def proveedor = new Proveedor(
-			nombre: 'provedor'
-			, nombreCompleto: 'proveedor sanchez'
-			, rfc: 'mmmmmmmmmmmmmmmmmm'
-			, curp: 'wwwwwwwwwwwwwwwwww'
-			, direccion:'none'
+			nombre: 'proveedor'
+			, nombreCompleto: 'proveedorsanchez'
+			, rfc: '3333333333333'
 			, empresa: empresa1			
 		).save()
-		
 		def almacen = new Almacen(
 			codigo: '222'
-			, nombre: 'almacen1'
+			, nombre: "almacen1"
 			, empresa: empresa1			
 		).save()
 		
         def entrada = new Entrada (
-        		folio: '001'
-				, factura: '10000'
-				, comentarios: 'none'
-				, tipoCambio: '12'
-				, estatus: 'ABIERTA'
-				, proveedor: proveedor
-				, almacen: almacen
-				, facturaAlmacen: new FacturaAlmacen()
-            ).create()
-        //def usuario = springSecurityService.currentUser
-        //usuario.empresa = empresa
-
+            	folio: "001"
+            	, factura: "10000"
+            	, comentarios: "no"
+            	, tipoCambio: "0.00"
+            	, proveedor: proveedor
+            	, almacen: almacen
+            ).save()
 		assertNotNull entrada
         def controller = new EntradaController()
         controller.springSecurityService = springSecurityService
         controller.params.id = entrada.id
         def model = controller.show()
-        assert model.entrada
-        assertEquals 'TEST-1', model.empresa.nombre
+        assert model.entradaInstance
+        assertEquals "001", model.entradaInstance.folio
 
-        controller.params.id = empresa.id
-        model = controller.edita()
-        assert model.empresa
-        assertEquals '10000', model.empresa.factura
+        controller.params.id = entrada.id
+        model = controller.edit()
+        assert model.entradaInstance
+        assertEquals "10000", model.entradaInstance.factura
 
         controller.params.id = entrada.id
         controller.params.version = entrada.version
         controller.params.folio = '10002'
-        controller.actualiza()
-        assertEquals "/entrada/show/${empresa.id}", controller.response.redirectedUrl
+        controller.update()
+        assertEquals "/entrada/show/${entrada.id}", controller.response.redirectedUrl
 
-        empresa.refresh()
-        assertEquals '10002', entrada.factura
+        entrada.refresh()
+        assertEquals '10002', entrada.folio
     }
  
-	protected void setUp() {
-   super.setUp()
-   PluginManagerHolder.pluginManager = [hasGrailsPlugin: { String name -> true }] as GrailsPluginManager
-}
+	@Test
+    void debieraEliminarEntrada() {
+        authenticateAdmin()
+		
+		def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        
+		def empresa1 = new Empresa(
+                codigo: "emp2"
+                , nombre: "emp"
+                , nombreCompleto: 'emptest'
+                , organizacion: organizacion
+            ).save()
+		
+		def proveedor = new Proveedor(
+			nombre: 'proveedor'
+			, nombreCompleto: 'proveedorsanchez'
+			, rfc: '3333333333333'
+			, empresa: empresa1			
+		).save()
+		def almacen = new Almacen(
+			codigo: '222'
+			, nombre: "almacen1"
+			, empresa: empresa1			
+		).save()
+		
+        def entrada = new Entrada (
+            	folio: "001"
+            	, factura: "10000"
+            	, comentarios: "no"
+            	, tipoCambio: "0.00"
+            	, proveedor: proveedor
+            	, almacen: almacen
+            ).save()
+        
+        def controller = new EntradaController()
+        controller.springSecurityService = springSecurityService
+        controller.params.id = entrada.id
+        def model = controller.show()
+        assert model.entradaInstance
+        assertEquals "001", model.entradaInstance.folio
 
-protected void tearDown() {
-   super.tearDown()
-   PluginManagerHolder.pluginManager = null
-}   */
+        controller.params.id = entrada.id
+        controller.delete()
+        assertEquals "/entrada/list", controller.response.redirectedUrl
+
+        model = Entrada.get(entrada.id)
+        assert !model
+    }
 }
