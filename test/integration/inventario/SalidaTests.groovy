@@ -82,7 +82,7 @@ class SalidaTests extends BaseIntegrationTest {
     }
     
     @Test
-    void debieraCrearEntrada() {
+    void debieraCrearSalida() {
     	authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -142,7 +142,7 @@ class SalidaTests extends BaseIntegrationTest {
     }
     
     @Test
-    void debieraActualizarEntrada() {
+    void debieraActualizarSalida() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -215,7 +215,7 @@ class SalidaTests extends BaseIntegrationTest {
     }
  
 	@Test
-    void debieraEliminarEntrada() {
+    void debieraEliminarSalida() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (

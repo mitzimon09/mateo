@@ -1,8 +1,9 @@
 package inventario
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class FacturaAlmacenController {
+	def springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

@@ -14,7 +14,7 @@ import org.junit.*
 class CancelacionAlmacenTests extends BaseIntegrationTest {
 def springSecurityService
     @Test
-    void debieraMostrarListaDeEntradas() {
+    void debieraMostrarListaDeCancelacionAlmacen() {
 		authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -60,7 +60,7 @@ def springSecurityService
     }
     
     @Test
-    void debieraCrearEntrada() {
+    void debieraCrearCancelacionAlmacen() {
     	authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -101,7 +101,7 @@ def springSecurityService
     }
     
     @Test
-    void debieraActualizarEntrada() {
+    void debieraActualizarCancelacionAlmacen() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -153,7 +153,7 @@ def springSecurityService
     }
  
 	@Test
-    void debieraEliminarEntrada() {
+    void debieraEliminarCancelacionAlmacen() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
