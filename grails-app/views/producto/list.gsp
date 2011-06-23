@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-producto" class="content scaffold-list" role="main">
@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${productoInstanceList}" status="i" var="productoInstance">
+				<g:each in="${productos}" status="i" var="producto">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${productoInstance.id}">${fieldValue(bean: productoInstance, field: "codigo")}</g:link></td>
+						<td><g:link action="ver" id="${producto.id}">${fieldValue(bean: producto, field: "codigo")}</g:link></td>
 					
-						<td>${fieldValue(bean: productoInstance, field: "nombre")}</td>
+						<td>${fieldValue(bean: producto, field: "nombre")}</td>
 					
-						<td>${fieldValue(bean: productoInstance, field: "descripcion")}</td>
+						<td>${fieldValue(bean: producto, field: "descripcion")}</td>
 					
-						<td>${fieldValue(bean: productoInstance, field: "marca")}</td>
+						<td>${fieldValue(bean: producto, field: "marca")}</td>
 					
-						<td>${fieldValue(bean: productoInstance, field: "modelo")}</td>
+						<td>${fieldValue(bean: producto, field: "modelo")}</td>
 					
-						<td>${fieldValue(bean: productoInstance, field: "unidadMedida")}</td>
+						<td>${fieldValue(bean: producto, field: "unidadMedida")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${productoInstanceTotal}" />
+				<g:paginate total="${totalDeProductos}" />
 			</div>
 		</div>
 	</body>

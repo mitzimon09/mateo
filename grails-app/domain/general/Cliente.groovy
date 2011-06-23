@@ -1,9 +1,5 @@
 package general
 
-/**
- *
- * @author jdmr
- */
 class Cliente implements java.io.Serializable {
     String nombre
     String nombreCompleto

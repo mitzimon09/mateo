@@ -15,7 +15,7 @@ class Almacen {//implements java.io.Serializable {
     Set facturas
     Set folios
 
-    //static transients = ['nombreCompleto']
+    static transients = ['nombreCompleto']
 
     static belongsTo = [Empresa]
 
@@ -50,7 +50,7 @@ class Almacen {//implements java.io.Serializable {
     }
 
     String getNombreCompleto() {
-        return /*"$empresa.organizacion.nombre | $empresa.nombre | */"$nombre"
+        return "$empresa.organizacion.nombre | $empresa.nombre | $nombre"
     }
 
     String toString() {

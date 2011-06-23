@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-tipoProducto" class="content scaffold-list" role="main">
@@ -31,19 +31,19 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${tipoProductoInstanceList}" status="i" var="tipoProductoInstance">
+				<g:each in="${tipoProductos}" status="i" var="tipoProducto">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${tipoProductoInstance.id}">${fieldValue(bean: tipoProductoInstance, field: "nombre")}</g:link></td>
+						<td><g:link action="ver" id="${tipoProducto.id}">${fieldValue(bean: tipoProducto, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: tipoProductoInstance, field: "descripcion")}</td>
+						<td>${fieldValue(bean: tipoProducto, field: "descripcion")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${tipoProductoInstanceTotal}" />
+				<g:paginate total="${totalDeTipoProductos}" />
 			</div>
 		</div>
 	</body>

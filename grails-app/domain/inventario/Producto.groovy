@@ -1,34 +1,35 @@
 package inventario
-import general.*
+
+import general.Imagen
 
 class Producto {//implements java.io.Serializable {
-    String codigo 
-    //String sku //it already has codigo, also nombre should be diferent in each
-    //Stock-keeping unit, used to identify each unique product or item for sale in a store or other business.
+    String codigo
+    String sku
     String nombre
     String descripcion
     String marca
     String modelo
-    /*BigDecimal precioUnitario = new BigDecimal("0.00")
+    String unidadMedida = "Unidades"
+    Boolean fraccion = false
+    String ubicacion
+    BigDecimal iva = new BigDecimal("0.16")
+    // De aqui en adelante se calcula
+    BigDecimal precioUnitario = new BigDecimal("0.00")
     BigDecimal ultimoPrecio = new BigDecimal("0.00")
     BigDecimal existencia = new BigDecimal("0.00")
-    BigDecimal puntoReorden = new BigDecimal("0.00")*/ //cuestiones de contabilidad
-    //Integer tiempoEntrega = 3 //?
-    String unidadMedida = "Unidades"
-    Boolean fraccion = false //supongo que significa si se puede fraccionar el producto o no
-    BigDecimal iva = new BigDecimal("0.16")
-    //String ubicacion //ubicación del producto??
-    Almacen almacen //en qué almacen hay o está
+    BigDecimal puntoReorden = new BigDecimal("0.00")
+    Integer tiempoEntrega = 3
+    Almacen almacen
     TipoProducto tipoProducto
-    Date dateCreated 
+    Date dateCreated
     Date lastUpdated
     Long entradaId
     Long salidaId
-    Set lotesEntrada //cuantas veces ha entrado 
-    Set lotesSalida //cuantas veces ha salido
-    Set imagenes //imagen del producto
+    Set lotesEntrada
+    Set lotesSalida
+    Set imagenes
 
-    //static transients = ["entradaId","salidaId"]
+    static transients = ["entradaId","salidaId"]
 
     static belongsTo = [TipoProducto, Almacen]
 
@@ -36,17 +37,19 @@ class Producto {//implements java.io.Serializable {
 
     static constraints = {
         codigo(maxSize:6,unique:'almacen',blank:false)
-        //sku(maxSize:64,unique:'almacen',blank:false)
+        sku(maxSize:64,unique:'almacen',blank:false)
         nombre(maxSize:128,unique:'almacen',blank:false)
         descripcion(nullable:true,maxSize:254,blank:false)
         marca(nullable:true,maxSize:32)
         modelo(nullable:true,maxSize:32)
-        //precioUnitario(scale:2,precision:8,min:new BigDecimal("0"))
-        //existencia(scale:3,precision:8,min:new BigDecimal("0"))
-        //puntoReorden(scale:0,precision:0,min:new BigDecimal("0"))
+        precioUnitario(scale:2,precision:8,min:new BigDecimal("0"))
+        existencia(scale:3,precision:8,min:new BigDecimal("0"))
+        puntoReorden(scale:0,precision:0,min:new BigDecimal("0"))
         unidadMedida(maxSize:16,nullable:true)
         iva(scale:2,precision:8,size:new BigDecimal("0")..new BigDecimal("1"))
-        //ubicacion(nullable:true,maxSize:64)
+        ubicacion(nullable:true,maxSize:64)
+        entradaId(nullable:true)
+        salidaId(nullable:true)
     }
 
     static mapping = {
@@ -68,7 +71,7 @@ class Producto {//implements java.io.Serializable {
                 ilike 'descripcion', filtro
                 ilike 'marca', filtro
                 ilike 'modelo', filtro
-                //ilike 'ubicacion', filtro
+                ilike 'ubicacion', filtro
                 tipoProducto {
                     ilike 'nombre', filtro
                 }
@@ -80,16 +83,16 @@ class Producto {//implements java.io.Serializable {
                 idEq(almacenId)
             }
         }
-        
+
         buscaPorCodigo { filtro ->
             filtro = "%$filtro%"
             ilike 'codigo', filtro
         }
 
-        /*buscaPorSKU { filtro ->
+        buscaPorSKU { filtro ->
             filtro = "%$filtro%"
             ilike 'sku', filtro
-        }*/
+        }
 
         buscaPorNombre { filtro ->
             filtro = "%$filtro%"
@@ -124,7 +127,8 @@ class Producto {//implements java.io.Serializable {
     }
 
     String toString() {
-        /*"${sku}|*/"${nombre}"
+        "${sku}|${nombre}"
+        //"${codigox  }|${nombre}"
     }
 
 }

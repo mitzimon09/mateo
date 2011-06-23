@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="lista"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-tipoProducto" class="content scaffold-show" role="main">
@@ -23,20 +23,20 @@
 			</g:if>
 			<ol class="property-list tipoProducto">
 			
-				<g:if test="${tipoProductoInstance?.nombre}">
+				<g:if test="${tipoProducto?.nombre}">
 				<li class="fieldcontain">
 					<span id="nombre-label" class="property-label"><g:message code="tipoProducto.nombre.label" default="Nombre" /></span>
 					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${tipoProductoInstance}" field="nombre"/></span>
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${tipoProducto}" field="nombre"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${tipoProductoInstance?.descripcion}">
+				<g:if test="${tipoProducto?.descripcion}">
 				<li class="fieldcontain">
 					<span id="descripcion-label" class="property-label"><g:message code="tipoProducto.descripcion.label" default="Descripcion" /></span>
 					
-						<span class="property-value" aria-labelledby="descripcion-label"><g:fieldValue bean="${tipoProductoInstance}" field="descripcion"/></span>
+						<span class="property-value" aria-labelledby="descripcion-label"><g:fieldValue bean="${tipoProducto}" field="descripcion"/></span>
 					
 				</li>
 				</g:if>
@@ -44,9 +44,9 @@
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${tipoProductoInstance?.id}" />
-					<g:link class="edit" action="edit" id="${tipoProductoInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:hiddenField name="id" value="${tipoProducto?.id}" />
+					<g:link class="edit" action="edita" id="${tipoProducto?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
 		</div>

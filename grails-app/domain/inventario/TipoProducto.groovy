@@ -4,14 +4,14 @@ class TipoProducto {//implements java.io.Serializable {
 	String nombre
 	String descripcion
 	//Boolean base = false
-	//Almacen almacen
+	Almacen almacen
 	
     static belongsTo = Almacen
 	
 
     static constraints = {
-    	nombre(blank:false, maxSize: 64)
-    	descripcion(maxSize:200)
+    	nombre unique:'almacen', blank: false, maxSize: 64
+        descripcion unique: 'almacen', blank: false, maxSize: 128
     }
     
     static mapping = {

@@ -199,7 +199,7 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
     }
  
 	@Test
-    void debieraEliminarEntrada() {
+    void debieraEliminarFacturaAlmacen() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -214,40 +214,46 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-		
-		def proveedor = new Proveedor(
-			nombre: 'proveedor'
-			, nombreCompleto: 'proveedorsanchez'
-			, rfc: '3333333333333'
-			, empresa: empresa1			
-		).save()
 		def almacen = new Almacen(
 			codigo: '222'
 			, nombre: "almacen1"
 			, empresa: empresa1			
 		).save()
+		assertNotNull almacen
 		
-        def entrada = new Entrada (
-            	folio: "001"
-            	, factura: "10000"
-            	, comentarios: "no"
-            	, tipoCambio: "0.00"
-            	, proveedor: proveedor
+		def tipoCliente = new TipoCliente(
+			nombre: "test"
+			, empresa: empresa1
+		) .save()
+		assertNotNull tipoCliente
+		
+		def cliente = new Cliente(
+			nombre: "Test"
+			, nombreCompleto: "Test Cliente"
+			, rfc: "1234567890123"
+			, empresa: empresa1
+			, tipoCliente: tipoCliente
+		).save()
+
+		def facturaAlmacen = new FacturaAlmacen (
+            	folio: "100"
+            	, cliente: cliente
             	, almacen: almacen
+            	, fecha: new Date()
             ).save()
         
-        def controller = new EntradaController()
+        def controller = new FacturaAlmacenController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = entrada.id
+        controller.params.id = facturaAlmacen.id
         def model = controller.ver()
-        assert model.entrada
-        assertEquals "001", model.entrada.folio
+        assert model.facturaAlmacen
+        assertEquals "001", model.facturaAlmacen.folio
 
-        controller.params.id = entrada.id
+        controller.params.id = facturaAlmacen.id
         controller.elimina()
         assertEquals "/facturaAlmacen/lista", controller.response.redirectedUrl
 
-        model = Entrada.get(entrada.id)
+        model = FacturaAlmacen.get(facturaAlmacen.id)
         assert !model
     }
 }
