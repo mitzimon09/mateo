@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-tipoCliente" class="content scaffold-list" role="main">
@@ -37,25 +37,25 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${tipoClienteInstanceList}" status="i" var="tipoClienteInstance">
+				<g:each in="${tipoClientes}" status="i" var="tipoCliente">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${tipoClienteInstance.id}">${fieldValue(bean: tipoClienteInstance, field: "nombre")}</g:link></td>
+						<td><g:link action="ver" id="${tipoCliente.id}">${fieldValue(bean: tipoCliente, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: tipoClienteInstance, field: "descripcion")}</td>
+						<td>${fieldValue(bean: tipoCliente, field: "descripcion")}</td>
 					
-						<td>${fieldValue(bean: tipoClienteInstance, field: "margenUtilidad")}</td>
+						<td>${fieldValue(bean: tipoCliente, field: "margenUtilidad")}</td>
 					
-						<td><g:formatBoolean boolean="${tipoClienteInstance.base}" /></td>
+						<td><g:formatBoolean boolean="${tipoCliente.base}" /></td>
 					
-						<td>${fieldValue(bean: tipoClienteInstance, field: "empresa")}</td>
+						<td>${fieldValue(bean: tipoCliente, field: "empresa")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${tipoClienteInstanceTotal}" />
+				<g:paginate total="${totalDeTipoClientes}" />
 			</div>
 		</div>
 	</body>

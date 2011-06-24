@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nueva"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-facturaAlmacen" class="content scaffold-list" role="main">
@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${facturaAlmacenInstanceList}" status="i" var="facturaAlmacenInstance">
+				<g:each in="${facturaAlmacenes}" status="i" var="facturaAlmacen">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${facturaAlmacenInstance.id}">${fieldValue(bean: facturaAlmacenInstance, field: "folio")}</g:link></td>
+						<td><g:link action="ver" id="${facturaAlmacen.id}">${fieldValue(bean: facturaAlmacen, field: "folio")}</g:link></td>
 					
-						<td>${fieldValue(bean: facturaAlmacenInstance, field: "comentarios")}</td>
+						<td>${fieldValue(bean: facturaAlmacen, field: "comentarios")}</td>
 					
-						<td>${fieldValue(bean: facturaAlmacenInstance, field: "iva")}</td>
+						<td>${fieldValue(bean: facturaAlmacen, field: "iva")}</td>
 					
-						<td>${fieldValue(bean: facturaAlmacenInstance, field: "total")}</td>
+						<td>${fieldValue(bean: facturaAlmacen, field: "total")}</td>
 					
-						<td>${fieldValue(bean: facturaAlmacenInstance, field: "estatus")}</td>
+						<td>${fieldValue(bean: facturaAlmacen, field: "estatus")}</td>
 					
-						<td>${fieldValue(bean: facturaAlmacenInstance, field: "almacen")}</td>
+						<td>${fieldValue(bean: facturaAlmacen, field: "almacen")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${facturaAlmacenInstanceTotal}" />
+				<g:paginate total="${totalDeFacturaAlmacenes}" />
 			</div>
 		</div>
 	</body>

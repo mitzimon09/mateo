@@ -1,5 +1,6 @@
 package general
 
+
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
@@ -7,13 +8,12 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(ClienteController)
-class ClienteTests extends BaseIntegrationTest {
-
+@TestFor(ProveedorController)
+class ProveedorTests  extends BaseIntegrationTest{
 
 	def springSecurityService
     @Test
-    void debieraMostrarListaDeClientes() {
+    void debieraMostrarListaDeProveedores() {
 		authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -21,7 +21,6 @@ class ClienteTests extends BaseIntegrationTest {
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
-        assertNotNull organizacion
         
 		def empresa1 = new Empresa(
                 codigo: "emp2"
@@ -29,38 +28,32 @@ class ClienteTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-
-        def tipoCliente = new TipoCliente(
-			nombre: "test"
-			, empresa: empresa1
-		) .save()
 		
         for(i in 1..20) {
-        	new Cliente (
-        		nombre: "test$i"
-        		, nombreCompleto: "test cliente"
-        		, rfc: "1234567890123"
-        		, empresa: empresa1
-        		, tipoCliente: tipoCliente
-        	).save()
+            new Proveedor(
+				nombre: "proveedor$i"
+				, nombreCompleto: "proveedor$i sanchez$i"
+				, rfc: "12345678901$i"
+				, empresa: empresa1			
+			).save()
         }
         
 		def currentUser = springSecurityService.currentUser
-        def controller = new ClienteController()
+        def controller = new ProveedorController()
         controller.springSecurityService = springSecurityService
         controller.index()
-        assertEquals '/cliente/lista', controller.response.redirectedUrl
+        assertEquals '/proveedor/lista', controller.response.redirectedUrl
 		
 		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.clientes
+		assertNotNull model.proveedores
 		
-        assertEquals 10, model.clientes.size()
-        assert 20 <= model.totalDeClientes
+        assertEquals 10, model.proveedores.size()
+        assert 20 <= model.totalDeProveedores
     }
     
     @Test
-    void debieraCrearCliente() {
+    void debieraCrearProveedor() {
     	authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -68,7 +61,6 @@ class ClienteTests extends BaseIntegrationTest {
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
-        assertNotNull organizacion
         
 		def empresa1 = new Empresa(
                 codigo: "emp2"
@@ -76,32 +68,28 @@ class ClienteTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-
-        def tipoCliente = new TipoCliente(
-			nombre: "test"
-			, empresa: empresa1
-		) .save()
 		
-        def controller = new ClienteController()
+        def controller = new ProveedorController()
         controller.springSecurityService = springSecurityService
+        
+        //controller.springSecurityService = springSecurityService
         def model = controller.nuevo()
         assert model
-        assert model.cliente
+        assert model.proveedor
         
         controller.params.nombre = "test"
-        controller.params.nombreCompleto = "test cliente"
+        controller.params.nombreCompleto = "test test"
         controller.params.rfc = "1234567890123"
         controller.params.empresa = empresa1
-        controller.params.tipoCliente = tipoCliente
         controller.crea()
         
         assert controller
  
-        assert controller.response.redirectedUrl.startsWith('/cliente/ver')
+        assert controller.response.redirectedUrl.startsWith('/proveedor/ver')
     }
     
     @Test
-    void debieraActualizarCliente() {
+    void debieraActualizarProveedor() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -109,7 +97,6 @@ class ClienteTests extends BaseIntegrationTest {
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
-        assertNotNull organizacion
         
 		def empresa1 = new Empresa(
                 codigo: "emp2"
@@ -117,44 +104,38 @@ class ClienteTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+		
+		def proveedor = new Proveedor(
+				nombre: 'proveedor'
+				, nombreCompleto: 'proveedorsanchez'
+				, rfc: '3333333333333'
+				, empresa: empresa1
+			).save()	
 
-        def tipoCliente = new TipoCliente(
-			nombre: "test"
-			, empresa: empresa1
-		) .save()
-		
-		def cliente = new Cliente(
-			nombre: "test"
-			, nombreCompleto: "test Cliente"
-			, rfc: "1234567890123"
-			, empresa: empresa1
-			, tipoCliente: tipoCliente
-		).save()
-		
-		
-        def controller = new ClienteController()
+        def controller = new ProveedorController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = cliente.id
+        controller.params.id = proveedor.id
         def model = controller.ver()
-        assert model.cliente
-        assertEquals "test", model.cliente.nombre
-        controller.params.id = cliente.id
+        assert model.proveedor
+        assertEquals "proveedor", model.proveedor.nombre
+
+        controller.params.id = proveedor.id
         model = controller.edita()
-        assert model.cliente
-        assertEquals "1234567890123", model.cliente.rfc
+        assert model.proveedor
+        assertEquals "3333333333333", model.proveedor.rfc
 
-        controller.params.id = cliente.id
-        controller.params.version = cliente.version
-        controller.params.nombre = "10002"
+        controller.params.id = proveedor.id
+        controller.params.version = proveedor.version
+        controller.params.rfc = '3210987654321'
         controller.actualiza()
-        assertEquals "/cliente/ver/${cliente.id}", controller.response.redirectedUrl
+        assertEquals "/proveedor/ver/${proveedor.id}", controller.response.redirectedUrl
 
-        cliente.refresh()
-        assertEquals "10002", cliente.nombre
+        proveedor.refresh()
+        assertEquals '3210987654321', proveedor.rfc
     }
  
 	@Test
-    void debieraEliminarCliente() {
+    void debieraEliminarProveedor() {
         authenticateAdmin()
 		
 		def organizacion = new Organizacion (
@@ -162,7 +143,6 @@ class ClienteTests extends BaseIntegrationTest {
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
-        assertNotNull organizacion
         
 		def empresa1 = new Empresa(
                 codigo: "emp2"
@@ -170,32 +150,26 @@ class ClienteTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-
-        def tipoCliente = new TipoCliente(
-			nombre: "test"
-			, empresa: empresa1
-		) .save()
 		
-		def cliente = new Cliente(
-			nombre: "test"
-			, nombreCompleto: "test Cliente"
-			, rfc: "1234567890123"
-			, empresa: empresa1
-			, tipoCliente: tipoCliente
+		def proveedor = new Proveedor(
+			nombre: 'proveedor'
+			, nombreCompleto: 'proveedorsanchez'
+			, rfc: '3333333333333'
+			, empresa: empresa1			
 		).save()
         
-        def controller = new ClienteController()
+        def controller = new ProveedorController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = cliente.id
+        controller.params.id = proveedor.id
         def model = controller.ver()
-        assert model.cliente
-        assertEquals "test", model.cliente.nombre
+        assert model.proveedor
+        assertEquals "proveedor", model.proveedor.nombre
 
-        controller.params.id = cliente.id
+        controller.params.id = proveedor.id
         controller.elimina()
-        assertEquals "/cliente/lista", controller.response.redirectedUrl
+        assertEquals "/proveedor/lista", controller.response.redirectedUrl
 
-        model = Cliente.get(cliente.id)
+        model = Proveedor.get(proveedor.id)
         assert !model
     }
 }

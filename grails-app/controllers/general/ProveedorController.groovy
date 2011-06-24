@@ -1,102 +1,102 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class ProveedorController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[proveedorInstanceList: Proveedor.list(params), proveedorInstanceTotal: Proveedor.count()]
+		[proveedores: Proveedor.list(params), totalDeProveedores: Proveedor.count()]
 	}
 
-    def create = {
-        def proveedorInstance = new Proveedor()
-        proveedorInstance.properties = params
-        return [proveedorInstance: proveedorInstance]
+    def nuevo = {
+        def proveedor = new Proveedor()
+        proveedor.properties = params
+        return [proveedor: proveedor]
     }
 
-    def save = {
-        def proveedorInstance = new Proveedor(params)
-        if (proveedorInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), proveedorInstance.id])
-            redirect(action: "show", id: proveedorInstance.id)
+    def crea = {
+        def proveedor = new Proveedor(params)
+        if (proveedor.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), proveedor.id])
+            redirect(action: "ver", id: proveedor.id)
         }
         else {
-            render(view: "create", model: [proveedorInstance: proveedorInstance])
+            render(view: "nuevo", model: [proveedor: proveedor])
         }
     }
 
-    def show = {
-        def proveedorInstance = Proveedor.get(params.id)
-        if (!proveedorInstance) {
+    def ver = {
+        def proveedor = Proveedor.get(params.id)
+        if (!proveedor) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [proveedorInstance: proveedorInstance]
+            [proveedor: proveedor]
         }
     }
 
-    def edit = {
-        def proveedorInstance = Proveedor.get(params.id)
-        if (!proveedorInstance) {
+    def edita = {
+        def proveedor = Proveedor.get(params.id)
+        if (!proveedor) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [proveedorInstance: proveedorInstance]
+            return [proveedor: proveedor]
         }
     }
 
-    def update = {
-        def proveedorInstance = Proveedor.get(params.id)
-        if (proveedorInstance) {
+    def actualiza = {
+        def proveedor = Proveedor.get(params.id)
+        if (proveedor) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (proveedorInstance.version > version) {
+                if (proveedor.version > version) {
                     
-                    proveedorInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'proveedor.label', default: 'Proveedor')] as Object[], "Another user has updated this Proveedor while you were editing")
-                    render(view: "edit", model: [proveedorInstance: proveedorInstance])
+                    proveedor.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'proveedor.label', default: 'Proveedor')] as Object[], "Another user has updated this Proveedor while you were editing")
+                    render(view: "edita", model: [proveedor: proveedor])
                     return
                 }
             }
-            proveedorInstance.properties = params
-            if (!proveedorInstance.hasErrors() && proveedorInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), proveedorInstance.id])
-                redirect(action: "show", id: proveedorInstance.id)
+            proveedor.properties = params
+            if (!proveedor.hasErrors() && proveedor.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), proveedor.id])
+                redirect(action: "ver", id: proveedor.id)
             }
             else {
-                render(view: "edit", model: [proveedorInstance: proveedorInstance])
+                render(view: "edita", model: [proveedor: proveedor])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def proveedorInstance = Proveedor.get(params.id)
-        if (proveedorInstance) {
+    def elimina = {
+        def proveedor = Proveedor.get(params.id)
+        if (proveedor) {
             try {
-                proveedorInstance.delete(flush: true)
+                proveedor.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'proveedor.label', default: 'Proveedor'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

@@ -30,14 +30,14 @@ class ImagenTests extends BaseIntegrationTest {
         def controller = new ImagenController()
         controller.springSecurityService = springSecurityService
         controller.index()
-        assertEquals '/imagen/list', controller.response.redirectedUrl
+        assertEquals '/imagen/lista', controller.response.redirectedUrl
 		
-		def model = controller.list()
+		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.imagenInstanceList
+		assertNotNull model.imagenes
 		
-        assertEquals 10, model.imagenInstanceList.size()
-        assert 20 <= model.imagenInstanceTotal
+        assertEquals 10, model.imagenes.size()
+        assert 20 <= model.totalDeImagenes
     }
     
     @Test
@@ -46,18 +46,18 @@ class ImagenTests extends BaseIntegrationTest {
 		
         def controller = new ImagenController()
         controller.springSecurityService = springSecurityService
-        def model = controller.create()
+        def model = controller.nueva()
         assert model
-        assert model.imagenInstance
+        assert model.imagen
         
         controller.params.nombre = "test"
         controller.params.tipoContenido = "imagen"
         controller.params.tamano = 3000
         controller.params.archivo = "Downloads/cosas/tie.gif"
-        controller.save()
+        controller.crea()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/imagen/show')
+        assert controller.response.redirectedUrl.startsWith('/imagen/ver')
     }
     
     @Test
@@ -74,19 +74,19 @@ class ImagenTests extends BaseIntegrationTest {
         def controller = new ImagenController()
         controller.springSecurityService = springSecurityService
         controller.params.id = imagen.id
-        def model = controller.show()
-        assert model.imagenInstance
-        assertEquals "test", model.imagenInstance.nombre
+        def model = controller.ver()
+        assert model.imagen
+        assertEquals "test", model.imagen.nombre
         controller.params.id = imagen.id
-        model = controller.edit()
-        assert model.imagenInstance
-        assertEquals "imagen", model.imagenInstance.tipoContenido
+        model = controller.edita()
+        assert model.imagen
+        assertEquals "imagen", model.imagen.tipoContenido
 
         controller.params.id = imagen.id
         controller.params.version = imagen.version
         controller.params.nombre = "10002"
-        controller.update()
-        assertEquals "/imagen/show/${imagen.id}", controller.response.redirectedUrl
+        controller.actualiza()
+        assertEquals "/imagen/ver/${imagen.id}", controller.response.redirectedUrl
 
         imagen.refresh()
         assertEquals "10002", imagen.nombre
@@ -106,13 +106,13 @@ class ImagenTests extends BaseIntegrationTest {
         def controller = new ImagenController()
         controller.springSecurityService = springSecurityService
         controller.params.id = imagen.id
-        def model = controller.show()
-        assert model.imagenInstance
-        assertEquals "test", model.imagenInstance.nombre
+        def model = controller.ver()
+        assert model.imagen
+        assertEquals "test", model.imagen.nombre
 
         controller.params.id = imagen.id
-        controller.delete()
-        assertEquals "/imagen/list", controller.response.redirectedUrl
+        controller.elimina()
+        assertEquals "/imagen/lista", controller.response.redirectedUrl
 
         model = Imagen.get(imagen.id)
         assert !model

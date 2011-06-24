@@ -12,8 +12,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="lista"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nueva"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="show-imagen" class="content scaffold-show" role="main">
@@ -23,34 +23,34 @@
 			</g:if>
 			<ol class="property-list imagen">
 			
-				<g:if test="${imagenInstance?.nombre}">
+				<g:if test="${imagen?.nombre}">
 				<li class="fieldcontain">
 					<span id="nombre-label" class="property-label"><g:message code="imagen.nombre.label" default="Nombre" /></span>
 					
-						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${imagenInstance}" field="nombre"/></span>
+						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${imagen}" field="nombre"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${imagenInstance?.tipoContenido}">
+				<g:if test="${imagen?.tipoContenido}">
 				<li class="fieldcontain">
 					<span id="tipoContenido-label" class="property-label"><g:message code="imagen.tipoContenido.label" default="Tipo Contenido" /></span>
 					
-						<span class="property-value" aria-labelledby="tipoContenido-label"><g:fieldValue bean="${imagenInstance}" field="tipoContenido"/></span>
+						<span class="property-value" aria-labelledby="tipoContenido-label"><g:fieldValue bean="${imagen}" field="tipoContenido"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${imagenInstance?.tamano}">
+				<g:if test="${imagen?.tamano}">
 				<li class="fieldcontain">
 					<span id="tamano-label" class="property-label"><g:message code="imagen.tamano.label" default="Tamano" /></span>
 					
-						<span class="property-value" aria-labelledby="tamano-label"><g:fieldValue bean="${imagenInstance}" field="tamano"/></span>
+						<span class="property-value" aria-labelledby="tamano-label"><g:fieldValue bean="${imagen}" field="tamano"/></span>
 					
 				</li>
 				</g:if>
 			
-				<g:if test="${imagenInstance?.archivo}">
+				<g:if test="${imagen?.archivo}">
 				<li class="fieldcontain">
 					<span id="archivo-label" class="property-label"><g:message code="imagen.archivo.label" default="Archivo" /></span>
 					
@@ -60,9 +60,9 @@
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${imagenInstance?.id}" />
-					<g:link class="edit" action="edit" id="${imagenInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:hiddenField name="id" value="${imagen?.id}" />
+					<g:link class="edit" action="edita" id="${imagen?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
 		</div>

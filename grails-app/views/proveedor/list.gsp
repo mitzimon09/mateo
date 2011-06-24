@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-proveedor" class="content scaffold-list" role="main">
@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${proveedorInstanceList}" status="i" var="proveedorInstance">
+				<g:each in="${proveedores}" status="i" var="proveedor">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${proveedorInstance.id}">${fieldValue(bean: proveedorInstance, field: "nombre")}</g:link></td>
+						<td><g:link action="ver" id="${proveedor.id}">${fieldValue(bean: proveedor, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: proveedorInstance, field: "nombreCompleto")}</td>
+						<td>${fieldValue(bean: proveedor, field: "nombreCompleto")}</td>
 					
-						<td>${fieldValue(bean: proveedorInstance, field: "rfc")}</td>
+						<td>${fieldValue(bean: proveedor, field: "rfc")}</td>
 					
-						<td>${fieldValue(bean: proveedorInstance, field: "curp")}</td>
+						<td>${fieldValue(bean: proveedor, field: "curp")}</td>
 					
-						<td>${fieldValue(bean: proveedorInstance, field: "direccion")}</td>
+						<td>${fieldValue(bean: proveedor, field: "direccion")}</td>
 					
-						<td>${fieldValue(bean: proveedorInstance, field: "telefono")}</td>
+						<td>${fieldValue(bean: proveedor, field: "telefono")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${proveedorInstanceTotal}" />
+				<g:paginate total="${totalDeProveedores}" />
 			</div>
 		</div>
 	</body>

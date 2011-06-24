@@ -41,14 +41,14 @@ class TipoClienteTests extends BaseIntegrationTest {
         def controller = new TipoClienteController()
         controller.springSecurityService = springSecurityService
         controller.index()
-        assertEquals '/tipoCliente/list', controller.response.redirectedUrl
+        assertEquals '/tipoCliente/lista', controller.response.redirectedUrl
 		
-		def model = controller.list()
+		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.tipoClienteInstanceList
+		assertNotNull model.tipoClientes
 		
-        assertEquals 10, model.tipoClienteInstanceList.size()
-        assert 20 <= model.tipoClienteInstanceTotal
+        assertEquals 10, model.tipoClientes.size()
+        assert 20 <= model.totalDeTipoCliente
     }
     
     @Test
@@ -72,17 +72,17 @@ class TipoClienteTests extends BaseIntegrationTest {
 		
         def controller = new TipoClienteController()
         controller.springSecurityService = springSecurityService
-        def model = controller.create()
+        def model = controller.nuevo()
         assert model
-        assert model.tipoClienteInstance
+        assert model.tipoCliente
         
         controller.params.nombre = "test"
         controller.params.empresa = empresa1
-        controller.save()
+        controller.crea()
         
         assert controller
  
-        assert controller.response.redirectedUrl.startsWith('/tipoCliente/show')
+        assert controller.response.redirectedUrl.startsWith('/tipoCliente/ver')
     }
     
     @Test
@@ -111,19 +111,19 @@ class TipoClienteTests extends BaseIntegrationTest {
         def controller = new TipoClienteController()
         controller.springSecurityService = springSecurityService
         controller.params.id = tipoCliente.id
-        def model = controller.show()
-        assert model.tipoClienteInstance
-        assertEquals "test", model.tipoClienteInstance.nombre
+        def model = controller.ver()
+        assert model.tipoCliente
+        assertEquals "test", model.tipoCliente.nombre
         controller.params.id = tipoCliente.id
-        model = controller.edit()
-        assert model.tipoClienteInstance
-        assertEquals empresa1, model.tipoClienteInstance.empresa
+        model = controller.edita()
+        assert model.tipoCliente
+        assertEquals empresa1, model.tipoCliente.empresa
 
         controller.params.id = tipoCliente.id
         controller.params.version = tipoCliente.version
         controller.params.nombre = "10002"
-        controller.update()
-        assertEquals "/tipoCliente/show/${tipoCliente.id}", controller.response.redirectedUrl
+        controller.actualiza()
+        assertEquals "/tipoCliente/ver/${tipoCliente.id}", controller.response.redirectedUrl
 
         tipoCliente.refresh()
         assertEquals "10002", tipoCliente.nombre
@@ -156,13 +156,13 @@ class TipoClienteTests extends BaseIntegrationTest {
         def controller = new TipoClienteController()
         controller.springSecurityService = springSecurityService
         controller.params.id = tipoCliente.id
-        def model = controller.show()
-        assert model.tipoClienteInstance
-        assertEquals "test", model.tipoClienteInstance.nombre
+        def model = controller.ver()
+        assert model.tipoCliente
+        assertEquals "test", model.tipoCliente.nombre
 
         controller.params.id = tipoCliente.id
-        controller.delete()
-        assertEquals "/tipoCliente/list", controller.response.redirectedUrl
+        controller.elimina()
+        assertEquals "/tipoCliente/lista", controller.response.redirectedUrl
 
         model = TipoCliente.get(tipoCliente.id)
         assert !model

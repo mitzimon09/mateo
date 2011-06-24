@@ -64,14 +64,14 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
         def controller = new FacturaAlmacenController()
         controller.springSecurityService = springSecurityService
         controller.index()
-        assertEquals '/facturaAlmacen/list', controller.response.redirectedUrl
+        assertEquals '/facturaAlmacen/lista', controller.response.redirectedUrl
 		
-		def model = controller.list()
+		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.facturaAlmacenInstanceList
+		assertNotNull model.facturaAlmacenes
 		
-        assertEquals 10, model.facturaAlmacenInstanceList.size()
-        assert 20 <= model.facturaAlmacenInstanceTotal
+        assertEquals 10, model.facturaAlmacenes.size()
+        assert 20 <= model.totalDeFacturaAlmacenes
     }
     
     @Test
@@ -115,19 +115,19 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         
         //controller.springSecurityService = springSecurityService
-        def model = controller.create()
+        def model = controller.nueva()
         assert model
-        assert model.facturaAlmacenInstance
+        assert model.facturaAlmacen
         
         controller.params.folio = "folio"
         controller.params.cliente = cliente
         controller.params.almacen = almacen
         controller.params.fecha = new Date()
-        controller.save()
+        controller.crea()
         
         assert controller
  
-        assert controller.response.redirectedUrl.startsWith('/facturaAlmacen/show')
+        assert controller.response.redirectedUrl.startsWith('/facturaAlmacen/ver')
     }
     
     @Test
@@ -178,21 +178,21 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
         def controller = new FacturaAlmacenController()
         controller.springSecurityService = springSecurityService
         controller.params.id = facturaAlmacen.id
-        def model = controller.show()
-        assert model.facturaAlmacenInstance
-        assertEquals "100", model.facturaAlmacenInstance.folio
+        def model = controller.ver()
+        assert model.facturaAlmacen
+        assertEquals "100", model.facturaAlmacen.folio
 
         controller.params.id = facturaAlmacen.id
-        model = controller.edit()
-        assert model.facturaAlmacenInstance
-        assertEquals cliente, model.facturaAlmacenInstance.cliente
+        model = controller.edita()
+        assert model.facturaAlmacen
+        assertEquals cliente, model.facturaAlmacen.cliente
 
         controller.params.id = facturaAlmacen.id
         controller.params.version = facturaAlmacen.version
         controller.params.folio = '10002'
         controller.params.fecha = new Date()
-        controller.update()
-        assertEquals "/facturaAlmacen/show/${facturaAlmacen.id}", controller.response.redirectedUrl
+        controller.actualiza()
+        assertEquals "/facturaAlmacen/ver/${facturaAlmacen.id}", controller.response.redirectedUrl
 
         facturaAlmacen.refresh()
         assertEquals '10002', facturaAlmacen.folio
@@ -247,7 +247,7 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
         controller.params.id = facturaAlmacen.id
         def model = controller.ver()
         assert model.facturaAlmacen
-        assertEquals "001", model.facturaAlmacen.folio
+        assertEquals "100", model.facturaAlmacen.folio
 
         controller.params.id = facturaAlmacen.id
         controller.elimina()
