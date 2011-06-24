@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-folioInventario" class="content scaffold-list" role="main">
@@ -33,21 +33,21 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${folioInventarioInstanceList}" status="i" var="folioInventarioInstance">
+				<g:each in="${folioInventarios}" status="i" var="folioInventario">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${folioInventarioInstance.id}">${fieldValue(bean: folioInventarioInstance, field: "nombre")}</g:link></td>
+						<td><g:link action="ver" id="${folioInventario.id}">${fieldValue(bean: folioInventario, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: folioInventarioInstance, field: "valor")}</td>
+						<td>${fieldValue(bean: folioInventario, field: "valor")}</td>
 					
-						<td>${fieldValue(bean: folioInventarioInstance, field: "almacen")}</td>
+						<td>${fieldValue(bean: folioInventario, field: "almacen")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${folioInventarioInstanceTotal}" />
+				<g:paginate total="${totalDeFolioInventarios}" />
 			</div>
 		</div>
 	</body>
