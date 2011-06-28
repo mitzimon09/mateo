@@ -28,7 +28,12 @@
 			</g:hasErrors>
 			<g:form action="save" >
 				<fieldset class="form">
-					<g:render template="form"/>
+					<div class="fieldcontain ${hasErrors(bean: compraInstance, field: 'folio', 'error')} ">
+	          <label for="folio">
+		          <g:message code="compra.folio.label" default="Folio" />
+	          </label>
+	          <g:fieldValue bean="${compraInstance}" field="folio"/>
+          </div>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />

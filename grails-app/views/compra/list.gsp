@@ -24,9 +24,11 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="total" title="${message(code: 'compra.total.label', default: 'Total')}" />
+						<g:sortableColumn property="folio" title="${message(code: 'compra.folio.label', default: 'Folio')}" />
 					
 						<g:sortableColumn property="status" title="${message(code: 'compra.status.label', default: 'Status')}" />
+					
+						<g:sortableColumn property="total" title="${message(code: 'compra.total.label', default: 'Total')}" />
 					
 					</tr>
 				</thead>
@@ -34,9 +36,11 @@
 				<g:each in="${compraInstanceList}" status="i" var="compraInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${compraInstance.id}">${fieldValue(bean: compraInstance, field: "total")}</g:link></td>
+						<td><g:link action="show" id="${compraInstance.id}">${fieldValue(bean: compraInstance, field: "folio")}</g:link></td>
 					
 						<td>${fieldValue(bean: compraInstance, field: "status")}</td>
+					
+						<td>${fieldValue(bean: compraInstance, field: "total")}</td>
 					
 					</tr>
 				</g:each>

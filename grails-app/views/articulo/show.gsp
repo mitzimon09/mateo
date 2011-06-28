@@ -59,6 +59,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${articuloInstance?.compra}">
+				<li class="fieldcontain">
+					<span id="compra-label" class="property-label"><g:message code="articulo.compra.label" default="Compra" /></span>
+					
+						<span class="property-value" aria-labelledby="compra-label"><g:link controller="compra" action="show" id="${articuloInstance?.compra?.id}">${articuloInstance?.compra?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

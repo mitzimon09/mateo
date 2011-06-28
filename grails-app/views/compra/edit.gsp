@@ -32,6 +32,9 @@
 				<g:hiddenField name="version" value="${compraInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
+					<div class="fieldcontain" >
+            <g:link controller="articulo" action="create" params="['compra.id': compraInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
+          </div>
 				</fieldset>
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />

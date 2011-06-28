@@ -22,36 +22,7 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list compra">
-			
-				<g:if test="${compraInstance?.total}">
-				<li class="fieldcontain">
-					<span id="total-label" class="property-label"><g:message code="compra.total.label" default="Total" /></span>
-					
-						<span class="property-value" aria-labelledby="total-label"><g:fieldValue bean="${compraInstance}" field="total"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${compraInstance?.articulos}">
-				<li class="fieldcontain">
-					<span id="articulos-label" class="property-label"><g:message code="compra.articulos.label" default="Articulos" /></span>
-					
-						<g:each in="${compraInstance.articulos}" var="a">
-						<span class="property-value" aria-labelledby="articulos-label"><g:link controller="articulo" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${compraInstance?.status}">
-				<li class="fieldcontain">
-					<span id="status-label" class="property-label"><g:message code="compra.status.label" default="Status" /></span>
-					
-						<span class="property-value" aria-labelledby="status-label"><g:fieldValue bean="${compraInstance}" field="status"/></span>
-					
-				</li>
-				</g:if>
-			
+				<g:render template="form"/>
 			</ol>
 			<g:form>
 				<fieldset class="buttons">

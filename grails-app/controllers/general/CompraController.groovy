@@ -18,14 +18,17 @@ class CompraController {
     def create = {
         def compraInstance = new Compra()
         compraInstance.properties = params
+        compraInstance.folio = Compra.count()+1
         return [compraInstance: compraInstance]
     }
 
     def save = {
+        params.folio = Compra.count()+1
         def compraInstance = new Compra(params)
+        
         if (compraInstance.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compraInstance.id])
-            redirect(action: "show", id: compraInstance.id)
+            redirect(action: "edit", id: compraInstance.id)
         }
         else {
             render(view: "create", model: [compraInstance: compraInstance])

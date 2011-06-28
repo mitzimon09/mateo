@@ -34,3 +34,11 @@
 	<g:field type="number" name="total" required="" value="${fieldValue(bean: articuloInstance, field: 'total')}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: articuloInstance, field: 'compra', 'error')} required">
+	<label for="compra">
+		<g:message code="articulo.compra.label" default="Compra" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="compra" name="compra.id" from="${general.Compra.list()}" optionKey="id" required="" value="${articuloInstance?.compra?.id}" class="many-to-one"/>
+</div>
+

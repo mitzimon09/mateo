@@ -25,7 +25,7 @@ class ArticuloController {
         def articuloInstance = new Articulo(params)
         if (articuloInstance.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articuloInstance.id])
-            redirect(action: "show", id: articuloInstance.id)
+            redirect(controller:"compra", action: "edit", id: articuloInstance.compra.id)
         }
         else {
             render(view: "create", model: [articuloInstance: articuloInstance])
