@@ -1,102 +1,102 @@
 package inventario
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class LoteEntradaController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[loteEntradaInstanceList: LoteEntrada.list(params), loteEntradaInstanceTotal: LoteEntrada.count()]
+		[loteEntradas: LoteEntrada.list(params), totalDeLoteEntradas: LoteEntrada.count()]
 	}
 
-    def create = {
-        def loteEntradaInstance = new LoteEntrada()
-        loteEntradaInstance.properties = params
-        return [loteEntradaInstance: loteEntradaInstance]
+    def nuevo = {
+        def loteEntrada = new LoteEntrada()
+        loteEntrada.properties = params
+        return [loteEntrada: loteEntrada]
     }
 
-    def save = {
-        def loteEntradaInstance = new LoteEntrada(params)
-        if (loteEntradaInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), loteEntradaInstance.id])
-            redirect(action: "show", id: loteEntradaInstance.id)
+    def crea = {
+        def loteEntrada = new LoteEntrada(params)
+        if (loteEntrada.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), loteEntrada.id])
+            redirect(action: "ver", id: loteEntrada.id)
         }
         else {
-            render(view: "create", model: [loteEntradaInstance: loteEntradaInstance])
+            render(view: "nuevo", model: [loteEntrada: loteEntrada])
         }
     }
 
-    def show = {
-        def loteEntradaInstance = LoteEntrada.get(params.id)
-        if (!loteEntradaInstance) {
+    def ver = {
+        def loteEntrada = LoteEntrada.get(params.id)
+        if (!loteEntrada) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [loteEntradaInstance: loteEntradaInstance]
+            [loteEntrada: loteEntrada]
         }
     }
 
-    def edit = {
-        def loteEntradaInstance = LoteEntrada.get(params.id)
-        if (!loteEntradaInstance) {
+    def edita = {
+        def loteEntrada = LoteEntrada.get(params.id)
+        if (!loteEntrada) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [loteEntradaInstance: loteEntradaInstance]
+            return [loteEntrada: loteEntrada]
         }
     }
 
-    def update = {
-        def loteEntradaInstance = LoteEntrada.get(params.id)
-        if (loteEntradaInstance) {
+    def actualiza = {
+        def loteEntrada = LoteEntrada.get(params.id)
+        if (loteEntrada) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (loteEntradaInstance.version > version) {
+                if (loteEntrada.version > version) {
                     
-                    loteEntradaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'loteEntrada.label', default: 'LoteEntrada')] as Object[], "Another user has updated this LoteEntrada while you were editing")
-                    render(view: "edit", model: [loteEntradaInstance: loteEntradaInstance])
+                    loteEntrada.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'loteEntrada.label', default: 'LoteEntrada')] as Object[], "Another user has updated this LoteEntrada while you were editing")
+                    render(view: "edita", model: [loteEntrada: loteEntrada])
                     return
                 }
             }
-            loteEntradaInstance.properties = params
-            if (!loteEntradaInstance.hasErrors() && loteEntradaInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), loteEntradaInstance.id])
-                redirect(action: "show", id: loteEntradaInstance.id)
+            loteEntrada.properties = params
+            if (!loteEntrada.hasErrors() && loteEntrada.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), loteEntrada.id])
+                redirect(action: "ver", id: loteEntrada.id)
             }
             else {
-                render(view: "edit", model: [loteEntradaInstance: loteEntradaInstance])
+                render(view: "edita", model: [loteEntrada: loteEntrada])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def loteEntradaInstance = LoteEntrada.get(params.id)
-        if (loteEntradaInstance) {
+    def elimina = {
+        def loteEntrada = LoteEntrada.get(params.id)
+        if (loteEntrada) {
             try {
-                loteEntradaInstance.delete(flush: true)
+                loteEntrada.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

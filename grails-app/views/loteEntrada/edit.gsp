@@ -11,8 +11,8 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="list" action="lista"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="edit-loteEntrada" class="content scaffold-edit" role="main">
@@ -20,16 +20,16 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<g:hasErrors bean="${loteEntradaInstance}">
+			<g:hasErrors bean="${loteEntrada}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${loteEntradaInstance}" var="error">
+				<g:eachError bean="${loteEntrada}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
 			<g:form method="post" >
-				<g:hiddenField name="id" value="${loteEntradaInstance?.id}" />
-				<g:hiddenField name="version" value="${loteEntradaInstance?.version}" />
+				<g:hiddenField name="id" value="${loteEntrada?.id}" />
+				<g:hiddenField name="version" value="${loteEntrada?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

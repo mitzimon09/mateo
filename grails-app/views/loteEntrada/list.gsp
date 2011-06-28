@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nuevo"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-loteEntrada" class="content scaffold-list" role="main">
@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${loteEntradaInstanceList}" status="i" var="loteEntradaInstance">
+				<g:each in="${loteEntradas}" status="i" var="loteEntrada">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${loteEntradaInstance.id}">${fieldValue(bean: loteEntradaInstance, field: "cantidad")}</g:link></td>
+						<td><g:link action="ver" id="${loteEntrada.id}">${fieldValue(bean: loteEntrada, field: "cantidad")}</g:link></td>
 					
-						<td>${fieldValue(bean: loteEntradaInstance, field: "precioUnitario")}</td>
+						<td>${fieldValue(bean: loteEntrada, field: "precioUnitario")}</td>
 					
-						<td>${fieldValue(bean: loteEntradaInstance, field: "iva")}</td>
+						<td>${fieldValue(bean: loteEntrada, field: "iva")}</td>
 					
-						<td><g:formatDate date="${loteEntradaInstance.dateCreated}" /></td>
+						<td><g:formatDate date="${loteEntrada.dateCreated}" /></td>
 					
-						<td>${fieldValue(bean: loteEntradaInstance, field: "entrada")}</td>
+						<td>${fieldValue(bean: loteEntrada, field: "entrada")}</td>
 					
-						<td><g:formatDate date="${loteEntradaInstance.lastUpdated}" /></td>
+						<td><g:formatDate date="${loteEntrada.lastUpdated}" /></td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${loteEntradaInstanceTotal}" />
+				<g:paginate total="${totalDeLoteEntradas}" />
 			</div>
 		</div>
 	</body>
