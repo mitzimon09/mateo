@@ -9,100 +9,101 @@ class CompraController {
     def folioService
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[compraInstanceList: Compra.list(params), compraInstanceTotal: Compra.count()]
+		[compraList: Compra.list(params), compraTotal: Compra.count()]
 	}
 
-    def create = {
-        def compraInstance = new Compra()
-        compraInstance.properties = params
-        save(compraInstance)
-        //return [compraInstance: compraInstance]
+
+    def nueva = {
+        def compra = new Compra()
+        compra.properties = params
+        compra.folio = Compra.count()+1
+        return [compra: compra]
     }
 
-    def save = {
+    def crea = {
         params.folio = Compra.count()+1
-        //params.folio = folioService.temporal()
-        def compraInstance = new Compra(params)
+
+        def compra = new Compra(params)
         
-        if (compraInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compraInstance.id])
-            redirect(action: "edit", id: compraInstance.id)
+        if (compra.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
+            redirect(action: "edita", id: compra.id)
         }
         else {
-            render(view: "create", model: [compraInstance: compraInstance])
+            render(view: "nueva", model: [compra: compra])
         }
     }
 
-    def show = {
-        def compraInstance = Compra.get(params.id)
-        if (!compraInstance) {
+    def ver = {
+        def compra = Compra.get(params.id)
+        if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [compraInstance: compraInstance]
+            [compra: compra]
         }
     }
 
-    def edit = {
-        def compraInstance = Compra.get(params.id)
-        if (!compraInstance) {
+    def edita = {
+        def compra = Compra.get(params.id)
+        if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [compraInstance: compraInstance]
+            return [compra: compra]
         }
     }
 
-    def update = {
-        def compraInstance = Compra.get(params.id)
-        if (compraInstance) {
+    def actualiza = {
+        def compra = Compra.get(params.id)
+        if (compra) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (compraInstance.version > version) {
+                if (compra.version > version) {
                     
-                    compraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'compra.label', default: 'Compra')] as Object[], "Another user has updated this Compra while you were editing")
-                    render(view: "edit", model: [compraInstance: compraInstance])
+                    compra.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'compra.label', default: 'Compra')] as Object[], "Another user has updated this Compra while you were editing")
+                    render(view: "edita", model: [compra: compra])
                     return
                 }
             }
-            compraInstance.properties = params
-            if (!compraInstance.hasErrors() && compraInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compraInstance.id])
-                render(view: "edit", model: [compraInstance: compraInstance])
+            compra.properties = params
+            if (!compra.hasErrors() && compra.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
+                redirect(action: "ver", id: compra.id)
             }
             else {
-                render(view: "edit", model: [compraInstance: compraInstance])
+                render(view: "edita", model: [compra: compra])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def compraInstance = Compra.get(params.id)
-        if (compraInstance) {
+    def elimina = {
+        def compra = Compra.get(params.id)
+        if (compra) {
             try {
-                compraInstance.delete(flush: true)
+                compra.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
     

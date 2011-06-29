@@ -7,97 +7,96 @@ class ArticuloController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[articuloInstanceList: Articulo.list(params), articuloInstanceTotal: Articulo.count()]
+		[articulos: Articulo.list(params), totalDeArticulos: Articulo.count()]
 	}
 
-    def create = {
-        def articuloInstance = new Articulo()
-        articuloInstance.properties = params
-        return [articuloInstance: articuloInstance]
+    def nuevo = {
+        def articulo = new Articulo()
+        articulo.properties = params
+        return [articulo: articulo]
     }
 
-    def save = {
-        params.
-        def articuloInstance = new Articulo(params)
-        if (articuloInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articuloInstance.id])
-            redirect(controller:"compra", action: "edit", id: articuloInstance.compra.id)
+    def crea = {
+        def articulo = new Articulo(params)
+        if (articulo.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
+            redirect(controller:"compra", action: "edita", id: articulo.compra.id)
         }
         else {
-            render(view: "create", model: [articuloInstance: articuloInstance])
+            render(view: "nuevo", model: [articulo: articulo])
         }
     }
 
-    def show = {
-        def articuloInstance = Articulo.get(params.id)
-        if (!articuloInstance) {
+    def ver = {
+        def articulo = Articulo.get(params.id)
+        if (!articulo) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [articuloInstance: articuloInstance]
+            [articulo: articulo]
         }
     }
 
-    def edit = {
-        def articuloInstance = Articulo.get(params.id)
-        if (!articuloInstance) {
+    def edita = {
+        def articulo = Articulo.get(params.id)
+        if (!articulo) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [articuloInstance: articuloInstance]
+            return [articulo: articulo]
         }
     }
 
-    def update = {
-        def articuloInstance = Articulo.get(params.id)
-        if (articuloInstance) {
+    def actualiza = {
+        def articulo = Articulo.get(params.id)
+        if (articulo) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (articuloInstance.version > version) {
+                if (articulo.version > version) {
                     
-                    articuloInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'articulo.label', default: 'Articulo')] as Object[], "Another user has updated this Articulo while you were editing")
-                    render(view: "edit", model: [articuloInstance: articuloInstance])
+                    articulo.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'articulo.label', default: 'Articulo')] as Object[], "Another user has updated this Articulo while you were editing")
+                    render(view: "edit", model: [articulo: articulo])
                     return
                 }
             }
-            articuloInstance.properties = params
-            if (!articuloInstance.hasErrors() && articuloInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articuloInstance.id])
-                redirect(controller:"compra", action: "edit", id: articuloInstance.compra.id)
+            articulo.properties = params
+            if (!articulo.hasErrors() && articulo.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
+                redirect(action: "ver", id: articulo.id)
             }
             else {
-                render(view: "edit", model: [articuloInstance: articuloInstance])
+                render(view: "edita", model: [articulo: articulo])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def articuloInstance = Articulo.get(params.id)
-        if (articuloInstance) {
+    def elimina = {
+        def articulo = Articulo.get(params.id)
+        if (articulo) {
             try {
-                articuloInstance.delete(flush: true)
+                articulo.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }
