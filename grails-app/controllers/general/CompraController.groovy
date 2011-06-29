@@ -12,10 +12,10 @@ class CompraController {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[compraList: Compra.list(params), compraTotal: Compra.count()]
-	}
+	  def lista = {
+	    	params.max = Math.min(params.max ? params.int('max') : 10, 100)
+	    	[compraList: Compra.list(params), compraTotal: Compra.count()]
+  	}
 
 
     def nueva = {
@@ -50,6 +50,9 @@ class CompraController {
     }
 
     def edita = {
+        if(Articulo.list().size() > 0){
+          calculaTotal(params)
+        }
         def compra = Compra.get(params.id)
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
@@ -73,13 +76,15 @@ class CompraController {
                 }
             }
             compra.properties = params
+            
+            compra.save(flush: true)
             if (!compra.hasErrors() && compra.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
-                redirect(action: "ver", id: compra.id)
+                redirect(action: "edita", id: compra.id)
             }
             else {
                 render(view: "edita", model: [compra: compra])
-            }
+            //}
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
@@ -110,5 +115,19 @@ class CompraController {
         params.status = "ENVIADA"
         actualiza(params)
         println "cambio de status a " + params.status
+    }
+    
+    def calculaTotal = {
+        println "calcular total"
+        def articulos = Articulo.list()
+        def total = 0
+        for(def articulo in articulos){
+            if(articulo.compra.id.toInteger() == params.id.toInteger()){
+              total += articulo.total
+            }
+        }
+        println "total " + total
+        params.total = total
+        actualiza(params)
     }
 }
