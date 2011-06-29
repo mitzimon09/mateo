@@ -5,6 +5,8 @@ import grails.converters.JSON
 class CompraController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    
+    def folioService
 
     def index = {
         redirect(action: "list", params: params)
@@ -18,12 +20,13 @@ class CompraController {
     def create = {
         def compraInstance = new Compra()
         compraInstance.properties = params
-        compraInstance.folio = Compra.count()+1
-        return [compraInstance: compraInstance]
+        save(compraInstance)
+        //return [compraInstance: compraInstance]
     }
 
     def save = {
         params.folio = Compra.count()+1
+        //params.folio = folioService.temporal()
         def compraInstance = new Compra(params)
         
         if (compraInstance.save(flush: true)) {
@@ -101,5 +104,11 @@ class CompraController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
             redirect(action: "list")
         }
+    }
+    
+    def enviar = {
+        params.status = "ENVIADA"
+        update(params)
+        println "cambio de status a " + params.status
     }
 }

@@ -15,7 +15,7 @@ class Compra {
     static constraints = {
       folio unique:true, nullable:false
     	status (inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA'])
-    	total (scale:2, precision:8)
+    	total (scale:2,precision:8,min:new BigDecimal('0'))
     }
     
     String toString (){

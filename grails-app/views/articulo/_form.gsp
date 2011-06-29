@@ -23,9 +23,9 @@
 		<g:message code="articulo.precioUnitario.label" default="Precio Unitario" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field type="number" name="precioUnitario" required="" value="${fieldValue(bean: articuloInstance, field: 'precioUnitario')}"/>
+	<g:field type="number" name="precioUnitario" min="0" required="" value="${fieldValue(bean: articuloInstance, field: 'precioUnitario')}"/>
 </div>
-
+<!--
 <div class="fieldcontain ${hasErrors(bean: articuloInstance, field: 'total', 'error')} required">
 	<label for="total">
 		<g:message code="articulo.total.label" default="Total" />
@@ -33,12 +33,4 @@
 	</label>
 	<g:field type="number" name="total" required="" value="${fieldValue(bean: articuloInstance, field: 'total')}"/>
 </div>
-
-<div class="fieldcontain ${hasErrors(bean: articuloInstance, field: 'compra', 'error')} required">
-	<label for="compra">
-		<g:message code="articulo.compra.label" default="Compra" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="compra" name="compra.id" from="${general.Compra.list()}" optionKey="id" required="" value="${articuloInstance?.compra?.id}" class="many-to-one"/>
-</div>
-
+-->

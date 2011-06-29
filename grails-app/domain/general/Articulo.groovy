@@ -11,8 +11,8 @@ class Articulo {
     static constraints = {
     	descripcion(maxSize: 256, blank:false)
     	cantidad(min:1)
-    	precioUnitario(scale:2, precision:8)
-    	total(scale:2, precision:8)
+    	precioUnitario(sscale:2,precision:8,min:new BigDecimal('0'))
+    	total(scale:2,precision:8,min:new BigDecimal('0'))
     }
     
     String toString (){

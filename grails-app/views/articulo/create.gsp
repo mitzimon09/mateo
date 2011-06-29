@@ -28,6 +28,7 @@
 			</g:hasErrors>
 			<g:form action="save" >
 				<fieldset class="form">
+  				<g:hiddenField id="compra" name="compra.id" value="${articuloInstance?.compra?.id}" />
 					<g:render template="form"/>
 				</fieldset>
 				<fieldset class="buttons">
