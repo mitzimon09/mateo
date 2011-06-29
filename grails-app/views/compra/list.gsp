@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nueva"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-compra" class="content scaffold-list" role="main">
@@ -33,21 +33,21 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${compraInstanceList}" status="i" var="compraInstance">
+				<g:each in="${compraList}" status="i" var="compra">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${compraInstance.id}">${fieldValue(bean: compraInstance, field: "folio")}</g:link></td>
+						<td><g:link action="ver" id="${compra.id}">${fieldValue(bean: compra, field: "folio")}</g:link></td>
 					
-						<td>${fieldValue(bean: compraInstance, field: "status")}</td>
+						<td>${fieldValue(bean: compra, field: "status")}</td>
 					
-						<td>${fieldValue(bean: compraInstance, field: "total")}</td>
+						<td>${fieldValue(bean: compra, field: "total")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${compraInstanceTotal}" />
+				<g:paginate total="${compraTotal}" />
 			</div>
 		</div>
 	</body>
