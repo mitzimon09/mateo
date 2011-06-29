@@ -75,7 +75,7 @@ class CompraController {
             compraInstance.properties = params
             if (!compraInstance.hasErrors() && compraInstance.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compraInstance.id])
-                redirect(action: "show", id: compraInstance.id)
+                render(view: "edit", model: [compraInstance: compraInstance])
             }
             else {
                 render(view: "edit", model: [compraInstance: compraInstance])
