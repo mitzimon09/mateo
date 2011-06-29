@@ -26,23 +26,19 @@
 
 	      <g:sortableColumn property="total" title="${message(code: 'articulo.total.label', default: 'Total')}" />
 
-	      <th><g:message code="articulo.compra.label" default="Compra" /></th>
-
       </tr>
     </thead>
     <tbody>
-    <g:each in="${compra.articulos}" status="i" var="articuloInstance">
+    <g:each in="${compra.articulos}" status="i" var="articulo">
       <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
-	      <td><g:link action="ver" id="${articuloInstance.id}">${fieldValue(bean: articuloInstance, field: "descripcion")}</g:link></td>
+	      <td><g:link controller="articulo" action="edita" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
 
-	      <td>${fieldValue(bean: articuloInstance, field: "cantidad")}</td>
+	      <td>${fieldValue(bean: articulo, field: "cantidad")}</td>
 
-	      <td>${fieldValue(bean: articuloInstance, field: "precioUnitario")}</td>
+	      <td>${fieldValue(bean: articulo, field: "precioUnitario")}</td>
 
-	      <td>${fieldValue(bean: articuloInstance, field: "total")}</td>
-
-	      <td>${fieldValue(bean: articuloInstance, field: "compra")}</td>
+	      <td>${fieldValue(bean: articulo, field: "total")}</td>
 
       </tr>
     </g:each>

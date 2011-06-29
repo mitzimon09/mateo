@@ -36,7 +36,7 @@
 				<g:each in="${compraList}" status="i" var="compra">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${compra.id}">${fieldValue(bean: compra, field: "folio")}</g:link></td>
+						<td><g:link action="edita" id="${compra.id}">${fieldValue(bean: compra, field: "folio")}</g:link></td>
 					
 						<td>${fieldValue(bean: compra, field: "status")}</td>
 					

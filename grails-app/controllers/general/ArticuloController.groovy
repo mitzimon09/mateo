@@ -23,6 +23,8 @@ class ArticuloController {
 
     def crea = {
         def articulo = new Articulo(params)
+        println "cantidad " + articulo.cantidad
+        articulo.total = articulo.cantidad * articulo.precioUnitario
         if (articulo.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
             redirect(controller:"compra", action: "edita", id: articulo.compra.id)
@@ -56,6 +58,7 @@ class ArticuloController {
 
     def actualiza = {
         def articulo = Articulo.get(params.id)
+        articulo.total = articulo.cantidad * articulo.precioUnitario
         if (articulo) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -69,7 +72,7 @@ class ArticuloController {
             articulo.properties = params
             if (!articulo.hasErrors() && articulo.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-                redirect(action: "ver", id: articulo.id)
+                redirect(controller:"compra", action: "edita", id: articulo.compra.id)
             }
             else {
                 render(view: "edita", model: [articulo: articulo])

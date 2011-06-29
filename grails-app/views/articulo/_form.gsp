@@ -25,7 +25,7 @@
 	</label>
 	<g:field type="number" name="precioUnitario" min="0" required="" value="${fieldValue(bean: articulo, field: 'precioUnitario')}"/>
 </div>
-
+<!--
 <div class="fieldcontain ${hasErrors(bean: articulo, field: 'total', 'error')} required">
 	<label for="total">
 		<g:message code="articulo.total.label" default="Total" />
@@ -33,7 +33,7 @@
 	</label>
 	<g:field type="number" name="total" required="" value="${fieldValue(bean: articulo, field: 'total')}"/>
 </div>
-<!--
+
 <div class="fieldcontain ${hasErrors(bean: articulo, field: 'compra', 'error')} required">
 	<label for="compra">
 		<g:message code="articulo.compra.label" default="Compra" />

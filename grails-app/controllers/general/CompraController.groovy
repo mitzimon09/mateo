@@ -21,13 +21,12 @@ class CompraController {
     def nueva = {
         def compra = new Compra()
         compra.properties = params
-        compra.folio = Compra.count()+1
-        return [compra: compra]
+        crea(params)
+        //return [compra: compra]
     }
 
     def crea = {
         params.folio = Compra.count()+1
-
         def compra = new Compra(params)
         
         if (compra.save(flush: true)) {
@@ -109,7 +108,7 @@ class CompraController {
     
     def enviar = {
         params.status = "ENVIADA"
-        update(params)
+        actualiza(params)
         println "cambio de status a " + params.status
     }
 }
