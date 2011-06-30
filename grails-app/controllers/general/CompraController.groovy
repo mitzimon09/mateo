@@ -3,7 +3,11 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 class CompraController {
+<<<<<<< HEAD
+    def springSecurityService
+=======
 	def springSecurityService
+>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
     def folioService
@@ -50,6 +54,12 @@ class CompraController {
     }
 
     def edita = {
+<<<<<<< HEAD
+        //if(Articulo.list().size() > 0){
+          //calculaTotal(params)
+        //}
+=======
+>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
         def compra = Compra.get(params.id)
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
