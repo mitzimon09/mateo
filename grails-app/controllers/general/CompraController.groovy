@@ -14,7 +14,7 @@ class CompraController {
 
 	  def lista = {
 	    	params.max = Math.min(params.max ? params.int('max') : 10, 100)
-	    	[compraList: Compra.list(params), compraTotal: Compra.count()]
+	    	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
 
 
@@ -151,7 +151,9 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		if (compra){
 			compra.status = "ENVIADA"
-			actualiza(compra)
+			compra.save(flush:true)
+			redirect(action: "lista")
+			//render(view: "lista")
 		}
     }
     
@@ -160,7 +162,8 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		if (compra){
 			compra.status = "APROBADA"
-			actualiza(compra)
+			compra.save(flush:true)
+			redirect(action: "lista")
 		} 
     }
     
@@ -169,7 +172,8 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		if (compra){
 			compra.status = "RECHAZADA"
-			actualiza(compra)
+			compra.save(flush:true)
+			redirect(action: "lista")
 		} 
     }
     
@@ -178,7 +182,8 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		if (compra){
 			compra.status = "COMPRADA"
-			actualiza(compra)
+			compra.save(flush:true)
+			redirect(action: "lista")
 		}    
     }
     
@@ -187,7 +192,8 @@ class CompraController {
     def compra = Compra.get(params.id)
 		if (compra){
 			compra.status = "ENTREGADA"
-			actualiza(compra)
+			compra.save(flush:true)
+			redirect(action: "lista")
 		} 
-	a}
+	}
 }

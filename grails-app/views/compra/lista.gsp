@@ -33,7 +33,7 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${compraList}" status="i" var="compra">
+				<g:each in="${compras}" status="i" var="compra">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
 						<td><g:link action="edita" id="${compra.id}">${fieldValue(bean: compra, field: "folio")}</g:link></td>
@@ -47,7 +47,7 @@
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${compraTotal}" />
+				<g:paginate total="${totalDeCompras}" />
 			</div>
 		</div>
 	</body>
