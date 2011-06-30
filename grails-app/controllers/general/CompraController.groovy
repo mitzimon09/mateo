@@ -50,9 +50,6 @@ class CompraController {
     }
 
     def edita = {
-        if(Articulo.list().size() > 0){
-          calculaTotal(params)
-        }
         def compra = Compra.get(params.id)
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
@@ -64,6 +61,7 @@ class CompraController {
     }
 
     def actualiza = {
+	    params.total = calculaTotal(params)
         def compra = Compra.get(params.id)
         if (compra) {
             if (params.version) {
@@ -93,6 +91,7 @@ class CompraController {
     }
 
     def elimina = {
+    	params.total = calculaTotal(params)
         def compra = Compra.get(params.id)
         if (compra) {
             try {
@@ -111,11 +110,6 @@ class CompraController {
         }
     }
     
-    def enviar = {
-        params.status = "ENVIADA"
-        actualiza(params)
-        println "cambio de status a " + params.status
-    }
     
     def calculaTotal = {
         println "calcular total"
@@ -127,7 +121,73 @@ class CompraController {
             }
         }
         println "total " + total
-        params.total = total
-        actualiza(params)
+        return total
+        //params.total = total
+        //actualiza(params)
     }
+    /*@Secured(['ROLE_USER'])
+    def enviar = {
+        def usuario = springSecurityService.currentUser
+        if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')) {
+            empresas = Empresa.findAll("from Empresa e order by e.organizacion.nombre, e.nombre")
+        } else if(SpringSecurityUtils.ifAnyGranted('ROLE_ORG')) {
+            empresas = Empresa.findAll("from Empresa e where e.organizacion = :organizacion order by e.organizacion.nombre, e.nombre", [organizacion:usuario.empresa])
+        } else {
+            empresas = [usuario.empresa]
+        }
+        
+        redirect (action:"lista")
+    }*/
+    
+    
+    /*def enviar = {
+        params.status = "ENVIADA"
+        actualiza(params)
+        println "cambio de status a " + params.status
+    }*/
+    
+    @Secured(['ROLE_USER'])
+    def enviar = {
+		def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "ENVIADA"
+			actualiza(compra)
+		}
+    }
+    
+    @Secured(['ROLE_ORG'])
+    def aprobar = {
+		def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "APROBADA"
+			actualiza(compra)
+		} 
+    }
+    
+    @Secured(['ROLE_ORG'])
+    def rechazar = {
+		def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "RECHAZADA"
+			actualiza(compra)
+		} 
+    }
+    
+    @Secured(['ROLE_COMPRAS'])
+    def comprar = {
+		def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "COMPRADA"
+			actualiza(compra)
+		}    
+    }
+    
+    @Secured(['ROLE_COMPRAS'])
+    def entregar = {
+    def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "ENTREGADA"
+			actualiza(compra)
+		} 
+	a}
 }
