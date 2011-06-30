@@ -1,9 +1,9 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class CompraController {
-
+    def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
     def folioService
@@ -14,7 +14,7 @@ class CompraController {
 
 	  def lista = {
 	    	params.max = Math.min(params.max ? params.int('max') : 10, 100)
-	    	[compraList: Compra.list(params), compraTotal: Compra.count()]
+	    	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
 
 
@@ -50,9 +50,9 @@ class CompraController {
     }
 
     def edita = {
-        if(Articulo.list().size() > 0){
-          calculaTotal(params)
-        }
+        //if(Articulo.list().size() > 0){
+          //calculaTotal(params)
+        //}
         def compra = Compra.get(params.id)
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
@@ -84,7 +84,7 @@ class CompraController {
             }
             else {
                 render(view: "edita", model: [compra: compra])
-            //}
+            }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
