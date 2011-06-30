@@ -1,9 +1,9 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class CompraController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
     def folioService
@@ -84,7 +84,7 @@ class CompraController {
             }
             else {
                 render(view: "edita", model: [compra: compra])
-            //}
+            }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
