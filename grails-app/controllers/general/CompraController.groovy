@@ -162,10 +162,16 @@ class CompraController {
     def enviar = {
 		def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "ENVIADA"
-			compra.save(flush:true)
-			redirect(action: "lista")
-			//render(view: "lista")
+			if(compra.status.equals("CREADA")){
+				compra.status = "ENVIADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+				//render(view: "lista")
+			}
+			else {
+				flash.message = message(code: 'compra.status.message5', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+			}
 		}
     }
     
@@ -179,10 +185,14 @@ class CompraController {
 				redirect(action: "lista")
 			}
 			else if (compra.status.equals("CREADA")){
-				render "La orden tiene que se enviada antes de ser aprobada"
+				flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "La orden tiene que se enviada antes de ser aprobada"
 			}
 			else{
-				render "La orden ya fue aprobada"
+				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "La orden ya fue aprobada"
 			}
 		} 
     }
@@ -197,10 +207,14 @@ class CompraController {
 				redirect(action: "lista")
 			}
 			else if (compra.status.equals("CREADA")){
-				render "La orden tiene que se enviada antes de ser aprobada"
+				flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "La orden tiene que se enviada antes de ser aprobada"
 			}
 			else{
-				render "La orden ya fue aprobada"
+				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "La orden ya fue aprobada"
 			}
 		} 
     }
@@ -215,10 +229,14 @@ class CompraController {
 				redirect(action: "lista")
 			}
 			else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
-				render "la orden de compra tiene que ser aprobada antes de ser comprada"
+				flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "la orden de compra tiene que ser aprobada antes de ser comprada"
 			}
 			else{
-				render "la orden ya fue comprada"
+				flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "La orden ya fue aprobada"
 			}
 		}    
     }
@@ -233,7 +251,9 @@ class CompraController {
 				redirect(action: "lista")
 			}
 			else{
-				render "la orden tiene que ser comprada antes de poder ser entregada"
+				flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                redirect(action: "lista")
+				//render "la orden tiene que ser comprada antes de poder ser entregada"
 			}
 		} 
 	}
