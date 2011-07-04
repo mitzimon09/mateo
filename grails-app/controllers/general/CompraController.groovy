@@ -3,11 +3,10 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 class CompraController {
-<<<<<<< HEAD
+//<<<<<<< HEAD
     def springSecurityService
-=======
-	def springSecurityService
->>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
+//=======
+//>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
     def folioService
@@ -54,12 +53,12 @@ class CompraController {
     }
 
     def edita = {
-<<<<<<< HEAD
+//<<<<<<< HEAD
         //if(Articulo.list().size() > 0){
           //calculaTotal(params)
         //}
-=======
->>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
+//=======
+//>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
         def compra = Compra.get(params.id)
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
@@ -171,9 +170,17 @@ class CompraController {
     def aprobar = {
 		def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "APROBADA"
-			compra.save(flush:true)
-			redirect(action: "lista")
+			if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
+				compra.status = "APROBADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+			}
+			else if (compra.status.equals("CREADA")){
+				render "La orden tiene que se enviada antes de ser aprobada"
+			}
+			else{
+				render "La orden ya fue aprobada"
+			}
 		} 
     }
     
@@ -181,9 +188,17 @@ class CompraController {
     def rechazar = {
 		def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "RECHAZADA"
-			compra.save(flush:true)
-			redirect(action: "lista")
+			if(compra.status.equals("ENVIADA")){
+				compra.status = "RECHAZADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+			}
+			else if (compra.status.equals("CREADA")){
+				render "La orden tiene que se enviada antes de ser aprobada"
+			}
+			else{
+				render "La orden ya fue aprobada"
+			}
 		} 
     }
     
@@ -191,9 +206,17 @@ class CompraController {
     def comprar = {
 		def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "COMPRADA"
-			compra.save(flush:true)
-			redirect(action: "lista")
+			if(compra.status.equals("APROBADA")){
+				compra.status = "COMPRADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+			}
+			else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
+				render "la orden de compra tiene que ser aprobada antes de ser comprada"
+			}
+			else{
+				render "la orden ya fue comprada"
+			}
 		}    
     }
     
@@ -201,9 +224,14 @@ class CompraController {
     def entregar = {
     def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "ENTREGADA"
-			compra.save(flush:true)
-			redirect(action: "lista")
+			if (compra.status.equals("COMPRADA")){
+				compra.status = "ENTREGADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+			}
+			else{
+				render "la orden tiene que ser comprada antes de poder ser entregada"
+			}
 		} 
 	}
 }

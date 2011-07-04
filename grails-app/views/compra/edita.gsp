@@ -33,7 +33,7 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 					<div class="fieldcontain" >
-            <g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
+            <g:link controller="articulo" action="nueva" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
           </div>
 				</fieldset>
 				<fieldset class="buttons">

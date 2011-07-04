@@ -15,7 +15,7 @@ class CompraTests extends BaseIntegrationTest {
     @Test
     void debieraMostrarListaDeCompras() {
 		    authenticateAdmin()
-		
+
         for(i in 1..20) {
         	new Compra (
         		folio: "test$i"
@@ -27,11 +27,11 @@ class CompraTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.index()
         assertEquals '/compra/lista', controller.response.redirectedUrl
-		
+
 		    def model = controller.lista()
 		    assertNotNull model
 		    assertNotNull model.compras
-		
+
         assertEquals 10, model.compras.size()
         assert 20 <= model.totalDeCompras
     }
@@ -39,7 +39,7 @@ class CompraTests extends BaseIntegrationTest {
     @Test
     void debieraCrearCompra() {
       	authenticateAdmin()
-		
+
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
         /*def model = controller.nueva()
@@ -57,12 +57,12 @@ class CompraTests extends BaseIntegrationTest {
     @Test
     void debieraActualizarCompra() {
         authenticateAdmin()
-		
+
 		    def compra = new Compra (
             folio: 'test'
         ).save()
         assertNotNull compra
-		
+
         def controller = new CompraController()
         controller.params.id = compra.id
         def model = controller.ver()
@@ -85,7 +85,7 @@ class CompraTests extends BaseIntegrationTest {
 	@Test
     void debieraEliminarCompra() {
         authenticateAdmin()
-		
+
 		    def compra = new Compra(
 			    folio: "test"
 		    ).save()
