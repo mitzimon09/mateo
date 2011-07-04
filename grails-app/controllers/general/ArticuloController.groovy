@@ -89,11 +89,11 @@ class ArticuloController {
             try {
                 articulo.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-                redirect(action: "lista")
+                redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-                redirect(action: "ver", id: params.id)
+                redirect(action: "edita", id: params.id)
             }
         }
         else {
