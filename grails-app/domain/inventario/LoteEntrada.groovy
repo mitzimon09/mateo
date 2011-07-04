@@ -37,5 +37,3 @@ class LoteEntrada {//implements java.io.Serializable {
         "$producto : $cantidad : $precioUnitario"
     }
 }
-
-

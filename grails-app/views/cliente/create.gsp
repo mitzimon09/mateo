@@ -11,7 +11,11 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+<<<<<<< HEAD
 				<li><g:link class="list" action="lista"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+=======
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+>>>>>>> upstream/master
 			</ul>
 		</div>
 		<div id="create-cliente" class="content scaffold-create" role="main">
@@ -19,14 +23,24 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+<<<<<<< HEAD
 			<g:hasErrors bean="${cliente}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${cliente}" var="error">
+=======
+			<g:hasErrors bean="${clienteInstance}">
+			<ul class="errors" role="alert">
+				<g:eachError bean="${clienteInstance}" var="error">
+>>>>>>> upstream/master
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
+<<<<<<< HEAD
 			<g:form action="crea" >
+=======
+			<g:form action="save" >
+>>>>>>> upstream/master
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

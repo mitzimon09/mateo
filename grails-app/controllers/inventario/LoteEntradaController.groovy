@@ -2,9 +2,13 @@ package inventario
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_EMP'])
 class LoteEntradaController {
-	def springSecurityService
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def springSecurityService
+
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -12,7 +16,9 @@ class LoteEntradaController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[loteEntradas: LoteEntrada.list(params), totalDeLoteEntradas: LoteEntrada.count()]
+                def usuario = springSecurityService.currentUser
+//		[loteEntradas: LoteEntrada.findAllByEmpresa(usuario.empresa, params), totalDeLoteEntradas: LoteEntrada.countByEmpresa(usuario.empresa)]
+                [loteEntradas: LoteEntrada.list(params), totalDeLoteEntradas: LoteEntrada.count()]
 	}
 
     def nuevo = {
@@ -23,6 +29,8 @@ class LoteEntradaController {
 
     def crea = {
         def loteEntrada = new LoteEntrada(params)
+//        def usuario = springSecurityService.currentUser
+//        loteEntrada.empresa = usuario.empresa
         if (loteEntrada.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), loteEntrada.id])
             redirect(action: "ver", id: loteEntrada.id)
@@ -84,7 +92,9 @@ class LoteEntradaController {
     def elimina = {
         def loteEntrada = LoteEntrada.get(params.id)
         if (loteEntrada) {
+//            def nombre
             try {
+//                nombre = loteEntrada.nombre
                 loteEntrada.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada'), params.id])
                 redirect(action: "lista")

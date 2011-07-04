@@ -1,10 +1,11 @@
 package inventario
 
-import general.*
+import general.Cliente
 
 class FacturaAlmacen {//implements java.io.Serializable {
     String folio
-    String estatus = 'ABIERTA'
+//    Estatus estatus
+    String estatus  = 'ABIERTA'
     String comentarios
     Date fecha
     BigDecimal iva = new BigDecimal('0')
@@ -21,12 +22,11 @@ class FacturaAlmacen {//implements java.io.Serializable {
     static hasMany = [salidas: Salida, entradas: Entrada]
 
     static constraints = {
-        folio(unique:'almacen', maxSize:64)
-        comentarios(nullable:true, maxSize:128)
-        iva(scale:2, precision:8)
-        total(scale:2, precision:8)
-        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
-        fecha(nullable:true)
+        folio unique:'almacen', maxSize:64
+        comentarios nullable:true, maxSize:128
+        iva scale:2, precision:8
+        total scale:2, precision:8
+        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA','FACTURADA'])
     }
 
     static mapping = {
@@ -54,12 +54,12 @@ class FacturaAlmacen {//implements java.io.Serializable {
             between 'fecha', fechaInicial, fechaFinal
         }
 
-        relaciones {
-            /*estatus {
-                order 'prioridad', 'asc'
-            }*/
-            order 'folio', 'desc'
-        }
+//        relaciones {
+//            estatus {
+//                order 'prioridad', 'asc'
+//            }
+//            order 'folio', 'desc'
+//        }
     }
 
     String toString() {

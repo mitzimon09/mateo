@@ -1,6 +1,6 @@
 package general
 
-class Proveedor implements java.io.Serializable {
+class Proveedor implements Serializable {
     String nombre
     String nombreCompleto
     String rfc
@@ -10,13 +10,12 @@ class Proveedor implements java.io.Serializable {
     String fax
     String contacto
     String correo
-    Boolean base = false
     Empresa empresa
 
     static belongsTo = [Empresa]
 
     static constraints = {
-        nombre unique:'empresa', blank : false, maxSize:64
+        nombre unique:'empresa', blank:false, maxSize:64
         nombreCompleto blank:false, maxSize:128
         rfc blank:false, size:12..13
         curp nullable:true,size:18..18

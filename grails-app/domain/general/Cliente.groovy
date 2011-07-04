@@ -1,6 +1,6 @@
 package general
 
-class Cliente implements java.io.Serializable {
+class Cliente implements Serializable {
     String nombre
     String nombreCompleto
     String rfc
@@ -10,7 +10,6 @@ class Cliente implements java.io.Serializable {
     String fax
     String contacto
     String correo
-    Boolean base = false
     Empresa empresa
     TipoCliente tipoCliente
 
@@ -51,7 +50,6 @@ class Cliente implements java.io.Serializable {
                 ilike 'rfc',filtro
             }
         }
-        
         relaciones { 
             join 'tipoCliente'
         }
@@ -60,5 +58,4 @@ class Cliente implements java.io.Serializable {
     String toString() {
         return nombre
     }
-
 }

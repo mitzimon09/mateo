@@ -22,9 +22,8 @@ class Almacen {//implements java.io.Serializable {
     static hasMany = [usuarios: Usuario, productos: Producto, tiposProducto: TipoProducto, entradas: Entrada, salidas: Salida, facturas: FacturaAlmacen, folios: FolioInventario]
 
     static constraints = {
-        codigo(blank:false,size:1..18,unique:'empresa')
-        nombre(blank:false,size:1..64,unique:'empresa')
-        nombreCompleto(nulleable:true)
+        codigo blank:false,size:1..18,unique:'empresa'
+        nombre blank:false,size:1..64,unique:'empresa'
     }
 
     static mapping = {

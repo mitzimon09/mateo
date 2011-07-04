@@ -2,10 +2,13 @@ package inventario
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-class FacturaAlmacenController {
-	def springSecurityService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+@Secured(['ROLE_EMP'])
+class FacturaAlmacenController {
+
+    def springSecurityService
+
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -13,7 +16,9 @@ class FacturaAlmacenController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[facturaAlmacenes: FacturaAlmacen.list(params), totalDeFacturaAlmacenes: FacturaAlmacen.count()]
+                def usuario = springSecurityService.currentUser
+//		[facturaAlmacenes: FacturaAlmacen.findAllByEmpresa(usuario.empresa, params), totalDeFacturaAlmacenes: FacturaAlmacen.countByEmpresa(usuario.empresa)]
+                [facturaAlmacenes: FacturaAlmacen.list(params), totalDeFacturaAlmacenes: FacturaAlmacen.count()]
 	}
 
     def nueva = {
@@ -24,8 +29,10 @@ class FacturaAlmacenController {
 
     def crea = {
         def facturaAlmacen = new FacturaAlmacen(params)
+//        def usuario = springSecurityService.currentUser
+//        facturaAlmacen.empresa = usuario.empresa
         if (facturaAlmacen.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), facturaAlmacen.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), facturaAlmacen.folio])
             redirect(action: "ver", id: facturaAlmacen.id)
         }
         else {
@@ -69,7 +76,7 @@ class FacturaAlmacenController {
             }
             facturaAlmacen.properties = params
             if (!facturaAlmacen.hasErrors() && facturaAlmacen.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), facturaAlmacen.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), facturaAlmacen.folio])
                 redirect(action: "ver", id: facturaAlmacen.id)
             }
             else {
@@ -85,13 +92,15 @@ class FacturaAlmacenController {
     def elimina = {
         def facturaAlmacen = FacturaAlmacen.get(params.id)
         if (facturaAlmacen) {
+//            def nombre
             try {
+//                nombre = facturaAlmacen.nombre
                 facturaAlmacen.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), params.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), params.folio])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), params.id])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'facturaAlmacen.label', default: 'FacturaAlmacen'), params.folio])
                 redirect(action: "ver", id: params.id)
             }
         }

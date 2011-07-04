@@ -2,9 +2,13 @@ package inventario
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_EMP'])
 class FolioInventarioController {
-	def springSecurityService
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def springSecurityService
+    
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -12,7 +16,9 @@ class FolioInventarioController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[folioInventarios: FolioInventario.list(params), totalDeFolioInventarios: FolioInventario.count()]
+                def usuario = springSecurityService.currentUser
+//		[folioInventarios: FolioInventario.findAllByEmpresa(usuario.empresa, params), totalDeFolioInventarios: FolioInventario.countByEmpresa(usuario.empresa)]
+                [folioInventarios: FolioInventario.list(params), totalDeFolioInventarios: FolioInventario.count()]
 	}
 
     def nuevo = {
@@ -23,8 +29,10 @@ class FolioInventarioController {
 
     def crea = {
         def folioInventario = new FolioInventario(params)
+//        def usuario = springSecurityService.currentUser
+//        entrada.empresa = usuario.empresa
         if (folioInventario.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), folioInventario.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), folioInventario.nombre])
             redirect(action: "ver", id: folioInventario.id)
         }
         else {
@@ -68,7 +76,7 @@ class FolioInventarioController {
             }
             folioInventario.properties = params
             if (!folioInventario.hasErrors() && folioInventario.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), folioInventario.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), folioInventario.nombre])
                 redirect(action: "ver", id: folioInventario.id)
             }
             else {
@@ -77,20 +85,22 @@ class FolioInventarioController {
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
     def elimina = {
         def folioInventario = FolioInventario.get(params.id)
         if (folioInventario) {
+//            def nombre
             try {
+//                nombre = folioInventario.nombre
                 folioInventario.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), params.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), params.nombre])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), params.id])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'folioInventario.label', default: 'FolioInventario'), params.nombre])
                 redirect(action: "ver", id: params.id)
             }
         }

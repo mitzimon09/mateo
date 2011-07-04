@@ -39,11 +39,21 @@
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="actualiza" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-					<g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
-					<g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
-					<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
-					<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
-					<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
+					<g:if test="${permisos == 1}">
+  					  <g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
+					</g:if>
+					<g:if test="${permisos == 2}">
+  					  <g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
+					</g:if>
+					<g:if test="${permisos == 2}">
+    					<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+					</g:if>
+					<g:if test="${permisos == 3}">
+    					<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
+					</g:if>
+					<g:if test="${permisos == 3}">
+    					<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
+					</g:if>
 				</fieldset>
 			</g:form>
 		</div>

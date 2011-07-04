@@ -1,4 +1,3 @@
-
 <%@ page import="general.Cliente" %>
 <!doctype html>
 <html>
@@ -23,37 +22,23 @@
 			<table>
 				<thead>
 					<tr>
-					
 						<g:sortableColumn property="nombre" title="${message(code: 'cliente.nombre.label', default: 'Nombre')}" />
-					
 						<g:sortableColumn property="nombreCompleto" title="${message(code: 'cliente.nombreCompleto.label', default: 'Nombre Completo')}" />
-					
 						<g:sortableColumn property="rfc" title="${message(code: 'cliente.rfc.label', default: 'Rfc')}" />
-					
 						<g:sortableColumn property="curp" title="${message(code: 'cliente.curp.label', default: 'Curp')}" />
-					
 						<g:sortableColumn property="direccion" title="${message(code: 'cliente.direccion.label', default: 'Direccion')}" />
-					
 						<g:sortableColumn property="telefono" title="${message(code: 'cliente.telefono.label', default: 'Telefono')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${clientes}" status="i" var="cliente">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
 						<td><g:link action="ver" id="${cliente.id}">${fieldValue(bean: cliente, field: "nombre")}</g:link></td>
-					
 						<td>${fieldValue(bean: cliente, field: "nombreCompleto")}</td>
-					
 						<td>${fieldValue(bean: cliente, field: "rfc")}</td>
-					
 						<td>${fieldValue(bean: cliente, field: "curp")}</td>
-					
 						<td>${fieldValue(bean: cliente, field: "direccion")}</td>
-					
 						<td>${fieldValue(bean: cliente, field: "telefono")}</td>
-					
 					</tr>
 				</g:each>
 				</tbody>

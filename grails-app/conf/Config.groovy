@@ -95,6 +95,8 @@ log4j = {
 
     debug  'grails.app'
 
+    //trace  'org.hibernate.type'
+
     off    'grails.app.services.org.grails.plugin.resource',
            'grails.app.taglib.org.grails.plugin.resource',
            'grails.app.resourceMappers.org.grails.plugin.resource'
@@ -104,6 +106,8 @@ grails.gorm.default.mapping = {
    cache true
    id generator:'identity'
 }
+
+grails.gorm.failOnError = true
 
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'general.Usuario'

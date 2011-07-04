@@ -2,18 +2,24 @@ package inventario
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_EMP'])
 class EntradaController {
-	def springSecurityService
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def springSecurityService
+
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[entradas: Entrada.list(params), totalDeEntradas: Entrada.count()]
-	}
+	  def lista = {
+		    params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def usuario = springSecurityService.currentUser
+//		[entradas: Entrada.findAllByEmpresa(usuario.empresa, params), totalDeEntradas: Entrada.countByEmpresa(usuario.empresa)]
+        [entradas: Entrada.list(params), totalDeEntradas: Entrada.count()]
+    }
 
     def nueva = {
         def entrada = new Entrada()
@@ -23,8 +29,10 @@ class EntradaController {
 
     def crea = {
         def entrada = new Entrada(params)
+//        def usuario = springSecurityService.currentUser
+//        entrada.empresa = usuario.empresa
         if (entrada.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.folio])
             redirect(action: "ver", id: entrada.id)
         }
         else {
@@ -68,7 +76,7 @@ class EntradaController {
             }
             entrada.properties = params
             if (!entrada.hasErrors() && entrada.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'entrada.label', default: 'Entrada'), entrada.folio])
                 redirect(action: "ver", id: entrada.id)
             }
             else {
@@ -84,13 +92,15 @@ class EntradaController {
     def elimina = {
         def entrada = Entrada.get(params.id)
         if (entrada) {
+//            def nombre
             try {
+//                nombre = entrada.nombre
                 entrada.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.folio])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.id])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'entrada.label', default: 'Entrada'), params.folio])
                 redirect(action: "ver", id: params.id)
             }
         }

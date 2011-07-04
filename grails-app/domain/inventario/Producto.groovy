@@ -48,8 +48,6 @@ class Producto {//implements java.io.Serializable {
         unidadMedida(maxSize:16,nullable:true)
         iva(scale:2,precision:8,size:new BigDecimal("0")..new BigDecimal("1"))
         ubicacion(nullable:true,maxSize:64)
-        entradaId(nullable:true)
-        salidaId(nullable:true)
     }
 
     static mapping = {

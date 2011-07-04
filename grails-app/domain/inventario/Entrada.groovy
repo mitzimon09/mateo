@@ -1,7 +1,8 @@
 package inventario
 
-import general.*
-class Entrada {//implements java.io.Serializable {
+import general.Proveedor
+
+class Entrada implements Serializable {
     String folio
     String factura
     Date fechaFactura
@@ -9,19 +10,20 @@ class Entrada {//implements java.io.Serializable {
     BigDecimal tipoCambio
     BigDecimal iva = new BigDecimal("0.00")
     BigDecimal total = new BigDecimal("0.00")
-    Boolean devolucion = false //es una devolución?
+    Boolean devolucion = false
     String estatus = 'ABIERTA'
-    //Boolean pendiente = false //??
+    //Boolean pendiente = false
+    //en el estatus se podra ver
     Proveedor proveedor
     Almacen almacen
     Date dateCreated
     Date lastUpdated
-    //Set lotes //??
+    Set lotes
     BigDecimal totalFactura = new BigDecimal("0")
-    //Boolean facturada = false //
-    FacturaAlmacen facturaAlmacen //
+    Boolean facturada = false
+    FacturaAlmacen facturaAlmacen
 
-    //static transients = ['totalFactura']
+    static transients = ['totalFactura']
 
     static belongsTo = [Proveedor, Almacen, FacturaAlmacen]
 
@@ -33,11 +35,10 @@ class Entrada {//implements java.io.Serializable {
         fechaFactura(nullable:true)
         iva(scale:2,precision:8,min:new BigDecimal('0'))
         total(scale:2,precision:8,min:new BigDecimal('0'))
-        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
         tipoCambio(nullable:true,scale:2,precision:8)
+        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA','FACTURADA'])
         comentarios(nullable:true,maxSize:128)
         facturaAlmacen(nullable:true)
-        
     }
 
     static mapping = {
@@ -48,12 +49,12 @@ class Entrada {//implements java.io.Serializable {
     }
 
     static namedQueries = {
-        relaciones { 
-            join 'estatus'
+        relaciones {
+//            join 'estatus'
             join 'proveedor'
-            /*estatus {
-                order 'prioridad', 'asc'
-            }*///estatus es un string ahora
+//            estatus {
+//                order 'prioridad', 'asc'
+//            }
             order 'folio', 'desc'
         }
 
@@ -68,9 +69,9 @@ class Entrada {//implements java.io.Serializable {
             or {
                 ilike 'folio', filtro
                 ilike 'factura', filtro
-                /*estatus {
+                estatus {
                     ilike 'nombre', filtro
-                }*/
+                }
                 proveedor {
                     or {
                         ilike 'nombre', filtro
@@ -92,9 +93,9 @@ class Entrada {//implements java.io.Serializable {
             almacen {
                 idEq(almacenId)
             }
-            estatus {
-                eq 'nombre', 'estatus.cerrada'
-            }
+//            estatus {
+//                eq 'nombre', 'estatus.cerrada'
+//            }
             order 'lastUpdated', 'desc'
         }
     }
@@ -114,5 +115,4 @@ class Entrada {//implements java.io.Serializable {
         }
         return false
     }
-
 }

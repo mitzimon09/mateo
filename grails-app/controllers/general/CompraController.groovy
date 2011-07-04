@@ -2,6 +2,7 @@ package general
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class CompraController {
     def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -49,12 +50,13 @@ class CompraController {
 
     def edita = {
         def compra = Compra.get(params.id)
+        def permisos = permisos()
         if (!compra) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
             redirect(action: "lista")
         }
         else {
-            return [compra: compra]
+            return [compra: compra, permisos: permisos]
         }
     }
 
@@ -108,7 +110,6 @@ class CompraController {
         }
     }
     
-    
     def calculaTotal = {
         println "calcular total"
         def articulos = Articulo.list()
@@ -120,8 +121,21 @@ class CompraController {
         }
         println "total " + total
         return total
-        //params.total = total
-        //actualiza(params)
+    }
+    
+    def permisos = {
+        //total de Permisos, 1 = Enviar, 2 = Aprobar/Rechazar, 3 = Comprar/Entregar, 4 = Todos
+        def totalPermisos = 0
+        def usuario = springSecurityService.currentUser
+        if(SpringSecurityUtils.ifAnyGranted('ROLE_ORG') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')) {
+            totalPermisos = 1
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_DIRF') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+            totalPermisos = 2
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+            totalPermisos = 3
+        }
+        log.debug "totalPermisos = " +totalPermisos
+        return totalPermisos
     }
     /*@Secured(['ROLE_USER'])
     def enviar = {

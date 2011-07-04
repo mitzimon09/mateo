@@ -9,12 +9,11 @@ class Imagen implements Serializable {
     static constraints = {
         nombre maxSize:64,blank:false
         tipoContenido maxSize:128,blank:false
-        tamano ()
-        archivo(maxSize:20000000)
+        tamano()
+        archivo maxSize:20000000
     }
 
     static mapping = {
         table 'imagenes'
     }
-
 }

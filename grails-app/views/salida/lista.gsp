@@ -59,7 +59,7 @@
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${salidaTotal}" />
+				<g:paginate total="${totalDeSalidas}" />
 			</div>
 		</div>
 	</body>

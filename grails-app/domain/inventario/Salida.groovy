@@ -1,6 +1,6 @@
 package inventario
 
-import general.*
+import general.Cliente
 
 class Salida {//implements java.io.Serializable {
     String folio
@@ -9,16 +9,18 @@ class Salida {//implements java.io.Serializable {
     BigDecimal total = new BigDecimal("0.00")
     String empleado
     String reporte
-    //String atendio //el empleado ya está, si una persona atendió ¿qué hace el empleado?
+//    String atendio
+        //Se supone que el que atendio es el empleado
     String departamento
-    String estatus ='ABIERTA'
-    Boolean facturada = false
+//    Estatus estatus
+    String estatus = 'ABIERTA'
+//    Boolean facturada = false
+        //con el estatus se arregla
     Cliente cliente
     Almacen almacen
     Date dateCreated
     Date lastUpdated
     Set lotes = [] //de salidas
-    //Boolean cerrada = false //esto está in incluido en el estatus
     FacturaAlmacen facturaAlmacen
 
     static belongsTo = [Cliente, Almacen, FacturaAlmacen]
@@ -34,9 +36,8 @@ class Salida {//implements java.io.Serializable {
         empleado(nullable:true,maxSize:64)
         departamento(nullable:true,maxSize:64)
         comentarios(nullable:true,maxSize:254)
+        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA','FACTURADA'])
         facturaAlmacen(nullable:true)
-        estatus(maxSize:64, inList:['ABIERTA','CERRADA','CANCELADA'])
-        cliente(nullable: true)
     }
 
     static mapping = {
@@ -55,11 +56,11 @@ class Salida {//implements java.io.Serializable {
         }
 
         relaciones {
-            join 'estatus'
+//            join 'estatus'
             join 'cliente'
-            estatus {
-                order 'prioridad', 'asc'
-            }
+//            estatus {
+//                order 'prioridad', 'asc'
+//            }
             order 'folio','desc'
         }
 
@@ -68,7 +69,7 @@ class Salida {//implements java.io.Serializable {
             or {
                 ilike 'folio', filtro
                 ilike 'reporte', filtro
-                //ilike 'atendio', filtro
+                ilike 'atendio', filtro
                 ilike 'empleado', filtro
                 ilike 'departamento', filtro
                 ilike 'comentarios', filtro
@@ -118,5 +119,3 @@ class Salida {//implements java.io.Serializable {
         return false
     }
 }
-
-

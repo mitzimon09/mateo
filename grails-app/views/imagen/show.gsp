@@ -28,7 +28,6 @@
 					<span id="nombre-label" class="property-label"><g:message code="imagen.nombre.label" default="Nombre" /></span>
 					
 						<span class="property-value" aria-labelledby="nombre-label"><g:fieldValue bean="${imagen}" field="nombre"/></span>
-					
 				</li>
 				</g:if>
 			

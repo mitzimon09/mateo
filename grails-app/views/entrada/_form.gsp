@@ -1,31 +1,5 @@
 <%@ page import="inventario.Entrada" %>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: entrada, field: 'folio', 'error')} ">
-	<label for="folio">
-		<g:message code="entrada.folio.label" default="Folio" />
-		
-	</label>
-	<g:textField name="folio" maxlength="64" value="${entrada?.folio}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: entrada, field: 'factura', 'error')} required">
-	<label for="factura">
-		<g:message code="entrada.factura.label" default="Factura" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="factura" maxlength="64" required="" value="${entrada?.factura}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: entrada, field: 'fechaFactura', 'error')} required">
-	<label for="fechaFactura">
-		<g:message code="entrada.fechaFactura.label" default="Fecha Factura" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="fechaFactura" precision="day" value="${entrada?.fechaFactura}"  />
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: entrada, field: 'iva', 'error')} required">
 	<label for="iva">
 		<g:message code="entrada.iva.label" default="Iva" />
@@ -34,12 +8,12 @@
 	<g:field type="number" name="iva" min="0" required="" value="${fieldValue(bean: entrada, field: 'iva')}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: entrada, field: 'total', 'error')} required">
-	<label for="total">
-		<g:message code="entrada.total.label" default="Total" />
-		<span class="required-indicator">*</span>
+<div class="fieldcontain ${hasErrors(bean: entrada, field: 'tipoCambio', 'error')} ">
+	<label for="tipoCambio">
+		<g:message code="entrada.tipoCambio.label" default="Tipo Cambio" />
+		
 	</label>
-	<g:field type="number" name="total" min="0" required="" value="${fieldValue(bean: entrada, field: 'total')}"/>
+	<g:field type="number" name="tipoCambio" value="${fieldValue(bean: entrada, field: 'tipoCambio')}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: entrada, field: 'estatus', 'error')} ">
@@ -48,14 +22,6 @@
 		
 	</label>
 	<g:select name="estatus" from="${entrada.constraints.estatus.inList}" value="${entrada?.estatus}" valueMessagePrefix="entrada.estatus" noSelection="['': '']"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: entrada, field: 'tipoCambio', 'error')} ">
-	<label for="tipoCambio">
-		<g:message code="entrada.tipoCambio.label" default="Tipo Cambio" />
-		
-	</label>
-	<g:field type="number" name="tipoCambio" value="${fieldValue(bean: entrada, field: 'tipoCambio')}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: entrada, field: 'comentarios', 'error')} ">
@@ -98,10 +64,10 @@
 	
 <ul class="one-to-many">
 <g:each in="${entrada?.lotes?}" var="l">
-    <li><g:link controller="loteEntrada" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
+    <li><g:link controller="loteEntrada" action="ver" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="loteEntrada" action="create" params="['entrada.id': entrada?.id]">${message(code: 'default.add.label', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada')])}</g:link>
+<g:link controller="loteEntrada" action="nueva" params="['entrada.id': entrada?.id]">${message(code: 'default.add.label', args: [message(code: 'loteEntrada.label', default: 'LoteEntrada')])}</g:link>
 </li>
 </ul>
 
@@ -122,4 +88,3 @@
 	</label>
 	<g:field type="number" name="totalFactura" required="" value="${fieldValue(bean: entrada, field: 'totalFactura')}"/>
 </div>
-
