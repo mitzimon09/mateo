@@ -3,10 +3,7 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 class CompraController {
-//<<<<<<< HEAD
     def springSecurityService
-//=======
-//>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     
     def folioService
@@ -25,15 +22,13 @@ class CompraController {
         def compra = new Compra()
         compra.properties = params
         crea(params)
-        //return [compra: compra]
     }
 
     def crea = {
-        params.folio = Compra.count()+1
         def compra = new Compra(params)
-        
+        compra.folio = folioService.temporal()
         if (compra.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.folio])
             redirect(action: "edita", id: compra.id)
         }
         else {
@@ -44,7 +39,7 @@ class CompraController {
     def ver = {
         def compra = Compra.get(params.id)
         if (!compra) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
             redirect(action: "lista")
         }
         else {
@@ -53,15 +48,9 @@ class CompraController {
     }
 
     def edita = {
-//<<<<<<< HEAD
-        //if(Articulo.list().size() > 0){
-          //calculaTotal(params)
-        //}
-//=======
-//>>>>>>> a9fea4c47144f6c030a2ff69679357b4e13df7f8
         def compra = Compra.get(params.id)
         if (!compra) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
             redirect(action: "lista")
         }
         else {
@@ -86,7 +75,7 @@ class CompraController {
             
             compra.save(flush: true)
             if (!compra.hasErrors() && compra.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.folio])
                 redirect(action: "edita", id: compra.id)
             }
             else {
@@ -94,7 +83,7 @@ class CompraController {
             }
         }
         else {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
             redirect(action: "lista")
         }
     }
@@ -105,16 +94,16 @@ class CompraController {
         if (compra) {
             try {
                 compra.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
                 redirect(action: "ver", id: params.id)
             }
         }
         else {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
             redirect(action: "lista")
         }
     }
