@@ -220,7 +220,7 @@ class CompraController {
 				//render "la orden de compra tiene que ser aprobada antes de ser comprada"
 			}
 			else{
-				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+				flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
 				//render "La orden ya fue aprobada"
 			}
