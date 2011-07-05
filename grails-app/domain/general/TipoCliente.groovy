@@ -27,8 +27,3 @@ class TipoCliente implements java.io.Serializable {
     }
 
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> upstream/master

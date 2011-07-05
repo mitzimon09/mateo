@@ -107,7 +107,6 @@ class CancelacionAlmacenController {
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'cancelacionAlmacen.label', default: 'CancelacionAlmacen'), params.id])
             redirect(action: "lista")
->>>>>>> upstream/master
         }
     }
 }

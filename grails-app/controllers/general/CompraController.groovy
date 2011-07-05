@@ -127,16 +127,20 @@ class CompraController {
         //total de Permisos, 1 = Enviar, 2 = Aprobar/Rechazar, 3 = Comprar/Entregar, 4 = Todos
         def totalPermisos = 0
         def usuario = springSecurityService.currentUser
-        if(SpringSecurityUtils.ifAnyGranted('ROLE_ORG') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')) {
+        if(SpringSecurityUtils.ifAnyGranted('ROLE_ORG')/* || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')*/) {
             totalPermisos = 1
-        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_DIRF') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_DIRF') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')/* || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')*/){
             totalPermisos = 2
-        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS') || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')/* || SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')*/){
             totalPermisos = 3
+        }
+        if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        	totalPermisos = 4
         }
         log.debug "totalPermisos = " +totalPermisos
         return totalPermisos
     }
+
     /*@Secured(['ROLE_USER'])
     def enviar = {
         def usuario = springSecurityService.currentUser
@@ -187,12 +191,10 @@ class CompraController {
 			else if (compra.status.equals("CREADA")){
 				flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "La orden tiene que se enviada antes de ser aprobada"
 			}
 			else{
 				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "La orden ya fue aprobada"
 			}
 		} 
     }
@@ -209,12 +211,10 @@ class CompraController {
 			else if (compra.status.equals("CREADA")){
 				flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "La orden tiene que se enviada antes de ser aprobada"
 			}
 			else{
 				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "La orden ya fue aprobada"
 			}
 		} 
     }
@@ -231,12 +231,10 @@ class CompraController {
 			else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
 				flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "la orden de compra tiene que ser aprobada antes de ser comprada"
 			}
 			else{
 				flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "La orden ya fue aprobada"
 			}
 		}    
     }
@@ -253,7 +251,6 @@ class CompraController {
 			else{
 				flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "lista")
-				//render "la orden tiene que ser comprada antes de poder ser entregada"
 			}
 		} 
 	}
