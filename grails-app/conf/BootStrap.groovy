@@ -32,7 +32,7 @@ class BootStrap {
 
         log.info "Validando roles"
         def rolAdmin = general.Rol.findByAuthority('ROLE_ADMIN')
-        if (general.Rol.count() != 5) {
+        if (general.Rol.count() != 7) {
             if (!rolAdmin) {
                 rolAdmin = new general.Rol(authority: 'ROLE_ADMIN').save(flush:true)
             }

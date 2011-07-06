@@ -115,12 +115,14 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'general.Usuar
 grails.plugins.springsecurity.authority.className = 'general.Rol'
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_ORG
-   ROLE_ADMIN > ROLE_COMPRAS
    ROLE_ORG > ROLE_EMP
-   ROLE_EMP > ROLE_COMPRAS
-   ROLE_EMP > ROLE_DIRFIN
-   ROLE_RMP > ROLE_CCP
+   ROLE_ORG > ROLE_COMPRAS
+   ROLE_ORG > ROLE_DIRFIN
+   ROLE_ORG > ROLE_CCP
    ROLE_EMP > ROLE_USER
+   ROLE_COMPRAS > ROLE_USER
+   ROLE_DIRFIN > ROLE_USER
+   ROLE_CCP > ROLE_USER
 '''
 
 grails.plugins.springsecurity.useSecurityEventListener = true
