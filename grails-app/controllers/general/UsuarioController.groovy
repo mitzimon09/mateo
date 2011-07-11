@@ -37,16 +37,7 @@ class UsuarioController {
             def currentUser = springSecurityService.currentUser
             usuario.empresa = currentUser.empresa
             if (usuario.save(flush: true)) {
-                def roles = [] as Set
-                if (params.ROLE_ADMIN) {
-                    roles << Rol.findByAuthority('ROLE_ADMIN')
-                } else if (params.ROLE_ORG) {
-                    roles << Rol.findByAuthority('ROLE_ORG')
-                } else if (params.ROLE_EMP) {
-                    roles << Rol.findByAuthority('ROLE_EMP')
-                } else {
-                    roles << Rol.findByAuthority('ROLE_USER')
-                }
+                def roles = asignaRoles(params)
                 for(rol in roles) {
                     UsuarioRol.create(usuario, rol, false)
                 }
@@ -106,16 +97,7 @@ class UsuarioController {
                 def currentUser = springSecurityService.currentUser
                 usuario.empresa = currentUser.empresa
                 if (!usuario.hasErrors() && usuario.save(flush: true)) {
-                    def roles = [] as Set
-                    if (params.ROLE_ADMIN) {
-                        roles << Rol.findByAuthority('ROLE_ADMIN')
-                    } else if (params.ROLE_ORG) {
-                        roles << Rol.findByAuthority('ROLE_ORG')
-                    } else if (params.ROLE_EMP) {
-                        roles << Rol.findByAuthority('ROLE_EMP')
-                    } else {
-                        roles << Rol.findByAuthority('ROLE_USER')
-                    }
+                    def roles = asignaRoles(params)
                     UsuarioRol.removeAll(usuario)
                     for(rol in roles) {
                         UsuarioRol.create(usuario, rol, false)
@@ -247,6 +229,12 @@ class UsuarioController {
             roles << Rol.findByAuthority('ROLE_ADMIN')
         } else if (params.ROLE_ORG) {
             roles << Rol.findByAuthority('ROLE_ORG')
+        } else if (params.ROLE_COMPRAS) {
+            roles << Rol.findByAuthority('ROLE_COMPRAS')
+        } else if (params.ROLE_DIRFIN) {
+            roles << Rol.findByAuthority('ROLE_DIRFIN')
+        } else if (params.ROLE_CCP) {
+            roles << Rol.findByAuthority('ROLE_CCP')
         } else if (params.ROLE_EMP) {
             roles << Rol.findByAuthority('ROLE_EMP')
         } else {
