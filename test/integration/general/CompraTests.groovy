@@ -46,7 +46,12 @@ class CompraTests extends BaseIntegrationTest {
         assert model
         assert model.compra
         */
+        def model = controller.nueva()
+        assert model
+        assert model.compra
+		
         controller.params.folio = "test"
+        assertNotNull controller.params
         controller.crea()
         
         assert controller
@@ -213,5 +218,100 @@ class CompraTests extends BaseIntegrationTest {
         controller.enviar()
         
         assertEquals "/compra/lista", controller.response.redirectedUrl
+    }
+
+	@Test
+    void USERdebieraPoderEnviarCompra() {
+		    authenticateOrg()
+		
+		def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+        
+		def empresa1 = new Empresa(
+                codigo: "emp2"
+                , nombre: "emp"
+                , nombreCompleto: 'emptest'
+                , organizacion: organizacion
+            ).save()
+            
+        def usuario = new Usuario(
+        	username: "test"
+        	, password: "pass"
+        	, nombre: "test"
+        	, apellido: "test"
+        	, correo: "test@test.com"
+        	, empresa: empresa1
+        )
+        
+        def compra = new Compra(
+			    folio: "test"
+			    //, status: "CREADA"
+		).save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        assertEquals "CREADA", compra.status
+        
+        currentUser = usuario
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.enviar()
+        assertEquals "ENVIADA", compra.status
+    }
+    
+    @Test
+    void CCPdebieraPoderAprobarCompra() {
+		    authenticateCCP()
+
+		def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+        
+		def empresa1 = new Empresa(
+                codigo: "emp2"
+                , nombre: "emp"
+                , nombreCompleto: 'emptest'
+                , organizacion: organizacion
+            ).save()
+            
+            
+        def usuario = new Usuario(
+        	username: "test"
+        	, password: "pass"
+        	, nombre: "test"
+        	, apellido: "test"
+        	, correo: "test@test.com"
+        	, empresa: empresa1
+        ).save(flush:true)
+        
+        def compra = new Compra(
+			    folio: "test"
+			    , status: "ENVIADA"
+		).save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        assertEquals "ENVIADA", compra.status
+        
+        currentUser = usuario
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.aprobar()
+        assertEquals "APROBADA", compra.status
     }
 }
