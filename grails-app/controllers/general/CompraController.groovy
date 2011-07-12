@@ -226,7 +226,7 @@ class CompraController {
 		            redirect(action: "lista")
 				}
 			} 
-		+
+		}
     }
     
     @Secured(['ROLE_COMPRAS'])
