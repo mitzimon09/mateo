@@ -14,7 +14,7 @@ class CompraController {
         redirect(action: "lista", params: params)
     }
 
-	@Secured(['ROLE_USER'])
+	@Secured(['ROLE_CCP', 'ROLE_DIRFIN', 'ROLE_COMPRAS'])
 	  def lista = {
 	    	params.max = Math.min(params.max ? params.int('max') : 10, 100)
 	    	[compras: Compra.list(params), totalDeCompras: Compra.count()]
@@ -24,8 +24,7 @@ class CompraController {
     def nueva = {
         def compra = new Compra()
         compra.properties = params
-        crea(params)  //thing Evi did
-        //return [compra: compra]
+        crea(params)
     }
 
     def crea = {
@@ -51,7 +50,7 @@ class CompraController {
         }
     }
 
-	@Secured(['ROLE_USER'])
+	@Secured(['ROLE_CCP' 'ROLE_DIRFIN', 'ROLE_COMPRAS'])
     def edita = {
         def compra = Compra.get(params.id)
         def permisos = permisos() //cannot Cannot get property &apos;currentUser&apos; on null object

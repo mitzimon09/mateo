@@ -51,6 +51,28 @@ class BaseIntegrationTest extends GroovyTestCase {
         def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
         authenticate(principal,credentials,authorities)
     }
+    
+    def authenticateDirfin() {
+        def credentials = 'test'
+        def user = new Usuario(
+                username:'ccp'
+                ,password:credentials
+            )
+        def authorities = [new GrantedAuthorityImpl('ROLE_DIRFIN')]
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        authenticate(principal,credentials,authorities)
+    }
+    
+    def authenticateCompras() {
+        def credentials = 'test'
+        def user = new Usuario(
+                username:'ccp'
+                ,password:credentials
+            )
+        def authorities = [new GrantedAuthorityImpl('ROLE_COMPRAS')]
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        authenticate(principal,credentials,authorities)
+    }
 
     def authenticate(principal, credentials, authorities) {
         def authentication = new TestingAuthenticationToken(principal, credentials, authorities as GrantedAuthority[])
