@@ -383,7 +383,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     }
     
         @Test
-    void ComprasdebieraPoderEntregarZCompra() {
+    void ComprasdebieraPoderEntregarCompra() {
 		    authenticateDirfin()
 
         
@@ -402,5 +402,26 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull controller.params
         controller.rechazar()
         assertEquals "RECHAZADA", compra.status
+    }
+    
+    @Test
+    void UserNoDebieraPoderModificarCompra() {
+		    authenticateUser()
+        
+        def compra = new Compra(
+			    folio: "test"
+			    , status: "ENVIADA"
+		).save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.rechazar()
+        assertEquals "ENVIADA", compra.status
     }
 }

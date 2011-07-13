@@ -140,6 +140,7 @@ class CompraController {
     
     @Secured(['ROLE_EMP'])
     def enviar = {
+    	if (SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 		def compra = Compra.get(params.id)
 		if (compra){
 			if(compra.status.equals("CREADA")){
@@ -152,10 +153,12 @@ class CompraController {
 	            redirect(action: "lista")
 			}
 		}
+		}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def aprobar = {
+    	if (SpringSecurityUtils.ifAnyGranted('ROLE_CCP') || SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
 		def compra = Compra.get(params.id)
 		if (compra){
 			if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
@@ -172,11 +175,12 @@ class CompraController {
 	            redirect(action: "lista")
 			}
 		}
-		
+		}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def rechazar = {
+    if (SpringSecurityUtils.ifAnyGranted('ROLE_CCP') || SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
 		def compra = Compra.get(params.id)
 		if (compra){
 			if(compra.status.equals("ENVIADA")){
@@ -192,6 +196,7 @@ class CompraController {
 				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
 	            redirect(action: "lista")
 			}
+		}
 		} 
 	}
     
