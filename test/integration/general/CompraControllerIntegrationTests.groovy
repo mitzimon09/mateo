@@ -9,10 +9,8 @@ import org.junit.*
  */
 @TestFor(CompraController)
 class CompraControllerIntegrationTests extends BaseIntegrationTest {
-
-
-	def springSecurityService
-	def folioService
+	  def springSecurityService
+	  def folioService
 	
     @Test
     void debieraMostrarListaDeCompras() {
