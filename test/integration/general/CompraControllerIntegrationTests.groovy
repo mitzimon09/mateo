@@ -107,96 +107,6 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assert !model
     }
     
-    @Test
-    void debieraCambiarStatusAEnviada() {
-    	def compra = new Compra(
-			    folio: "test"
-		    ).save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-        assertEquals "test", model.compra.folio
-        
-        assertEquals  "CREADA", compra.status
-
-        controller.params.id = compra.id
-        controller.enviar()
-        assertEquals  "ENVIADA", compra.status
-    }
-    
-    @Test
-    void debieraCambiarStatusAAprobada() {
-    	def compra = new Compra(
-			    folio: "test"
-			    , status: "ENVIADA"
-		    ).save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-        assertEquals "test", model.compra.folio
-        
-        controller.params.id = compra.id
-        controller.aprobar()
-        assertEquals  "APROBADA", compra.status
-    }
-    
-    @Test
-    void debieraCambiarStatusARechazada() {
-    	def compra = new Compra(
-			    folio: "test"
-			    , status: "ENVIADA"
-		    ).save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-        assertEquals "test", model.compra.folio
-        
-        controller.params.id = compra.id
-        controller.rechazar()
-        assertEquals  "RECHAZADA", compra.status
-    }
-    
-    @Test
-    void debieraCambiarStatusAComprada() {
-    	def compra = new Compra(
-			    folio: "test"
-			    , status: "APROBADA"
-		    ).save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-        assertEquals "test", model.compra.folio
-        
-        controller.params.id = compra.id
-        controller.comprar()
-        assertEquals  "COMPRADA", compra.status
-    }
-    
-    @Test
-    void debieraCambiarStatusAEntregada() {
-    	def compra = new Compra(
-			    folio: "test"
-			    , status: "COMPRADA"
-		    ).save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-        assertEquals "test", model.compra.folio
-        
-        controller.params.id = compra.id
-        controller.entregar()
-        assertEquals  "ENTREGADA", compra.status
-    }
     
     @Test
     void debieraMostrarListaDeComprasDespuesDeCambiarStatus() {
@@ -362,7 +272,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     
         @Test
     void ComprasdebieraPoderEntregarCompra() {
-		    authenticateDirfin()
+		    authenticateCompras()
 
         
         def compra = new Compra(
@@ -378,28 +288,8 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.id = compra.id
         def model = controller.ver()
         assertNotNull controller.params
-        controller.rechazar()
-        assertEquals "RECHAZADA", compra.status
+        controller.entregar()
+        assertEquals "ENTREGADA", compra.status
     }
-    
-    @Test
-    void UserNoDebieraPoderModificarCompra() {
-		    authenticateUser()
-        
-        def compra = new Compra(
-			    folio: "test"
-			    , status: "ENVIADA"
-		).save()
-		assertNotNull compra
-		
-		def currentUser = springSecurityService.currentUser
-        def controller = new CompraController()
-        controller.springSecurityService = springSecurityService
-		
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
-        controller.rechazar()
-        assertEquals "ENVIADA", compra.status
-    }
+   
 }

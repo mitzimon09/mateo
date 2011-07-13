@@ -239,4 +239,23 @@ class CompraController {
 				} 
 			}
 		}
+		
+	@Secured(['ROLE_COMPRAS'])
+    def cancelar = {
+    	if (SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
+			def compra = Compra.get(params.id)
+				if (compra){
+					//if (compra.status.equals("COMPRADA")){
+						compra.status = "CANCELADA"
+						compra.save(flush:true)
+						redirect(action: "lista")
+					//}
+					//else{
+					//	flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+				    //    redirect(action: "lista")
+					//}
+				} 
+			}
+		}
+		
 	}
