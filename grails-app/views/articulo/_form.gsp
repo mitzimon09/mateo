@@ -1,7 +1,5 @@
 <%@ page import="general.Articulo" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: articulo, field: 'descripcion', 'error')} required">
 	<label for="descripcion">
 		<g:message code="articulo.descripcion.label" default="Descripcion" />

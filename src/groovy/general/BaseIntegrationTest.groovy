@@ -9,7 +9,7 @@ import org.springframework.security.authentication.TestingAuthenticationToken
 class BaseIntegrationTest extends GroovyTestCase {
 
     def authenticateAdmin() {
-        def credentials = 'test'
+        def credentials = 'admin'
         def user = new Usuario(
                 username:'admin'
                 ,password:credentials
@@ -19,19 +19,41 @@ class BaseIntegrationTest extends GroovyTestCase {
         authenticate(principal,credentials,authorities)
     }
     
-    def authenticateUser() {
-        def credentials = 'test'
+    def authenticateOrg() {
+        def credentials = 'org'
         def user = new Usuario(
-                username:'ccp'
+                username:'org'
                 ,password:credentials
             )
-        def authorities = [new GrantedAuthorityImpl('ROLE_USER')]
+        def authorities = [new GrantedAuthorityImpl('ROLE_ORG')]
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        authenticate(principal,credentials,authorities)
+    }
+    
+    def authenticateCompras() {
+        def credentials = 'compras'
+        def user = new Usuario(
+                username:'compras'
+                ,password:credentials
+            )
+        def authorities = [new GrantedAuthorityImpl('ROLE_COMPRAS')]
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        authenticate(principal,credentials,authorities)
+    }
+    
+    def authenticateDirfin() {
+        def credentials = 'dirfin'
+        def user = new Usuario(
+                username:'dirfin'
+                ,password:credentials
+            )
+        def authorities = [new GrantedAuthorityImpl('ROLE_DIRFIN')]
         def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
         authenticate(principal,credentials,authorities)
     }
     
     def authenticateCCP() {
-        def credentials = 'test'
+        def credentials = 'ccp'
         def user = new Usuario(
                 username:'ccp'
                 ,password:credentials
@@ -41,35 +63,26 @@ class BaseIntegrationTest extends GroovyTestCase {
         authenticate(principal,credentials,authorities)
     }
     
-    def authenticateOrg() {
-        def credentials = 'test'
+    def authenticateEmp() {
+        def credentials = 'emp'
         def user = new Usuario(
-                username:'ccp'
+                username:'emp'
                 ,password:credentials
             )
-        def authorities = [new GrantedAuthorityImpl('ROLE_ORG')]
+        def authorities = [new GrantedAuthorityImpl('ROLE_EMP')]
         def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
         authenticate(principal,credentials,authorities)
     }
     
-    def authenticateDirfin() {
-        def credentials = 'test'
-        def user = new Usuario(
-                username:'ccp'
-                ,password:credentials
-            )
-        def authorities = [new GrantedAuthorityImpl('ROLE_DIRFIN')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
-        authenticate(principal,credentials,authorities)
-    }
     
-    def authenticateCompras() {
-        def credentials = 'test'
+    
+    def authenticateUser() {
+        def credentials = 'user'
         def user = new Usuario(
-                username:'ccp'
+                username:'user'
                 ,password:credentials
             )
-        def authorities = [new GrantedAuthorityImpl('ROLE_COMPRAS')]
+        def authorities = [new GrantedAuthorityImpl('ROLE_USER')]
         def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
         authenticate(principal,credentials,authorities)
     }

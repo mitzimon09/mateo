@@ -7,7 +7,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 @Secured(['ROLE_EMP'])
 class CompraController {
     def springSecurityService
-    def folioService
+    def statusService
     
     static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
@@ -24,9 +24,8 @@ class CompraController {
 
     def nueva = {
         def compra = new Compra(params)
-        compra.folio = folioService.temporal()
         if (compra.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.folio])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
             redirect(action: "edita", id: compra.id)
         }
         else {
@@ -37,7 +36,7 @@ class CompraController {
     def ver = {
         def compra = Compra.get(params.id)
         if (!compra) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
             redirect(action: "lista")
         }
         else {
@@ -50,7 +49,7 @@ class CompraController {
         def compra = Compra.get(params.id)
         def permisos = permisos()
         if (!compra) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.status])
             redirect(action: "lista")
         }
         else {
@@ -74,7 +73,7 @@ class CompraController {
             
             compra.save(flush: true)
             if (!compra.hasErrors() && compra.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.folio])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
                 redirect(action: "edita", id: compra.id)
             }
             else {
@@ -82,7 +81,7 @@ class CompraController {
             }
         }
         else {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
             redirect(action: "lista")
         }
     }
@@ -93,16 +92,16 @@ class CompraController {
         if (compra) {
             try {
                 compra.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.status])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'compra.label', default: 'Compra'), params.id])
                 redirect(action: "ver", id: params.id)
             }
         }
         else {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.folio])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'compra.label', default: 'Compra'), params.status])
             redirect(action: "lista")
         }
     }
@@ -123,7 +122,7 @@ class CompraController {
     def permisos = {
         //total de Permisos, 1 = Enviar, 2 = Aprobar/Rechazar, 3 = Comprar/Entregar, 4 = Todos
         def totalPermisos = 0
-        def usuario = springSecurityService.currentUser
+        //def usuario = springSecurityService.currentUser
         if(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
             totalPermisos = 1
         }else if(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')){
@@ -219,19 +218,17 @@ class CompraController {
     
     @Secured(['ROLE_COMPRAS'])
     def entregar = {
-    	if (SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
-			def compra = Compra.get(params.id)
-				if (compra){
-					if (compra.status.equals("COMPRADA")){
-						compra.status = "ENTREGADA"
-						compra.save(flush:true)
-						redirect(action: "lista")
-					}
-					else{
-						flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-				        redirect(action: "lista")
-					}
-				} 
+		def compra = Compra.get(params.id)
+		if (compra){
+			if (compra.status.equals("COMPRADA")){
+				compra.status = "ENTREGADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
+			}
+			else{
+				flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+		        redirect(action: "lista")
 			}
 		}
 	}
+}

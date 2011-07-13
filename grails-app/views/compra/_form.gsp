@@ -1,10 +1,4 @@
 <%@ page import="general.Compra" %>
-<div class="fieldcontain ${hasErrors(bean: compra, field: 'folio', 'error')} ">
-	<label for="folio">
-		<g:message code="compra.folio.label" default="Folio" />
-	</label>
-	<g:fieldValue bean="${compra}" field="folio"/>
-</div>
 
 <div class="fieldcontain ${hasErrors(bean: compra, field: 'total', 'error')} required">
 	<label for="total">
