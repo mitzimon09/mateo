@@ -222,28 +222,6 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     void OrgdebieraPoderEnviarCompra() {
 		    authenticateOrg()
 		
-		def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-        assertNotNull organizacion
-        
-		def empresa1 = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-            
-        def usuario = new Usuario(
-        	username: "test"
-        	, password: "pass"
-        	, nombre: "test"
-        	, apellido: "test"
-        	, correo: "test@test.com"
-        	, empresa: empresa1
-        )
         
         def compra = new Compra(
 			    folio: "test"
