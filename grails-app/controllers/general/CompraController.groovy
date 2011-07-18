@@ -148,7 +148,8 @@ class CompraController {
     
     @Secured(['ROLE_EMP'])
     def enviar = {
-    	//log.debug "user" + currentUser
+    	log.debug "user" + springSecurityService.currentUser
+    	log.debug "user" + springSecurityService.currentUser.authorities
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
 			if (compra){

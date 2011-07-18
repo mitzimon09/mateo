@@ -115,7 +115,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         def compra = new Compra().save()
 		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
+        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -140,7 +140,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		).save()
 		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
+        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -165,7 +165,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		).save()
 		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
+        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -185,7 +185,6 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     void DirFindebieraPoderAprobarCompra() {
 	    authenticateDirfin()
 
-        
         def compra = new Compra(
             status: "ENVIADA"
 		).save()
@@ -198,8 +197,9 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "ENVIADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+
         controller.aprobar()
         assertEquals "APROBADA", compra.status
 
@@ -222,8 +222,9 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "ENVIADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.rechazar()
         assertEquals "RECHAZADA", compra.status
 
@@ -244,8 +245,9 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
 		
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.comprar()
         assertEquals "COMPRADA", compra.status
  
@@ -266,8 +268,9 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CREADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.cancelar()
         assertEquals "CANCELADA", compra.status
     }
@@ -286,15 +289,16 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CREADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.cancelar()
         assertEquals "CANCELADA", compra.status
     }
     
     @Test
     void UserNoDebieraPoderEnviarCompra() {
-	    authenticateOrg()
+	    authenticateUser()
 		
         def compra = new Compra().save()
 		assertNotNull compra
@@ -306,8 +310,9 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CREADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.enviar()
         assertEquals "CREADA", compra.status
     }

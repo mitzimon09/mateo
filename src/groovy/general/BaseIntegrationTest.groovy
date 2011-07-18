@@ -74,8 +74,6 @@ class BaseIntegrationTest extends GroovyTestCase {
         authenticate(principal,credentials,authorities)
     }
     
-    
-    
     def authenticateUser() {
         def credentials = 'user'
         def user = new Usuario(
