@@ -299,7 +299,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CANCELADA", compra.status
     }
     
-/*    @Test
+    @Test
     void UserNoDebieraPoderEnviarCompra() {
 	    authenticateUser()
 		
@@ -319,6 +319,5 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.enviar()
         assertEquals "CREADA", compra.status
     }
-  */ 
 }
 

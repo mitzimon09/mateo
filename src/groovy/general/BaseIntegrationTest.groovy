@@ -81,7 +81,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_USER')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities)
         authenticate(principal,credentials,authorities)
     }
 
