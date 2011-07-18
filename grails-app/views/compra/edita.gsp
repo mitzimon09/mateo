@@ -75,6 +75,10 @@
 						<g:if test="${compra.status.equals('COMPRADA')}">
     						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
     					</g:if>
+    					<g:if test="${(permisos == 2 || permisos == 4)}">
+						<g:if test="${!compra.status.equals('CREADA')}">
+  					  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+						</g:if>
 					</g:if>
 				</fieldset>
 			</g:form>

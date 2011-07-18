@@ -6,6 +6,16 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 @Secured(['ROLE_EMP'])
 class CompraController {
+	/*
+	Status:
+	A) CREADA
+	B) ENVIADA
+	C) APROBADA
+	D) RECHAZADA
+	E) COMPRADA
+	F) ENTREGADA
+	G) CANCELADA	
+	*/
     def springSecurityService
     def statusService
     
@@ -138,116 +148,129 @@ class CompraController {
     
     @Secured(['ROLE_EMP'])
     def enviar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-			if(compra.status.equals("CREADA")){
-				compra.status = "ENVIADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
+    	//log.debug "user" + currentUser
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+				if(compra.status.equals("CREADA")){
+					compra.status = "ENVIADA"
+					compra.save(flush:true)
+					redirect(action: "lista")
+				}
+				else {
+					flash.message = message(code: 'compra.status.message5', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			        redirect(action: "lista")
+				}
 			}
-			else {
-				flash.message = message(code: 'compra.status.message5', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	            redirect(action: "lista")
-			}
-		}
+		//}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def aprobar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-			if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
-				compra.status = "APROBADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+				if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
+					compra.status = "APROBADA"
+					compra.save(flush:true)
+					redirect(action: "lista")
+				}
+				else if (compra.status.equals("CREADA")){
+					flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			        redirect(action: "lista")
+				}
+				else{
+					flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			        redirect(action: "lista")
+				}
 			}
-			else if (compra.status.equals("CREADA")){
-				flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	            redirect(action: "lista")
-			}
-			else{
-				flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	            redirect(action: "lista")
-			}
-		}
+		//}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def rechazar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-	        log.debug "observaciones $params.observaciones"
-		    if (params.observaciones != ""){
-			    if(compra.status.equals("ENVIADA")){
-				    compra.status = "RECHAZADA"
-				    compra.observaciones = params.observaciones
-				    compra.save(flush:true)
-				    redirect(action: "lista")
-			    }
-			    else if (compra.status.equals("CREADA")){
-				    flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	                redirect(action: "lista")
-			    }
-			    else{
-				    flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	                redirect(action: "lista")
-			    }
-		    }else{
-		        flash.message = message(code: 'compra.observaciones')
-		        redirect(action: "edita", id: compra.id)
-		    }
-		}
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+			    log.debug "observaciones $params.observaciones"
+				if (params.observaciones != ""){
+					if(compra.status.equals("ENVIADA")){
+						compra.status = "RECHAZADA"
+						compra.observaciones = params.observaciones
+						compra.save(flush:true)
+						redirect(action: "lista")
+					}
+					else if (compra.status.equals("CREADA")){
+						flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			            redirect(action: "lista")
+					}
+					else{
+						flash.message = message(code: 'compra.status.message2', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			            redirect(action: "lista")
+					}
+				}else{
+				    flash.message = message(code: 'compra.observaciones')
+				    redirect(action: "edita", id: compra.id)
+				}
+			}
+		//}
 	}
     
     @Secured(['ROLE_COMPRAS'])
     def comprar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-			if(compra.status.equals("APROBADA")){
-				compra.status = "COMPRADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+				if(compra.status.equals("APROBADA")){
+					compra.status = "COMPRADA"
+					compra.save(flush:true)
+					redirect(action: "lista")
+				}
+				else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
+					flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			        redirect(action: "lista")
+				}
+				else{
+					flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+			        redirect(action: "lista")
+				}
 			}
-			else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
-				flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	            redirect(action: "lista")
-			}
-			else{
-				flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-	            redirect(action: "lista")
-			}
-		}
+		//}
     }
     
     @Secured(['ROLE_COMPRAS'])
     def entregar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-			if (compra.status.equals("COMPRADA")){
-				compra.status = "ENTREGADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+				if (compra.status.equals("COMPRADA")){
+					compra.status = "ENTREGADA"
+					compra.save(flush:true)
+					redirect(action: "lista")
+				}
+				else{
+					flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+				    redirect(action: "lista")
+				}
 			}
-			else{
-				flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-		        redirect(action: "lista")
-			}
-		}
+		//}
     }
 		
 	@Secured(['ROLE_COMPRAS'])
     def cancelar = {
-		def compra = Compra.get(params.id)
-		if (compra){
-			//if (compra.status.equals("COMPRADA")){
-				compra.status = "CANCELADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
-			//}
-			//else{
-			//	flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-		    //    redirect(action: "lista")
-			//}
-		} 
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
+			def compra = Compra.get(params.id)
+			if (compra){
+				//if (compra.status.equals("COMPRADA")){
+					compra.status = "CANCELADA"
+					compra.save(flush:true)
+					redirect(action: "lista")
+				//}
+				//else{
+				//	flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
+				//    redirect(action: "lista")
+				//}
+			}
+		//}
 	}
 }

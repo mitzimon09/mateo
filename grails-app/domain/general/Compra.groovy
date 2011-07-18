@@ -1,6 +1,16 @@
 package general
 
 class Compra {
+	/*
+	Status:
+	A) CREADA
+	B) ENVIADA
+	C) APROBADA
+	D) RECHAZADA
+	E) COMPRADA
+	F) ENTREGADA
+	G) CANCELADA	
+	*/
 	String status = 'CREADA'
 	Set articulos
 	BigDecimal total = new BigDecimal("0.00")

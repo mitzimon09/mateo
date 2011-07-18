@@ -10,7 +10,16 @@ import org.junit.*
 @TestFor(CompraController)
 class CompraControllerIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
-	
+	/*
+	Status:
+	A) CREADA
+	B) ENVIADA
+	C) APROBADA
+	D) RECHAZADA
+	E) COMPRADA
+	F) ENTREGADA
+	G) CANCELADA	
+	*/
     @Test
     void debieraMostrarListaDeCompras() {
 	    authenticateAdmin()
@@ -43,7 +52,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.nueva()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/compra/edita')
+        assert controller.response.redirectedUrl.startsWith('/compra/ecdita')
     }
     
     @Test
@@ -266,4 +275,65 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.entregar()
         assertEquals "ENTREGADA", compra.status
     }
+    
+    @Test
+    void EmpDebieraPoderCancelarCompra() {
+	    authenticateEmp()
+		
+        def compra = new Compra().save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        assertEquals "CREADA", compra.status
+        
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.cancelar()
+        assertEquals "CANCELADA", compra.status
+    }
+    
+    @Test
+    void DirfindebieraPoderCancelarCompra() {
+	    authenticateDirfin()
+		
+        def compra = new Compra().save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        assertEquals "CREADA", compra.status
+        
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.cancelar()
+        assertEquals "CANCELADA", compra.status
+    }
+    
+    @Test
+    void UserNoDebieraPoderEnviarCompra() {
+	    authenticateOrg()
+		
+        def compra = new Compra().save()
+		assertNotNull compra
+		
+		def currentUser = springSecurityService.currentUser
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
+		
+        assertEquals "CREADA", compra.status
+        
+        controller.params.id = compra.id
+        def model = controller.ver()
+        assertNotNull controller.params
+        controller.enviar()
+        assertEquals "CREADA", compra.status
+    }
+    
 }
