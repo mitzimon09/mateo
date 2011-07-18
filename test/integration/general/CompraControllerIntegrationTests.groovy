@@ -12,7 +12,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
 	
     @Test
-    void debieraMostrarListaDeCompras() {
+    void MostrarListaDeCompras() {
 	    authenticateAdmin()
 
         for(i in 1..20) {
@@ -22,6 +22,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        
         controller.index()
         assertEquals '/compra/lista', controller.response.redirectedUrl
 
@@ -34,9 +35,10 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     }
     
     @Test
-    void debieraCrearCompra() {
+    void CrearCompra() {
       	authenticateEmp()
 
+        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 
@@ -47,12 +49,13 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     }
     
     @Test
-    void debieraEliminarCompra() {
+    void EliminarCompra() {
         authenticateEmp()
 
 	    def compra = new Compra().save()
         assertNotNull compra
 
+        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 
@@ -68,58 +71,36 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     }
     
     @Test
-    void debieraAgregarArticuloACompra() {
+    void AgregarArticuloACompra() {
         authenticateEmp()
 
 		def compra = new Compra().save()
         assertNotNull compra
 
         def currentUser = springSecurityService.currentUser
-        def compraController = new CompraController()
-        def articuloController = new ArticuloController()
-        compraController.springSecurityService = springSecurityService
-        articuloController.springSecurityService = springSecurityService
+        def controller = new CompraController()
+        controller.springSecurityService = springSecurityService
 
-        compraController.params.id = compra.id
+        controller.params.id = compra.id
         def model = controller.edita()
         assert model.compra
         
         def articulo = new Articulo (
         	descripcion: "objeto"
         	, cantidad: 1
-        	//, precioUnitario: 1
+        	, precioUnitario: 1
         	, compra: compra
         ).save()
 
-        compraController.params.id = compra.id
+        controller.params.id = compra.id
         controller.actualiza()
         assertEquals "/compra/edita/${compra.id}", controller.response.redirectedUrl
 
         compra.refresh()
     }
- 
- //una prueba que cancela deespues de enviar con observaciones 
-	
     
-    @Test
-    void debieraMostrarListaDeComprasDespuesDeCambiarStatus() {
-    	authenticateAdmin()
-    	        controller.springSecurityService = springSecurityService
-    	def compra = new Compra().save()
-		
-		def controller = new CompraController()
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assert model.compra
-
-        controller.params.id = compra.id
-        controller.enviar()
-        
-        assertEquals "/compra/lista", controller.response.redirectedUrl
-    }
-
 	@Test
-    void EmpdebieraPoderEnviarCompra() {
+    void EmpDebieraPoderEnviarCompra() {
 	    authenticateEmp()
 		
         def compra = new Compra().save()
@@ -132,14 +113,17 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CREADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+
         controller.enviar()
         assertEquals "ENVIADA", compra.status
+        
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 
     @Test
-    void CCPdebieraPoderAprobarCompra() {
+    void CCPDebieraPoderAprobarCompra() {
 	    authenticateCCP()
         
         def compra = new Compra(
@@ -154,10 +138,13 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "ENVIADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.aprobar()
         assertEquals "APROBADA", compra.status
+
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 
     @Test
@@ -176,10 +163,13 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "ENVIADA", compra.status
         
         controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
+        def model = controller.edita()
+        assert model.compra
+        
         controller.rechazar()
         assertEquals "RECHAZADA", compra.status
+
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 
     @Test
@@ -203,6 +193,8 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull controller.params
         controller.aprobar()
         assertEquals "APROBADA", compra.status
+
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 
     @Test
@@ -225,6 +217,8 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull controller.params
         controller.rechazar()
         assertEquals "RECHAZADA", compra.status
+
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 
     @Test
@@ -245,25 +239,8 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull controller.params
         controller.comprar()
         assertEquals "COMPRADA", compra.status
-    }
-
-    @Test
-    void ComprasdebieraPoderEntregarCompra() {
-	    authenticateCompras()
-
-        def compra = new Compra(
-		    status: "APROBADA"
-		).save()
-		assertNotNull compra
-		
-		def currentUser = springSecurityService.currentUser
-        def controller = new CompraController()
-        controller.springSecurityService = springSecurityService
-		
-        controller.params.id = compra.id
-        def model = controller.ver()
-        assertNotNull controller.params
-        controller.entregar()
-        assertEquals "ENTREGADA", compra.status
+ 
+        assertEquals "/compra/lista", controller.response.redirectedUrl
     }
 }
+
