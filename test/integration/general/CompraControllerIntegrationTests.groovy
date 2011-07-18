@@ -54,7 +54,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.nueva()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/compra/ecdita')
+        assert controller.response.redirectedUrl.startsWith('/compra/edita')
     }
     
     @Test
