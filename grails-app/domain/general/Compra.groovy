@@ -25,7 +25,7 @@ class Compra {
     static constraints = {
     	status (inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA'])
     	total (scale:2,precision:8,min:new BigDecimal('0'))
-    	observaciones nullable:true, size:1..128
+    	observaciones nullable:true, maxSize:128
     }
     
     String toString (){
