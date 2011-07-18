@@ -193,8 +193,8 @@ class CompraController {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
-			    log.debug "observaciones $params.observaciones"
-				if (params.observaciones != ""){
+			    //log.debug "observaciones $params.observaciones"
+				if (!(compra.observaciones == null || compra.observaciones == "")){
 					if(compra.status.equals("ENVIADA")){
 						compra.status = "RECHAZADA"
 						compra.observaciones = params.observaciones
