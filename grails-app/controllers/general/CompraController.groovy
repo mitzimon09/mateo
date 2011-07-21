@@ -258,7 +258,7 @@ class CompraController {
 				if(compra.status.equals("APROBADA")){
 					compra.status = "COMPRADA"
 					compra.save(flush:true)
-					redirect(action: "lista")
+					redirect(controller: "compra", action: "ver", id: compra.id)
 				}
 				else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
 					flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])

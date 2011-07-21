@@ -33,24 +33,25 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 					<div class="fieldcontain" >
-				    <g:if test="${compra.status.equals('CREADA') && permisos == 1}">
+				    <g:if test="${compra.status.equals('CREADA') && permisos == 1 || permisos == 4}">
               <g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
-            </g:if>
-            <g:if test="${compra.status.equals('ENVIADA') && permisos == 2}">
-              <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
-                <label for="codigo">
-                  <g:message code="compra.observaciones.label" default="Observaciones" />
-                </label>
-                <g:textField name="observaciones" maxlength="64" value="${compra?.observaciones}"/>
-              </div>
-            </g:if>
-            <g:if test="${compra.status.equals('RECHAZADA')}">
-              <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
-                <label for="codigo">
-                  <g:message code="compra.observaciones.label" default="Observaciones" />
-                </label>
-                ${fieldValue(bean: compra, field: "observaciones")}
-              </div>
+              </g:if>
+              <g:if test="${compra.status.equals('ENVIADA') && permisos == 2 || permisos == 4}">
+                <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
+                  <label for="codigo">
+                    <g:message code="compra.observaciones.label" default="Observaciones" />
+                  </label>
+                  <g:textField name="observaciones" maxlength="64" value="${compra?.observaciones}"/>
+                </div>
+              </g:if>
+              <g:if test="${compra.status.equals('RECHAZADA')}">
+                <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
+                  <label for="codigo">
+                    <g:message code="compra.observaciones.label" default="Observaciones" />
+                  </label>
+                    ${fieldValue(bean: compra, field: "observaciones")}
+                  </div>
+              </g:if>
             </g:if>
           </div>
 				</fieldset>
@@ -73,12 +74,21 @@
     					<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
 						</g:if>
 						<g:if test="${compra.status.equals('COMPRADA')}">
+<<<<<<< HEAD
   						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
   					</g:if>
 					</g:if>
 					<g:if test="${(permisos == 2 || permisos == 4)}">
 						<g:if test="${!compra.status.equals('CREADA')}">
 				  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+=======
+    						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
+    					</g:if>
+    					<g:if test="${(permisos == 2 || permisos == 4)}">
+							<g:if test="${!compra.status.equals('CREADA')}">
+	  					  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+							</g:if>
+>>>>>>> d058b36e41c9928abb96fb901052496532dfb50e
 						</g:if>
 					</g:if>
 				</fieldset>

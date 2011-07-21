@@ -26,7 +26,7 @@ class ArticuloController {
         def articulo = new Articulo(params)
         if (articulo.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-            redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
+            redirect(controller:"compra", action: "edita", id: articulo.id)
         }
         else {
             render(view: "nuevo", model: [articulo: articulo])
@@ -71,7 +71,7 @@ class ArticuloController {
             articulo.properties = params
             if (!articulo.hasErrors() && articulo.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-                redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
+                redirect(controller:"compra", action: "edita", id: articulo.id)
             }
             else {
                 render(view: "edita", model: [articulo: articulo])
@@ -89,7 +89,7 @@ class ArticuloController {
             try {
                 articulo.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
-                redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
+                redirect(controller:"articulo", action: "lista", id: articulo.id)
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
@@ -100,5 +100,59 @@ class ArticuloController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
             redirect(action: "lista")
         }
+    }
+    
+    def permisos = {
+        //total de Permisos, 1 = Enviar, 2 = Aprobar/Rechazar, 3 = Comprar/Entregar, 4 = Todos
+        def totalPermisos = 0
+        if(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
+            totalPermisos = 1
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')){
+            totalPermisos = 2
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')){
+            totalPermisos = 3
+        }
+        if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        	  totalPermisos = 4
+        }
+        log.debug "totalPermisos = " + totalPermisos
+        return totalPermisos
+    }
+    
+        @Secured(['ROLE_COMPRAS'])
+    def comprar = {
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_articuloS')) {
+			def articulo = Articulo.get(params.id)
+			if (articulo){
+				if (articulo.status.equals("AGREGADO")){
+					articulo.status = "COMPRADO"
+					articulo.save(flush:true)
+					redirect(controller: "compra", action: "ver", id: articulo.compra.id)
+				}
+				else {//if (articulo.status.equals("COMPRADO") || articulo.status.equals("ENTREGADO")){
+					flash.message = message(code: 'articulo.status.message7', args: [message(code: 'articulo.label', default: 'articulo'), params.id])
+			        redirect(action: "lista")
+				}
+				
+			}
+		//}
+    }
+    
+    @Secured(['ROLE_EMP'])
+    def entregar = {
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_articuloS')) {
+			def articulo = Articulo.get(params.id)
+			if (articulo){
+				if (articulo.status.equals("COMPRADO")){
+					articulo.status = "ENTREGADO"
+					articulo.save(flush:true)
+					redirect(controller: "compra", action: "ver", id: articulo.compra.id)
+				}
+				else{
+					flash.message = message(code: 'articulo.status.message8', args: [message(code: 'articulo.label', default: 'articulo'), params.id])
+				    redirect(action: "lista")
+				}
+			}
+		//}
     }
 }
