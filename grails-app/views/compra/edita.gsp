@@ -36,7 +36,7 @@
 					    <g:if test="${compra.status.equals('CREADA') && permisos == 1 || permisos == 4}">
                             <g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
                         </g:if>
-                        <g:if test="${compra.status.equals('ENVIADA') && permisos == 2}">
+                        <g:if test="${compra.status.equals('ENVIADA') && permisos == 2 || permisos == 4}">
                             <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
 	                            <label for="codigo">
 		                            <g:message code="compra.observaciones.label" default="Observaciones" />

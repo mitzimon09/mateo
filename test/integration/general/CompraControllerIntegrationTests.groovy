@@ -263,7 +263,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         controller.comprar()
         assertEquals "COMPRADA", compra.status
  
-        assertEquals "/compra/lista", controller.response.redirectedUrl
+        assert controller.response.redirectedUrl.startsWith("/compra/lista")
         logout()
     }
     
