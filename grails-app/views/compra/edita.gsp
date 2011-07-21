@@ -33,7 +33,7 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 					<div class="fieldcontain" >
-					    <g:if test="${compra.status.equals('CREADA') && permisos == 1}">
+					    <g:if test="${compra.status.equals('CREADA') && permisos == 1 || permisos == 4}">
                             <g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
                         </g:if>
                         <g:if test="${compra.status.equals('ENVIADA') && permisos == 2}">
@@ -76,8 +76,9 @@
     						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
     					</g:if>
     					<g:if test="${(permisos == 2 || permisos == 4)}">
-						<g:if test="${!compra.status.equals('CREADA')}">
-  					  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+							<g:if test="${!compra.status.equals('CREADA')}">
+	  					  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+							</g:if>
 						</g:if>
 					</g:if>
 				</fieldset>

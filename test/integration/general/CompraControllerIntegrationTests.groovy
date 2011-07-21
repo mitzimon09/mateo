@@ -41,6 +41,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         assertEquals 10, model.compras.size()
         assert 20 <= model.totalDeCompras
+        logout()
     }
     
     @Test
@@ -55,6 +56,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         
         assert controller
         assert controller.response.redirectedUrl.startsWith('/compra/edita')
+        logout()
     }
     
     @Test
@@ -77,6 +79,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         model = Compra.get(compra.id)
         assert !model
+        logout()
     }
     
     @Test
@@ -106,6 +109,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "/compra/edita/${compra.id}", controller.response.redirectedUrl
 
         compra.refresh()
+        logout()
     }
     
 	@Test
@@ -129,6 +133,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "ENVIADA", compra.status
         
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
 
     @Test
@@ -154,6 +159,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "APROBADA", compra.status
 
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
 
     @Test
@@ -180,6 +186,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "RECHAZADA", compra.status
 
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
 
     @Test
@@ -205,6 +212,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "APROBADA", compra.status
 
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
 
     @Test
@@ -232,6 +240,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "RECHAZADA", compra.status
 
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
 
     @Test
@@ -255,6 +264,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "COMPRADA", compra.status
  
         assertEquals "/compra/lista", controller.response.redirectedUrl
+        logout()
     }
     
     @Test
@@ -276,6 +286,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         
         controller.cancelar()
         assertEquals "CANCELADA", compra.status
+        logout()
     }
     
     @Test
@@ -297,6 +308,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         
         controller.cancelar()
         assertEquals "CANCELADA", compra.status
+        logout()
     }
     
     @Test
@@ -318,6 +330,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         
         controller.enviar()
         assertEquals "CREADA", compra.status
+        logout()
     }
 }
 

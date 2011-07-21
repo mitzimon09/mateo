@@ -19,6 +19,7 @@ class Compra {
 	Date fechaComprado = new Date()
 	Date fechaEntregado = new Date()
 	String observaciones
+	boolean completa = false
 	
 	static hasMany = [articulos: Articulo]
 	
