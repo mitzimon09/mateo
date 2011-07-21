@@ -10,34 +10,37 @@ import org.junit.*
 @TestFor(CompraController)
 class CompraControllerIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
-	/*
-	Status:
-	A) CREADA
-	B) ENVIADA
-	C) APROBADA
-	D) RECHAZADA
-	E) COMPRADA
-	F) ENTREGADA
-	G) CANCELADA	
-	*/
+	  /*
+	  Status:
+	  A) CREADA
+	  B) ENVIADA
+	  C) APROBADA
+	  D) RECHAZADA
+	  E) COMPRADA
+	  F) ENTREGADA
+	  G) CANCELADA	
+	  */
+	  
     @Test
     void MostrarListaDeCompras() {
-	    authenticateAdmin()
+	      authenticateAdmin()
 
+        def currentUser = springSecurityService.currentUser
         for(i in 1..20) {
-        	new Compra().save()
+        	  new Compra(
+        	      empresa: currentUser.empresa
+        	  ).save()
         }
         
-        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
         
         controller.index()
         assertEquals '/compra/lista', controller.response.redirectedUrl
 
-	    def model = controller.lista()
-	    assertNotNull model
-	    assertNotNull model.compras
+	      def model = controller.lista()
+	      assertNotNull model
+	      assertNotNull model.compras
 
         assertEquals 10, model.compras.size()
         assert 20 <= model.totalDeCompras
@@ -61,10 +64,12 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     void EliminarCompra() {
         authenticateEmp()
 
-	    def compra = new Compra().save()
+        def currentUser = springSecurityService.currentUser
+    	  def compra = new Compra(
+    	      empresa: currentUser.empresa
+    	  ).save()
         assertNotNull compra
 
-        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 
@@ -83,10 +88,12 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     void AgregarArticuloACompra() {
         authenticateEmp()
 
-		def compra = new Compra().save()
+        def currentUser = springSecurityService.currentUser
+		    def compra = new Compra(
+		        empresa: currentUser.empresa
+	      ).save()
         assertNotNull compra
 
-        def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 
@@ -95,10 +102,10 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assert model.compra
         
         def articulo = new Articulo (
-        	descripcion: "objeto"
-        	, cantidad: 1
-        	, precioUnitario: 1
-        	, compra: compra
+          	descripcion: "objeto"
+          	, cantidad: 1
+          	, precioUnitario: 1
+          	, compra: compra
         ).save()
 
         controller.params.id = compra.id
@@ -108,14 +115,16 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         compra.refresh()
     }
     
-	@Test
+    @Test
     void EmpDebieraPoderEnviarCompra() {
-	    authenticateEmp()
-		
-        def compra = new Compra().save()
-		assertNotNull compra
+	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
+		    def compra = new Compra(
+		        empresa: currentUser.empresa
+	      ).save()
+        assertNotNull compra
+
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -133,14 +142,15 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void CCPDebieraPoderAprobarCompra() {
-	    authenticateCCP()
+	      authenticateCCP()
         
-        def compra = new Compra(
-		    status: "ENVIADA"
-		).save()
-		assertNotNull compra
-		
         def currentUser = springSecurityService.currentUser
+		    def compra = new Compra(
+		        empresa: currentUser.empresa
+		        , status: "ENVIADA"
+	      ).save()
+        assertNotNull compra
+
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -158,15 +168,16 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void CCPdebieraPoderRechazarCompra() {
-	    authenticateCCP()
+	      authenticateCCP()
 
-        def compra = new Compra(
-		    status: "ENVIADA"
-		    , observaciones: "test"
-		).save()
-		assertNotNull compra
-		
         def currentUser = springSecurityService.currentUser
+        def compra = new Compra(
+            empresa: currentUser.empresa
+		        , status: "ENVIADA"
+    		    , observaciones: "test"
+	      ).save()
+	      assertNotNull compra
+		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -184,14 +195,15 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void DirFindebieraPoderAprobarCompra() {
-	    authenticateDirfin()
+  	    authenticateDirfin()
 
+		    def currentUser = springSecurityService.currentUser
         def compra = new Compra(
-            status: "ENVIADA"
-		).save()
-		assertNotNull compra
+		        empresa: currentUser.empresa
+            , status: "ENVIADA"
+		    ).save()
+		    assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -209,16 +221,17 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void DirFindebieraPoderRechazarCompra() {
-	    authenticateDirfin()
+  	    authenticateDirfin()
 
+		    def currentUser = springSecurityService.currentUser
         def compra = new Compra(
-		    status: "ENVIADA"
-		    , observaciones: "test dsfsd lorem"
-		).save()
-		assertNotNull compra.observaciones
-		assertNotNull compra
+		        empresa: currentUser.empresa
+		        , status: "ENVIADA"
+    		    , observaciones: "test dsfsd lorem"
+		    ).save()
+		    assertNotNull compra.observaciones
+		    assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -236,14 +249,15 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void ComprasDebieraPoderComprarCompra() {
-	    authenticateCompras()
+	      authenticateCompras()
 
+		    def currentUser = springSecurityService.currentUser
         def compra = new Compra(
-		    status: "APROBADA"
-		).save()
-		assertNotNull compra
+		        empresa: currentUser.empresa
+    		    , status: "APROBADA"
+		    ).save()
+		    assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -259,12 +273,14 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void EmpDebieraPoderCancelarCompra() {
-	    authenticateEmp()
+  	    authenticateEmp()
 		
-        def compra = new Compra().save()
-		assertNotNull compra
+		    def currentUser = springSecurityService.currentUser
+        def compra = new Compra(
+		        empresa: currentUser.empresa
+        ).save()
+    		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -280,12 +296,14 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void DirfindebieraPoderCancelarCompra() {
-	    authenticateDirfin()
+  	    authenticateDirfin()
 		
-        def compra = new Compra().save()
-		assertNotNull compra
+		    def currentUser = springSecurityService.currentUser
+        def compra = new Compra(
+		        empresa: currentUser.empresa
+        ).save()
+    		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		
@@ -301,12 +319,14 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void UserNoDebieraPoderEnviarCompra() {
-	    authenticateUser()
+	      authenticateUser()
 		
-        def compra = new Compra().save()
-		assertNotNull compra
+		    def currentUser = springSecurityService.currentUser
+        def compra = new Compra(
+		        empresa: currentUser.empresa
+        ).save()
+    		assertNotNull compra
 		
-		def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
 		

@@ -11,6 +11,7 @@
                 <ul>
                     <li><g:link class="list" controller="contabilidad" ><g:message code="contabilidad.label" default="Contabilidad" /></g:link></li>
                     <li><g:link class="list" controller="inventario" ><g:message code="inventario.label" default="Inventario" /></g:link></li>
+                    <li><g:link class="list" controller="compra" ><g:message code="compra.label" default="Compra" /></g:link></li>
                     <li><g:link class="list" controller="admin" ><g:message code="admin.label" default="Admin" /></g:link></li>
                 </ul>
             </div>
