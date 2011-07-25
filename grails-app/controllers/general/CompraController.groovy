@@ -29,9 +29,10 @@ class CompraController {
   	@Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
     def lista = {
     	params.max = Math.min(params.max ? params.int('max') : 10, 100)
-    	def lista = listaPorRoles()
-    	log.debug "lista en lista = " + lista
-    	[compras: lista, totalDeCompras: lista.size()]
+    	//def lista = listaPorRoles()
+    	//log.debug "lista en lista = " + lista
+    	//[compra: lista, totalDeCompras: lista.size()]
+    	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
   	
   	def listaPorRoles = {
@@ -150,7 +151,7 @@ class CompraController {
     }
     
     def calculaTotal = {
-        println "calcular total"
+        //println "calcular total"
         def articulos = Articulo.list()
         def total = 0
         for(def articulo in articulos){
@@ -158,7 +159,7 @@ class CompraController {
               total += articulo.total
             }
         }
-        //log.debug "total " + total
+        log.debug "total " + total
         return total
     }
     
@@ -227,7 +228,7 @@ class CompraController {
 			def compra = Compra.get(params.id)
 			if (compra){
 			    //log.debug "observaciones $params.observaciones"
-				if (compra.observaciones != "")){
+				if (compra.observaciones != ""){
 					if(compra.status.equals("ENVIADA")){
 						compra.status = "RECHAZADA"
 						compra.observaciones = params.observaciones

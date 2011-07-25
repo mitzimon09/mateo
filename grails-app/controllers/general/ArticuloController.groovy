@@ -26,7 +26,7 @@ class ArticuloController {
         def articulo = new Articulo(params)
         if (articulo.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-            redirect(controller:"compra", action: "edita", id: articulo.id)
+            redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
         }
         else {
             render(view: "nuevo", model: [articulo: articulo])
@@ -71,7 +71,7 @@ class ArticuloController {
             articulo.properties = params
             if (!articulo.hasErrors() && articulo.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-                redirect(controller:"compra", action: "edita", id: articulo.id)
+                redirect(controller:"compra", action: "actualiza", id: articulo.compra.id)
             }
             else {
                 render(view: "edita", model: [articulo: articulo])
