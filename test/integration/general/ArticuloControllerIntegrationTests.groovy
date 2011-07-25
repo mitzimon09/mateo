@@ -15,8 +15,10 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     void debieraMostrarListaDeArticulos() {
 		authenticateAdmin()
 		
-		def compra = new Compra(
-			folio: "333"
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -28,7 +30,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
             ).save()
         }
         
-		def currentUser = springSecurityService.currentUser
         def controller = new ArticuloController()
         controller.springSecurityService = springSecurityService
         controller.index()
@@ -45,9 +46,11 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void debieraCrearArticulo() {
     	authenticateAdmin()
-        
-        def compra = new Compra(
-			folio: "333"
+		
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -70,8 +73,11 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void debieraActualizarArticulo() {
         authenticateAdmin()
-		def compra = new Compra(
-			folio: "333"
+		
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -111,8 +117,11 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
 	@Test
     void debieraEliminarArticulo() {
         authenticateAdmin()
-		def compra = new Compra(
-			folio: "333"
+		
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -142,9 +151,11 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void ComprasDebieraPoderComprarArticulo() {
 	    authenticateCompras()
-
-        def compra = new Compra(
-			folio: "333"
+		
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -155,7 +166,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
             	, total: "600.00"
             	, compra: compra
             ).save()
-		def currentUser = springSecurityService.currentUser
         def controller = new ArticuloController()
         controller.springSecurityService = springSecurityService
 		
@@ -174,8 +184,10 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     void ComprasDebieraPoderEntregarArticulo() {
 	    authenticateCompras()
 		
-		def compra = new Compra(
-			folio: "333"
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -186,7 +198,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
             	, total: "600.00"
             	, compra: compra
             ).save()
-		def currentUser = springSecurityService.currentUser
         def controller = new ArticuloController()
         controller.springSecurityService = springSecurityService
 		
@@ -202,5 +213,22 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
     }
     
     @Test
-    void ArticuloDebiera
+    void ArticuloDebieraCalcularElTotal(){
+    	authenticateAdmin()
+		
+		def currentUser = springSecurityService.currentUser
+    	def compra = new Compra(
+    		empresa: currentUser.empresa
+			, folio: "333"
+       	).save()
+       	
+       	def articulo = new Articulo (
+            	descripcion: "objeto"
+            	, cantidad: "6"
+            	, precioUnitario: "10.00"
+            	, compra: compra
+        ).save()
+        
+        assertEquals "600.00", articulo.total
+    }
 }

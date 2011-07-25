@@ -30,7 +30,7 @@ class CompraController {
     def lista = {
     	params.max = Math.min(params.max ? params.int('max') : 10, 100)
     	//def lista = listaPorRoles()
-    	log.debug "lista en lista = " + lista
+    	//log.debug "lista en lista = " + lista
     	//[compras: lista, totalDeCompras: lista.size()]
     	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
@@ -65,7 +65,7 @@ class CompraController {
   	}
 
     def nueva = {
-        //log.debug "empresa = " + springSecurityService.currentUser.empresa
+        log.debug "empresa = " + springSecurityService.currentUser.empresa
         def compra = new Compra(params)
         compra.empresa = springSecurityService.currentUser.empresa
         if (compra.save(flush: true)) {
