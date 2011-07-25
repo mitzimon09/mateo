@@ -73,21 +73,12 @@
     					<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
 						</g:if>
 						<g:if test="${compra.status.equals('COMPRADA')}">
-<<<<<<< HEAD
   						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
   					</g:if>
 					</g:if>
 					<g:if test="${(permisos == 2 || permisos == 4)}">
 						<g:if test="${!compra.status.equals('CREADA')}">
 				  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
-=======
-    						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
-    					</g:if>
-    					<g:if test="${(permisos == 2 || permisos == 4)}">
-							<g:if test="${!compra.status.equals('CREADA')}">
-	  					  		<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
-							</g:if>
->>>>>>> d058b36e41c9928abb96fb901052496532dfb50e
 						</g:if>
 					</g:if>
 				</fieldset>
