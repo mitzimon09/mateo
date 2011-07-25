@@ -1,4 +1,3 @@
-
 <%@ page import="general.Compra" %>
 <!doctype html>
 <html>
@@ -18,28 +17,22 @@
 		<div id="list-compra" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+  			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table>
 				<thead>
 					<tr>
-					
 						<g:sortableColumn property="status" title="${message(code: 'compra.status.label', default: 'Status')}" />
-					
 						<g:sortableColumn property="total" title="${message(code: 'compra.total.label', default: 'Total')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${compras}" status="i" var="compra">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="edita" id="${compra.id}">${fieldValue(bean: compra, field: "status")}</g:link></td>
-					
-						<td>${fieldValue(bean: compra, field: "total")}</td>
-					
-					</tr>
-				</g:each>
+				  <g:each in="${compras}" status="i" var="compra">
+					  <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+						  <td><g:link action="edita" id="${compra.id}">${fieldValue(bean: compra, field: "status")}</g:link></td>
+						  <td>${fieldValue(bean: compra, field: "total")}</td>
+					  </tr>
+				  </g:each>
 				</tbody>
 			</table>
 			<div class="pagination">

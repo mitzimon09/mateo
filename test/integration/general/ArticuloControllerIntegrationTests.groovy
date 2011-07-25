@@ -201,4 +201,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         logout()
     }
     
+    @Test
+    void ArticuloDebiera
 }

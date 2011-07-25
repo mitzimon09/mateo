@@ -29,11 +29,45 @@ class CompraController {
   	@Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
     def lista = {
     	params.max = Math.min(params.max ? params.int('max') : 10, 100)
+    	//def lista = listaPorRoles()
+    	log.debug "lista en lista = " + lista
+    	//[compras: lista, totalDeCompras: lista.size()]
     	[compras: Compra.list(params), totalDeCompras: Compra.count()]
+  	}
+  	
+  	def listaPorRoles = {
+  	    def compras = Compra.list()
+  	    def usuario = springSecurityService.currentUser
+  	    def lista = []
+  	    for(compra in compras){
+  	        //rol CCP
+  	        if(compra.status == "ENVIADA" && compra.total < 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
+      	        log.debug "ccp"
+  	            lista << compra
+            }
+            //rol Compras
+            if(compra.status == "APROBADA" && compra.empesa.organizacion == usuario.empresa.organizacion){
+      	        log.debug "compras"
+                lista << compra
+            }
+            //rol DirFin
+            if(compra.status == "ENVIADA" || compra.status == "ESPECIAL" && compra.total > 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
+                log.debug "dirfin"
+  	            lista << compra
+            }
+            //rol Emp
+            if(compra.status == "CREADA" && compra.empresa == usuario.empresa){
+                log.debug "emp"
+  	            lista << compra
+            }
+  	    }
+  	    return lista
   	}
 
     def nueva = {
+        //log.debug "empresa = " + springSecurityService.currentUser.empresa
         def compra = new Compra(params)
+        compra.empresa = springSecurityService.currentUser.empresa
         if (compra.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'compra.label', default: 'Compra'), compra.id])
             redirect(action: "edita", id: compra.id)
@@ -125,7 +159,7 @@ class CompraController {
               total += articulo.total
             }
         }
-        println "total " + total
+        //log.debug "total " + total
         return total
     }
     
@@ -142,14 +176,14 @@ class CompraController {
         if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
         	  totalPermisos = 4
         }
-        log.debug "totalPermisos = " + totalPermisos
+        //log.debug "totalPermisos = " + totalPermisos
         return totalPermisos
     }
     
     @Secured(['ROLE_EMP'])
     def enviar = {
-    	log.debug "user" + springSecurityService.currentUser
-    	log.debug "user" + springSecurityService.currentUser.authorities
+    	//log.debug "user" + springSecurityService.currentUser
+    	//log.debug "user" + springSecurityService.currentUser.authorities
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
@@ -193,8 +227,8 @@ class CompraController {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
-			    log.debug "observaciones $params.observaciones"
-				if (!(compra.observaciones == "")){
+			    //log.debug "observaciones $params.observaciones"
+				if (compra.observaciones != ""){
 					if(compra.status.equals("ENVIADA")){
 						compra.status = "RECHAZADA"
 						compra.observaciones = params.observaciones

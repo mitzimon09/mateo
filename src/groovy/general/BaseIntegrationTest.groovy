@@ -52,8 +52,6 @@ class BaseIntegrationTest extends GroovyTestCase {
         authenticate(principal,credentials,authorities)
     }
     
-    
-    
     def authenticateEmp() {
         def credentials = 'emp'
         def user = new Usuario(
@@ -97,5 +95,4 @@ class BaseIntegrationTest extends GroovyTestCase {
     def logout() {
         SCH.context.authentication = null
     }
-
 }
