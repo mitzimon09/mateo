@@ -17,8 +17,8 @@ class TipoProductoController {
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		def usuario = springSecurityService.currentUser
-//		[tipoProductos: Entrada.findAllByEmpresa(usuario.empresa, params), totalDeTipoProductos: Entrada.countByEmpresa(usuario.empresa)]
-                [tipoProductos: TipoProducto.list(params), totalDeTipoProductos: TipoProducto.count()]
+		[tipoProductos: Entrada.findAllByAlmacen(params), totalDeTipoProductos: Entrada.countByAlmacen()]
+//                [tipoProductos: TipoProducto.list(params), totalDeTipoProductos: TipoProducto.count()]
 	}
 
     def nuevo = {

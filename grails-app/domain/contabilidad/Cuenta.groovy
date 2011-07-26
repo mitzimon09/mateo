@@ -19,8 +19,8 @@ class Cuenta {
 
     static constraints = {
         codigo maxSize:32, nullable:true 
-        numero blank:false, maxSize:32, unique:'organizacion'
-        descripcion blank:false, maxSize:128, unique:'organizacion'
+        numero blank:false, maxSize:32//, unique:'organizacion'
+        descripcion blank:false, maxSize:128//, unique:'organizacion'
         padre nullable:true
     }
 

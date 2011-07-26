@@ -131,7 +131,7 @@ class CuentaController {
 
             def catalogo = [:]
 
-            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo1.csv")))
+            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo"+params.id+".csv")))
             String[] nextLine
             def padre
             while(nextLine = reader.readNext()) {
@@ -149,6 +149,40 @@ class CuentaController {
                     , organizacion : usuario.empresa.organizacion
                 ).save()
                 catalogo[nextLine[0]] = cuenta 
+            }
+        }
+
+        redirect(action:'lista')
+    }
+
+    def caga = {
+        log.debug "Cagando catalogo de cuentas"
+
+        def usuario = springSecurityService.currentUser
+        Cuenta.withTransaction {
+            Cuenta.executeUpdate("delete from Cuenta where organizacion = ?",[usuario.empresa.organizacion])
+
+            def catalogo = [:]
+
+            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo2.csv")))
+            String[] nextLine
+            def padre
+            while(nextLine = reader.readNext()) {
+                log.debug "${nextLine[0]} | ${nextLine[1]} | ${nextLine[2]} | ${nextLine[3]}"
+
+                if (nextLine[3] != '0') {
+                    padre = catalogo[nextLine[3]]
+                } else {
+                    padre = null
+                }
+                def cuenta = new Cuenta (
+                    codigo : nextLine[0]
+                    , numero : nextLine[1]
+                    , descripcion : nextLine[2]
+                    , padre : padre
+                    , organizacion : usuario.empresa.organizacion
+                ).save()
+                catalogo[nextLine[0]] = cuenta
             }
         }
 
