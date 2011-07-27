@@ -40,7 +40,7 @@
 				<g:each in="${articulos}" status="i" var="articulo">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
+						<td><g:link action="edita" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
 					
 						<td>${fieldValue(bean: articulo, field: "cantidad")}</td>
 					

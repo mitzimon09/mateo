@@ -14,7 +14,7 @@ class Articulo {
     	cantidad(min:1)
     	precioUnitario(sscale:2,precision:8,min:new BigDecimal('0'))
     	total(scale:2,precision:8,min:new BigDecimal('0'))
-    	status(inList: ["AGREGADO", "COMPRADO", "ENTREGADO"])
+    	status(inList: ["AGREGADO", "COMPRADO", "ENTREGADO", "CANCELADO"])
     }
     
     String toString (){

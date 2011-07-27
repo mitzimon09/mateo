@@ -121,7 +121,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
 		def currentUser = springSecurityService.currentUser
     	def compra = new Compra(
     		empresa: currentUser.empresa
-			, folio: "333"
 		).save()
 		assertNotNull compra
 		
@@ -129,7 +128,7 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
             	descripcion: "objeto"
             	, cantidad: "6"
             	, precioUnitario: "10.00"
-            	, total: "600.00"
+            	, total: "60.00"
             	, compra: compra
             ).save()
         
@@ -155,17 +154,17 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
 		def currentUser = springSecurityService.currentUser
     	def compra = new Compra(
     		empresa: currentUser.empresa
-			, folio: "333"
 		).save()
 		assertNotNull compra
 		
         def articulo = new Articulo (
             	descripcion: "objeto"
-            	, cantidad: "6"
-            	, precioUnitario: "10.00"
-            	, total: "600.00"
+            	, cantidad: 6
+            	, precioUnitario: 10.00
+            	, total: "60.00"
             	, compra: compra
             ).save()
+        assertEquals "AGREGADO", articulo.status
         def controller = new ArticuloController()
         controller.springSecurityService = springSecurityService
 		
@@ -175,8 +174,9 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         
         controller.comprar()
         assertEquals "COMPRADO", articulo.status
- 
-        assert controller.response.redirectedUrl.startsWith("/compra/ver")
+ 		
+//        assert controller.response.redirectedUrl.startsWith("/compra/ver")
+		assert controller.response.redirectedUrl.startsWith("/compra/completar")
         logout()
     }
     
@@ -187,15 +187,14 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
 		def currentUser = springSecurityService.currentUser
     	def compra = new Compra(
     		empresa: currentUser.empresa
-			, folio: "333"
 		).save()
 		assertNotNull compra
 		
         def articulo = new Articulo (
             	descripcion: "objeto"
-            	, cantidad: "6"
-            	, precioUnitario: "10.00"
-            	, total: "600.00"
+            	, cantidad: 6.00
+            	, precioUnitario: 10.00
+            	, total: 60.00
             	, compra: compra
             ).save()
         def controller = new ArticuloController()
@@ -208,7 +207,8 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.comprar()
         assertEquals "COMPRADO", articulo.status
         
-        assert controller.response.redirectedUrl.startsWith("/compra/ver")
+        //assert controller.response.redirectedUrl.startsWith("/compra/ver")
+        assert controller.response.redirectedUrl.startsWith("/compra/completar")
         logout()
     }
     
@@ -219,16 +219,32 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
 		def currentUser = springSecurityService.currentUser
     	def compra = new Compra(
     		empresa: currentUser.empresa
-			, folio: "333"
        	).save()
        	
        	def articulo = new Articulo (
             	descripcion: "objeto"
-            	, cantidad: "6"
-            	, precioUnitario: "10.00"
+            	, cantidad: 6.00
+            	, precioUnitario: 10.00
             	, compra: compra
-        ).save()
+        )
+        assertEquals 6.00, articulo.cantidad
+        assertEquals 10.00, articulo.precioUnitario
+        articulo.save()
         
-        assertEquals "600.00", articulo.total
+        def controller = new ArticuloController()
+        controller.springSecurityService = springSecurityService
+		
+		assertEquals 6.00, articulo.cantidad
+        assertEquals 10.00, articulo.precioUnitario
+        
+        controller.params.id = articulo.id
+        def model = controller.edita()
+        assert model.articulo
+        
+        assertEquals 6.00, articulo.cantidad
+        assertEquals 10.00, articulo.precioUnitario
+        
+        controller.actualiza()
+        assertEquals 60.00, articulo.total
     }
 }

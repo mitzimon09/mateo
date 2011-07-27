@@ -19,7 +19,7 @@ class CompraController {
     def springSecurityService
     def statusService
     
-    static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     @Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
     def index = {
@@ -65,7 +65,7 @@ class CompraController {
   	}
 
     def nueva = {
-        log.debug "empresa = " + springSecurityService.currentUser.empresa
+        //log.debug "empresa = " + springSecurityService.currentUser.empresa
         def compra = new Compra(params)
         compra.empresa = springSecurityService.currentUser.empresa
         if (compra.save(flush: true)) {
@@ -102,8 +102,8 @@ class CompraController {
     }
 
     def actualiza = {
-	    params.total = calculaTotal(params)
         def compra = Compra.get(params.id)
+        compra.total = calculaTotal(compra)
         if (compra) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -151,15 +151,16 @@ class CompraController {
     }
     
     def calculaTotal = {
+    	def compra = Compra.get(params.id)
         println "calcular total"
         def articulos = Articulo.list()
         def total = 0
         for(def articulo in articulos){
-            if(articulo.compra.id.toInteger() == params.id.toInteger()){
+            if(articulo.compra.id.toInteger() == compra.id.toInteger()){
               total += articulo.total
             }
         }
-        //log.debug "total " + total
+        log.debug "total " + total
         return total
     }
     
@@ -176,7 +177,7 @@ class CompraController {
         if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
         	  totalPermisos = 4
         }
-        //log.debug "totalPermisos = " + totalPermisos
+        log.debug "totalPermisosCompra = " + totalPermisos
         return totalPermisos
     }
     
@@ -184,7 +185,6 @@ class CompraController {
     def enviar = {
     	//log.debug "user" + springSecurityService.currentUser
     	//log.debug "user" + springSecurityService.currentUser.authorities
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if(compra.status.equals("CREADA")){
@@ -197,12 +197,10 @@ class CompraController {
 			        redirect(action: "lista")
 				}
 			}
-		//}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def aprobar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
@@ -219,12 +217,10 @@ class CompraController {
 			        redirect(action: "lista")
 				}
 			}
-		//}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def rechazar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 			    //log.debug "observaciones $params.observaciones"
@@ -248,12 +244,10 @@ class CompraController {
 				    redirect(action: "edita", id: compra.id)
 				}
 			}
-		//}
 	}
     
-    @Secured(['ROLE_COMPRAS'])
+    /*@Secured(['ROLE_COMPRAS'])
     def comprar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if(compra.status.equals("APROBADA")){
@@ -270,12 +264,10 @@ class CompraController {
 			        redirect(action: "lista")
 				}
 			}
-		//}
     }
     
     @Secured(['ROLE_COMPRAS'])
     def entregar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_COMPRAS')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if (compra.status.equals("COMPRADA")){
@@ -288,24 +280,55 @@ class CompraController {
 				    redirect(action: "lista")
 				}
 			}
-		//}
-    }
+    }*/
+    
+    @Secured(['ROLE_COMPRAS'])
+	def completar = {
+		def compra = Compra.get(params.id)
+		def articulos = Articulo.list()
+		if (compra){
+				if (compra.status.equals("APROBADA")||compra.status.equals("INCOMPLETA")){
+					def completa = true
+			        for(def articulo in articulos){
+            			if(articulo.compra.id.toInteger() == compra.id.toInteger()){
+							if (!(articulo.status.equals("ENTREGADO") || articulo.status.equals("CANCELADO"))){
+								completa = false
+								//redirect(action: "lista")
+							}
+						}
+					}
+					if (completa){
+						compra.status = "COMPLETA"
+					}
+					else {
+						compra.status = "INCOMPLETA"
+					}
+					
+			}//if aprobada or incompleta
+		}//if (compra)
+    }//completar()
+   /* @Secured(['ROLE_COMPRAS'])
+	def completar = {
+		def compra = Compra.get(params.id)
+		if (estaCompleta(compra) == 1){
+			compra.status = "COMPLETA"
+		}
+		else if (estaCompleta(compra) == 2){
+			compra.status = "INCOMPLETA"
+		}
+		else {
+			//do nothing, it hasn't been approved yet.
+		}
+		redirect(action: "ver")
+	}*/    
 		
 	@Secured(['ROLE_COMPRAS'])
     def cancelar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
 			def compra = Compra.get(params.id)
 			if (compra){
-				//if (compra.status.equals("COMPRADA")){
-					compra.status = "CANCELADA"
-					compra.save(flush:true)
-					redirect(action: "lista")
-				//}
-				//else{
-				//	flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-				//    redirect(action: "lista")
-				//}
+				compra.status = "CANCELADA"
+				compra.save(flush:true)
+				redirect(action: "lista")
 			}
-		//}
 	}
 }

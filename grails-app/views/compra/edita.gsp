@@ -18,12 +18,12 @@
 		<div id="edit-compra" class="content scaffold-edit" role="main">
 			<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
-		    <div class="message" role="status">${flash.message}</div>
+		    	<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<g:hasErrors bean="${compra}">
 		    <ul class="errors" role="alert">
 			    <g:eachError bean="${compra}" var="error">
-  			    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+  			    <li> <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 			    </g:eachError>
 		    </ul>
 			</g:hasErrors>
@@ -33,9 +33,7 @@
 				<fieldset class="form">
 					<g:render template="form"/>
 					<div class="fieldcontain" >
-				    <g:if test="${compra.status.equals('CREADA') && permisos == 1 || permisos == 4}">
-              <g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
-              </g:if>
+              			<g:link controller="articulo" action="nuevo" params="['compra.id': compra?.id]">${message(code: 'default.add.label', args: [message(code: 'articulo.label', default: 'Articulo')])}</g:link>
               <g:if test="${compra.status.equals('ENVIADA') && permisos == 2 || permisos == 4}">
                 <div class="fieldcontain ${hasErrors(bean: compra, field: 'observaciones', 'error')} required">
                   <label for="codigo">
@@ -64,17 +62,9 @@
 					</g:if>
 					<g:if test="${permisos == 2 || permisos == 4}">
 						<g:if test="${compra.status.equals('ENVIADA')}">
-				  		<g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
-  						<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+				  			<g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
+  							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
 						</g:if>
-					</g:if>
-					<g:if test="${permisos == 3 || permisos == 4}">
-						<g:if test="${compra.status.equals('APROBADA')}">
-    					<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
-						</g:if>
-						<g:if test="${compra.status.equals('COMPRADA')}">
-  						<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregar')}" />
-  					</g:if>
 					</g:if>
 					<g:if test="${(permisos == 2 || permisos == 4)}">
 						<g:if test="${!compra.status.equals('CREADA')}">

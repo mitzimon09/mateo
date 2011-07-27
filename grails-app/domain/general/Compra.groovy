@@ -26,7 +26,7 @@ class Compra {
 	  static hasMany = [articulos: Articulo]
 	
     static constraints = {
-        status (inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA'])
+        status (inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'INCOMPLETA', 'COMPLETA', 'CANCELADA'])
       	total (scale:2,precision:8,min:new BigDecimal('0'))
       	observaciones nullable:true, maxSize:128
     }

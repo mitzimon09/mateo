@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 class ArticuloController {
 	def springSecurityService
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -26,7 +26,7 @@ class ArticuloController {
         def articulo = new Articulo(params)
         if (articulo.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-            redirect(controller:"compra", action: "edita", id: articulo.id)
+            redirect(controller:"compra", action: "edita", id: articulo.compra.id)
         }
         else {
             render(view: "nuevo", model: [articulo: articulo])
@@ -56,8 +56,10 @@ class ArticuloController {
     }
 
     def actualiza = {
-        params.total = params.cantidad.toInteger() * params.precioUnitario.toInteger()
         def articulo = Articulo.get(params.id)
+        articulo.total = articulo.cantidad.toInteger() * articulo.precioUnitario.toInteger()
+       // log.debug "total " + params.total + " :) precio unitario " + params.precioUnitario + " :( cantidad " + params.cantidad
+        
         if (articulo) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -71,7 +73,7 @@ class ArticuloController {
             articulo.properties = params
             if (!articulo.hasErrors() && articulo.save(flush: true)) {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'articulo.label', default: 'Articulo'), articulo.id])
-                redirect(controller:"compra", action: "edita", id: articulo.id)
+                redirect(controller:"compra", action: "edita", id: articulo.compra.id)
             }
             else {
                 render(view: "edita", model: [articulo: articulo])
@@ -121,21 +123,19 @@ class ArticuloController {
     
         @Secured(['ROLE_COMPRAS'])
     def comprar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_articuloS')) {
 			def articulo = Articulo.get(params.id)
 			if (articulo){
 				if (articulo.status.equals("AGREGADO")){
 					articulo.status = "COMPRADO"
 					articulo.save(flush:true)
-					redirect(controller: "compra", action: "ver", id: articulo.compra.id)
+					redirect(controller: "compra", action: "completar", id: articulo.compra.id)
 				}
-				else {//if (articulo.status.equals("COMPRADO") || articulo.status.equals("ENTREGADO")){
+				else {
 					flash.message = message(code: 'articulo.status.message7', args: [message(code: 'articulo.label', default: 'articulo'), params.id])
 			        redirect(action: "lista")
 				}
 				
 			}
-		//}
     }
     
     @Secured(['ROLE_EMP'])
@@ -146,7 +146,7 @@ class ArticuloController {
 				if (articulo.status.equals("COMPRADO")){
 					articulo.status = "ENTREGADO"
 					articulo.save(flush:true)
-					redirect(controller: "compra", action: "ver", id: articulo.compra.id)
+					redirect(controller: "compra", action: "completar", id: articulo.compra.id)
 				}
 				else{
 					flash.message = message(code: 'articulo.status.message8', args: [message(code: 'articulo.label', default: 'articulo'), params.id])
@@ -155,4 +155,15 @@ class ArticuloController {
 			}
 		//}
     }
+    
+    @Secured(['ROLE_COMPRAS'])
+    def cancelar = {
+			def articulo = Articulo.get(params.id)
+			if (articulo){
+				articulo.status = "CANCELADA"
+				articulo.save(flush:true)
+				redirect(controller: "compra", action: "completar", id: articulo.compra.id)
+			}
+	}
+    
 }

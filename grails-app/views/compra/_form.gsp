@@ -18,12 +18,7 @@
     <tbody>
       <g:each in="${compra.articulos}" status="i" var="articulo">
         <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-          <g:if test="${compra.status.equals('CREADA')}">
             <td><g:link controller="articulo" action="edita" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
-	        </g:if>
-	        <g:else>
-    	      <td>${fieldValue(bean: articulo, field: "descripcion")}</td>
-      	  </g:else>
 	        <td>${fieldValue(bean: articulo, field: "cantidad")}</td>
 	        <td>${fieldValue(bean: articulo, field: "precioUnitario")}</td>
 	        <td>${fieldValue(bean: articulo, field: "total")}</td>
