@@ -1,9 +1,9 @@
 package interfaces
 
+import general.Compra
+
 interface ProcesoServiceInterface {
 
-
-    def serviceMethod() {
-
-    }
+    def enviar(Compra compra);
+    
 }
