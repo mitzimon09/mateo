@@ -31,7 +31,7 @@ class CompraController {
     	params.max = Math.min(params.max ? params.int('max') : 10, 100)
     	//def lista = listaPorRoles()
     	//log.debug "lista en lista = " + lista
-    	//[compras: lista, totalDeCompras: lista.size()]
+    	//[compra: lista, totalDeCompras: lista.size()]
     	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
   	
@@ -152,7 +152,7 @@ class CompraController {
     
     def calculaTotal = {
     	def compra = Compra.get(params.id)
-        println "calcular total"
+        //println "calcular total"
         def articulos = Articulo.list()
         def total = 0
         for(def articulo in articulos){
