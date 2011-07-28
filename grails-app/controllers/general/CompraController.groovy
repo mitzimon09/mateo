@@ -17,6 +17,7 @@ class CompraController {
 	G) CANCELADA	
 	*/
     def springSecurityService
+    def procesoServiceInterface
     
     static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
@@ -185,7 +186,9 @@ class CompraController {
     	//log.debug "user" + springSecurityService.currentUser
     	//log.debug "user" + springSecurityService.currentUser.authorities
 			def compra = Compra.get(params.id)
+			log.debug "compra + " + compra
 			if (compra){
+				log.debug "compra + " + compra
 				if(compra.status.equals("CREADA")){
 					compra.status = "ENVIADA"
 					compra.save(flush:true)
