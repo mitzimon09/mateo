@@ -38,12 +38,12 @@
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 					<g:if test="${permisos == 1 || permisos == 4}">
 						<g:if test="${articulo.status.equals('AGREGADO')}">
-  					  		<g:actionSubmit class="comprar" action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
+  					  		<g:actionSubmit action="comprar" value="${message(code: 'default.button.comprar.label', default: 'Comprar')}" />
 						</g:if>
 					</g:if>
 					<g:if test="${permisos == 3 || permisos == 4}">
 						<g:if test="${articulo.status.equals('COMPRADO')}">
-  					  		<g:actionSubmit class="entregar" action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregado')}" />
+  					  		<g:actionSubmit  action="entregar" value="${message(code: 'default.button.entregar.label', default: 'Entregado')}" />
 						</g:if>
 					</g:if>
 				</fieldset>

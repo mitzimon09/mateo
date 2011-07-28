@@ -67,7 +67,7 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.crea()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/compra/edita')//al terminar de editar un articulo tiene que regresar
+        assert controller.response.redirectedUrl.startsWith('/compra/edita')
     }
     
     @Test
@@ -108,7 +108,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.precioUnitario = new BigDecimal("2.00")
         controller.actualiza()
         assert controller.response.redirectedUrl.startsWith('/compra/edita')
-        //assertEquals "/articulo/ver/${articulo.id}", controller.response.redirectedUrl
 
         articulo.refresh()
         assertEquals '10002', articulo.descripcion
@@ -175,7 +174,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.comprar()
         assertEquals "COMPRADO", articulo.status
  		
-//        assert controller.response.redirectedUrl.startsWith("/compra/ver")
 		assert controller.response.redirectedUrl.startsWith("/compra/completar")
         logout()
     }
@@ -207,7 +205,6 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.comprar()
         assertEquals "COMPRADO", articulo.status
         
-        //assert controller.response.redirectedUrl.startsWith("/compra/ver")
         assert controller.response.redirectedUrl.startsWith("/compra/completar")
         logout()
     }

@@ -2,9 +2,12 @@ package general
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
 class ArticuloController {
 	def springSecurityService
-    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
+
+    static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -46,12 +49,13 @@ class ArticuloController {
 
     def edita = {
         def articulo = Articulo.get(params.id)
+        def permisos = permisos()
         if (!articulo) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'articulo.label', default: 'Articulo'), params.id])
             redirect(action: "lista")
         }
         else {
-            return [articulo: articulo]
+            return [articulo: articulo, permisos: permisos]
         }
     }
 

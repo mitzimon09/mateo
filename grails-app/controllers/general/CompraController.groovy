@@ -17,9 +17,8 @@ class CompraController {
 	G) CANCELADA	
 	*/
     def springSecurityService
-    def statusService
     
-    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
+    static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
     @Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
     def index = {
@@ -246,67 +245,30 @@ class CompraController {
 			}
 	}
     
-    /*@Secured(['ROLE_COMPRAS'])
-    def comprar = {
-			def compra = Compra.get(params.id)
-			if (compra){
-				if(compra.status.equals("APROBADA")){
-					compra.status = "COMPRADA"
-					compra.save(flush:true)
-					redirect(controller: "compra", action: "lista", id: compra.id)
-				}
-				else if (compra.status.equals("CREADA") || compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
-					flash.message = message(code: 'compra.status.message4', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-			        redirect(action: "lista")
-				}
-				else{
-					flash.message = message(code: 'compra.status.message6', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-			        redirect(action: "lista")
-				}
-			}
-    }
-    
-    @Secured(['ROLE_COMPRAS'])
-    def entregar = {
-			def compra = Compra.get(params.id)
-			if (compra){
-				if (compra.status.equals("COMPRADA")){
-					compra.status = "ENTREGADA"
-					compra.save(flush:true)
-					redirect(action: "lista")
-				}
-				else{
-					flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-				    redirect(action: "lista")
-				}
-			}
-    }*/
-    
     @Secured(['ROLE_COMPRAS'])
 	def completar = {
 		def compra = Compra.get(params.id)
 		def articulos = Articulo.list()
 		if (compra){
-				if (compra.status.equals("APROBADA")||compra.status.equals("INCOMPLETA")){
-					def completa = true
-			        for(def articulo in articulos){
-            			if(articulo.compra.id.toInteger() == compra.id.toInteger()){
-							if (!(articulo.status.equals("ENTREGADO") || articulo.status.equals("CANCELADO"))){
-								completa = false
-								//redirect(action: "lista")
-							}
+			if (compra.status.equals("APROBADA")||compra.status.equals("INCOMPLETA")){
+				def completa = true
+			    for(def articulo in articulos){
+            		if(articulo.compra.id.toInteger() == compra.id.toInteger()){
+						if (!(articulo.status.equals("ENTREGADO") || articulo.status.equals("CANCELADO"))){
+							completa = false
 						}
 					}
-					if (completa){
-						compra.status = "COMPLETA"
-					}
-					else {
-						compra.status = "INCOMPLETA"
-					}
-					
-			}//if aprobada or incompleta
-		}//if (compra)
-    }//completar()
+				}
+				if (completa){
+					compra.status = "COMPLETA"
+				}
+				else {
+					compra.status = "INCOMPLETA"
+				}
+			}
+			render(controller: "compra", view: "edita", id: params.id)
+		}
+    }
    /* @Secured(['ROLE_COMPRAS'])
 	def completar = {
 		def compra = Compra.get(params.id)

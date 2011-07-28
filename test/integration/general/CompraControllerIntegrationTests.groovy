@@ -256,31 +256,6 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         logout()
     }
 
-    /*@Test
-    void ComprasDebieraPoderComprarCompra() {
-	      authenticateCompras()
-
-		    def currentUser = springSecurityService.currentUser
-        def compra = new Compra(
-		        empresa: currentUser.empresa
-    		    , status: "APROBADA"
-		    ).save()
-		    assertNotNull compra
-		
-        def controller = new CompraController()
-        controller.springSecurityService = springSecurityService
-		
-        controller.params.id = compra.id
-        def model = controller.edita()
-        assert model.compra
-        
-        controller.comprar()
-        assertEquals "COMPRADA", compra.status
- 
-        assert controller.response.redirectedUrl.startsWith("/compra/lista")
-        logout()
-    }*/
-    
     @Test
     void EmpDebieraPoderCancelarCompra() {
   	    authenticateEmp()
@@ -328,31 +303,6 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals "CANCELADA", compra.status
         logout()
     }
-    
-    /*@Test
-    void UserNoDebieraPoderEnviarCompra() {
-	      authenticateUser()
-		
-		    def currentUser = springSecurityService.currentUser
-        def compra = new Compra(
-		        empresa: currentUser.empresa
-        ).save()
-    		assertNotNull compra
-		
-        def controller = new CompraController()
-        controller.springSecurityService = springSecurityService
-		
-        assertEquals "CREADA", compra.status
-        
-        controller.params.id = compra.id
-        def model = controller.edita()
-        assert model.compra
-        
-        controller.enviar()
-        assertEquals "CREADA", compra.status
-        logout()
-    }
-    */
     
     @Test
     void CompraDebieraCalcularElTotal() {

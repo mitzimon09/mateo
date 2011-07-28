@@ -31,6 +31,8 @@
 						<g:sortableColumn property="precioUnitario" title="${message(code: 'articulo.precioUnitario.label', default: 'Precio Unitario')}" />
 					
 						<g:sortableColumn property="total" title="${message(code: 'articulo.total.label', default: 'Total')}" />
+						
+						<g:sortableColumn property="status" title="${message(code: 'articulo.status.label', default: 'Status')}" />
 					
 						<th><g:message code="articulo.compra.label" default="Compra" /></th>
 					
@@ -49,6 +51,8 @@
 						<td>${fieldValue(bean: articulo, field: "total")}</td>
 					
 						<td>${fieldValue(bean: articulo, field: "compra")}</td>
+						
+						<td>${fieldValue(bean: articulo, field: "status")}</td>
 					
 					</tr>
 				</g:each>
