@@ -186,11 +186,11 @@ class CompraController {
     	//log.debug "user" + springSecurityService.currentUser.authorities
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
-			log.debug "compra + " + compra
 			if (compra){
-				log.debug "compra + " + compra
 				if(compra.status.equals("CREADA")){
+				  log.debug "compra + " + compra
 					compra = procesoServiceInterface.enviar(compra)
+  				log.debug "compra + " + compra
 					compra.save(flush:true)
 					redirect(action: "lista")
 				}
