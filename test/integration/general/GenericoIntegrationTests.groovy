@@ -11,6 +11,7 @@ import org.junit.*
 class GenericoIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
     def procesoServiceInterface
+    def procesoService
 
     @Test
     void EnviarCompra() {
@@ -24,7 +25,7 @@ class GenericoIntegrationTests extends BaseIntegrationTest {
 
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
-		
+		controller.procesoService = procesoService
         assertEquals "CREADA", compra.status
         
         controller.params.id = compra.id

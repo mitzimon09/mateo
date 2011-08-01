@@ -10,15 +10,16 @@ class CompraController {
 	Status:
 	A) CREADA
 	B) ENVIADA
-	C) APROBADA
+	C) APROBADAx
 	D) RECHAZADA
 	E) COMPRADA
 	F) ENTREGADA
 	G) CANCELADA	
 	*/
     def springSecurityService
-    def procesoServiceInterface
-    
+	def procesoService
+	def procesoServiceInterface
+	    
     static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
     @Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
@@ -190,7 +191,8 @@ class CompraController {
 			if (compra){
 				log.debug "compra + " + compra
 				if(compra.status.equals("CREADA")){
-					compra = procesoServiceInterface.enviar(compra)
+					//compra.status = "ENVIADA"
+					compra = procesoService.enviar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
 				}
