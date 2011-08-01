@@ -18,8 +18,7 @@ class CompraController {
 	*/
     def springSecurityService
 	def procesoService
-	def procesoServiceInterface
-	    
+
     static allowedMethods = [crea: "POST", update: "POST", elimina: "POST"]
 
     @Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
@@ -187,11 +186,8 @@ class CompraController {
     	//log.debug "user" + springSecurityService.currentUser.authorities
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
-			log.debug "compra + " + compra
 			if (compra){
-				log.debug "compra + " + compra
 				if(compra.status.equals("CREADA")){
-					//compra.status = "ENVIADA"
 					compra = procesoService.enviar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
