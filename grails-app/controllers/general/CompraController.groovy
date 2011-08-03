@@ -3,6 +3,7 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import general.interfaces.ProcesoServiceInterface
 
 @Secured(['ROLE_EMP'])
 class CompraController {
@@ -25,7 +26,8 @@ class CompraController {
     def index = {
         redirect(action: "lista", params: params)
     }
-
+	
+	
   	@Secured(['ROLE_EMP','ROLE_CCP','ROLE_DIRFIN','ROLE_COMPRAS'])
     def lista = {
     	params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -184,7 +186,6 @@ class CompraController {
     def enviar = {
     	//log.debug "user" + springSecurityService.currentUser
     	//log.debug "user" + springSecurityService.currentUser.authorities
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_EMP')) {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if(compra.status.equals("CREADA")){
@@ -197,7 +198,6 @@ class CompraController {
 			        redirect(action: "lista")
 				}
 			}
-		//}
     }
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
@@ -206,7 +206,7 @@ class CompraController {
 			def compra = Compra.get(params.id)
 			if (compra){
 				if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
-					compra.status = "APROBADA"
+					compra = procesoService.aprobar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
 				}
@@ -230,7 +230,7 @@ class CompraController {
 			    //log.debug "observaciones $params.observaciones"
 				if (compra.observaciones != ""){
 					if(compra.status.equals("ENVIADA")){
-						compra.status = "RECHAZADA"
+						compra = procesoService.rechazar(compra)
 						compra.observaciones = params.observaciones
 						compra.save(flush:true)
 						redirect(action: "lista")
@@ -297,7 +297,7 @@ class CompraController {
 			def compra = Compra.get(params.id)
 			if (compra){
 				//if (compra.status.equals("COMPRADA")){
-					compra.status = "CANCELADA"
+					compra = procesoService.cancelar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
 				//}

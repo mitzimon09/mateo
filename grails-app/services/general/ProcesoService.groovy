@@ -6,32 +6,23 @@ import general.interfaces.ProcesoServiceInterface
 
 class ProcesoService implements ProcesoServiceInterface{
 
-    def enviar(Compra compra){
-        log.info "service enviar"
-        log.debug "compra + " + compra
-			  compra.status = "ENVIADA"
-        log.debug "compra + " + compra
-        return compra
+    def enviar(params){
+			  params.status = "ENVIADA"
+        return params
     }
 
-    def aprobar(Compra compra){
-        log.info "service enviar"
-        log.debug "compra + " + compra
-			  compra.status = "APROBADA"
-        log.debug "compra + " + compra
-        return compra
+    def aprobar(params){
+			  params.status = "APROBADA"
+        return params
     }
 
-    def rechazar(Compra compra){
-        log.info "service enviar"
-        log.debug "compra + " + compra
-			  compra.status = "RECHAZADA"
-        log.debug "compra + " + compra
-        return compra
+    def rechazar(params){
+			  params.status = "RECHAZADA"
+        return params
     }
-    def cancelar(Compra compra){
-    	compra.status = "CANCELADA"
-    	return compra
+    def cancelar(params){
+    	params.status = "CANCELADA"
+    	return params
     }
     
 }

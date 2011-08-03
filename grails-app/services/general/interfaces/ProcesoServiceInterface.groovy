@@ -3,11 +3,13 @@ package general.interfaces
 import general.Compra
 
 interface ProcesoServiceInterface {
+	
+    def enviar(params);
 
-    def enviar(Compra compra);
+    def aprobar(params);
 
-    def aprobar(Compra compra);
-
-    def rechazar(Compra compra);
+    def rechazar(params);
+    
+    def cancelar(params);
     
 }
