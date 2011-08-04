@@ -10,6 +10,8 @@ import org.junit.*
 @TestFor(CompraController)
 class CompraControllerIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
+    def procesoServiceInterface
+    def procesoService
 	  /*
 	  Status:
 	  A) CREADA
@@ -34,6 +36,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
         
         controller.index()
         assertEquals '/compra/lista', controller.response.redirectedUrl
@@ -54,6 +57,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
         def currentUser = springSecurityService.currentUser
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 
         controller.nueva()
         
@@ -74,6 +78,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 
         controller.params.id = compra.id
         def model = controller.edita()
@@ -99,6 +104,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 
         controller.params.id = compra.id
         def model = controller.edita()
@@ -131,6 +137,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "CREADA", compra.status
         
@@ -158,6 +165,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "ENVIADA", compra.status
         
@@ -186,6 +194,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "ENVIADA", compra.status
         
@@ -213,6 +222,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "ENVIADA", compra.status
         
@@ -242,6 +252,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "ENVIADA", compra.status
         
@@ -269,6 +280,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         controller.params.id = compra.id
         def model = controller.edita()
@@ -293,6 +305,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "CREADA", compra.status
         
@@ -317,6 +330,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "CREADA", compra.status
         
@@ -341,6 +355,7 @@ class CompraControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new CompraController()
         controller.springSecurityService = springSecurityService
+        controller.procesoService = procesoService
 		
         assertEquals "CREADA", compra.status
         

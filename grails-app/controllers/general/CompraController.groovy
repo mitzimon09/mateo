@@ -34,7 +34,7 @@ class CompraController {
     	//def lista = listaPorRoles()
     	//log.debug "lista en lista = " + lista
     	//[compra: lista, totalDeCompras: lista.size()]
-    	[compra: Compra.list(params), totalDeCompras: Compra.count()]
+    	[compras: Compra.list(params), totalDeCompras: Compra.count()]
   	}
   	
   	def listaPorRoles = {
