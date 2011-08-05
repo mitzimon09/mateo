@@ -9,106 +9,105 @@ import interfaces.ProcesoServiceInterface
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(ChequeController)
-class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
+@TestFor(VacacionesController)
+class VacacionesControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService
     def procesoServiceInterface
     def procesoService
 
     @Test
-    void EnviarCheque() {
+    void EnviarVacaciones() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def vacaciones = new Vacaciones(
 		        empresa: currentUser.empresa
 	      ).save()
-        assertNotNull cheque
+        assertNotNull vacaciones
 
-        def controller = new ChequeController()
+        def controller = new VacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "CREADA", cheque.status
+        assertEquals "CREADA", vacaciones.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = vacaciones.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.vacaciones
         
         controller.enviar()
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", vacaciones.status
     }
     
     @Test
-    void AprobarCheque() {
+    void AprobarVacaciones() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def vacaciones = new Vacaciones(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull vacaciones
 
-        def controller = new ChequeController()
+        def controller = new VacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", vacaciones.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = vacaciones.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.vacaciones
         
         controller.aprobar()
-        assertEquals "APROBADA", cheque.status
+        assertEquals "APROBADA", vacaciones.status
     }
     
         @Test
-    void RechazarCheque() {
+    void RechazarVacaciones() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def vacaciones = new Vacaciones(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull vacaciones
 
-        def controller = new ChequeController()
+        def controller = new VacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", vacaciones.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = vacaciones.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.vacaciones
         
         controller.rechazar()
-        assertEquals "RECHAZADA", cheque.status
+        assertEquals "RECHAZADA", vacaciones.status
     }
     
         @Test
-    void CancelarCheque() {
+    void CancelarVacaciones() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def vacaciones = new Vacaciones(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull vacaciones
 
-        def controller = new ChequeController()
+        def controller = new VacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", vacaciones.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = vacaciones.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.vacaciones
         
         controller.cancelar()
-        assertEquals "CANCELADA", cheque.status
+        assertEquals "CANCELADA", vacaciones.status
     }
-    
 }

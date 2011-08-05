@@ -9,106 +9,107 @@ import interfaces.ProcesoServiceInterface
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(ChequeController)
-class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
+@TestMixin(GrailsUnitTestMixin)
+class PermisoControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService
     def procesoServiceInterface
     def procesoService
 
     @Test
-    void EnviarCheque() {
+    void EnviarPermiso() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def permiso = new Permiso(
 		        empresa: currentUser.empresa
 	      ).save()
-        assertNotNull cheque
+        assertNotNull permiso
 
-        def controller = new ChequeController()
+        def controller = new PermisoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "CREADA", cheque.status
+        assertEquals "CREADA", permiso.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = permiso.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.permiso
         
         controller.enviar()
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", permiso.status
     }
     
     @Test
-    void AprobarCheque() {
+    void AprobarPermiso() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def permiso = new Permiso(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull permiso
 
-        def controller = new ChequeController()
+        def controller = new PermisoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", permiso.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = permiso.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.permiso
         
         controller.aprobar()
-        assertEquals "APROBADA", cheque.status
+        assertEquals "APROBADA", permiso.status
     }
     
         @Test
-    void RechazarCheque() {
+    void RechazarPermiso() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def permiso = new Permiso(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull permiso
 
-        def controller = new ChequeController()
+        def controller = new PermisoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", permiso.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = permiso.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.permiso
         
         controller.rechazar()
-        assertEquals "RECHAZADA", cheque.status
+        assertEquals "RECHAZADA", permiso.status
     }
     
         @Test
-    void CancelarCheque() {
+    void CancelarPermiso() {
 	      authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-		    def cheque = new Cheque(
+		    def permiso = new Permiso(
 		        empresa: currentUser.empresa
 		        , status: "ENVIADA"
 	      ).save()
-        assertNotNull cheque
+        assertNotNull permiso
 
-        def controller = new ChequeController()
+        def controller = new PermisoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "ENVIADA", permiso.status
 		
-		controller.params.id = cheque.id
+		controller.params.id = permiso.id
         def model = controller.edita()
-        assert model.cheque
+        assert model.permiso
         
         controller.cancelar()
-        assertEquals "CANCELADA", cheque.status
+        assertEquals "CANCELADA", permiso.status
     }
-    
+
+
 }

@@ -109,15 +109,15 @@ class PermisoController {
         
     @Secured(['ROLE_EMP'])
     def enviar = {
-		def cheque = Cheque.get(params.id)
-		if (cheque){
-			if(cheque.status.equals("CREADA")){
-				cheque = procesoService.enviar(cheque)
-				cheque.save(flush:true)
+		def permiso = Permiso.get(params.id)
+		if (permiso){
+			if(permiso.status.equals("CREADA")){
+				permiso = procesoService.enviar(permiso)
+				permiso.save(flush:true)
 				redirect(action: "lista")
 			}
 			else {
-				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+				flash.message = message(code: 'permiso.status.message5', args: [message(code: 'permiso.label', default: 'permiso'), params.id])
 		        redirect(action: "lista")
 			}
 		}
@@ -126,19 +126,19 @@ class PermisoController {
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
-			def cheque = Cheque.get(params.id)
-			if (cheque){
-				if(cheque.status.equals("ENVIADA") || cheque.status.equals("RECHAZADA")){
-					cheque = procesoService.aprobar(cheque)
-					cheque.save(flush:true)
+			def permiso = Permiso.get(params.id)
+			if (permiso){
+				if(permiso.status.equals("ENVIADA") || permiso.status.equals("RECHAZADA")){
+					permiso = procesoService.aprobar(permiso)
+					permiso.save(flush:true)
 					redirect(action: "lista")
 				}
-				else if (cheque.status.equals("CREADA")){
-					flash.message = message(code: 'cheque.status.message1', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
+				else if (permiso.status.equals("CREADA")){
+					flash.message = message(code: 'permiso.status.message1', args: [message(code: 'permiso.label', default: 'Permiso'), params.id])
 			        redirect(action: "lista")
 				}
 				else{
-					flash.message = message(code: 'cheque.status.message2', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
+					flash.message = message(code: 'permiso.status.message2', args: [message(code: 'permiso.label', default: 'Permiso'), params.id])
 			        redirect(action: "lista")
 				}
 			}
@@ -148,37 +148,37 @@ class PermisoController {
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def rechazar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
-			def cheque = Cheque.get(params.id)
-			if (cheque){
+			def permiso = Permiso.get(params.id)
+			if (permiso){
 			    //log.debug "observaciones $params.observaciones"
-				if (cheque.observaciones != ""){
-					if(cheque.status.equals("ENVIADA")){
-						cheque = procesoService.rechazar(cheque)
-						cheque.observaciones = params.observaciones
-						cheque.save(flush:true)
+				if (permiso.observaciones != ""){
+					if(permiso.status.equals("ENVIADA")){
+						permiso = procesoService.rechazar(permiso)
+						permiso.observaciones = params.observaciones
+						permiso.save(flush:true)
 						redirect(action: "lista")
 					}
-					else if (cheque.status.equals("CREADA")){
-						flash.message = message(code: 'cheque.status.message1', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
+					else if (permiso.status.equals("CREADA")){
+						flash.message = message(code: 'permiso.status.message1', args: [message(code: 'permiso.label', default: 'Permiso'), params.id])
 			            redirect(action: "lista")
 					}
 					else{
-						flash.message = message(code: 'cheque.status.message2', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
+						flash.message = message(code: 'permiso.status.message2', args: [message(code: 'permiso.label', default: 'Permiso'), params.id])
 			            redirect(action: "lista")
 					}
 				}else{
-				    flash.message = message(code: 'cheque.observaciones')
-				    redirect(action: "edita", id: cheque.id)
+				    flash.message = message(code: 'permiso.observaciones')
+				    redirect(action: "edita", id: permiso.id)
 				}
 			}
 	}
 	
 	@Secured(['ROLE_COMPRAS'])
     def cancelar = {
-			def cheque = Cheque.get(params.id)
-			if (cheque){
-					cheque = procesoService.cancelar(cheque)
-					cheque.save(flush:true)
+			def permiso = Permiso.get(params.id)
+			if (permiso){
+					permiso = procesoService.cancelar(permiso)
+					permiso.save(flush:true)
 					redirect(action: "lista")
 			}
 	}
