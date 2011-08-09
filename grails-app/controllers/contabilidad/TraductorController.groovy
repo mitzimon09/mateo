@@ -17,7 +17,7 @@ class TraductorController {
         sql.eachRow("select * from mateo.cont_movimiento where fecha > to_date('20-06-2011','dd-mm-yyyy')") { row ->
             movimientos.append("<tr>")
             movimientos.append("<td>")
-            movimientos.append(row) 
+            movimientos.append(row)
             movimientos.append("</td>")
             movimientos.append("</tr>")
         }
