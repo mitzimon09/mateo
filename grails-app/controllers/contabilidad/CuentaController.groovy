@@ -122,7 +122,7 @@ class CuentaController {
         }
     }
 
-    def carga = {
+    def carga1 = {
         log.debug "Cargando catalogo de cuentas"
 
         def usuario = springSecurityService.currentUser
@@ -131,11 +131,11 @@ class CuentaController {
 
             def catalogo = [:]
 
-            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo"+params.id+".csv")))
+            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo1.csv")))
             String[] nextLine
             def padre
             while(nextLine = reader.readNext()) {
-                log.debug "${nextLine[0]} | ${nextLine[1]}"
+            log.debug "${nextLine[0]} | ${nextLine[1]}"
                 if (nextLine[2] != '0') {
                     padre = catalogo[nextLine[2]]
                 } else {
@@ -148,14 +148,14 @@ class CuentaController {
                     , padre : padre
                     , organizacion : usuario.empresa.organizacion
                 ).save()
-                catalogo[nextLine[0]] = cuenta 
+                catalogo[nextLine[0]] = cuenta
             }
         }
 
         redirect(action:'lista')
     }
 
-    def caga = {
+    def carga2 = {
         log.debug "Cagando catalogo de cuentas"
 
         def usuario = springSecurityService.currentUser
