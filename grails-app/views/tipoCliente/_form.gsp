@@ -1,12 +1,6 @@
 <%@ page import="general.TipoCliente" %>
 
-
-
-<<<<<<< HEAD
 <div class="fieldcontain ${hasErrors(bean: tipoCliente, field: 'nombre', 'error')} required">
-=======
-<div class="fieldcontain ${hasErrors(bean: tipoClienteInstance, field: 'nombre', 'error')} required">
->>>>>>> upstream/master
 	<label for="nombre">
 		<g:message code="tipoCliente.nombre.label" default="Nombre" />
 		<span class="required-indicator">*</span>

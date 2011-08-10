@@ -1,4 +1,4 @@
 // Place your Spring DSL code here
 beans = {
-    procesoServiceInterface(general.ProcesoService)
+    empleadoServiceInt(mx.edu.um.rh.EmpleadoService)
 }

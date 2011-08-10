@@ -31,8 +31,6 @@
 					
 						<g:sortableColumn property="margenUtilidad" title="${message(code: 'tipoCliente.margenUtilidad.label', default: 'Margen Utilidad')}" />
 					
-						<g:sortableColumn property="base" title="${message(code: 'tipoCliente.base.label', default: 'Base')}" />
-					
 						<th><g:message code="tipoCliente.empresa.label" default="Empresa" /></th>
 					
 					</tr>
@@ -50,7 +48,7 @@
 						<td><g:formatBoolean boolean="${tipoCliente.base}" /></td>
 					
 						<td>${fieldValue(bean: tipoCliente, field: "empresa")}</td>
-					
+											
 					</tr>
 				</g:each>
 				</tbody>
