@@ -25,4 +25,9 @@ class ProcesoService {
     	return params
     }
     
+    def revisar(params){
+    	params.status = "REVISADA"
+    	return params
+    }
+    
 }
