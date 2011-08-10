@@ -8,11 +8,11 @@ class Cheque {
 	static belongsTo = [Empresa]
 	
     static constraints = {
-    	status (inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA'])
-    	observaciones nullable:true, maxSize:128
+    	status inList: ['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA']
+    	observaciones nullable: true, maxSize: 128
     }
     
-    String toString (){
+    String toString () {
         return "compras $status"
     }
 }

@@ -104,7 +104,7 @@ log4j = {
 
 grails.gorm.default.mapping = {
    cache true
-   id generator:'identity'
+   //id generator:'identity'
 }
 
 grails.gorm.failOnError = true

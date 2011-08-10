@@ -2,8 +2,12 @@ package general
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
+@Secured(['ROLE_EMP'])
 class ArticuloController {
 	def springSecurityService
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {

@@ -3,8 +3,8 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import general.interfaces.ProcesoServiceInterface
 
+@Secured(['ROLE_EMP'])
 class PermisoController {
 	
 	def springSecurityService
