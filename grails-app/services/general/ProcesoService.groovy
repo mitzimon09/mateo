@@ -2,9 +2,9 @@ package general
 
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-import general.interfaces.ProcesoServiceInterface
 
-class ProcesoService {// implements ProcesoServiceInterface{
+class ProcesoService {
+    def springSecurityService
 
     def enviar(params){
 			  params.status = "ENVIADA"

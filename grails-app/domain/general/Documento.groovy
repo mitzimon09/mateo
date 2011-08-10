@@ -1,5 +1,7 @@
 package general
 
+import mx.edu.um.rh.Empleado
+
 class Documento {
     Date fecha
     String descripcion

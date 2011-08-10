@@ -3,7 +3,6 @@ package general
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
-import interfaces.ProcesoServiceInterface
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -11,7 +10,6 @@ import interfaces.ProcesoServiceInterface
 @TestFor(CompraController)
 class GenericoIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
-    def procesoServiceInterface
     def procesoService
 
     @Test
@@ -191,5 +189,4 @@ class GenericoIntegrationTests extends BaseIntegrationTest {
         controller.enviar()
         assertEquals "ENVIADA", vacaciones.status
     }
-    
 }

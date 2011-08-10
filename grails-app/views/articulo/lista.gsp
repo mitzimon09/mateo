@@ -31,6 +31,8 @@
 						<g:sortableColumn property="precioUnitario" title="${message(code: 'articulo.precioUnitario.label', default: 'Precio Unitario')}" />
 					
 						<g:sortableColumn property="total" title="${message(code: 'articulo.total.label', default: 'Total')}" />
+						
+						<g:sortableColumn property="status" title="${message(code: 'articulo.status.label', default: 'Status')}" />
 					
 						<th><g:message code="articulo.compra.label" default="Compra" /></th>
 					
@@ -40,7 +42,7 @@
 				<g:each in="${articulos}" status="i" var="articulo">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
+						<td><g:link action="edita" id="${articulo.id}">${fieldValue(bean: articulo, field: "descripcion")}</g:link></td>
 					
 						<td>${fieldValue(bean: articulo, field: "cantidad")}</td>
 					
@@ -49,6 +51,8 @@
 						<td>${fieldValue(bean: articulo, field: "total")}</td>
 					
 						<td>${fieldValue(bean: articulo, field: "compra")}</td>
+						
+						<td>${fieldValue(bean: articulo, field: "status")}</td>
 					
 					</tr>
 				</g:each>
