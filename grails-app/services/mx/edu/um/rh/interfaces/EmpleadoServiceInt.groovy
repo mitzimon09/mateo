@@ -15,6 +15,8 @@ interface EmpleadoServiceInt {
     List<Empleado> getEmpleadosByEmpresaAndTipo(Empresa empresa,TipoEmpleado tipo) throws NullPointerException
     List<Empleado> getEmpleadosByEmpresa(Empresa empresa) throws NullPointerException
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException
+    Map<String,String> validaEmpleados(List empleados)
+    List<Empleado> getEmpleadosByRangoEmpresaAndTipo(Empresa empresa,TipoEmpleado tipo,String claveUno,String claveDos) throws NullPointerException
     
 	
 }

@@ -32,7 +32,7 @@ class BootStrap {
 
         log.info "Validando roles"
         def rolAdmin = general.Rol.findByAuthority('ROLE_ADMIN')
-        if (general.Rol.count() != 4) {
+        if (general.Rol.count() != 5) {
             if (!rolAdmin) {
                 rolAdmin = new general.Rol(authority: 'ROLE_ADMIN').save(flush:true)
             }
@@ -47,6 +47,10 @@ class BootStrap {
             def rolUser = general.Rol.findByAuthority('ROLE_USER')
             if (!rolUser) {
                 rolUser = new general.Rol(authority: 'ROLE_USER').save(flush:true)
+            }
+            def rolNom = general.Rol.findByAuthority('ROLE_NOM')
+            if (!rolNom) {
+                rolNom = new general.Rol(authority: 'ROLE_NOM').save(flush:true)
             }
         }
 

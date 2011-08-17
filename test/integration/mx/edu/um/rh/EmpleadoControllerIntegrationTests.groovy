@@ -15,11 +15,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     
     def springSecurityService
     def empleadoServiceInt
+    def empleadoService
     
     /*
      *Esta Prueba no corre en el controller prueba la funcionalidad del service
      */
-    /*
+    
     @Test
     void debieraTraerUnEmpleadoPorClaveANivelService(){
         log.debug "test EmpleadoByClave"
@@ -98,7 +99,29 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         }
         assertEquals 601,empleados.size()  
     }
-    */
+    
+    @Test
+    void debieraTraerEmpleadosPorRango(){
+        //50 empleados
+        //select * from (select * from aron.empleado where clave between '9800001' and '9800093' and status='A'  and empresa_id='102')emp,
+        //(select * from aron.empleadolaborales where id_tipoempleado=1 )lab where emp.id=lab.id
+        //Empresa y tipo
+        def claveUno="9800001"
+        def claveDos="9800093"
+        Empresa empresa=Empresa.get(102)
+        assertEquals empresa.nombre,"CENTRAL"
+        TipoEmpleado tipo=TipoEmpleado.get(1)
+        assertEquals tipo.descripcion,"DENOMINACIONAL"
+        def empleados=empleadoServiceInt.getEmpleadosByRangoEmpresaAndTipo(empresa,tipo,claveUno,claveDos)
+        assertNotNull empleados
+        assertEquals 47,empleados.size()
+        for(Empleado emp:empleados){
+            assertEquals 1,emp.empleadoLaborales.tipo.id            
+            assertEquals 102,emp.empresa.id           
+        }
+        
+    }
+    
     /*
      *Seccion de Leer Las Perdeds del empleado
      */
@@ -106,41 +129,41 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     void debieraLeerPercepcionesDeduccionesEmpleado(){
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
-        assertEquals 139,empleado.id
-        System.out.println("==================="+empleado.perdeds)
-        System.out.println("==================="+empleado.perdeds.size())
+        assertEquals 139,empleado.id        
         assertNotNull empleado.perdeds
         assertEquals 8,empleado.perdeds.size()
-        Map empleadoPerdeds=empleado.perdeds
-        //EmpleadoPerded emperd=empleadoPerdeds
-        System.out.println("=================== "+empleadoPerdeds.containsKey('1'))
-        //assertNotNull emperd
-        //System.out.println("=================== "+emperd.empleado.id)
-        //assertEquals '%',emperd.tipoImporte
-        //assertEquals 100,emperd.importe
-        //assertEquals 'D,PS,BN',emperd.atributos
+        Map empleadoPerdeds=empleado.perdeds       
+        assertEquals true,empleadoPerdeds.containsKey('1')
+        EmpleadoPerded emperd=empleadoPerdeds.get('1')
+        assertEquals 'D,B,I,N,PS,BN',emperd.atributos
+        assertEquals 87,emperd.id
+        assertEquals 100,emperd.importe
+        assertEquals 1,emperd.perded.id
     }
-        /*
+        
     @Test
     void debieraGuardarPercecionesDeducciones(){
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        PerDed perded=PerDed.get(1)
-        assertEquals "Salario",perded.nombre
-        def empleadoPerded=new EmpleadoPerded()
-        empleadoPerded.importe=new BigDecimal("100")
-        empleadoPerded.otorgado=false
-        empleadoPerded.isEditableByNOM=false
-        empleadoPerded.tipoImporte="%"
-        empleadoPerded.atributos ="D,PS,BN"
-        empleadoPerded.perded=perded
-        empleadoPerded.empleado=empleado
-        assertNull empleadoPerded.id
-        empleadoPerded.save()
-        assertNotNull empleadoPerded
-        assertNotNull empleadoPerded.id
-        System.out.println("-------------->"+empleadoPerded.id+"<--------------")
+        def perDed=PerDed.get(1)
+        assertEquals 1,perDed.id
+        assertEquals "Salario",perDed.nombre
+        assertEquals 'C',perDed.naturaleza
+        EmpleadoPerded emperd=new EmpleadoPerded()
+        emperd.importe=new BigDecimal("0")
+        emperd.tipoImporte="%"
+        emperd.atributos="D,B,I,N,PS,BN"
+        emperd.otorgado=true
+        emperd.isEditableByNOM=true
+        emperd.empleado=empleado
+        emperd.perded=perDed
+        assertNull emperd.id
+        emperd.save()
+        assertNotNull emperd
+        assertNotNull emperd.id
+        Map empleadoPerdeds=empleado.perdeds
+        System.out.println("empleados $empleadoPerdeds")
     }
     
     
@@ -149,76 +172,138 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        List percepcionesEmpleados=empleado.perdeds.toList()
-        assertEquals 8,percepcionesEmpleados.size()
-        for(EmpleadoPerded emperded:percepcionesEmpleados ){
-            assertNotNull emperded
-            assertNotNull emperded.id
-            emperded.atributos="B,N"
-            emperded.save()
-            assertNotNull emperded
-        }
-        percepcionesEmpleados=null
-        percepcionesEmpleados=empleado.perdeds.toList()
-        assertEquals 8,percepcionesEmpleados.size()
-        for(EmpleadoPerded emperded:percepcionesEmpleados ){
-            assertNotNull emperded
-            assertNotNull emperded.id
-            assertEquals "B,N",emperded.atributos
-                
-        }        
+        Map empleadoPerdeds=empleado.perdeds
+        assertEquals true,empleadoPerdeds.containsKey('1')
+        EmpleadoPerded emperd=empleadoPerdeds.get('1')
+        assertEquals 'D,B,I,N,PS,BN',emperd.atributos
+        assertEquals 87,emperd.id
+        assertEquals 100,emperd.importe
+        assertEquals 1,emperd.perded.id
+        emperd.atributos="D,I,PS,BN"
+        emperd.importe=new BigDecimal("10000")
+        emperd.tipoImporte='$'
+        emperd.save()
+        emperd=empleadoPerdeds.get('1')
+        assertEquals "D,I,PS,BN",emperd.atributos
+        assertEquals '$',emperd.tipoImporte
+        assertEquals new BigDecimal("10000") ,emperd.importe
+        
     }        
     @Test
     void debieraLeerFormula(){
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        List percepcionesEmpleados=empleado.perdeds.toList()
-        assertEquals 8,percepcionesEmpleados.size()
-        for(EmpleadoPerded emperded:percepcionesEmpleados ){
-            assertNotNull emperded
-            assertNotNull emperded.id
-            System.out.println("------"+emperded.perded+"----")
-            assertNotNull emperded.perded
-            assertNotNull emperded.perded.formula
-            assertEquals '-',emperded.perded.formula            
-        }        
+        Map empleadoPerdeds=empleado.perdeds
+        EmpleadoPerded emperd=empleadoPerdeds.get('1')
+        assertNotNull emperd
+        assertEquals 87,emperd.id
+        assertNotNull emperd.perded
+        assertEquals 1,emperd.perded.id
+        assertNotNull emperd.perded.formula
+        assertEquals '-',emperd.perded.formula
     }
+            
     @Test
     void debieraModificarFormula(){
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        List percepcionesEmpleados=empleado.perdeds.toList()
-        assertEquals 8,percepcionesEmpleados.size()
-        for(EmpleadoPerded emperded:percepcionesEmpleados ){
-            assertNotNull emperded
-            assertNotNull emperded.id
-            System.out.println("------"+emperded.perded+"----")
-            assertNotNull emperded.perded
-            assertNotNull emperded.perded.formula
-            if(emperded.perded.id==1){
-                emperded.perded.formula='P1*P3'                
-                emperded.perded.save()
-                assertNotNull emperded.perded
-            }
-                
-        }        
-        percepcionesEmpleados=empleado.perdeds.toList()
-        assertEquals 8,percepcionesEmpleados.size()
-        for(EmpleadoPerded emperded:percepcionesEmpleados ){
-            assertNotNull emperded
-            assertNotNull emperded.id
-            System.out.println("------"+emperded.perded+"----")
-            assertNotNull emperded.perded
-            assertNotNull emperded.perded.formula
-            if(emperded.perded.id==1){
-                assertEquals 'P1*P3',emperded.perded.formula
-            }else{
-                assertEquals '-',emperded.perded.formula                
-            }
-                
-        }        
+        Map empleadoPerdeds=empleado.perdeds
+        EmpleadoPerded emperd=empleadoPerdeds.get('1')
+        assertNotNull emperd
+        assertEquals 87,emperd.id
+        assertNotNull emperd.perded
+        assertEquals 1,emperd.perded.id
+        assertNotNull emperd.perded.formula
+        assertEquals '-',emperd.perded.formula
+        emperd.perded.formula='P000*P200'
+        emperd.save()
+        emperd=null
+        emperd=empleadoPerdeds.get('1')
+        assertEquals 'P000*P200',emperd.perded.formula
     }
-    */
+    
+    @Test
+    void debieraValidarTodosEmpleadosNomina(){
+        //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
+        //armar mensaje de error en la lista
+        def clave="9800052"
+        def empleado=empleadoService.getEmpleado(clave)
+        assertEquals 139,empleado.id
+        List empleados=new ArrayList()
+        empleados.add(empleado)
+        Map tmp=empleadoServiceInt.validaEmpleados(empleados)
+        assertNotNull tmp
+        assertEquals 0,tmp.size()
+    }
+    @Test
+    void debieraMostarErrorEscalafonEmpleadosNomina(){
+        //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
+        def clave="9810207"
+        def empleado=empleadoService.getEmpleado(clave)
+        assertEquals 291,empleado.id
+        List empleados=new ArrayList()
+        empleados.add(empleado)
+        Map tmp=empleadoServiceInt.validaEmpleados(empleados)
+        assertNotNull tmp
+        assertEquals 1,tmp.size()
+        assertEquals true,tmp.containsKey("empleado.escalafon.invalido")
+        assertEquals "9810207",tmp.get("empleado.escalafon.invalido")
+    }
+    
+    
+    @Test
+    void debieraMostarErrorCuentaBancoEmpleadosNomina(){
+        //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
+        def clave="9810213"
+        def empleado=empleadoService.getEmpleado(clave)
+        assertEquals 281,empleado.id
+        List empleados=new ArrayList()
+        empleados.add(empleado)
+        Map tmp=empleadoServiceInt.validaEmpleados(empleados)
+        assertNotNull tmp
+        assertEquals 1,tmp.size()
+        assertEquals true,tmp.containsKey("empleado.cuentaBanco.invalido")
+        assertEquals "9810213",tmp.get("empleado.cuentaBanco.invalido")
+    }    
+    @Test
+    void debieraMostarErrorTurnoEmpleadosNomina(){
+        //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
+        def clave="9800397"
+        def empleado=empleadoService.getEmpleado(clave)
+        assertEquals 296,empleado.id
+        List empleados=new ArrayList()
+        empleados.add(empleado)
+        Map tmp=empleadoServiceInt.validaEmpleados(empleados)
+        assertNotNull tmp
+        assertEquals 1,tmp.size()
+        assertEquals true,tmp.containsKey("empleado.turno.invalido")
+        assertEquals "9800397",tmp.get("empleado.turno.invalido")
+    }
+    @Test
+    void debieraMostarErrorGrupoEmpleadosNomina(){
+        //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
+        def clave="9800104"
+        def empleado=empleadoService.getEmpleado(clave)
+        assertEquals 306,empleado.id
+        List empleados=new ArrayList()
+        empleados.add(empleado)
+        Map tmp=empleadoServiceInt.validaEmpleados(empleados)
+        assertNotNull tmp
+        assertEquals 1,tmp.size()
+        assertEquals true,tmp.containsKey("empleado.grupo.invalido")
+        assertEquals "9800104",tmp.get("empleado.grupo.invalido")
+    }
+    
+    
+    @Test
+    void debieraMostarCuentaContableEmpleadosNomina(){
+        //Pruebas Aun no Implementadas
+    }
+    @Test
+    void debieraMostarCentroCostoEmpleadosNomina(){
+        //Pruebas Aun no Implementadas
+    }
+    
 }
