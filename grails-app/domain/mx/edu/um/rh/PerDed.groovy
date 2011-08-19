@@ -8,6 +8,7 @@ class PerDed {
     String status
     String formula
     Map atributos
+    Grupo grupo
     //Queda Pendiente lo que Antes era CentroCosto,CtaMayor,Concepto
     
     static hasMany=[atributos:Atributo]
@@ -17,7 +18,7 @@ class PerDed {
         nombre maxSize:50,unique:true,blank:false
         naturaleza maxSize:1,blank:false
         status maxSize:1,blank:false
-        formula maxSize:70,blank:false        
+        formula maxSize:255,blank:false        
     }
     static mapping={
         table name:'perdeds',schema:'aron'

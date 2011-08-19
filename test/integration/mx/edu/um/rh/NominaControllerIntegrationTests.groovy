@@ -15,20 +15,17 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     def nominaServiceInt
     def springSecurityService
     
+   //Preparar Ambiente Formulas 
+   //Formulas Globales
+   //Grupo Global X Sustituir
+   //Porcentaje Lleva grupo empresa clave percepcion
+   
     @Test
-    void debieraLeerPerDedNominaEmpresaYTipo(){
-        //Leer Percepciones por Empresa y tipo
-    }    
-    @Test
-    void debieraLeerPerDedNominaByEmpleado(){     
-        //Leer Percepciones por Empleado
-    }    
-    @Test
-    void debieraLeerPerDedNominaByRango(){     
-        //Leer Percepciones por Rango
-    }    
-    @Test
-    void debieraConvertirFormulaCorrecta(){        
-        //Conversionde Formulas
+    void debieraArmarMapGrupoX(){        
     }
+    @Test
+    void debieraArmarMapPorEmpleado(){        
+    }
+    
+    
 }
