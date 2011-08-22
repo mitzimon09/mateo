@@ -2,4 +2,5 @@
 beans = {
     empleadoServiceInt(mx.edu.um.rh.EmpleadoService)
     nominaServiceInt(mx.edu.um.rh.NominaService)
+    perdedServiceInt(mx.edu.um.rh.PerDedService)
 }

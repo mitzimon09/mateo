@@ -10,9 +10,9 @@ import general.*
  *
  * @author eder
  */
-interface NominaServiceInt {
-
-    Map<String,String> getMapPercepcionesEmpleado(Empleado empleado) throws NullPointerException
+interface PerdedServiceInt {
+    
+    Map<String,String> getMapGrupoX()
     
 }
 
