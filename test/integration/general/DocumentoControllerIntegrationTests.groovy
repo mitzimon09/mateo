@@ -8,11 +8,11 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestFor(DocumentoController)
-class DocumentoControllerIntegrationTests {
+class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService
     @Test
-    void debieraMostrarListaDeArticulos() {
+    void debieraMostrarListaDeDocumentos() {
 		authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser

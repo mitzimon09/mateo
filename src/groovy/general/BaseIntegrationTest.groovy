@@ -15,7 +15,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_ADMIN')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,1)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -26,7 +26,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_CCP')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,2)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -37,7 +37,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_COMPRAS')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,3)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -48,7 +48,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_DIRFIN')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,4)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -59,7 +59,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_EMP')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,5)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -70,7 +70,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_ORG')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,6)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
     
@@ -81,7 +81,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_USER')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,7)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,107)
         authenticate(principal,credentials,authorities)
     }
 

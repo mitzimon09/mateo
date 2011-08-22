@@ -290,23 +290,11 @@ class CompraController {
 		
 	@Secured(['ROLE_COMPRAS'])
     def cancelar = {
-			def compra = Compra.get(params.id)
-			if (compra){
-<<<<<<< HEAD
-				//if (compra.status.equals("COMPRADA")){
-					compra = procesoService.cancelar(compra)
-					compra.save(flush:true)
-					redirect(action: "lista")
-				//}
-				//else{
-				//	flash.message = message(code: 'compra.status.message3', args: [message(code: 'compra.label', default: 'Compra'), params.id])
-				//    redirect(action: "lista")
-				//}
-=======
-				compra.status = "CANCELADA"
-				compra.save(flush:true)
-				redirect(action: "lista")
->>>>>>> 1caaff94f2a38b828d2a3808cff778f6b15b8e48
-			}
+		def compra = Compra.get(params.id)
+		if (compra){
+			compra.status = "CANCELADA"
+			compra.save(flush:true)
+			redirect(action: "lista")
+		}
 	}
 }
