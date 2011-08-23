@@ -584,4 +584,5 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
     }
+    
 }
