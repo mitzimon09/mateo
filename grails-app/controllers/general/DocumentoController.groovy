@@ -11,96 +11,96 @@ class DocumentoController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		[documentos: Documento.list(params), totalDeDocumentos: Documento.count()]
 	}
 
-    def create = {
-        def documentoInstance = new Documento()
-        documentoInstance.properties = params
-        return [documentoInstance: documentoInstance]
+    def crea = {
+        def documento = new Documento()
+        documento.properties = params
+        return [documento: documento]
     }
 
-    def save = {
-        def documentoInstance = new Documento(params)
-        if (documentoInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'documento.label', default: 'Documento'), documentoInstance.id])
-            redirect(action: "show", id: documentoInstance.id)
+    def nuevo = {
+        def documento = new Documento(params)
+        if (documento.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'documento.label', default: 'Documento'), documento.id])
+            redirect(action: "ver", id: documento.id)
         }
         else {
-            render(view: "create", model: [documentoInstance: documentoInstance])
+            render(view: "crea", model: [documento: documento])
         }
     }
 
-    def show = {
-        def documentoInstance = Documento.get(params.id)
-        if (!documentoInstance) {
+    def ver = {
+        def documento = Documento.get(params.id)
+        if (!documento) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [documentoInstance: documentoInstance]
+            [documento: documento]
         }
     }
 
-    def edit = {
-        def documentoInstance = Documento.get(params.id)
-        if (!documentoInstance) {
+    def edita = {
+        def documento = Documento.get(params.id)
+        if (!documento) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [documentoInstance: documentoInstance]
+            return [documento: documento]
         }
     }
 
-    def update = {
-        def documentoInstance = Documento.get(params.id)
-        if (documentoInstance) {
+    def actualiza = {
+        def documento = Documento.get(params.id)
+        if (documento) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (documentoInstance.version > version) {
+                if (documento.version > version) {
                     
-                    documentoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'documento.label', default: 'Documento')] as Object[], "Another user has updated this Documento while you were editing")
-                    render(view: "edit", model: [documentoInstance: documentoInstance])
+                    documento.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'documento.label', default: 'Documento')] as Object[], "Another user has updated this Documento while you were editing")
+                    render(view: "edita", model: [documento: documento])
                     return
                 }
             }
-            documentoInstance.properties = params
-            if (!documentoInstance.hasErrors() && documentoInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'documento.label', default: 'Documento'), documentoInstance.id])
-                redirect(action: "show", id: documentoInstance.id)
+            documento.properties = params
+            if (!documento.hasErrors() && documento.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'documento.label', default: 'Documento'), documento.id])
+                redirect(action: "ver", id: documento.id)
             }
             else {
-                render(view: "edit", model: [documentoInstance: documentoInstance])
+                render(view: "edita", model: [documento: documento])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def documentoInstance = Documento.get(params.id)
-        if (documentoInstance) {
+    def elimina = {
+        def documento = Documento.get(params.id)
+        if (documento) {
             try {
-                documentoInstance.delete(flush: true)
+                documento.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
                 redirect(action: "list")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

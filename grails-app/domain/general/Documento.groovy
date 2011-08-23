@@ -21,7 +21,7 @@ class Documento {
         descripcion blank: false, maxSize: 128
         naturaleza balnk: false, maxSize: 10
     	observaciones nullable: true, maxSize: 128
-    	status inList: ["CREADO"]
+    	status inList: ["CREADO","ENVIADO","ELIMINADO","REVISAR","AUTORIZAR"]
     }
     
     static mapping = {
