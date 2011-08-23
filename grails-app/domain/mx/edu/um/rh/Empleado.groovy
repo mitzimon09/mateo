@@ -15,7 +15,8 @@ class Empleado {
     Map perdeds
     static transients = ['perdeds']
     static hasMany=[perdedsList:EmpleadoPerded]
-    
+
+    //static hasOne=[empleadoPersonales:EmpleadoPersonales,empleadoLaborales:EmpleadoLaborales]
     
     
     public String getNombreCompleto(){

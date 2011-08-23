@@ -305,17 +305,17 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     void debieraMostarCentroCostoEmpleadosNomina(){
         //Pruebas Aun no Implementadas
     }
-    
-        @Test
+
+    @Test
     void debieraDarDeAltaEmpleado(){
-    	
+
     	def organizacion = new Organizacion (
             codigo: 'TST1'
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
         assertNotNull organizacion
-        
+
 		def empresa = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
@@ -324,7 +324,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             ).save()
 
         assertNotNull empresa
-        
+
         def empleadoLaborales = new EmpleadoLaborales (
         	escalafon: 3
         	, turno: 1
@@ -333,13 +333,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         	, fechaAlta: new Date()
         	, antiguedadBase: new BigDecimal(0.00)
         )
-        
+
         def empleadoPersonales = new EmpleadoPersonales(
         	estadoCivil: "te"
         	, madre: "test"
         	, padre: "test"
         )
-        
+
         def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
@@ -365,6 +365,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		assertEquals 1762L, empleado.id
 
 		def controller = new EmpleadoController()		
+
 		controller.params.clave = empleado.clave
         controller.params.nombre = empleado.nombre
         controller.params.apPaterno = empleado.apPaterno
@@ -375,31 +376,32 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.status = empleado.status
         controller.params.empresa = empleado.empresa
         controller.params.id = empleado.id
-        
+
         controller.save()
-        
+
         assert controller
         assertNotNull controller.response.redirectedUrl
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
     }
-    
+
+
     @Test
     void debieraModificarDatosDeEmpleado(){
-    	
+
     	def organizacion = new Organizacion (
             codigo: 'TST1'
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
         assertNotNull organizacion
-        
+
 		def empresa = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-            
+
     	def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
@@ -414,17 +416,17 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		empleado.id = 1762
 		empleado.save()
 		assertNotNull empleado
-		
+
         def controller = new EmpleadoController()
         controller.params.id = empleado.id
         def model = controller.show()
         assert model.empleadoInstance
-        
+
         assertEquals "test", model.empleadoInstance.nombre
         assertEquals "test", model.empleadoInstance.apPaterno
         assertEquals "test", model.empleadoInstance.apMaterno
         assertEquals "fm", model.empleadoInstance.genero
-        
+
         controller.params.id = empleado.id
         model = controller.edit()
         assert model.empleadoInstance
@@ -443,24 +445,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "another", model.empleadoInstance.apMaterno
         assertEquals "fm", model.empleadoInstance.genero
     }
-    
+
     @Test
     void debieraCambiarEstatusDeEmpleado(){
-    	
+
     	def organizacion = new Organizacion (
             codigo: 'TST1'
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
         assertNotNull organizacion
-        
+
 		def empresa = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-            
+
     	def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
@@ -475,13 +477,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		empleado.id = 1762
 		empleado.save()
 		assertNotNull empleado
-		
-		
+
         def controller = new EmpleadoController()
         controller.params.id = empleado.id
         def model = controller.show()
         assert model.empleadoInstance
-        
+
         assertEquals "23", empleado.status
         controller.params.id = empleado.id
         model = controller.edit()
@@ -492,6 +493,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         
     }
     
+        assertEquals "I", empleado.status
+        assert controller.response.redirectedUrl.startsWith('/empleado/show')
+
+    }
+
     @Test
     void debieraMostrarDatosDeEmpleado() {
     	def organizacion = new Organizacion (
@@ -500,14 +506,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , nombreCompleto: 'TEST-1'
         ).save()
         assertNotNull organizacion
-        
+
 		def empresa = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-            
+
     	def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
@@ -522,18 +528,18 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		empleado.id = 1762
 		empleado.save()
 		assertNotNull empleado
-		
+
 		def controller = new EmpleadoController()
         controller.params.id = empleado.id
         def model = controller.show()
         assert model.empleadoInstance
-        
+
         controller.update()
         assertNotNull controller.response.redirectedUrl
         assertNotNull controller.response
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
     }
-    
+
     @Test
     void MostrarListaDeEmpleados() {
 
@@ -543,7 +549,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , nombreCompleto: 'TEST-1'
         ).save()
         assertNotNull organizacion
-        
+
 		def empresa = new Empresa(
                 codigo: "emp2"
                 , nombre: "emp"
@@ -578,5 +584,4 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
     }
-    
 }
