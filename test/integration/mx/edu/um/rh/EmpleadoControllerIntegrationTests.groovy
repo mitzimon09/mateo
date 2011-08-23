@@ -492,11 +492,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
         
     }
-    
-        assertEquals "I", empleado.status
-        assert controller.response.redirectedUrl.startsWith('/empleado/show')
-
-    }
 
     @Test
     void debieraMostrarDatosDeEmpleado() {
@@ -583,6 +578,10 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
+    }
+    @Test
+    void testingtest(){
+    
     }
     
 }
