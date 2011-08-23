@@ -59,7 +59,7 @@ class Cuenta {
     }
 
     String toString() {
-        return "$numero | $descripcion"
+        return "$numero | $codigo"
     }
 
     boolean equals(o) {
