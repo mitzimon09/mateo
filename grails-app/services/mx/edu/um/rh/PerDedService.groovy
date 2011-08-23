@@ -2,7 +2,7 @@ package mx.edu.um.rh
 
 class PerDedService {
 
-    Map<String,String> getMapGrupoX(){
+    Map<String,String> getMapFormulasGrupoX(){
         log.debug 'Entro a getMapGrupoX'
         Map<String,String> mapGX = new TreeMap<String,String>()
 

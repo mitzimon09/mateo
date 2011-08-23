@@ -12,8 +12,6 @@ class EmpleadoPersonales {
     String iglesia
     String responsabilidad
     
-    //static belongsTo=[Empleado]
-
     static constraints = {
         estadoCivil maxSize:2,blank:false
         madre maxSize:50,blank:false        

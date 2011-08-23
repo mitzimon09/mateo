@@ -26,10 +26,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      * Map<(String)ClavePercepcion,(String)formulaPercepcion>
     **/
     @Test
-    void debieraArmarMapGrupoX(){
+    void debieraArmarMapFormulasGrupoX(){
         log.debug 'testArmarMapGrupoX'
 
-        Map<String,String> mapGX = perdedServiceInt.getMapGrupoX()
+        Map<String,String> mapGX = perdedServiceInt.getMapFormulasGrupoX()
         assertNotNull mapGX
 
         List<PerDed> perdesGX = PerDed.findAllByGrupo(Grupo.get(6))

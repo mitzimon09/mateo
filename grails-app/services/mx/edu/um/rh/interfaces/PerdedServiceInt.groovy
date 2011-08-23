@@ -12,7 +12,7 @@ import general.*
  */
 interface PerdedServiceInt {
     
-    Map<String,String> getMapGrupoX()
+    Map<String,String> getMapFormulasGrupoX()
     
 }
 
