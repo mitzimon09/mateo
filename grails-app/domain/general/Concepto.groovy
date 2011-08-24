@@ -8,12 +8,12 @@ class Concepto {
 
     static constraints = {
         descripcion blank:false, maxSize: 128
-        status blank:false
+        status blank:false, maxSize: 2
         nombre blank: false
         tags blank: false
     }
     
     static mapping = {
-        table name: 'nom_concepto', schema: 'mateo'
+        table name: 'cont_concepto', schema: 'mateo'
     }
 }

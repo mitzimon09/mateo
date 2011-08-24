@@ -11,17 +11,17 @@ class Documento {
     String status = 'CREADO'
     BigDecimal importe = new BigDecimal("0.00")
     BigDecimal iva = new BigDecimal("0.00")
-    Date dateCreated
-    Date lastUpdated
+    //Date dateCreated
+    //Date lastUpdated
     Empleado empleado
     Concepto concepto
-    Usuario usuario
+    Usuario user
 
     static constraints = {
         descripcion blank: false, maxSize: 128
-        naturaleza balnk: false, maxSize: 10
+        naturaleza balnk: false, maxSize: 1
     	observaciones nullable: true, maxSize: 128
-    	status inList: ["CREADO","ENVIADO","ELIMINADO","REVISAR","AUTORIZAR"]
+    	status inList: ["C","E","EL","RE","A"]
     }
     
     static mapping = {

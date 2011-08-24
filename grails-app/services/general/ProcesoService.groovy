@@ -29,5 +29,11 @@ class ProcesoService {
     	params.status = "REVISADA"
     	return params
     }
+
+    def autorizar(params){
+    	params.status = "AUTORIZADO"
+    	return params
+    }
+    
     
 }

@@ -103,4 +103,52 @@ class DocumentoController {
             redirect(action: "lista")
         }
     }
+    
+    @Secured(['ROLE_EMP'])
+    def enviar = {
+		def documento = Documento.get(params.id)
+		if (documento){
+			if(documento.status.equals("CREADO")){
+				documento = procesoService.enviar(cheque)
+				documento.save(flush:true)
+				redirect(action: "lista")
+			}
+			else {
+				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+		        redirect(action: "lista")
+			}
+		}
+    }
+    
+    @Secured(['ROLE_EMP'])
+    def revisar = {
+		def documento = Documento.get(params.id)
+		if (documento){
+			if(documento.status.equals("ENVIADO")){
+				documento = procesoService.revisar(cheque)
+				documento.save(flush:true)
+				redirect(action: "lista")
+			}
+			else {
+				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+		        redirect(action: "lista")
+			}
+		}
+    }
+    
+    @Secured(['ROLE_EMP'])
+    def autorizar = {
+		def documento = Documento.get(params.id)
+		if (documento){
+			if(documento.status.equals("REVISADO")){
+				documento = procesoService.autorizar(cheque)
+				documento.save(flush:true)
+				redirect(action: "lista")
+			}
+			else {
+				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+		        redirect(action: "lista")
+			}
+		}
+    }
 }
