@@ -20,9 +20,9 @@ class EmpleadoService implements EmpleadoServiceInt {
         Empleado empleadoDos=new Empleado()
         empleado.clave=claveUno
         empleadoDos.clave=claveDos
-        EmpleadoLaborales laborales=new EmpleadoLaborales()
-        laborales.tipo=tipo
-        empleado.empleadoLaborales=laborales
+        //EmpleadoLaborales laborales=new EmpleadoLaborales()
+        //laborales.tipo=tipo
+        //empleado.empleadoLaborales=laborales
         empleado.empresa=empresa
         empleado.status=Constantes.STATUS_ACTIVO
         def empleados=Empleado.listaEmpleadosParametros(empleado,empleadoDos)
@@ -34,9 +34,9 @@ class EmpleadoService implements EmpleadoServiceInt {
         log.debug "getEmpleadosByEmpresaAndTipo $empresa.id $tipo.id"
         Empleado empleado=new Empleado()
         empleado.empresa=empresa
-        EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
-        emplLaborales.tipo=tipo
-        empleado.empleadoLaborales=emplLaborales
+        //EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
+        //emplLaborales.tipo=tipo
+        //empleado.empleadoLaborales=emplLaborales
         empleado.status=Constantes.STATUS_ACTIVO
         def empleados=Empleado.listaEmpleadosParametros(empleado,null)
         log.debug "Empleados ${empleados.list().size()}"
@@ -53,9 +53,9 @@ class EmpleadoService implements EmpleadoServiceInt {
     
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException{
         Empleado empleado=new Empleado()
-        EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
-        emplLaborales.tipo=tipo
-        empleado.empleadoLaborales=emplLaborales
+        //EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
+        //emplLaborales.tipo=tipo
+        //empleado.empleadoLaborales=emplLaborales
         empleado.status=Constantes.STATUS_ACTIVO
         def empleados=Empleado.listaEmpleadosParametros(empleado,null)
         return empleados.list()

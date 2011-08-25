@@ -12,6 +12,8 @@ class EmpleadoPersonales {
     String iglesia
     String responsabilidad
     
+    //static belongsTo = [empleado:Empleado]
+    
     static constraints = {
         estadoCivil maxSize:2,blank:false
         madre maxSize:50,blank:false        
@@ -22,7 +24,8 @@ class EmpleadoPersonales {
         finadoPadre nullable:true
         finadoMadre nullable:true
         iglesia nullable:true
-        responsabilidad nullable:true   
+        responsabilidad nullable:true  
+        empleado nullable:true 
     }
     
     static mapping={

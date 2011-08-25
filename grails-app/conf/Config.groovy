@@ -1,4 +1,4 @@
-// locations to search for config files that get merged into the main config
+de// locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
 grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.groovy" ]
@@ -93,7 +93,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug  'grails.app'//,'org.hibernate',test.integration
+    debug  'grails.app','org.hibernate'//,'est.integration'
 
     //trace  'org.hibernate.type'
 

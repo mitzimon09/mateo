@@ -21,22 +21,22 @@ class EmpleadoLaborales {
     BigDecimal antiguedadFiscal
     Grupo grupo
     
+    //static belongsTo = [empleado:Empleado]
     
     static constraints = {
-        cuenta maxSize:16
+        cuenta maxSize:16, nullable:true
         curp maxSize:30
         escalafon blank:false
-        imms maxSize:15
+        imms maxSize:15, nullable:true
         rfc maxSize:15,blank:false
         modalidad maxSize:2,blank:false
         turno blank:false
         fechaAlta blank:false
         antiguedadBase blank:false
+        antiguedadFiscal blank:false
         //
         adventista nullable:true
-        antiguedadFiscal nullable:true
         cuenta nullable:true
-        curp nullable:true
         experienciaFueraUM nullable:true
         fechaAntiguedadBase nullable:true
         fechaBaja nullable:true
@@ -44,6 +44,8 @@ class EmpleadoLaborales {
         imms nullable:true
         rango nullable:true
         tipo nullable:true
+        grupo nullable:true
+        empleado nullable:true
         
     }
     
