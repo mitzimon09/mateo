@@ -7,6 +7,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 @Secured(['ROLE_EMP'])
 class DocumentoController {
 	def springSecurityService
+	def procesoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -19,13 +20,13 @@ class DocumentoController {
 		[documentos: Documento.list(params), totalDeDocumentos: Documento.count()]
 	}
 
-    def crea = {
+    def nuevo = {
         def documento = new Documento()
         documento.properties = params
         return [documento: documento]
     }
 
-    def nuevo = {
+    def crea = {
         def documento = new Documento(params)
         if (documento.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'documento.label', default: 'Documento'), documento.id])
@@ -91,7 +92,7 @@ class DocumentoController {
             try {
                 documento.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'documento.label', default: 'Documento'), params.id])
@@ -108,13 +109,14 @@ class DocumentoController {
     def enviar = {
 		def documento = Documento.get(params.id)
 		if (documento){
-			if(documento.status.equals("CREADO")){
-				documento = procesoService.enviar(cheque)
+			if(documento.status.equals("C")){
+		        log.debug "documento = " + documento
+				documento = procesoService.enviar(documento)
 				documento.save(flush:true)
 				redirect(action: "lista")
 			}
 			else {
-				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+				flash.message = message(code: 'documento.status.message5', args: [message(code: 'documento.label', default: 'documento'), params.id])
 		        redirect(action: "lista")
 			}
 		}
@@ -125,12 +127,12 @@ class DocumentoController {
 		def documento = Documento.get(params.id)
 		if (documento){
 			if(documento.status.equals("ENVIADO")){
-				documento = procesoService.revisar(cheque)
+				documento = procesoService.revisar(documento)
 				documento.save(flush:true)
 				redirect(action: "lista")
 			}
 			else {
-				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+				flash.message = message(code: 'documento.status.message5', args: [message(code: 'documento.label', default: 'documento'), params.id])
 		        redirect(action: "lista")
 			}
 		}
@@ -141,12 +143,12 @@ class DocumentoController {
 		def documento = Documento.get(params.id)
 		if (documento){
 			if(documento.status.equals("REVISADO")){
-				documento = procesoService.autorizar(cheque)
+				documento = procesoService.autorizar(documento)
 				documento.save(flush:true)
 				redirect(action: "lista")
 			}
 			else {
-				flash.message = message(code: 'cheque.status.message5', args: [message(code: 'cheque.label', default: 'cheque'), params.id])
+				flash.message = message(code: 'documento.status.message5', args: [message(code: 'documento.label', default: 'documento'), params.id])
 		        redirect(action: "lista")
 			}
 		}

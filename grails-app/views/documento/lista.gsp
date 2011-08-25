@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="crea"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-documento" class="content scaffold-list" role="main">
@@ -39,27 +39,27 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${documentoInstanceList}" status="i" var="documentoInstance">
+				<g:each in="${documentos}" status="i" var="documento">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${documentoInstance.id}">${fieldValue(bean: documentoInstance, field: "concepto")}</g:link></td>
+						<td><g:link action="show" id="${documento.id}">${fieldValue(bean: documento, field: "concepto")}</g:link></td>
 					
-						<td>${fieldValue(bean: documentoInstance, field: "descripcion")}</td>
+						<td>${fieldValue(bean: documento, field: "descripcion")}</td>
 					
-						<td>${fieldValue(bean: documentoInstance, field: "naturaleza")}</td>
+						<td>${fieldValue(bean: documento, field: "naturaleza")}</td>
 					
-						<td>${fieldValue(bean: documentoInstance, field: "observaciones")}</td>
+						<td>${fieldValue(bean: documento, field: "observaciones")}</td>
 					
-						<td>${fieldValue(bean: documentoInstance, field: "status")}</td>
+						<td>${fieldValue(bean: documento, field: "status")}</td>
 					
-						<td>${fieldValue(bean: documentoInstance, field: "cheque")}</td>
+						<td>${fieldValue(bean: documento, field: "cheque")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${documentoInstanceTotal}" />
+				<g:paginate total="${totalDeDocumentos}" />
 			</div>
 		</div>
 	</body>

@@ -71,7 +71,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
 		def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -85,12 +85,12 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 		def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
         
-        def model = controller.crea()
+        def model = controller.nuevo()
         assert model
         assert model.documento
         controller.params.descripcion = "test"
-        controller.params.naturaleza = 'test'
-        controller.params.cheque = 'test'
+        controller.params.naturaleza = 'C'
+        controller.params.cheque = 'N'
         controller.params.observaciones = 'test'
         controller.params.status = 'C'
         controller.params.importe = new BigDecimal("0.00")
@@ -102,7 +102,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         controller.crea()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/documento/edita')
+        assert controller.response.redirectedUrl.startsWith('/documento/ver')
     }
     
     @Test
@@ -110,10 +110,10 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser
-		
+
 		def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -127,7 +127,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def documento = new Documento(
             descripcion: 'test'
             , naturaleza: 'C'
-            , cheque: 'test'
+            , cheque: 'N'
             , observaciones: 'test'
             , status: 'C'
             , importe: new BigDecimal("0.00")
@@ -142,7 +142,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
         controller.params.id = documento.id
-        def model = controller.show()
+        def model = controller.ver()
         assert model.documento
         assertEquals "test", model.documento.descripcion
 
@@ -153,9 +153,9 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
         controller.params.descripcion = 'test1'
         controller.actualiza()
-        assert controller.response.redirectedUrl.startsWith('/documento/edita')
+        assert controller.response.redirectedUrl.startsWith('/documento/ver')
 
-        articulo.refresh()
+        documento.refresh()
         assertEquals 'test1', documento.descripcion
     }
     
@@ -167,7 +167,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
     	
     	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -178,10 +178,10 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals 139,empleado.id
         System.out.println( "empleado " + empleado)
         
-        def documento = new Documento(
+    	def documento = new Documento(
             descripcion: 'test'
-            , naturaleza: 't'
-            , cheque: 'test'
+            , naturaleza: 'C'
+            , cheque: 'N'
             , observaciones: 'test'
             , status: 'C'
             , importe: new BigDecimal("0.00")
@@ -198,11 +198,11 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.id = documento.id
         def model = controller.ver()
         assert model.documento
-        assertEquals "test", model.articulo.descripcion
+        assertEquals "test", model.documento.descripcion
 
         controller.params.id = documento.id
         controller.elimina()
-        assert controller.response.redirectedUrl.startsWith("/articulo/lista")
+        assert controller.response.redirectedUrl.startsWith("/documento/lista")
 
         model = Documento.get(documento.id)
         assert !model
@@ -213,10 +213,11 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         authenticateEmp()
 		
         def currentUser = springSecurityService.currentUser
-
-	    def concepto = new Concepto (
+        def procesoService
+    	
+    	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -227,17 +228,17 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals 139,empleado.id
         System.out.println( "empleado " + empleado)
         
-        def documento = new Documento(
+    	def documento = new Documento(
             descripcion: 'test'
-            , naturaleza: 't'
-            , cheque: 'test'
+            , naturaleza: 'C'
+            , cheque: 'N'
             , observaciones: 'test'
             , status: 'C'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
             , concepto: concepto
-            , usuario: currentUser
+            , user: currentUser
             , fecha: new Date()
 	    ).save()
 		assertNotNull documento
@@ -252,7 +253,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         assert model.documento
         
         controller.enviar()
-        assertEquals "E", cheque.status
+        assertEquals "E", documento.status
     }
 
     @Test

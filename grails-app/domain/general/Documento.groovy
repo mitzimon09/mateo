@@ -8,7 +8,7 @@ class Documento {
     String naturaleza
     String cheque //Cheque cheque
     String observaciones
-    String status = 'CREADO'
+    String status = 'C'
     BigDecimal importe = new BigDecimal("0.00")
     BigDecimal iva = new BigDecimal("0.00")
     //Date dateCreated
@@ -26,5 +26,6 @@ class Documento {
     
     static mapping = {
         table name: 'nom_facturass', schema: 'mateo'
+        //id column:  'select max(id) from nom_facturass' + 1
     }
 }

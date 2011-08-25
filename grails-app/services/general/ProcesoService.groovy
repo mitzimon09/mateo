@@ -2,36 +2,37 @@ package general
 
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import mx.edu.um.Constantes
 
 class ProcesoService {
     def springSecurityService
 
     def enviar(params){
-			  params.status = "ENVIADA"
+			  params.status = Constantes.STATUS_ENVIADO
         return params
     }
 
     def aprobar(params){
-			  params.status = "APROBADA"
+			  params.status = Constantes.STATUS_APROBADO
         return params
     }
 
     def rechazar(params){
-			  params.status = "RECHAZADA"
+			  params.status = Constantes.STATUS_RECHAZADO
         return params
     }
     def cancelar(params){
-    	params.status = "CANCELADA"
+    	params.status = Constantes.STATUS_CANCELAD
     	return params
     }
     
     def revisar(params){
-    	params.status = "REVISADA"
+    	params.status = Constantes.STATUS_REVISADO
     	return params
     }
 
     def autorizar(params){
-    	params.status = "AUTORIZADO"
+    	params.status = Constantes.STATUS_AUTORIZADO
     	return params
     }
     
