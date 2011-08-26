@@ -594,4 +594,35 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
     }
+    
+    @Test
+    void debieraAsignarSiguienteNumeroDeClaveDisponible() {
+    	def empleado = new Empleado (
+			clave: "test"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+		
+		def controller = new EmpleadoController()
+        controller.list()
+    }
 }
