@@ -3,8 +3,8 @@ dataSource {
     driverClassName = "org.postgresql.Driver"
     username = "tomcat"
     password = "tomcat00"
-    dbCreate = "update" // create, create-drop, update
-    url = 'jdbc:postgresql:mateo2'
+    dbCreate = "create" // create, create-drop, update
+    url = 'jdbc:postgresql:mateo'
 }
 hibernate {
     cache.use_second_level_cache = true

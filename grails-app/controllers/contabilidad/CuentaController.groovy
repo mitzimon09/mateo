@@ -167,14 +167,17 @@ class CuentaController {
             CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo2.csv")))
             String[] nextLine
             def padre
+            
             while(nextLine = reader.readNext()) {
-                log.debug "${nextLine[0]} | ${nextLine[1]} | ${nextLine[2]} | ${nextLine[3]}"
+                log.debug "CUENTAS: ${nextLine[0]} | ${nextLine[1]} | ${nextLine[2]} | ${nextLine[3]}"
 
                 if (nextLine[3] != '0') {
                     padre = catalogo[nextLine[3]]
+                    log.debug "PADRE: ${nextLine[3]}"
                 } else {
                     padre = null
                 }
+                
                 def cuenta = new Cuenta (
                     codigo : nextLine[0]
                     , numero : nextLine[1]
@@ -182,6 +185,35 @@ class CuentaController {
                     , padre : padre
                     , organizacion : usuario.empresa.organizacion
                 ).save()
+                
+              //Departamento
+              if(nextLine[0] > '700000'){
+                  
+                def cuentaDepartamento = new Cuenta (
+                    codigo : nextLine[0]
+                    , numero : nextLine[1]
+                    , descripcion : nextLine[2]
+                    , padre : padre
+                    , organizacion : usuario.empresa.organizacion
+                ).save()    
+                    
+                    
+                def departamento = new Departamento (
+                    nombre : nextLine[2]
+                    ,cuenta : cuenta
+                ).save()
+              }
+              //Cuenta
+                else{
+                def cuenta2 = new Cuenta (
+                    codigo : nextLine[0]
+                    , numero : nextLine[1]
+                    , descripcion : nextLine[2]
+                    , padre : padre
+                    , organizacion : usuario.empresa.organizacion
+                ).save()
+              }
+
                 catalogo[nextLine[0]] = cuenta
             }
         }
