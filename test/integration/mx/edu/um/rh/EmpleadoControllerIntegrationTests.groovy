@@ -621,6 +621,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         	, madre: "test"
         	, padre: "test"
 		).save()
+
 		def controller = new EmpleadoController()
         controller.list()
     }
