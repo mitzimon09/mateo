@@ -8,6 +8,7 @@ class ProcesoService {
     def springSecurityService
 
     def enviar(params){
+              log.debug "status = " + params.status
 			  params.status = Constantes.STATUS_ENVIADO
         return params
     }

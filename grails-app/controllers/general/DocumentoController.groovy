@@ -3,11 +3,12 @@ package general
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import mx.edu.um.Constantes
 
 @Secured(['ROLE_EMP'])
 class DocumentoController {
-	def springSecurityService
-	def procesoService
+    def springSecurityService
+    def procesoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -109,9 +110,9 @@ class DocumentoController {
     def enviar = {
 		def documento = Documento.get(params.id)
 		if (documento){
-			if(documento.status.equals("C")){
-		        log.debug "documento = " + documento
-				documento = procesoService.enviar(documento)
+			if(documento.status.equals(Constantes.STATUS_CREADO)){
+				//documento = procesoService.enviar(documento)
+				documento.status = Constantes.STATUS_ENVIADO
 				documento.save(flush:true)
 				redirect(action: "lista")
 			}
@@ -126,9 +127,10 @@ class DocumentoController {
     def revisar = {
 		def documento = Documento.get(params.id)
 		if (documento){
-			if(documento.status.equals("ENVIADO")){
-				documento = procesoService.revisar(documento)
-				documento.save(flush:true)
+			if(documento.status.equals(Constantes.STATUS_ENVIADO)){
+				//documento = procesoService.revisar(documento)
+                documento.status = Constantes.STATUS_REVISADO
+    			documento.save(flush:true)
 				redirect(action: "lista")
 			}
 			else {
@@ -142,8 +144,9 @@ class DocumentoController {
     def autorizar = {
 		def documento = Documento.get(params.id)
 		if (documento){
-			if(documento.status.equals("REVISADO")){
-				documento = procesoService.autorizar(documento)
+			if(documento.status.equals(Constantes.STATUS_REVISADO)){
+				//documento = procesoService.autorizar(documento)
+				documento.status = Constantes.STATUS_AUTORIZADO
 				documento.save(flush:true)
 				redirect(action: "lista")
 			}

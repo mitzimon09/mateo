@@ -30,7 +30,6 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
         for(i in 1..20) {
         	def documento = new Documento(
@@ -80,7 +79,6 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
 		def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
@@ -122,7 +120,6 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
         def documento = new Documento(
             descripcion: 'test'
@@ -176,7 +173,6 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
     	def documento = new Documento(
             descripcion: 'test'
@@ -210,7 +206,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void EnviarDocumento() {
-        authenticateEmp()
+        authenticateAdmin()
 		
         def currentUser = springSecurityService.currentUser
         def procesoService
@@ -226,7 +222,6 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
     	def documento = new Documento(
             descripcion: 'test'
@@ -245,11 +240,12 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
         def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
-		controller.procesoService = procesoService
-        assertEquals "C", documento.status
+        controller.procesoService = procesoService
 		
-		controller.params.id = documento.id
-        def model = controller.edita()
+        assertEquals "C", documento.status
+        
+        controller.params.id = documento.id
+        def model = controller.ver()
         assert model.documento
         
         controller.enviar()
@@ -258,13 +254,14 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void RevisarDocumento() {
-        authenticateEmp()
+        authenticateAdmin()
 		
         def currentUser = springSecurityService.currentUser
-
-	    def concepto = new Concepto (
+        def procesoService
+    	
+    	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -273,45 +270,46 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
-        def documento = new Documento(
+    	def documento = new Documento(
             descripcion: 'test'
-            , naturaleza: 't'
-            , cheque: 'test'
+            , naturaleza: 'C'
+            , cheque: 'N'
             , observaciones: 'test'
             , status: 'E'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
             , concepto: concepto
-            , usuario: currentUser
+            , user: currentUser
             , fecha: new Date()
 	    ).save()
 		assertNotNull documento
 
         def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
-		controller.procesoService = procesoService
-        assertEquals "E", documento.status
+        controller.procesoService = procesoService
 		
-		controller.params.id = documento.id
-        def model = controller.revisar()
+        assertEquals "E", documento.status
+        
+        controller.params.id = documento.id
+        def model = controller.ver()
         assert model.documento
         
-        controller.enviar()
-        assertEquals "R", cheque.status
+        controller.revisar()
+        assertEquals "RE", documento.status
     }
 
     @Test
     void AutorizarDocumento() {
-        authenticateEmp()
+        authenticateAdmin()
 		
         def currentUser = springSecurityService.currentUser
-
-	    def concepto = new Concepto (
+        def procesoService
+    	
+    	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'C'
+            , status: 'A'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -320,19 +318,18 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def clave="9800052"
         def empleado = empleadoServiceInt.getEmpleado(clave)
         assertEquals 139,empleado.id
-        System.out.println( "empleado " + empleado)
         
-        def documento = new Documento(
+    	def documento = new Documento(
             descripcion: 'test'
-            , naturaleza: 't'
-            , cheque: 'test'
+            , naturaleza: 'C'
+            , cheque: 'N'
             , observaciones: 'test'
-            , status: 'R'
+            , status: 'RE'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
             , concepto: concepto
-            , usuario: currentUser
+            , user: currentUser
             , fecha: new Date()
 	    ).save()
 		assertNotNull documento
@@ -340,13 +337,13 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         def controller = new DocumentoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "R", documento.status
+        assertEquals "RE", documento.status
 		
 		controller.params.id = documento.id
-        def model = controller.autorizar()
+        def model = controller.ver()
         assert model.documento
         
-        controller.enviar()
-        assertEquals "A", cheque.status
+        controller.autorizar()
+        assertEquals "AU", documento.status
     }
 }

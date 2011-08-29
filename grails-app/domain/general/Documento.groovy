@@ -21,7 +21,7 @@ class Documento {
         descripcion blank: false, maxSize: 128
         naturaleza balnk: false, maxSize: 1
     	observaciones nullable: true, maxSize: 128
-    	status inList: ["C","E","EL","RE","A"]
+    	status inList: ["C","E","RE","AP","AU"]
     }
     
     static mapping = {
