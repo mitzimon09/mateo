@@ -32,6 +32,17 @@ class EmpleadoLaborales {
         turno blank:false
         fechaAlta blank:false
         antiguedadBase blank:false
+         adventista nullable:true
+        antiguedadFiscal nullable:true
+        cuenta nullable:true
+        curp nullable:true
+        experienciaFueraUM nullable:true
+        fechaAntiguedadBase nullable:true
+        fechaBaja nullable:true
+        ife nullable:true
+        imms nullable:true
+        rango nullable:true
+        tipo nullable:true
         
     }
     
