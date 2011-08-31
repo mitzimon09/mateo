@@ -184,6 +184,7 @@ class CuentaController {
                     , descripcion : nextLine[2]
                     , padre : padre
                     , organizacion : usuario.empresa.organizacion
+                    , status : false
                 ).save()
                 
               //Departamento
@@ -194,13 +195,15 @@ class CuentaController {
                     , numero : nextLine[1]
                     , descripcion : nextLine[2]
                     , padre : padre
+                    , status: true
                     , organizacion : usuario.empresa.organizacion
                 ).save()    
                     
                     
                 def departamento = new Departamento (
                     nombre : nextLine[2]
-                    ,cuenta : cuenta
+                    ,cuenta : cuentaDepartamento
+                    ,organizacion : usuario.empresa.organizacion
                 ).save()
               }
               //Cuenta
@@ -211,6 +214,7 @@ class CuentaController {
                     , descripcion : nextLine[2]
                     , padre : padre
                     , organizacion : usuario.empresa.organizacion
+                    , status : false
                 ).save()
               }
 

@@ -1,11 +1,13 @@
 package contabilidad
+import general.Organizacion
 
 class Departamento {
 
     String nombre
     Cuenta cuenta
+    Organizacion organizacion
 
-    static belongsTo = [Cuenta]
+    static belongsTo = [cuenta : Cuenta, organizacion : Organizacion]
 
     static constraints = {
         nombre blank:false, maxSize:64

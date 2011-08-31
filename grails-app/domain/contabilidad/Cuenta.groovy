@@ -9,6 +9,7 @@ class Cuenta {
     Boolean tieneMovimientos = false
     Boolean tieneAuxiliares = false
     Cuenta padre
+    Boolean status = false
     Organizacion organizacion
     Set hijos
     Set auxiliares
