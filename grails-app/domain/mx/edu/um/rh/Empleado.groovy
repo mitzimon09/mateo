@@ -10,22 +10,60 @@ class Empleado {
     Date fechaNacimiento
     String direccion
     String status
-    EmpleadoPersonales empleadoPersonales
-    EmpleadoLaborales empleadoLaborales
     Map perdeds
-    static transients = ['perdeds']
-    static hasMany=[perdedsList:EmpleadoPerded]
     
+    TipoEmpleado tipo
+    String curp
+    String rfc
+    String cuenta
+    String imms
+    Integer escalafon
+    Integer turno
+    Date fechaAlta
+    Date fechaBaja
+    BigDecimal experienciaFueraUM
+    String modalidad
+    String ife
+    String rango
+    Boolean adventista
+    Date fechaAntiguedadBase
+    BigDecimal antiguedadBase
+    BigDecimal antiguedadFiscal
+    Grupo grupo
+    
+    String padre
+    String madre
+    String estadoCivil
+    String conyuge
+    Date fechaMatrimonio
+    Short finadoPadre
+    Short finadoMadre
+    String iglesia
+    String responsabilidad
+    
+    static transients = ['perdeds']
+    
+    static hasMany=[perdedsList:EmpleadoPerded]//, empleado:EmpleadoPersonales, empleado:empleado]
+
+    //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
     
     
     public String getNombreCompleto(){
         "$nombre $apPaterno $apMaterno"
     }
     
+    /*public void save(params){
+    	System.out.println("saved")
+    }
+    
+    public void Empleado.metaclass.save(params){
+    	System.out.println("saved")
+    }*/
+    
     public String getDisponibilidad(){
         String disponiblidad = ""
         try{            
-            disponiblidad=this.empleadoLaborales.turno.toString()
+            disponiblidad=this.turno.toString()
         }catch (NullPointerException npe){
             log.error("Empleado "+this.clave+","+npe);
             npe.printStackTrace();
@@ -37,8 +75,8 @@ class Empleado {
      **/
     public boolean isEscalafonValido(){
         boolean isValido=false
-        if(this.empleadoLaborales){
-            if(this.empleadoLaborales.escalafon!=null && !this.empleadoLaborales.escalafon.equals(0)){
+        if(this){
+            if(this.escalafon!=null && !this.escalafon.equals(0)){
                 isValido=true;
             }
         }        
@@ -49,8 +87,8 @@ class Empleado {
      */
     public boolean isCuentaBancoValida(){
         boolean isValido=false
-        if(this.empleadoLaborales){
-            if(this.empleadoLaborales.cuenta!=null && !this.empleadoLaborales.cuenta.trim().equals("")){
+        if(this){
+            if(this.cuenta!=null && !this.cuenta.trim().equals("")){
                 isValido=true;
             }            
         }
@@ -61,8 +99,8 @@ class Empleado {
      */
     public boolean isDisponibilidadValida(){
         boolean isValido=false
-        if(this.empleadoLaborales){
-            if(this.empleadoLaborales.turno!=null &&!this.empleadoLaborales.turno.equals(0)){
+        if(this){
+            if(this.turno!=null &&!this.turno.equals(0)){
                 isValido=true
             }
         }        
@@ -74,8 +112,8 @@ class Empleado {
      */
     public boolean isGrupoValido(){
         boolean isValido=false
-        if(this.empleadoLaborales){
-            if(this.empleadoLaborales.grupo!=null && this.empleadoLaborales.grupo.id!=null){
+        if(this){
+            if(this.grupo!=null && this.grupo.id!=null){
                 isValido=true;
             }
         }
@@ -105,13 +143,55 @@ class Empleado {
         direccion maxSize:100,blank:false
         genero maxSize:2,blank:false
         status maxSize:2,blank:false
+        //Laborales
+        cuenta maxSize:16, nullable:true
+        curp maxSize:30
+        escalafon blank:false
+        imms maxSize:15, nullable:true
+        rfc maxSize:15,blank:false
+        modalidad maxSize:2,blank:false
+        turno blank:false
+        fechaAlta blank:false
+        antiguedadBase blank:false
+        antiguedadFiscal blank:false
+        //
+        adventista nullable:true
+        cuenta nullable:true
+        experienciaFueraUM nullable:true
+        fechaAntiguedadBase nullable:true
+        fechaBaja nullable:true
+        ife nullable:true
+        imms nullable:true
+        rango nullable:true
+        tipo nullable:true
+        grupo nullable:true
+        //Personales
+        estadoCivil maxSize:2,blank:false
+        madre maxSize:50,blank:false        
+        padre maxSize:50,blank:false        
+        conyuge maxSize:50, nullable:true
+        //
+        fechaMatrimonio nullable:true
+        finadoPadre nullable:true
+        finadoMadre nullable:true
+        iglesia nullable:true
+        responsabilidad nullable:true  
+        
     }
     
     static mapping={
-        table name:'empleado',schema:'aron'
+        table name:'empleado_grails',schema:'aron'
         apPaterno column:'appaterno'
         apMaterno column:'apmaterno'
-        fechaNacimiento column:'fechanacimiento'        
+        fechaNacimiento column:'fechanacimiento'
+        
+        experienciaFueraUM column:'experiencia_fuera_um'
+        tipo column:'id_tipoempleado'
+        grupo column:'id_grupo'
+        adventista type:'yes_no'
+        
+        estadoCivil column:'estadocivil'
+        fechaMatrimonio column:'fechaMatrimonio'
     }   
     static namedQueries = {
         listaEmpleadosParametros{Empleado empleado, Empleado empleadoDos ->
@@ -127,16 +207,14 @@ class Empleado {
                     eq 'status',empleado.status                    
                 }               
                 
-                if(empleado.empleadoLaborales){
-                    empleadoLaborales{
-                        if(empleado.empleadoLaborales.tipo){
+                if(empleado){
+                        if(empleado.tipo){
                             tipo{
-                                if(empleado.empleadoLaborales.tipo.id){
-                                    idEq(empleado.empleadoLaborales.tipo.id)   
+                                if(empleado.tipo.id){
+                                    idEq(empleado.tipo.id)   
                                 }                            
                             }                            
                         }                        
-                    }
                 }                
                 if(empleado.empresa){
                     empresa{

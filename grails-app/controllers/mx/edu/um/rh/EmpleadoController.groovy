@@ -34,7 +34,7 @@ class EmpleadoController {
 
     def show = {
         def empleadoInstance = Empleado.get(params.id)
-        log.debug empleadoInstance.empleadoPersonales
+        //log.debug empleadoInstance.empleadoPersonales
         if (!empleadoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.id])
             redirect(action: "list")
@@ -82,7 +82,7 @@ class EmpleadoController {
         }
     }
 
-    def delete = {
+/*    def delete = {
         def empleadoInstance = Empleado.get(params.id)
         if (empleadoInstance) {
             try {
@@ -99,5 +99,15 @@ class EmpleadoController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.id])
             redirect(action: "list")
         }
+    }*/
+    
+    def delete = { //cambio de status
+    	def empleado = Empleado.get(params.id)
+    	if (empleado){
+    		empleado.status="I" //inactivo
+    		empleado.save(flush:true)
+    		redirect(action: "show")
+    	}
     }
+    
 }
