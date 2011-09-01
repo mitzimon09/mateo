@@ -686,8 +686,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.estadoCivil = "3e"
         controller.params.madre = "test"
         controller.params.padre = "test"
-        controller.save()
+        def id = controller.save()
         
+        def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        assertEquals 1000, empleados.size()
+        
+        controller.params.id = id
         assert controller.params.clave
 		assertEquals controller.params.clave, "9800000"        
   	}
