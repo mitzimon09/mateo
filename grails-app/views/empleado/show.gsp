@@ -103,6 +103,15 @@
 					
 				</li>
 				</g:if>
+				
+				<g:if test="${empleadoInstance?.padre}">
+				<li class="fieldcontain">
+					<span id="padre-label" class="property-label"><g:message code="empleado.padre.label" default="Padre" /></span>
+					
+						<span class="property-value" aria-labelledby="padre-label"><g:link controller="padre" action="show" id="${empleadoInstance?.padre?.id}">${empleadoInstance?.empresa?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form>

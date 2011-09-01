@@ -1,7 +1,9 @@
 package mx.edu.um.rh
+
 import mx.edu.um.rh.interfaces.*
 import general.*
 import mx.edu.um.*
+
 class EmpleadoService implements EmpleadoServiceInt {
     
     
@@ -53,6 +55,7 @@ class EmpleadoService implements EmpleadoServiceInt {
     
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException{
         Empleado empleado=new Empleado()
+        empleado.tipo = tipo
         //EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
         //emplLaborales.tipo=tipo
         //empleado.empleadoLaborales=emplLaborales
@@ -60,6 +63,15 @@ class EmpleadoService implements EmpleadoServiceInt {
         def empleados=Empleado.listaEmpleadosParametros(empleado,null)
         return empleados.list()
     }
+    
+    List<Empleado> getEmpleadosByInicioClave(Empresa empresa) throws NullPointerException{
+        Empleado empleado=new Empleado()
+        empleado.empresa=empresa
+        empleado.status=Constantes.STATUS_ACTIVO
+        def empleados=Empleado.listaEmpleadosParametros(empleado,null)
+        return empleados.list()
+    }
+    
     /*
      *
      */
