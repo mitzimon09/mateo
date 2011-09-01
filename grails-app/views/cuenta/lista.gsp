@@ -55,7 +55,7 @@
                             <g:if test="${cuenta.padre}">
                                 <g:if test="${padre != cuenta.padre}">
                                     <g:if test="${padre1 != cuenta.padre}">
-                                        <g:set var="breadcrumb" value="${breadcrumb}-&nbsp;" />
+                                        <g:set var="breadcrumb" value="${breadcrumb}" />
                                     </g:if>
                                     <g:else>
                                         <g:set var="breadcrumb" value="-&nbsp;" />

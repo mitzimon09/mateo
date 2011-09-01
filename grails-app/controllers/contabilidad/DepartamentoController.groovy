@@ -29,6 +29,9 @@ class DepartamentoController {
     }
     
     def crea = {
+        
+        log.debug "departamento#############: $params"
+        
         def departamento = new Departamento(params)
         def usuario = springSecurityService.currentUser
         departamento.organizacion = usuario.empresa.organizacion
@@ -73,6 +76,54 @@ class DepartamentoController {
         }
         else {
             [departamento: departamento]
+        }
+    }
+    
+    def edita = {
+        def departamento = Departamento.get(params.id)
+        log.debug "departamento: $departamento.id"
+        if (!departamento) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), params.id])
+            redirect(action: "lista")
+        }
+        else {
+            return [departamento: departamento]
+        }
+    }
+    
+    def actualiza = {
+
+        def departamento = Departamento.get(params.id)
+        if (departamento) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (departamento.version > version) {
+                    
+                    departamento.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'departamento.label', default: 'Departamento')] as Object[], "Another user has updated this Departamento while you were editing")
+                    render(view: "edita", model: [departamento: departamento])
+                    return
+                }
+            }
+            
+            
+            log.debug "departamento#############: $params.tieneAuxiliares"
+            log.debug "departamento: $departamento.cuenta.id"
+            
+            departamento.cuenta = Cuenta.actualiza(departamento.cuenta.id)
+           
+            departamento.properties = params
+            if (!departamento.hasErrors() && departamento.save(flush: true)) {
+
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamento.nombre])
+                redirect(action: "ver", id: departamento.id)
+            }
+            else {
+                render(view: "edita", model: [departamento: departamento])
+            }
+        }
+        else {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), params.id])
+            redirect(action: "lista")
         }
     }
     

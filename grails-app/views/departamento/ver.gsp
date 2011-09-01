@@ -49,12 +49,21 @@
 					
 				</li>
 				</g:if>
+                          
+                                <g:if test="${departamento?.cuenta?.status}">
+				<li class="fieldcontain">
+					<span id="nombre-label" class="property-label"><g:message code="departamento.status" /></span>
+					
+						<span class="property-value" aria-labelledby="nombre-label"><g:formatBoolean boolean="${departamento?.cuenta?.status}" /></span>
+					
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${departamentoInstance?.id}" />
-					<g:link class="edit" action="edit" id="${departamentoInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:hiddenField name="id" value="${departamento?.id}" />
+					<g:link class="edit" action="edita" id="${departamento?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

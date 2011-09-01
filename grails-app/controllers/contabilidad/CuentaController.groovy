@@ -178,15 +178,7 @@ class CuentaController {
                     padre = null
                 }
                 
-                def cuenta = new Cuenta (
-                    codigo : nextLine[0]
-                    , numero : nextLine[1]
-                    , descripcion : nextLine[2]
-                    , padre : padre
-                    , organizacion : usuario.empresa.organizacion
-                    , status : false
-                ).save()
-                
+              
               //Departamento
               if(nextLine[0] > '700000'){
                   
@@ -216,9 +208,11 @@ class CuentaController {
                     , organizacion : usuario.empresa.organizacion
                     , status : false
                 ).save()
+                
+                    catalogo[nextLine[0]] = cuenta2 
               }
 
-                catalogo[nextLine[0]] = cuenta
+                
             }
         }
 
