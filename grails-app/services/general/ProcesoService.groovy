@@ -23,7 +23,7 @@ class ProcesoService {
         return params
     }
     def cancelar(params){
-    	params.status = Constantes.STATUS_CANCELAD
+    	params.status = Constantes.STATUS_CANCELADO
     	return params
     }
     

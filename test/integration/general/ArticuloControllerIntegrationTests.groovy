@@ -67,7 +67,7 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.crea()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/compra/edita')
+        assert controller.response.redirectedUrl.startsWith('/compra/actualiza')
     }
     
     @Test
@@ -107,7 +107,7 @@ class ArticuloControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.cantidad = "1"
         controller.params.precioUnitario = new BigDecimal("2.00")
         controller.actualiza()
-        assert controller.response.redirectedUrl.startsWith('/compra/edita')
+        assert controller.response.redirectedUrl.startsWith('/compra/actualiza')
 
         articulo.refresh()
         assertEquals '10002', articulo.descripcion

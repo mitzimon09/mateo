@@ -110,7 +110,7 @@ class ChequeController {
     def enviar = {
 		def cheque = Cheque.get(params.id)
 		if (cheque){
-			if(cheque.status.equals("CREADA")){
+			if(cheque.status.equals("CR")){
 				cheque = procesoService.enviar(cheque)
 				cheque.save(flush:true)
 				redirect(action: "lista")
@@ -127,12 +127,12 @@ class ChequeController {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def cheque = Cheque.get(params.id)
 			if (cheque){
-				if(cheque.status.equals("ENVIADA") || cheque.status.equals("RECHAZADA")){
+				if(cheque.status.equals("EN") || cheque.status.equals("RE")){
 					cheque = procesoService.aprobar(cheque)
 					cheque.save(flush:true)
 					redirect(action: "lista")
 				}
-				else if (cheque.status.equals("CREADA")){
+				else if (cheque.status.equals("CR")){
 					flash.message = message(code: 'cheque.status.message1', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
 			        redirect(action: "lista")
 				}
@@ -146,12 +146,10 @@ class ChequeController {
     
     @Secured(['ROLE_CCP','ROLE_DIRFIN'])
     def rechazar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def cheque = Cheque.get(params.id)
 			if (cheque){
-			    //log.debug "observaciones $params.observaciones"
 				if (cheque.observaciones != ""){
-					if(cheque.status.equals("ENVIADA")){
+					if(cheque.status.equals("EN")){
 						cheque = procesoService.rechazar(cheque)
 						cheque.observaciones = params.observaciones
 						cheque.save(flush:true)
@@ -170,25 +168,16 @@ class ChequeController {
 				    redirect(action: "edita", id: cheque.id)
 				}
 			}
-		//}
 	}
 	
 	@Secured(['ROLE_COMPRAS'])
     def cancelar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
 			def cheque = Cheque.get(params.id)
 			if (cheque){
-				//if (cheque.status.equals("COMPRADA")){
 					cheque = procesoService.cancelar(cheque)
 					cheque.save(flush:true)
 					redirect(action: "lista")
-				//}
-				//else{
-				//	flash.message = message(code: 'cheque.status.message3', args: [message(code: 'cheque.label', default: 'Cheque'), params.id])
-				//    redirect(action: "lista")
-				//}
 			}
-		//}
 	}
     
 }
