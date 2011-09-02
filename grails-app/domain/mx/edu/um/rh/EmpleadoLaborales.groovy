@@ -25,7 +25,7 @@ class EmpleadoLaborales {
     
     static constraints = {
         cuenta maxSize:16, nullable:true
-        curp maxSize:30
+        curp maxSize:30, nullable:true
         escalafon blank:false
         imms maxSize:15, nullable:true
         rfc maxSize:15,blank:false

@@ -12,6 +12,7 @@ class Empleado {
     String status
     Map perdeds
     
+    //laborales
     TipoEmpleado tipo
     String curp
     String rfc
@@ -31,6 +32,7 @@ class Empleado {
     BigDecimal antiguedadFiscal
     Grupo grupo
     
+    //personales
     String padre
     String madre
     String estadoCivil
@@ -40,6 +42,9 @@ class Empleado {
     Short finadoMadre
     String iglesia
     String responsabilidad
+    String telefonoCasa
+    String telefonocelular
+    String email
     
     static transients = ['perdeds']
     
@@ -175,6 +180,9 @@ class Empleado {
         finadoPadre nullable:true
         finadoMadre nullable:true
         iglesia nullable:true
+        telefonoCasa nullable:true
+		telefonocelular nullable:true
+		email nullable:true        
         responsabilidad nullable:true  
         
     }
@@ -222,6 +230,6 @@ class Empleado {
                     }
                 }
             }
-        }        
+        }
     }
 }

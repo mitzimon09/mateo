@@ -10,6 +10,9 @@ import org.junit.*
 class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
 
     def springSecurityService
+    @Test
+    void debieraMostrarListaDeEjercicios() {
+    }
 
     @Test
     void debieraMostrarListaDeEjercicio() {

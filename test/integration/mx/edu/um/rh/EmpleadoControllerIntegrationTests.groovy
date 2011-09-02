@@ -14,7 +14,6 @@ import org.junit.*
 class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     
     def springSecurityService
-    def empleadoServiceInt
     def empleadoService
     
     /*
@@ -321,11 +320,17 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
 
         assertNotNull empresa
 
-		def controller = new EmpleadoController()	
-		controller.params.clave = "test"
+		def controller = new EmpleadoController()
+		controller.empleadoService = empleadoService
+		controller.params.tipo = tipoEmpleado	
+		controller.params.clave = "1110000"
         controller.params.nombre = "test"
         controller.params.apPaterno = "test"
         controller.params.apMaterno = "test"
@@ -370,9 +375,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+            
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
 
     	def empleado = new Empleado (
-			clave: "test"
+			clave: "1110000"
 			, nombre: "test"
 			, apPaterno: "test"
 			, apMaterno: "test"
@@ -444,9 +454,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+            
+           def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
 
         def empleado = new Empleado (
-			clave: "test"
+			clave: "1110000"
 			, nombre: "test"
 			, apPaterno: "test"
 			, apMaterno: "test"
@@ -502,8 +517,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
             
+    	def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
         def empleado = new Empleado (
-			clave: "test"
+			clave: "1110000"
 			, nombre: "test"
 			, apPaterno: "test"
 			, apMaterno: "test"
@@ -597,9 +616,32 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     
     @Test
     void debieraAsignarSiguienteNumeroDeClaveDisponible() {
-    	def empleado = new Empleado (
-			clave: "test"
-			, nombre: "test"
+    
+    	def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	
+    	assertNotNull tipoEmpleado
+    	
+    	def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+		def empresa = new Empresa(
+                codigo: "emp2"
+                , nombre: "emp"
+                , nombreCompleto: 'emptest'
+                , organizacion: organizacion
+            ).save()
+    	
+    	for (i in 0..1){
+    	new Empleado (
+			clave: "111000$i"
+			, nombre: "tes$i"
 			, apPaterno: "test"
 			, apMaterno: "test"
 			, genero: "fm"
@@ -620,9 +662,50 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         	, estadoCivil: "te"
         	, madre: "test"
         	, padre: "test"
+        	, tipo: tipoEmpleado
 		).save()
-
+		}
 		def controller = new EmpleadoController()
-        controller.list()
-    }
+        /*
+        controller.index()
+        assertEquals '/empleado/list', controller.response.redirectedUrl
+
+	      def model = controller.list()
+	      assertNotNull model
+	      assertNotNull model.empleadoInstanceList
+		assert 3 <= model.empleadoInstanceList.size()*/
+		
+		controller.empleadoService = empleadoService
+		controller.params.tipo = tipoEmpleado
+//		controller.params.clave = controller.asignarClave()
+        controller.params.nombre = "test"
+        controller.params.apPaterno = "test"
+        controller.params.apMaterno = "test"
+        controller.params.genero = "fm"
+        controller.params.fechaNacimiento = new Date()
+        controller.params.direccion = "test"
+        controller.params.status = "23"
+        controller.params.empresa = empresa
+        
+        controller.params.escalafon = 3
+        controller.params.turno = 1
+        controller.params.rfc = "12345678901234"
+        controller.params.curp = "1232"
+        controller.params.modalidad = "tt"
+        controller.params.fechaAlta = new Date()
+        controller.params.antiguedadBase = new BigDecimal(0.00)
+        controller.params.antiguedadFiscal = new BigDecimal(0.00)
+        
+        controller.params.estadoCivil = "3e"
+        controller.params.madre = "test"
+        controller.params.padre = "test"
+        controller.save()
+        controller = new EmpleadoController()
+        
+        assert controller
+        assert controller.response.redirectedUrl.startsWith('/empleado/show')
+        
+        
+		assertEquals controller.params.clave, "1110002"        
+  	}
 }

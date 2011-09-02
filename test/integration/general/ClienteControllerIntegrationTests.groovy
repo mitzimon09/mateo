@@ -10,8 +10,8 @@ import org.junit.*
 @TestFor(ClienteController)
 class ClienteControllerIntegrationTests extends BaseIntegrationTest {
 
-
 	def springSecurityService
+
     @Test
     void debieraMostrarListaDeClientes() {
 		authenticateAdmin()

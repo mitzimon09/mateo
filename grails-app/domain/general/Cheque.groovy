@@ -1,14 +1,14 @@
 package general
 
 class Cheque {
-	String status = 'CREADA'
+	String status = 'CR'
 	Empresa empresa
 	String observaciones
 	
 	static belongsTo = [Empresa]
 	
     static constraints = {
-    	status inList: ['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA']
+    	status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA']
     	observaciones nullable: true, maxSize: 128
     }
     

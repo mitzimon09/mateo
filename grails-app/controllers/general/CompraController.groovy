@@ -42,22 +42,22 @@ class CompraController {
   	    def lista = []
   	    for(compra in compras){
   	        //rol CCP
-  	        if(compra.status == "ENVIADA" && compra.total < 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
+  	        if(compra.status == "EN" && compra.total < 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
       	        log.debug "ccp"
   	            lista << compra
             }
             //rol Compras
-            if(compra.status == "APROBADA" && compra.empesa.organizacion == usuario.empresa.organizacion){
+            if(compra.status == "AP" && compra.empesa.organizacion == usuario.empresa.organizacion){
       	        log.debug "compras"
                 lista << compra
             }
             //rol DirFin
-            if(compra.status == "ENVIADA" || compra.status == "ESPECIAL" && compra.total > 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
+            if(compra.status == "EN" || compra.status == "ES" && compra.total > 100 && compra.empesa.organizacion == usuario.empresa.organizacion){
                 log.debug "dirfin"
   	            lista << compra
             }
             //rol Emp
-            if(compra.status == "CREADA" && compra.empresa == usuario.empresa){
+            if(compra.status == "CR" && compra.empresa == usuario.empresa){
                 log.debug "emp"
   	            lista << compra
             }
@@ -190,7 +190,7 @@ class CompraController {
 			log.debug "compra + " + compra
 			if (compra){
 				log.debug "compra + " + compra
-				if(compra.status.equals("CREADA")){
+				if(compra.status.equals("CR")){
 					compra = procesoService.enviar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
@@ -206,12 +206,12 @@ class CompraController {
     def aprobar = {
 			def compra = Compra.get(params.id)
 			if (compra){
-				if(compra.status.equals("ENVIADA") || compra.status.equals("RECHAZADA")){
+				if(compra.status.equals("EN") || compra.status.equals("RE")){
 					compra = procesoService.aprobar(compra)
 					compra.save(flush:true)
 					redirect(action: "lista")
 				}
-				else if (compra.status.equals("CREADA")){
+				else if (compra.status.equals("CR")){
 					flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
 			        redirect(action: "lista")
 				}
@@ -228,13 +228,13 @@ class CompraController {
 			if (compra){
 			    //log.debug "observaciones $params.observaciones"
 				if (compra.observaciones != ""){
-					if(compra.status.equals("ENVIADA")){
+					if(compra.status.equals("EN")){
 						compra = procesoService.rechazar(compra)
 						compra.observaciones = params.observaciones
 						compra.save(flush:true)
 						redirect(action: "lista")
 					}
-					else if (compra.status.equals("CREADA")){
+					else if (compra.status.equals("CR")){
 						flash.message = message(code: 'compra.status.message1', args: [message(code: 'compra.label', default: 'Compra'), params.id])
 			            redirect(action: "lista")
 					}
@@ -254,20 +254,20 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		def articulos = Articulo.list()
 		if (compra){
-			if (compra.status.equals("APROBADA")||compra.status.equals("INCOMPLETA")){
+			if (compra.status.equals("APR")||compra.status.equals("IN")){
 				def completa = true
 			    for(def articulo in articulos){
             		if(articulo.compra.id.toInteger() == compra.id.toInteger()){
-						if (!(articulo.status.equals("ENTREGADO") || articulo.status.equals("CANCELADO"))){
+						if (!(articulo.status.equals("EN") || articulo.status.equals("CA"))){
 							completa = false
 						}
 					}
 				}
 				if (completa){
-					compra.status = "COMPLETA"
+					compra.status = "CO"
 				}
 				else {
-					compra.status = "INCOMPLETA"
+					compra.status = "IN"
 				}
 			}
 			render(controller: "compra", view: "edita", id: params.id)
@@ -292,7 +292,7 @@ class CompraController {
     def cancelar = {
 		def compra = Compra.get(params.id)
 		if (compra){
-			compra.status = "CANCELADA"
+			compra.status = "CA"
 			compra.save(flush:true)
 			redirect(action: "lista")
 		}
