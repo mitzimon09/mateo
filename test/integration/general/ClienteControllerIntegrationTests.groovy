@@ -8,7 +8,7 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestFor(ClienteController)
-class ClienteTests extends BaseIntegrationTest {
+class ClienteControllerIntegrationTests extends BaseIntegrationTest {
 
 
 	def springSecurityService

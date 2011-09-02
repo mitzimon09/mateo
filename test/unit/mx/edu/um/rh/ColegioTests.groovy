@@ -1,4 +1,4 @@
-package general
+package mx.edu.um.rh
 
 
 
@@ -8,8 +8,8 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.domain.DomainUnitTestMixin} for usage instructions
  */
-@TestFor(Permiso)
-class PermisoTests {
+@TestFor(Colegio)
+class ColegioTests {
 
     void testSomething() {
 

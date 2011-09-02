@@ -168,11 +168,11 @@ class FacturaAlmacenTests extends BaseIntegrationTest {
 		).save()
 
 		def facturaAlmacen = new FacturaAlmacen (
-            	folio: "100"
-            	, cliente: cliente
-            	, almacen: almacen
-            	, fecha: new Date()
-            ).save()
+        	folio: "100"
+        	, cliente: cliente
+        	, almacen: almacen
+        	, fecha: new Date()
+        ).save()
 		
 		assertNotNull facturaAlmacen
         def controller = new FacturaAlmacenController()

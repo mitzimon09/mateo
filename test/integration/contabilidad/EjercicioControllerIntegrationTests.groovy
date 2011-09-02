@@ -11,4 +11,7 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
 
     def springSecurityService
 
+    @Test
+    void debieraMostrarListaDeEjercicio() {
+    }
 }
