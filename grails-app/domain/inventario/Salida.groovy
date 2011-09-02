@@ -20,9 +20,7 @@ class Salida {//implements java.io.Serializable {
     Almacen almacen
     Date dateCreated
     Date lastUpdated
-    Set lotes = []
-//    Boolean cerrada = false
-        //con el estatus se arregla
+    Set lotes = [] //de salidas
     FacturaAlmacen facturaAlmacen
 
     static belongsTo = [Cliente, Almacen, FacturaAlmacen]
@@ -31,7 +29,7 @@ class Salida {//implements java.io.Serializable {
 
     static constraints = {
         folio(unique:'almacen', maxSize:64, blank:false)
-//        atendio(nullable:true,maxSize:64)
+        //atendio(nullable:true,maxSize:64)
         reporte(nullable:true,maxSize:64)
         iva(scale:2,precision:8)
         total(scale:2,precision:8)

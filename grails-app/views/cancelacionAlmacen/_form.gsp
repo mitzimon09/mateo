@@ -25,7 +25,6 @@
 	<g:select id="salida" name="salida.id" from="${inventario.Salida.list()}" optionKey="id" value="${cancelacionAlmacen?.salida?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
 
-
 <div class="fieldcontain ${hasErrors(bean: cancelacionAlmacen, field: 'almacen', 'error')} required">
 	<label for="almacen">
 		<g:message code="cancelacionAlmacen.almacen.label" default="Almacen" />

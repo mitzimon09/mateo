@@ -1,102 +1,102 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class ClienteController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[clienteInstanceList: Cliente.list(params), clienteInstanceTotal: Cliente.count()]
+		[clientes: Cliente.list(params), totalDeClientes: Cliente.count()]
 	}
 
-    def create = {
-        def clienteInstance = new Cliente()
-        clienteInstance.properties = params
-        return [clienteInstance: clienteInstance]
+    def nuevo = {
+        def cliente = new Cliente()
+        cliente.properties = params
+        return [cliente: cliente]
     }
 
-    def save = {
-        def clienteInstance = new Cliente(params)
-        if (clienteInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'cliente.label', default: 'Cliente'), clienteInstance.id])
-            redirect(action: "show", id: clienteInstance.id)
+    def crea = {
+        def cliente = new Cliente(params)
+        if (cliente.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'cliente.label', default: 'Cliente'), cliente.id])
+            redirect(action: "ver", id: cliente.id)
         }
         else {
-            render(view: "create", model: [clienteInstance: clienteInstance])
+            render(view: "nuevo", model: [cliente: cliente])
         }
     }
 
-    def show = {
-        def clienteInstance = Cliente.get(params.id)
-        if (!clienteInstance) {
+    def ver = {
+        def cliente = Cliente.get(params.id)
+        if (!cliente) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [clienteInstance: clienteInstance]
+            [cliente: cliente]
         }
     }
 
-    def edit = {
-        def clienteInstance = Cliente.get(params.id)
-        if (!clienteInstance) {
+    def edita = {
+        def cliente = Cliente.get(params.id)
+        if (!cliente) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [clienteInstance: clienteInstance]
+            return [cliente: cliente]
         }
     }
 
-    def update = {
-        def clienteInstance = Cliente.get(params.id)
-        if (clienteInstance) {
+    def actualiza = {
+        def cliente = Cliente.get(params.id)
+        if (cliente) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (clienteInstance.version > version) {
+                if (cliente.version > version) {
                     
-                    clienteInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'cliente.label', default: 'Cliente')] as Object[], "Another user has updated this Cliente while you were editing")
-                    render(view: "edit", model: [clienteInstance: clienteInstance])
+                    cliente.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'cliente.label', default: 'Cliente')] as Object[], "Another user has updated this Cliente while you were editing")
+                    render(view: "edita", model: [cliente: cliente])
                     return
                 }
             }
-            clienteInstance.properties = params
-            if (!clienteInstance.hasErrors() && clienteInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'cliente.label', default: 'Cliente'), clienteInstance.id])
-                redirect(action: "show", id: clienteInstance.id)
+            cliente.properties = params
+            if (!cliente.hasErrors() && cliente.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'cliente.label', default: 'Cliente'), cliente.id])
+                redirect(action: "ver", id: cliente.id)
             }
             else {
-                render(view: "edit", model: [clienteInstance: clienteInstance])
+                render(view: "edita", model: [cliente: cliente])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def clienteInstance = Cliente.get(params.id)
-        if (clienteInstance) {
+    def elimina = {
+        def cliente = Cliente.get(params.id)
+        if (cliente) {
             try {
-                clienteInstance.delete(flush: true)
+                cliente.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'cliente.label', default: 'Cliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

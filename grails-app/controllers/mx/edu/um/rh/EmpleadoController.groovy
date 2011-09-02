@@ -20,11 +20,6 @@ class EmpleadoController {
 	}
 
     def create = {
-    	log.debug "clave antes: " + params.clave
-    	if (params.clave == null){
-			params.clave = asignarClave()
-		}
-		log.debug "clave despues: " + params.clave
         def empleadoInstance = new Empleado()
         empleadoInstance.properties = params
         return [empleadoInstance: empleadoInstance]
@@ -32,10 +27,9 @@ class EmpleadoController {
 	
 	
     def save = {
+        params.clave = asignarClave(params.tipo)
         def empleadoInstance = new Empleado(params)
-        if (empleadoInstance.clave == null){
-        	empleadoInstance.clave = asignarClave(empleadoInstance.tipo)
-        }
+    	//empleadoInstance.clave = asignarClave(empleadoInstance.tipo)
         log.debug "clave before saving " + empleadoInstance.clave
         if (empleadoInstance.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleadoInstance.id])
@@ -125,42 +119,29 @@ class EmpleadoController {
     }
     
     def asignarClave = { tipoEmpleado ->
-    log.debug "entró a método asignarClave"
-    log.debug "tipo " + tipoEmpleado
     assert tipoEmpleado
     String clave = ""
     def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-    log.debug "empleados size " + empleados.size()
     	if (empleados.size() == 0){
-    	log.debug "empleados cuestión"
     		clave = tipoEmpleado.prefijo + "0000"
-    		log.debug "clave " + clave
     		return clave
     	}
-    	log.debug "empleados 139 "
-    	log.debug "empleados lista " + empleados
         //empleados = empleados.sort("clave")
-        //def results = Book.list(sort:"title")
         
-        empleados.each(){
-        	log.debug ":)  " + $it.clave// check if properly sorted
-        }
+/*        for (Empleado empleado in empleados){
+        	log.debug ":)  " + empleados.clave// check if properly sorted
+        }*/
         
-        def lastKey = 0
+        def lastKey = -1
         def finalKey = 0
         def key = 0
-        for (i in 1..empleados.size()){
-        	
-        	assertEquals "blah", i
-        	assert empleados[i]
+        for (i in 0..(empleados.size()-1)){
         	def empleadotmp = empleados.get(i)
         	assert empleadotmp
-        	System.out.println(empleados[i].clave)
         	key = empleados[i].clave.substring(3).toInteger()
-        	log.debug "key = " + key
         	
         	
-        	if (lastKey != 0){
+        	if (lastKey != -1){
         		if ( lastKey+1 != key){
         			finalKey = lastKey+1
         		}
@@ -168,13 +149,14 @@ class EmpleadoController {
         			finalKey = key+1
         		}
         	}
-        	lastKey = Key
+        	lastKey = key
         }
         
-        log.debug "last key = " + lastKey
-        log.debug "final key = " + finalKey
+        while ((finalKey+"").length() < 4){
+        	finalKey = "0"+finalKey
+        }
         
-        return (empleadoInstance.tipo.prefijo + finalKey)
+        return (tipoEmpleado.prefijo + finalKey)
     }
     
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException{

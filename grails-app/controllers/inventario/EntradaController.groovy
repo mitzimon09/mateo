@@ -14,12 +14,12 @@ class EntradaController {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-                def usuario = springSecurityService.currentUser
+	  def lista = {
+		    params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def usuario = springSecurityService.currentUser
 //		[entradas: Entrada.findAllByEmpresa(usuario.empresa, params), totalDeEntradas: Entrada.countByEmpresa(usuario.empresa)]
-                [entradas: Entrada.list(params), totalDeEntradas: Entrada.count()]
-	}
+        [entradas: Entrada.list(params), totalDeEntradas: Entrada.count()]
+    }
 
     def nueva = {
         def entrada = new Entrada()

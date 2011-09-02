@@ -36,5 +36,4 @@ class LoteSalida {//implements java.io.Serializable {
     String toString() {
         "$producto : $cantidad : $precioUnitario"
     }
-
 }

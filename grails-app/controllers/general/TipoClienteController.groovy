@@ -1,102 +1,102 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class TipoClienteController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[tipoClienteInstanceList: TipoCliente.list(params), tipoClienteInstanceTotal: TipoCliente.count()]
+		[tipoClientes: TipoCliente.list(params), totalDeTipoClientes: TipoCliente.count()]
 	}
 
-    def create = {
-        def tipoClienteInstance = new TipoCliente()
-        tipoClienteInstance.properties = params
-        return [tipoClienteInstance: tipoClienteInstance]
+    def nuevo = {
+        def tipoCliente = new TipoCliente()
+        tipoCliente.properties = params
+        return [tipoCliente: tipoCliente]
     }
 
-    def save = {
-        def tipoClienteInstance = new TipoCliente(params)
-        if (tipoClienteInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), tipoClienteInstance.id])
-            redirect(action: "show", id: tipoClienteInstance.id)
+    def crea = {
+        def tipoCliente = new TipoCliente(params)
+        if (tipoCliente.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), tipoCliente.id])
+            redirect(action: "ver", id: tipoCliente.id)
         }
         else {
-            render(view: "create", model: [tipoClienteInstance: tipoClienteInstance])
+            render(view: "nuevo", model: [tipoCliente: tipoCliente])
         }
     }
 
-    def show = {
-        def tipoClienteInstance = TipoCliente.get(params.id)
-        if (!tipoClienteInstance) {
+    def ver = {
+        def tipoCliente = TipoCliente.get(params.id)
+        if (!tipoCliente) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [tipoClienteInstance: tipoClienteInstance]
+            [tipoCliente: tipoCliente]
         }
     }
 
-    def edit = {
-        def tipoClienteInstance = TipoCliente.get(params.id)
-        if (!tipoClienteInstance) {
+    def edita = {
+        def tipoCliente = TipoCliente.get(params.id)
+        if (!tipoCliente) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [tipoClienteInstance: tipoClienteInstance]
+            return [tipoCliente: tipoCliente]
         }
     }
 
-    def update = {
-        def tipoClienteInstance = TipoCliente.get(params.id)
-        if (tipoClienteInstance) {
+    def actualiza = {
+        def tipoCliente = TipoCliente.get(params.id)
+        if (tipoCliente) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (tipoClienteInstance.version > version) {
+                if (tipoCliente.version > version) {
                     
-                    tipoClienteInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'tipoCliente.label', default: 'TipoCliente')] as Object[], "Another user has updated this TipoCliente while you were editing")
-                    render(view: "edit", model: [tipoClienteInstance: tipoClienteInstance])
+                    tipoCliente.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'tipoCliente.label', default: 'TipoCliente')] as Object[], "Another user has updated this TipoCliente while you were editing")
+                    render(view: "edita", model: [tipoCliente: tipoCliente])
                     return
                 }
             }
-            tipoClienteInstance.properties = params
-            if (!tipoClienteInstance.hasErrors() && tipoClienteInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), tipoClienteInstance.id])
-                redirect(action: "show", id: tipoClienteInstance.id)
+            tipoCliente.properties = params
+            if (!tipoCliente.hasErrors() && tipoCliente.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), tipoCliente.id])
+                redirect(action: "ver", id: tipoCliente.id)
             }
             else {
-                render(view: "edit", model: [tipoClienteInstance: tipoClienteInstance])
+                render(view: "edita", model: [tipoCliente: tipoCliente])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def tipoClienteInstance = TipoCliente.get(params.id)
-        if (tipoClienteInstance) {
+    def elimina = {
+        def tipoCliente = TipoCliente.get(params.id)
+        if (tipoCliente) {
             try {
-                tipoClienteInstance.delete(flush: true)
+                tipoCliente.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'tipoCliente.label', default: 'TipoCliente'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

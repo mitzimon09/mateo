@@ -24,37 +24,23 @@
 			<table>
 				<thead>
 					<tr>
-					
 						<g:sortableColumn property="folio" title="${message(code: 'entrada.folio.label', default: 'Folio')}" />
-					
 						<g:sortableColumn property="factura" title="${message(code: 'entrada.factura.label', default: 'Factura')}" />
-					
 						<g:sortableColumn property="fechaFactura" title="${message(code: 'entrada.fechaFactura.label', default: 'Fecha Factura')}" />
-					
 						<g:sortableColumn property="iva" title="${message(code: 'entrada.iva.label', default: 'Iva')}" />
-					
 						<g:sortableColumn property="total" title="${message(code: 'entrada.total.label', default: 'Total')}" />
-					
 						<g:sortableColumn property="tipoCambio" title="${message(code: 'entrada.tipoCambio.label', default: 'Tipo Cambio')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${entradas}" status="i" var="entrada">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
 						<td><g:link action="ver" id="${entrada.id}">${fieldValue(bean: entrada, field: "folio")}</g:link></td>
-					
 						<td>${fieldValue(bean: entrada, field: "factura")}</td>
-					
 						<td><g:formatDate date="${entrada.fechaFactura}" /></td>
-					
 						<td>${fieldValue(bean: entrada, field: "iva")}</td>
-					
 						<td>${fieldValue(bean: entrada, field: "total")}</td>
-					
 						<td>${fieldValue(bean: entrada, field: "tipoCambio")}</td>
-					
 					</tr>
 				</g:each>
 				</tbody>

@@ -1,102 +1,102 @@
 package general
 
 import grails.converters.JSON
-
+import grails.plugins.springsecurity.Secured
 class ImagenController {
-
+	def springSecurityService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[imagenInstanceList: Imagen.list(params), imagenInstanceTotal: Imagen.count()]
+		[imagenes: Imagen.list(params), totalDeImagenes: Imagen.count()]
 	}
 
-    def create = {
-        def imagenInstance = new Imagen()
-        imagenInstance.properties = params
-        return [imagenInstance: imagenInstance]
+    def nueva = {
+        def imagen = new Imagen()
+        imagen.properties = params
+        return [imagen: imagen]
     }
 
-    def save = {
-        def imagenInstance = new Imagen(params)
-        if (imagenInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'imagen.label', default: 'Imagen'), imagenInstance.id])
-            redirect(action: "show", id: imagenInstance.id)
+    def crea = {
+        def imagen = new Imagen(params)
+        if (imagen.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'imagen.label', default: 'Imagen'), imagen.id])
+            redirect(action: "ver", id: imagen.id)
         }
         else {
-            render(view: "create", model: [imagenInstance: imagenInstance])
+            render(view: "nueva", model: [imagen: imagen])
         }
     }
 
-    def show = {
-        def imagenInstance = Imagen.get(params.id)
-        if (!imagenInstance) {
+    def ver = {
+        def imagen = Imagen.get(params.id)
+        if (!imagen) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [imagenInstance: imagenInstance]
+            [imagen: imagen]
         }
     }
 
-    def edit = {
-        def imagenInstance = Imagen.get(params.id)
-        if (!imagenInstance) {
+    def edita = {
+        def imagen = Imagen.get(params.id)
+        if (!imagen) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [imagenInstance: imagenInstance]
+            return [imagen: imagen]
         }
     }
 
-    def update = {
-        def imagenInstance = Imagen.get(params.id)
-        if (imagenInstance) {
+    def actualiza = {
+        def imagen = Imagen.get(params.id)
+        if (imagen) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (imagenInstance.version > version) {
+                if (imagen.version > version) {
                     
-                    imagenInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'imagen.label', default: 'Imagen')] as Object[], "Another user has updated this Imagen while you were editing")
-                    render(view: "edit", model: [imagenInstance: imagenInstance])
+                    imagen.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'imagen.label', default: 'Imagen')] as Object[], "Another user has updated this Imagen while you were editing")
+                    render(view: "edita", model: [imagen: imagen])
                     return
                 }
             }
-            imagenInstance.properties = params
-            if (!imagenInstance.hasErrors() && imagenInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'imagen.label', default: 'Imagen'), imagenInstance.id])
-                redirect(action: "show", id: imagenInstance.id)
+            imagen.properties = params
+            if (!imagen.hasErrors() && imagen.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'imagen.label', default: 'Imagen'), imagen.id])
+                redirect(action: "ver", id: imagen.id)
             }
             else {
-                render(view: "edit", model: [imagenInstance: imagenInstance])
+                render(view: "edita", model: [imagen: imagen])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def imagenInstance = Imagen.get(params.id)
-        if (imagenInstance) {
+    def elimina = {
+        def imagen = Imagen.get(params.id)
+        if (imagen) {
             try {
-                imagenInstance.delete(flush: true)
+                imagen.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'imagen.label', default: 'Imagen'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

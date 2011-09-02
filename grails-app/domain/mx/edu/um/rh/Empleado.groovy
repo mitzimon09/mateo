@@ -180,10 +180,11 @@ class Empleado {
         finadoPadre nullable:true
         finadoMadre nullable:true
         iglesia nullable:true
-        responsabilidad nullable:true
         telefonoCasa nullable:true
 		telefonocelular nullable:true
 		email nullable:true        
+        responsabilidad nullable:true  
+        
     }
     
     static mapping={

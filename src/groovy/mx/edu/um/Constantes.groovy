@@ -11,6 +11,12 @@ package mx.edu.um
  */
 class Constantes {
     static final String STATUS_ACTIVO="A"
-	
+    static final String STATUS_CREADO="C"
+    static final String STATUS_ENVIADO="E"
+    static final String STATUS_APROBADO="AP"
+    static final String STATUS_RECHAZADO="R"
+    static final String STATUS_CANCELADO="CA"
+    static final String STATUS_REVISADO="RE"
+    static final String STATUS_AUTORIZADO="AU"
 }
 

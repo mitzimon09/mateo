@@ -34,8 +34,24 @@ class Proveedor implements Serializable {
         empresa index:'proveedor_empresa_idx'
     }
 
+    static namedQueries = {
+        buscaPorEmpresa { filtro ->
+            empresa {
+                eq 'id', filtro.id
+            }
+        }
+
+        buscaPorFiltro { filtro ->
+            filtro = "%$filtro%"
+            or {
+                ilike 'nombre', filtro
+                ilike 'nombreCompleto', filtro
+                ilike 'rfc', filtro
+            }
+        }
+    }
+
     String toString() {
         return nombre
     }
-    
 }

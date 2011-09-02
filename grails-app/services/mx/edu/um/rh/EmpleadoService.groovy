@@ -59,7 +59,7 @@ class EmpleadoService implements EmpleadoServiceInt {
         //EmpleadoLaborales emplLaborales=new EmpleadoLaborales()
         //emplLaborales.tipo=tipo
         //empleado.empleadoLaborales=emplLaborales
-        empleado.status=Constantes.STATUS_ACTIVO
+        //empleado.status=Constantes.STATUS_ACTIVO
         def empleados=Empleado.listaEmpleadosParametros(empleado,null)
         return empleados.list()
     }

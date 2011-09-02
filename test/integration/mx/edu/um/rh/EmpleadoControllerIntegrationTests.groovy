@@ -304,7 +304,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     void debieraMostarCentroCostoEmpleadosNomina(){
         //Pruebas Aun no Implementadas
     }
-		*//*
+		*/
     @Test
     void debieraDarDeAltaEmpleado(){
     	def organizacion = new Organizacion (
@@ -320,7 +320,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
@@ -328,7 +327,9 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         assertNotNull empresa
 
-		def controller = new EmpleadoController()	
+		def controller = new EmpleadoController()
+		controller.empleadoService = empleadoService
+		controller.params.tipo = tipoEmpleado	
 		controller.params.clave = "1110000"
         controller.params.nombre = "test"
         controller.params.apPaterno = "test"
@@ -516,7 +517,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
             
-            def tipoEmpleado = new TipoEmpleado (
+    	def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
     	).save()
@@ -612,11 +613,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
     }
-    */
+    
     @Test
     void debieraAsignarSiguienteNumeroDeClaveDisponible() {
     
-    	def tipoEmpleado = TipoEmpleado.get(1)
+    	def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
     	
     	assertNotNull tipoEmpleado
     	
@@ -633,7 +637,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
-    	for (i in 2..4){
+    	
+    	for (i in 0..1){
     	new Empleado (
 			clave: "111000$i"
 			, nombre: "tes$i"
@@ -660,11 +665,19 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         	, tipo: tipoEmpleado
 		).save()
 		}
+		def controller = new EmpleadoController()
+        /*
+        controller.index()
+        assertEquals '/empleado/list', controller.response.redirectedUrl
+
+	      def model = controller.list()
+	      assertNotNull model
+	      assertNotNull model.empleadoInstanceList
+		assert 3 <= model.empleadoInstanceList.size()*/
 		
-		def controller = new EmpleadoController()	
 		controller.empleadoService = empleadoService
 		controller.params.tipo = tipoEmpleado
-		controller.params.clave = null//"1110000"
+//		controller.params.clave = controller.asignarClave()
         controller.params.nombre = "test"
         controller.params.apPaterno = "test"
         controller.params.apMaterno = "test"
@@ -686,13 +699,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.estadoCivil = "3e"
         controller.params.madre = "test"
         controller.params.padre = "test"
-        def id = controller.save()
+        controller.save()
+        controller = new EmpleadoController()
         
-        def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-        assertEquals 1000, empleados.size()
+        assert controller
+        assert controller.response.redirectedUrl.startsWith('/empleado/show')
         
-        controller.params.id = id
-        assert controller.params.clave
-		assertEquals controller.params.clave, "9800000"        
+        
+		assertEquals controller.params.clave, "1110002"        
   	}
 }

@@ -93,7 +93,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug  'grails.app'//,'org.hibernate','est.integration'
+    debug  'grails.app',/*'org.hibernate'//,*/'test.integration'
 
     //trace  'org.hibernate.type'
 
@@ -104,7 +104,7 @@ log4j = {
 /*
 grails.gorm.default.mapping = {
    cache true
-   id generator:'identity'
+   //id generator:'identity'
 }
 */
 grails.gorm.failOnError = true
@@ -116,7 +116,13 @@ grails.plugins.springsecurity.authority.className = 'general.Rol'
 grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ADMIN > ROLE_ORG
    ROLE_ORG > ROLE_EMP
+   ROLE_ORG > ROLE_COMPRAS
+   ROLE_ORG > ROLE_DIRFIN
+   ROLE_ORG > ROLE_CCP
    ROLE_EMP > ROLE_USER
+   ROLE_COMPRAS > ROLE_USER
+   ROLE_DIRFIN > ROLE_USER
+   ROLE_CCP > ROLE_USER
 '''
 
 grails.plugins.springsecurity.useSecurityEventListener = true
