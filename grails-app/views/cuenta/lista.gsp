@@ -17,6 +17,7 @@
 		</div>
 		<div id="list-cuenta" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+                        <h4><g:link controller="cuenta" action="carga2"><g:message code="contabilidad.label" default="Carga Catalogo 2" /></g:link></h4>
             <g:if test="${session.navegacion}">
             <h2>
                 <g:each in="${session.navegacion}" var="padre">
@@ -54,7 +55,7 @@
                             <g:if test="${cuenta.padre}">
                                 <g:if test="${padre != cuenta.padre}">
                                     <g:if test="${padre1 != cuenta.padre}">
-                                        <g:set var="breadcrumb" value="${breadcrumb}-&nbsp;" />
+                                        <g:set var="breadcrumb" value="${breadcrumb}" />
                                     </g:if>
                                     <g:else>
                                         <g:set var="breadcrumb" value="-&nbsp;" />
