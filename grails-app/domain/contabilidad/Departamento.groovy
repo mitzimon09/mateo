@@ -8,6 +8,8 @@ class Departamento {
     Organizacion organizacion
 
     static belongsTo = [cuenta : Cuenta, organizacion : Organizacion]
+    
+    
 
     static constraints = {
         nombre blank:false, maxSize:64
@@ -15,6 +17,7 @@ class Departamento {
 
     static mapping = {
         table 'departamentos'
+        cuenta cascade:'all'
     }
 
     String toString() {
