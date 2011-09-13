@@ -4,7 +4,8 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import groovy.sql.*
 import vo.*
- 
+import mx.edu.um.contabilidad.Ejercicio
+
 @Secured(['ROLE_EMP'])
 class TraductorController {
  

@@ -5,6 +5,7 @@ import general.*
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
+import mx.edu.um.contabilidad.Ejercicio
 
 @TestFor(PolizaController)
 class PolizaControllerIntegrationTests extends BaseIntegrationTest {

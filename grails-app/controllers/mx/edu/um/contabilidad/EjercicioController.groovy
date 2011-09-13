@@ -1,14 +1,14 @@
-package contabilidad
+package mx.edu.um.contabilidad
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_EMP'])
+@Secured(['ROLE_ADMIN'])
 class EjercicioController {
-
     def springSecurityService
-    
-    static allowedMethods = [crea: "POST", actualiza: "POST", elimina: "POST"]
+
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
         redirect(action: "lista", params: params)
@@ -16,8 +16,7 @@ class EjercicioController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def usuario = springSecurityService.currentUser
-		[ejercicios: Ejercicio.findAllByEmpresa(usuario.empresa, params), totalDeEjercicios: Ejercicio.countByEmpresa(usuario.empresa)]
+		[ejercicios: Ejercicio.list(params), totalDeEjercicios: Ejercicio.count()]
 	}
 
     def nuevo = {
@@ -28,10 +27,8 @@ class EjercicioController {
 
     def crea = {
         def ejercicio = new Ejercicio(params)
-        def usuario = springSecurityService.currentUser
-        ejercicio.empresa = usuario.empresa
         if (ejercicio.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), ejercicio.nombre])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), ejercicio.id])
             redirect(action: "ver", id: ejercicio.id)
         }
         else {
@@ -75,7 +72,7 @@ class EjercicioController {
             }
             ejercicio.properties = params
             if (!ejercicio.hasErrors() && ejercicio.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), ejercicio.nombre])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), ejercicio.id])
                 redirect(action: "ver", id: ejercicio.id)
             }
             else {
@@ -91,15 +88,13 @@ class EjercicioController {
     def elimina = {
         def ejercicio = Ejercicio.get(params.id)
         if (ejercicio) {
-            def nombre
             try {
-                nombre = ejercicio.nombre
                 ejercicio.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), nombre])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), params.id])
                 redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), nombre])
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'ejercicio.label', default: 'Ejercicio'), params.id])
                 redirect(action: "ver", id: params.id)
             }
         }

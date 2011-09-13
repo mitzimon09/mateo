@@ -17,5 +17,4 @@ class DiasFeriados {
     static mapping = {
         table name:'calendario', schema:'moises'
     }
-    
 }

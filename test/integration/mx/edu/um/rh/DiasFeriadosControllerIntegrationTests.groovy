@@ -19,7 +19,7 @@ class DiasFeriadosControllerIntegrationTests extends BaseIntegrationTest {
 		authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser
-
+        System.out.println("user >" + currentUser)
         for(i in 1..20) {
         	def diasFeriados = new DiasFeriados(
                 descripcion: 'test$i'
