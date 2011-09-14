@@ -254,7 +254,7 @@ class CompraController {
 		def compra = Compra.get(params.id)
 		def articulos = Articulo.list()
 		if (compra){
-			if (compra.status.equals("APR")||compra.status.equals("IN")){
+			if (compra.status.equals("AP")||compra.status.equals("IN")){
 				def completa = true
 			    for(def articulo in articulos){
             		if(articulo.compra.id.toInteger() == compra.id.toInteger()){
