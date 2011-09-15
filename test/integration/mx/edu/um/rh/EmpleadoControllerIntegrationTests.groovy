@@ -431,7 +431,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.update()
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
 
-        empleado.refresh()
 		assertEquals "another", model.empleadoInstance.nombre
         assertEquals "another", model.empleadoInstance.apPaterno
         assertEquals "another", model.empleadoInstance.apMaterno

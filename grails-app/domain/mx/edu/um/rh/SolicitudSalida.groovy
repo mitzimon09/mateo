@@ -12,11 +12,11 @@ class SolicitudSalida {
 	String folio*/
 	
 	Empleado empleado
-	int diasVacaciones
-	int primaVacacional
+	Integer diasVacaciones
+	Integer primaVacacional
 	Date fechaInicial
 	String destino
-	int kilometros
+	Integer kilometros
 	String contacto
 	Usuario user
 	Date fechaCaptura
@@ -25,9 +25,9 @@ class SolicitudSalida {
 	Usuario rhUser
 	Date fechaAutorizacionRh
 	String status
-	int visitaPadres
-	int nacional
-	int userPrimaVacacional
+	Integer visitaPadres
+	Integer nacional
+	Integer userPrimaVacacional
 	Date fechaPrimaVacacional
 	String folio
 	String observacionesEmpleado
