@@ -1,7 +1,6 @@
 package mx.edu.um.rh
 import general.*
 class Empleado {
-    Empresa empresa
     String clave
     String nombre
     String apPaterno
@@ -10,8 +9,9 @@ class Empleado {
     Date fechaNacimiento
     String direccion
     String status
-    EmpleadoPersonales empleadoPersonales
-    EmpleadoLaborales empleadoLaborales
+    //Empresa empresa
+    //EmpleadoPersonales empleadoPersonales
+    //EmpleadoLaborales empleadoLaborales
     Map perdeds
     static transients = ['perdeds']
     static hasMany=[perdedsList:EmpleadoPerded]
@@ -139,11 +139,11 @@ class Empleado {
                         }                        
                     }
                 }                
-                if(empleado.empresa){
-                    empresa{
-                        idEq(empleado.empresa.id)
-                    }
-                }
+//                if(empleado.empresa){
+//                    empresa{
+//                        idEq(empleado.empresa.id)
+//                    }
+//                }
             }
         }        
     }

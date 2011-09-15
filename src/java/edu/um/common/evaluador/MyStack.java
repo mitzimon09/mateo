@@ -1,18 +1,20 @@
 package edu.um.common.evaluador;
 
+import java.math.BigDecimal;
+
 /**
  * @author luishpm
  *
  */
 public class MyStack {
 
-	private double stckD[];
+	private BigDecimal stckD[];
 	private String stckS[];
 	private int tos;
 	boolean und;
 
 	MyStack(int size) {
-		stckD = new double[size];
+		stckD = new BigDecimal[size];
 		tos = -1;
 	}
 	MyStack(int size, int x) {
@@ -43,11 +45,11 @@ public class MyStack {
 		tos--;
 	}
 
-	void push(double item) {
+	void push(BigDecimal item) {
 		stckD[++tos] = item;
 	}
 
-	double pop() {
+	BigDecimal pop() {
 		return stckD[tos--];
 	}
 

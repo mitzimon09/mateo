@@ -11,7 +11,9 @@ class EmpleadoPersonales {
     Short finadoMadre
     String iglesia
     String responsabilidad
-    
+
+    static belongsTo = [emleado:Empleado]
+
     static constraints = {
         estadoCivil maxSize:2,blank:false
         madre maxSize:50,blank:false        

@@ -1,5 +1,8 @@
 package edu.um.common.evaluador;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.StringTokenizer;
 
 /**
@@ -9,7 +12,7 @@ import java.util.StringTokenizer;
 
 /** 
  *La clase Evaluador contiene funciones para evaluar expresiones matematicas
- *sencillas, complejas y ecuaciones con inc?gnitas.
+ *sencillas, complejas y ecuaciones con incognitas.
  *
  *@author Luis Perez Meza
  *@version 0.1
@@ -18,20 +21,22 @@ import java.util.StringTokenizer;
 
 public class Evaluador {
 	
+	MathContext mc = new MathContext(6, RoundingMode.HALF_EVEN);
+	
 	public Evaluador() {
 	}
 	
 	
 	/**
-	 * Evalua una funcion con una inc?gnita sustituyendo el valor de la incognita con
-	 * el valor pasado como par?metro. Luego se llama la funci?n {@link #evaluaExpresionCompleja}
+	 * Evalua una funcion con una incognita sustituyendo el valor de la incognita con
+	 * el valor pasado como parametro. Luego se llama la funcion {@link #evaluaExpresionCompleja}
 	 * 
-	 * @param funcion La funci?n con inc?gnita a evaluar.
-	 * @param valor El valor con que se sustituir? a la inc?gnita.
+	 * @param funcion La funcion con incognita a evaluar.
+	 * @param valor El valor con que se sustituira a la incognita.
 	 * @param variable La variable que se va a sustituir.
-	 * @return El valor de la funci?n evaluada.
+	 * @return El valor de la funcion evaluada.
 	 */
-	public double evaluaFuncion(String funcion, double valor, String variable) {
+	public BigDecimal evaluaFuncion(String funcion, BigDecimal valor, String variable) {
 		StringBuffer funcionTmp = new StringBuffer(funcion);
 		int posicion = -1;
 		
@@ -39,16 +44,16 @@ public class Evaluador {
 			posicion = funcionTmp.toString().indexOf(variable.charAt(0), posicion + 1);
 			if (posicion >= 0) {
 				funcionTmp.deleteCharAt(posicion);
-				funcionTmp.insert(posicion, valor);
+				funcionTmp.insert(posicion, valor.toString());
 			}
 		} while (posicion != -1);
 		return evaluaExpresionCompleja(funcionTmp.toString());
 	}
 	
 	
-	public double evaluaExpresionPostfix(String expr) {
-		double opnd1, opnd2, value;
-		Double num;
+	public BigDecimal evaluaExpresionPostfix(String expr) {
+		BigDecimal opnd1, opnd2, value;
+		BigDecimal num;
 		String c;
 		StringTokenizer str = new StringTokenizer(expr, "+-*/^ ", true);
 		MyStack opndstk = new MyStack(str.countTokens());
@@ -57,8 +62,8 @@ public class Evaluador {
 			c = str.nextToken();
 			
 			try {
-				num = new Double(c);
-				opndstk.push(num.doubleValue());
+				num = new BigDecimal(c,mc);
+				opndstk.push(num);
 			} catch (NumberFormatException e) {
 				if (!c.equals(" ")) {
 					try{
@@ -75,12 +80,12 @@ public class Evaluador {
 		return opndstk.pop();
 	}
 	
-	public double evaluaExpresion(String expresion) {
+	public BigDecimal evaluaExpresion(String expresion) {
 		expresion= expresion.replaceAll(" ","");
 		return evaluaExpresionPostfix(toPostfix(expresion));
 	}
 	
-	public double evaluaExpresionCompleja(String expresionCompleja) {
+	public BigDecimal evaluaExpresionCompleja(String expresionCompleja) {
 		StringTokenizer token = new StringTokenizer(expresionCompleja, "+-*/()^ ", true);
 		StringBuffer expresionSimple = new StringBuffer();
 		IsClass probador = new IsClass();
@@ -103,8 +108,8 @@ public class Evaluador {
 					strf.append(tokenActual);
 				} while (cont != 0);
 				
-				tokenActual = Double.toString(evaluaExpresionCompleja(strf.toString()));
-				expresionSimple.append(evaluaFuncionNumerica(funcion, Double.parseDouble(tokenActual)));
+				tokenActual = (evaluaExpresionCompleja(strf.toString())).toString();
+				expresionSimple.append(evaluaFuncionNumerica(funcion, new BigDecimal(tokenActual,mc)));
 				
 			} else
 				expresionSimple.append(tokenActual);
@@ -113,32 +118,31 @@ public class Evaluador {
 		return evaluaExpresion(expresionSimple.toString());
 	}
 	
-	public double evaluaFuncionNumerica(String funcion, double num) {
-		double valor;
-		
+	public BigDecimal evaluaFuncionNumerica(String funcion, BigDecimal num) {
+		BigDecimal valor;
 		if (funcion.equals("sin")) {
-			valor = Math.sin(num);
+			valor = new BigDecimal(Math.sin(new Double(num.toString())),mc);
 		} else if (funcion.equals("cos")) {
-			valor = Math.cos(num);
+			valor = new BigDecimal(Math.cos(new Double(num.toString())),mc);
 		} else if (funcion.equals("tan")) {
-			valor = Math.tan(num);
+			valor = new BigDecimal(Math.tan(new Double(num.toString())),mc);
 		}
 		else if(funcion.equals("sqrt")){
-			valor = Math.sqrt(num);
+			valor = new BigDecimal(Math.sqrt(new Double(num.toString())),mc);
 		}
 		else if(funcion.equals("asin")){
-			valor = Math.asin(num);
+			valor = new BigDecimal(Math.asin(new Double(num.toString())),mc);
 		}
 		else if(funcion.equals("acos")){
-			valor = Math.acos(num);
+			valor = new BigDecimal(Math.acos(new Double(num.toString())),mc);
 		}
 		else
-			valor = 0;
+			valor = new BigDecimal("0.00",mc);
 		
-		int index = Double.toString(valor).lastIndexOf("E");
+		int index = valor.toString().lastIndexOf("E");
 		
 		if (index > 0)
-			return 0;
+			return new BigDecimal("0.0",mc);
 		
 		return valor;
 	}
@@ -182,20 +186,20 @@ public class Evaluador {
 		return postr;
 	}
 	
-	public double evaluaOperacion(int symb, double op1, double op2) {
+	public BigDecimal evaluaOperacion(int symb, BigDecimal op1, BigDecimal op2) {
 		switch (symb) {
 		case '+' :
-			return (op1 + op2);
+			return (op1.add(op2));
 		case '-' :
-			return (op1 - op2);
+			return (op1.subtract(op2));
 		case '/' :
-			return (op1 / op2);
+			return (op1.divide(op2));
 		case '*' :
-			return (op1 * op2);
+			return (op1.multiply(op2));
 		case '^' :
-			return (Math.pow(op1, op2));
+			return new BigDecimal((Math.pow(new Double(op1.toString()), new Double(op2.toString()))),mc);
 		}
-		return 0;
+		return new BigDecimal("0.0",mc);
 	}
 	
 	public boolean isOperand(String oper) {

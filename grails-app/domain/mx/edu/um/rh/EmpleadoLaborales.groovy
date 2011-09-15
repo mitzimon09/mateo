@@ -21,6 +21,7 @@ class EmpleadoLaborales {
     BigDecimal antiguedadFiscal
     Grupo grupo
     
+    static belongsTo = [emleado:Empleado]
     
     static constraints = {
         cuenta maxSize:16
