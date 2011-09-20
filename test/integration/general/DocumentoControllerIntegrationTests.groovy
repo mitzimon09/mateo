@@ -21,7 +21,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
         def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'A'
+            , status: 'AP'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -37,7 +37,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
                 , naturaleza: 'C'
                 , cheque: 'N'
                 , observaciones: 'test'
-                , status: 'C'
+                , status: 'CR'
                 , importe: new BigDecimal("0.00")
                 , iva: new BigDecimal("0.00")
                 , empleado: empleado
@@ -70,7 +70,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
 		def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'A'
+            , status: 'AP'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -90,7 +90,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.naturaleza = 'C'
         controller.params.cheque = 'N'
         controller.params.observaciones = 'test'
-        controller.params.status = 'C'
+        controller.params.status = 'CR'
         controller.params.importe = new BigDecimal("0.00")
         controller.params.iva = new BigDecimal("0.00")
         controller.params.empleado = empleado
@@ -111,7 +111,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
 
 		def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'A'
+            , status: 'AP'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -126,7 +126,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
             , naturaleza: 'C'
             , cheque: 'N'
             , observaciones: 'test'
-            , status: 'C'
+            , status: 'CR'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
@@ -164,7 +164,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
     	
     	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'A'
+            , status: 'AP'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -179,7 +179,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
             , naturaleza: 'C'
             , cheque: 'N'
             , observaciones: 'test'
-            , status: 'C'
+            , status: 'CR'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
@@ -213,7 +213,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
     	
     	def concepto = new Concepto (
             descripcion: 'test'
-            , status: 'A'
+            , status: 'AP'
             , nombre: 'test'
             , tags: 'test'
         ).save()
@@ -228,7 +228,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
             , naturaleza: 'C'
             , cheque: 'N'
             , observaciones: 'test'
-            , status: 'C'
+            , status: 'CR'
             , importe: new BigDecimal("0.00")
             , iva: new BigDecimal("0.00")
             , empleado: empleado
@@ -242,7 +242,7 @@ class DocumentoControllerIntegrationTests extends BaseIntegrationTest {
         controller.springSecurityService = springSecurityService
         controller.procesoService = procesoService
 		
-        assertEquals "C", documento.status
+        assertEquals "CR", documento.status
         
         controller.params.id = documento.id
         def model = controller.ver()

@@ -1,14 +1,11 @@
-package general
+package mx.edu.um.rh
 
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_EMP'])
 class VacacionesController {
 
 	def springSecurityService
-	def procesoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -18,7 +15,7 @@ class VacacionesController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[vacacionesList: Vacaciones.list(params), totalDevacaciones: Vacaciones.count()]
+		[vacacionesList: Vacaciones.list(params),totalDeVacaciones: Vacaciones.count()]
 	}
 
     def nueva = {
@@ -27,10 +24,10 @@ class VacacionesController {
         return [vacaciones: vacaciones]
     }
 
-    def crea = {
+    def save = {
         def vacaciones = new Vacaciones(params)
         if (vacaciones.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), vacaciones.id])
+            flash.message = message(code: 'default.saveted.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), vacaciones.id])
             redirect(action: "ver", id: vacaciones.id)
         }
         else {
@@ -49,7 +46,7 @@ class VacacionesController {
         }
     }
 
-    def edita = {
+/*    def edita = {
         def vacaciones = Vacaciones.get(params.id)
         if (!vacaciones) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
@@ -87,7 +84,7 @@ class VacacionesController {
         }
     }
 
-    def elimina = {
+/*    def elimina = {
         def vacaciones = Vacaciones.get(params.id)
         if (vacaciones) {
             try {
@@ -104,91 +101,5 @@ class VacacionesController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
             redirect(action: "lista")
         }
-    }
-    
-    @Secured(['ROLE_EMP'])
-    def enviar = {
-		def vacaciones = Vacaciones.get(params.id)
-		if (vacaciones){
-			if(vacaciones.status.equals("CREADA")){
-				vacaciones = procesoService.enviar(vacaciones)
-				vacaciones.save(flush:true)
-				redirect(action: "lista")
-			}
-			else {
-				flash.message = message(code: 'vacaciones.status.message5', args: [message(code: 'vacaciones.label', default: 'vacaciones'), params.id])
-		        redirect(action: "lista")
-			}
-		}
-    }
-    
-    @Secured(['ROLE_CCP','ROLE_DIRFIN'])
-    def aprobar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
-			def vacaciones = Vacaciones.get(params.id)
-			if (vacaciones){
-				if(vacaciones.status.equals("ENVIADA") || vacaciones.status.equals("RECHAZADA")){
-					vacaciones = procesoService.aprobar(vacaciones)
-					vacaciones.save(flush:true)
-					redirect(action: "lista")
-				}
-				else if (vacaciones.status.equals("CREADA")){
-					flash.message = message(code: 'vacaciones.status.message1', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
-			        redirect(action: "lista")
-				}
-				else{
-					flash.message = message(code: 'vacaciones.status.message2', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
-			        redirect(action: "lista")
-				}
-			}
-		//}
-    }
-    
-    @Secured(['ROLE_CCP','ROLE_DIRFIN'])
-    def rechazar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
-			def vacaciones = Vacaciones.get(params.id)
-			if (vacaciones){
-			    //log.debug "observaciones $params.observaciones"
-				if (vacaciones.observaciones != ""){
-					if(vacaciones.status.equals("ENVIADA")){
-						vacaciones = procesoService.rechazar(vacaciones)
-						vacaciones.observaciones = params.observaciones
-						vacaciones.save(flush:true)
-						redirect(action: "lista")
-					}
-					else if (vacaciones.status.equals("CREADA")){
-						flash.message = message(code: 'vacaciones.status.message1', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
-			            redirect(action: "lista")
-					}
-					else{
-						flash.message = message(code: 'vacaciones.status.message2', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
-			            redirect(action: "lista")
-					}
-				}else{
-				    flash.message = message(code: 'vacaciones.observaciones')
-				    redirect(action: "edita", id: vacaciones.id)
-				}
-			}
-		//}
-	}
-	
-	@Secured(['ROLE_COMPRAS'])
-    def cancelar = {
-    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN')) {
-			def vacaciones = Vacaciones.get(params.id)
-			if (vacaciones){
-				//if (vacaciones.status.equals("COMPRADA")){
-					vacaciones = procesoService.cancelar(vacaciones)
-					vacaciones.save(flush:true)
-					redirect(action: "lista")
-				//}
-				//else{
-				//	flash.message = message(code: 'vacaciones.status.message3', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), params.id])
-				//    redirect(action: "lista")
-				//}
-			}
-		//}
-	}
-    
+    }*/
 }
