@@ -8,6 +8,7 @@ import general.Organizacion
 import general.Empresa
 import mx.edu.um.contabilidad.Ejercicio
 import mx.edu.um.contabilidad.CentroCosto
+import mx.edu.um.contabilidad.CCostoPK
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -21,7 +22,7 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
     void MostrarListaDeEmpleadoPuestos() {
 		authenticateAdmin()
 
-
+        //crear empleado
     	def organizacion = new Organizacion (
             codigo: 'TST1'
             , nombre: 'TEST-1'
@@ -63,35 +64,37 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
 		).save()
 		assertNotNull empleado
 
+        //creo CCosto y Ejercicio
         def ejercicio = new Ejercicio(
-            idEjercicio: '0001-2012'
-            , nombre: 'test'
+            idEjercicio: '001-2012'
+            , nombre: 'test$i' 
             , status: 'A'
-	        , mascBalance: 'test'
-	        , mascResultado: 'test'
-	        , mascAuxiliar: 'test'
-	        , mascCcosto: 'test'
-	        , nivelContable: 0
-	        , nivelTauxiliar: 0
-        ).save()
-        assertNotNull ejercicio
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
+	    ).save()
+	 	assertNotNull ejercicio
         
-        def key = new CCostoPK(
-            ejercicio: ejercicio
-            , idCCosto: '0001'
-        ).save()
-        assertNotNull key
-        
-        def cCosto = new CentroCosto(
-            nombre: 'test'
-            , detalle: 'test'
-            , iniciales: 'test'
-            , rfc: 'test'
-	        , key: key
-	        , ejercicio: ejercicio
-        ).save()
-        assertNotNull cCosto
+	 	def key = new CCostoPK(
+	 	    ejercicio: ejercicio
+	 	    , idCCosto: '001'
+ 	    ).save()
+ 	    assertNotNull key
 
+    	def centroCosto = new CentroCosto(
+            nombre: 'test' 
+            , detalle: 'test'
+        	, iniciales: 'test'
+            , rfc: 'test'
+            , key: key
+            , ejercicio: ejercicio
+	    ).save()
+	 	assertNotNull centroCosto
+
+        //creo puesto
         def categoria = new Categoria(
             nombre: 'test'
         ).save()
@@ -111,13 +114,12 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
             , seccion: seccion
         ).save()
 	    assertNotNull puesto
-
+        
         for(i in 1..20) {
         	def empleadoPuesto = new EmpleadoPuesto(
-        	    id: 2
-        	    , empleado: empleado
-                , ejercicio: ejercicio
-	            , centroCosto: cCosto
+        	    empleado: empleado
+                , ejercicio: ejercicio.idEjercicio
+	            , cCosto: centroCosto.key.idCCosto
 	            , puesto: puesto
 	            , turno: 0.0
                 , status: 'I'
@@ -138,14 +140,105 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
 
         assertEquals 10, model.empleadoPuestos.size()
         assert 20 <= model.totalDeEmpleadoPuestos
-        /*
-        */
     }
-/*
+
     @Test
     void CrearEmpleadoPuesto() {
     	authenticateAdmin()
-		
+
+        //crear empleado
+    	def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+		def empresa = new Empresa(
+            codigo: "emp2"
+            , nombre: "emp"
+            , nombreCompleto: 'emptest'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        		
+    	def empleado = new Empleado (
+			clave: "1110000"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+		assertNotNull empleado
+
+        //creo CCosto y Ejercicio
+        def ejercicio = new Ejercicio(
+            idEjercicio: '001-2012'
+            , nombre: 'test$i' 
+            , status: 'A'
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
+	    ).save()
+	 	assertNotNull ejercicio
+        
+	 	def key = new CCostoPK(
+	 	    ejercicio: ejercicio
+	 	    , idCCosto: '001'
+ 	    ).save()
+ 	    assertNotNull key
+
+    	def centroCosto = new CentroCosto(
+            nombre: 'test' 
+            , detalle: 'test'
+        	, iniciales: 'test'
+            , rfc: 'test'
+            , key: key
+            , ejercicio: ejercicio
+	    ).save()
+	 	assertNotNull centroCosto
+
+        //creo puesto
+        def categoria = new Categoria(
+            nombre: 'test'
+        ).save()
+    	
+    	def seccion = new Seccion(
+            descripcion: 'test'
+            , maximo: '1'
+            , minimo: '1'
+            , rango_academico: '1'
+            , categoria: categoria
+	    ).save()
+        
+    	def puesto = new Puesto(
+            nombre: 'test$1'
+            , maximo: 1
+            , minimo: 1
+            , seccion: seccion
+        ).save()
+	    assertNotNull puesto
+        
 		def currentUser = springSecurityService.currentUser
 
 		def controller = new EmpleadoPuestoController()
@@ -154,12 +247,12 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
         def model = controller.nuevo()
         assert model
         assert model.empleadoPuesto
-        controller.params.nombre = 'test$i' 
-        controller.params.ejercio = ejercicio
-        controller.params.centroCosto = centroCosto
+        controller.params.empleado = empleado
+        controller.params.ejercicio = ejercicio.idEjercicio
+        controller.params.cCosto = centroCosto.key.idCCosto
         controller.params.puesto = puesto
         controller.params.turno = 0.0
-        controller.params.status = 'A'
+        controller.params.status = 'I'
         controller.crea()
         
         assert controller
@@ -172,13 +265,106 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
 		
 		def currentUser = springSecurityService.currentUser
 
+        //crear empleado
+    	def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+		def empresa = new Empresa(
+            codigo: "emp2"
+            , nombre: "emp"
+            , nombreCompleto: 'emptest'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        		
+    	def empleado = new Empleado (
+			clave: "1110000"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+		assertNotNull empleado
+
+        //creo CCosto y Ejercicio
+        def ejercicio = new Ejercicio(
+            idEjercicio: '001-2012'
+            , nombre: 'test$i' 
+            , status: 'A'
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
+	    ).save()
+	 	assertNotNull ejercicio
+        
+	 	def key = new CCostoPK(
+	 	    ejercicio: ejercicio
+	 	    , idCCosto: '001'
+ 	    ).save()
+ 	    assertNotNull key
+
+    	def centroCosto = new CentroCosto(
+            nombre: 'test' 
+            , detalle: 'test'
+        	, iniciales: 'test'
+            , rfc: 'test'
+            , key: key
+            , ejercicio: ejercicio
+	    ).save()
+	 	assertNotNull centroCosto
+
+        //creo puesto
+        def categoria = new Categoria(
+            nombre: 'test'
+        ).save()
+    	
+    	def seccion = new Seccion(
+            descripcion: 'test'
+            , maximo: '1'
+            , minimo: '1'
+            , rango_academico: '1'
+            , categoria: categoria
+	    ).save()
+        
+    	def puesto = new Puesto(
+            nombre: 'test$1'
+            , maximo: 1
+            , minimo: 1
+            , seccion: seccion
+        ).save()
+	    assertNotNull puesto
+        
     	def empleadoPuesto = new EmpleadoPuesto(
-            nombre: 'test$i' 
-            ejercio: ejercicio
-            centroCosto: centroCosto
-            puesto: puesto
-            turno: 0.0
-            status: 'A'
+    	    empleado: empleado
+            , ejercicio: ejercicio.idEjercicio
+            , cCosto: centroCosto.key.idCCosto
+            , puesto: puesto
+            , turno: 0.0
+            , status: 'I'
 	    ).save()
 		assertNotNull empleadoPuesto
     		
@@ -187,19 +373,19 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.id = empleadoPuesto.id
         def model = controller.ver()
         assert model.empleadoPuesto
-        assertEquals "test", model.empleadoPuesto.nombre
+        assertEquals "I", model.empleadoPuesto.status
 
         controller.params.id = empleadoPuesto.id
         model = controller.edita()
         assert model.empleadoPuesto
-        assertEquals "test", model.empleadoPuesto.nombre
+        assertEquals "I", model.empleadoPuesto.status
 
-        controller.params.nombre = 'test1'
+        controller.params.status = 'A'
         controller.actualiza()
         assert controller.response.redirectedUrl.startsWith('/empleadoPuesto/ver')
 
         empleadoPuesto.refresh()
-        assertEquals 'test1', empleadoPuesto.nombre
+        assertEquals 'A', empleadoPuesto.status
     }
     
     @Test
@@ -207,14 +393,107 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
         authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser
+
+        //crear empleado
+    	def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+		def empresa = new Empresa(
+            codigo: "emp2"
+            , nombre: "emp"
+            , nombreCompleto: 'emptest'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        		
+    	def empleado = new Empleado (
+			clave: "1110000"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+		assertNotNull empleado
+
+        //creo CCosto y Ejercicio
+        def ejercicio = new Ejercicio(
+            idEjercicio: '001-2012'
+            , nombre: 'test$i' 
+            , status: 'A'
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
+	    ).save()
+	 	assertNotNull ejercicio
+        
+	 	def key = new CCostoPK(
+	 	    ejercicio: ejercicio
+	 	    , idCCosto: '001'
+ 	    ).save()
+ 	    assertNotNull key
+
+    	def centroCosto = new CentroCosto(
+            nombre: 'test' 
+            , detalle: 'test'
+        	, iniciales: 'test'
+            , rfc: 'test'
+            , key: key
+            , ejercicio: ejercicio
+	    ).save()
+	 	assertNotNull centroCosto
+
+        //creo puesto
+        def categoria = new Categoria(
+            nombre: 'test'
+        ).save()
     	
+    	def seccion = new Seccion(
+            descripcion: 'test'
+            , maximo: '1'
+            , minimo: '1'
+            , rango_academico: '1'
+            , categoria: categoria
+	    ).save()
+        
+    	def puesto = new Puesto(
+            nombre: 'test$1'
+            , maximo: 1
+            , minimo: 1
+            , seccion: seccion
+        ).save()
+	    assertNotNull puesto
+        
     	def empleadoPuesto = new EmpleadoPuesto(
-            nombre: 'test$i' 
-            ejercio: ejercicio
-            centroCosto: centroCosto
-            puesto: puesto
-            turno: 0.0
-            status: 'A'
+    	    empleado: empleado
+            , ejercicio: ejercicio.idEjercicio
+            , cCosto: centroCosto.key.idCCosto
+            , puesto: puesto
+            , turno: 0.0
+            , status: 'I'
 	    ).save()
 		assertNotNull empleadoPuesto
         
@@ -223,7 +502,7 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.id = empleadoPuesto.id
         def model = controller.ver()
         assert model.empleadoPuesto
-        assertEquals "test", model.empleadoPuesto.nombre
+        assertEquals "I", model.empleadoPuesto.status
 
         controller.params.id = empleadoPuesto.id
         controller.elimina()
@@ -232,5 +511,4 @@ class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
         model = EmpleadoPuesto.get(empleadoPuesto.id)
         assert !model
     }
-    */
 }

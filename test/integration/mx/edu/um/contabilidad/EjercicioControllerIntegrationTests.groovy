@@ -21,7 +21,7 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
 
         for(i in 1..20) {
         	def ejercicio = new Ejercicio(
-        	    id_Ejercicio: '0001-2012'
+                id_Ejercicio: '0001-2012'
                 , nombre: 'test$i' 
                 , status: 'A'
             	, masc_Balance: 'test'
@@ -47,7 +47,8 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals 10, model.ejercicios.size()
         assert 20 <= model.totalDeEjercicios
     }
-
+    
+    
     @Test
     void CrearEjercicio() {
     	authenticateAdmin()
@@ -60,7 +61,15 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
         def model = controller.nuevo()
         assert model
         assert model.ejercicio
-        controller.params.nombre = "test"
+        controller.params.id_Ejercicio = '0001-2012'
+        controller.params.nombre = 'test'
+        controller.params.status = 'A'
+    	controller.params.masc_Balance = 'test'
+        controller.params.masc_Resultado = 'test'
+        controller.params.masc_Auxiliar = 'test'
+        controller.params.masc_CCosto = 'test'
+        controller.params.nivel_Contable = 1
+        controller.params.nivel_Tauxiliar = 1
         controller.crea()
         
         assert controller
@@ -74,10 +83,18 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
 		def currentUser = springSecurityService.currentUser
 
         def ejercicio = new Ejercicio(
-            nombre: 'test'
+            id_Ejercicio: '0001-2012'
+            , nombre: 'test'
+            , status: 'A'
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
 	    ).save()
-		assertNotNull ejercicio
-    		
+	 	assertNotNull ejercicio    		
+	 	
         def controller = new EjercicioController()
         controller.springSecurityService = springSecurityService
         controller.params.id = ejercicio.id
@@ -105,9 +122,17 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
 		def currentUser = springSecurityService.currentUser
     	
     	def ejercicio = new Ejercicio(
-            nombre: 'test'
+            id_Ejercicio: '0001-2012'
+            , nombre: 'test'
+            , status: 'A'
+        	, masc_Balance: 'test'
+            , masc_Resultado: 'test'
+            , masc_Auxiliar: 'test'
+            , masc_CCosto: 'test'
+            , nivel_Contable: 1
+            , nivel_Tauxiliar: 1
 	    ).save()
-		assertNotNull ejercicio
+	 	assertNotNull ejercicio
         
         def controller = new EjercicioController()
         controller.springSecurityService = springSecurityService
@@ -124,3 +149,4 @@ class EjercicioControllerIntegrationTests extends BaseIntegrationTest {
         assert !model
     }
 }
+

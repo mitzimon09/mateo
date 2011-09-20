@@ -1,7 +1,7 @@
 package mx.edu.um.contabilidad
 
 class Ejercicio {
-    String id_Ejercicio
+    String idEjercicio
     String nombre
     String status = 'A'
 	String masc_Balance
@@ -12,16 +12,20 @@ class Ejercicio {
 	Integer nivel_Tauxiliar
 
     static constraints = {
-        nombre blank:false, maxSize:64
+        idEjercicio unique: true
+        nombre blank: false, maxSize: 64
         status inList:['A','I']
     }
-
+    
+/*
     static mapping = {
         table name:'cont_ejercicio', schema:'mateo'
-        id column:'id_Ejercicio'
+        id_Ejercicio column: 'id_ejercicio'
+        version false
+        //id composite: ['id_Ejercicio'], generator: "assigned"
     }
-    
+    */
     String toString() {
-        return nombre
+        return "$idEjercicio"
     }
 }

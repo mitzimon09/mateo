@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="mx.edu.um.contabilidad.Ejercicio"
+        table="cont_ejercicio"
+        schema="mateo"
+        lazy="false"
+    >
+
+        <id
+            name="idEjercicio"
+            column="id_ejercicio"
+            type="java.lang.String"
+            length="8"
+        >
+            <generator class="assigned">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-Ejercicio.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="nombre"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="nombre"
+            length="60"
+            not-null="true"
+        />
+
+        <property
+            name="mascAuxiliar"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="masc_auxiliar"
+            length="15"
+            not-null="true"
+        />
+
+        <property
+            name="mascBalance"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="masc_balance"
+            length="15"
+            not-null="true"
+        />
+
+        <property
+            name="mascCcosto"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="masc_ccosto"
+            length="15"
+            not-null="true"
+        />
+
+        <property
+            name="mascResultado"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="masc_resultado"
+            length="15"
+            not-null="true"
+        />
+
+        <property
+            name="nivelContable"
+            type="byte"
+            update="true"
+            insert="true"
+            column="nivel_contable"
+            not-null="true"
+        />
+
+        <property
+            name="nivelTauxiliar"
+            type="byte"
+            update="true"
+            insert="true"
+            column="nivel_tauxiliar"
+            not-null="true"
+        />
+
+        <property
+            name="status"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="status"
+            length="1"
+            not-null="true"
+        />
+
+        <set
+            name="CCostos"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+            outer-join="false"
+        >
+
+            <key
+                column="id_ejercicio"
+            >
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.contabilidad.CentroCosto"
+            />
+
+        </set>
+<!--
+        <set
+            name="ctasMayor"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+            <key
+                column="id_ejercicio"
+            >
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.financiero.model.CtaMayor"
+            />
+
+        </set>
+
+        <set
+            name="auxiliares"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+            <key
+                column="id_ejercicio"
+            >
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.financiero.model.Auxiliar"
+            />
+
+        </set>
+
+        <set
+            name="libros"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+            <key
+                column="id_ejercicio"
+            >
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.financiero.model.Libro"
+            />
+
+        </set>
+        -->
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-Ejercicio.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

@@ -1,7 +1,5 @@
 package mx.edu.um.contabilidad
 
-import mx.edu.um.rh.CCostoPK
-
 class CentroCosto {
     String nombre
     String detalle
@@ -10,20 +8,21 @@ class CentroCosto {
 	CCostoPK key
 	Ejercicio ejercicio
 
-	//Set cuentas
-	//Set polizas
-	CentroCosto cCosto
-	//static hasMany = [cuentas: Cuenta, polizas: Poliza]
-	
     static constraints = {
         nombre maxSize: 255
         detalle maxSize: 255
-        nombre maxSize: 255       
+        rfc nullable: true
+        ejercicio nullable: false
+        key nullable: false
     }
     
-    static mapping = {
+/*    static mapping = {
         table name:'cont_ccosto', schema:'mateo'
         id column: 'key'
         //id composite:['CentroCosto.get(id)', 'ejercicio']
+    }
+*/
+    String toString() {
+        return "$key"
     }
 }
