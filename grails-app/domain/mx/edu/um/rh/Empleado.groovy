@@ -11,6 +11,7 @@ class Empleado {
     String direccion
     String status
     Map perdeds
+    Map estudios
     
     //laborales
     TipoEmpleado tipo
@@ -46,9 +47,9 @@ class Empleado {
     String telefonocelular
     String email
     
-    static transients = ['perdeds']
+    static transients = ['perdeds', 'estudios']
     
-    static hasMany=[perdedsList:EmpleadoPerded]//, empleado:EmpleadoPersonales, empleado:empleado]
+    static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
     
