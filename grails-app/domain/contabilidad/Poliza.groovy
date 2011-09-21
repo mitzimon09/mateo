@@ -1,6 +1,7 @@
 package contabilidad
 
 import general.Empresa
+import mx.edu.um.contabilidad.*
 
 class Poliza {
     String folio
