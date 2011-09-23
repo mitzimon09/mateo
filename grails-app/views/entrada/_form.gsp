@@ -80,3 +80,11 @@
 	</label>
 	<g:select id="proveedor" name="proveedor.id" from="${general.Proveedor.list()}" optionKey="id" required="" value="${entrada?.proveedor?.id}" class="many-to-one"/>
 </div>
+
+<div class="fieldcontain ${hasErrors(bean: entrada, field: 'totalFactura', 'error')} required">
+	<label for="totalFactura">
+		<g:message code="entrada.totalFactura.label" default="Total Factura" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field type="number" name="totalFactura" required="" value="${fieldValue(bean: entrada, field: 'totalFactura')}"/>
+</div>

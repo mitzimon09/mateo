@@ -50,8 +50,7 @@ class Cliente implements Serializable {
                 ilike 'rfc',filtro
             }
         }
-
-        relaciones {
+        relaciones { 
             join 'tipoCliente'
         }
     }
@@ -59,5 +58,4 @@ class Cliente implements Serializable {
     String toString() {
         return nombre
     }
-
 }

@@ -16,5 +16,4 @@ class Imagen implements Serializable {
     static mapping = {
         table 'imagenes'
     }
-
 }

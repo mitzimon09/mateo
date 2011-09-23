@@ -86,20 +86,20 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${salida?.estatus}">
-				<li class="fieldcontain">
-					<span id="estatus-label" class="property-label"><g:message code="salida.estatus.label" default="Estatus" /></span>
-					
-						<span class="property-value" aria-labelledby="estatus-label"><g:fieldValue bean="${salida}" field="estatus"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${salida?.facturaAlmacen}">
 				<li class="fieldcontain">
 					<span id="facturaAlmacen-label" class="property-label"><g:message code="salida.facturaAlmacen.label" default="Factura Almacen" /></span>
 					
 						<span class="property-value" aria-labelledby="facturaAlmacen-label"><g:link controller="facturaAlmacen" action="show" id="${salida?.facturaAlmacen?.id}">${salida?.facturaAlmacen?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${salida?.estatus}">
+				<li class="fieldcontain">
+					<span id="estatus-label" class="property-label"><g:message code="salida.estatus.label" default="Estatus" /></span>
+					
+						<span class="property-value" aria-labelledby="estatus-label"><g:fieldValue bean="${salida}" field="estatus"/></span>
 					
 				</li>
 				</g:if>
@@ -131,6 +131,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${salida?.facturada}">
+				<li class="fieldcontain">
+					<span id="facturada-label" class="property-label"><g:message code="salida.facturada.label" default="Facturada" /></span>
+					
+						<span class="property-value" aria-labelledby="facturada-label"><g:formatBoolean boolean="${salida?.facturada}" /></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${salida?.lastUpdated}">
 				<li class="fieldcontain">
 					<span id="lastUpdated-label" class="property-label"><g:message code="salida.lastUpdated.label" default="Last Updated" /></span>
@@ -145,7 +154,7 @@
 					<span id="lotes-label" class="property-label"><g:message code="salida.lotes.label" default="Lotes" /></span>
 					
 						<g:each in="${salida.lotes}" var="l">
-						<span class="property-value" aria-labelledby="lotes-label"><g:link controller="loteSalida" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="lotes-label"><g:link controller="loteSalida" action="ver" id="${l.id}">${l?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>

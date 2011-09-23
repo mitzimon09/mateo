@@ -85,7 +85,6 @@ class Entrada implements Serializable {
             between 'lastUpdated', fechaInicial, fechaFinal
         }
 
-        //falta arreglar estatus
         listaParaFacturar { almacenId, filtro ->
             filtro = "%$filtro%"
             ilike 'folio', filtro
@@ -116,5 +115,4 @@ class Entrada implements Serializable {
         }
         return false
     }
-
 }

@@ -11,7 +11,11 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
+<<<<<<< HEAD
+				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+=======
 				<li><g:link class="list" action="lista"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+>>>>>>> upstream/master
 			</ul>
 		</div>
 		<div id="create-entrada" class="content scaffold-create" role="main">
@@ -26,7 +30,11 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
+<<<<<<< HEAD
+			<g:form action="save" >
+=======
 			<g:form action="crea" >
+>>>>>>> upstream/master
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

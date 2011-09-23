@@ -14,11 +14,11 @@ class ProveedorController {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+  	def lista = {
+    		params.max = Math.min(params.max ? params.int('max') : 10, 100)
         def usuario = springSecurityService.currentUser
-		[proveedores: Proveedor.findAllByEmpresa(usuario.empresa, params), totalDeProveedores: Proveedor.countByEmpresa(usuario.empresa)]
-	}
+    		[proveedores: Proveedor.findAllByEmpresa(usuario.empresa, params), totalDeProveedores: Proveedor.countByEmpresa(usuario.empresa)]
+  	}
 
     def nuevo = {
         def proveedor = new Proveedor()

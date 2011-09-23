@@ -1,7 +1,7 @@
 package mx.edu.um.rh
 import mx.edu.um.rh.interfaces.*
 
-class PerdedService implements PerdedServiceInt{
+class PerdedService {
 
    /**
      * Obtiene el Map de formulas del Grupo X (id=6)
@@ -24,7 +24,7 @@ class PerdedService implements PerdedServiceInt{
         log.debug "perdedsGX.size ${perdedsGX.size()}"
 
         for(PerDed p : perdedsGX){
-            log.debug "percepcion: ${p}"
+            log.debug "percepcion: ${p} | ${p.clave}"
             mapGX.put(p.clave,p.formula)
         }
         

@@ -12,7 +12,7 @@
 		<div class="nav" role="navigation">
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="create" action="nueva"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-imagen" class="content scaffold-list" role="main">
@@ -35,23 +35,23 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${imagenInstanceList}" status="i" var="imagenInstance">
+				<g:each in="${imagenes}" status="i" var="imagen">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${imagenInstance.id}">${fieldValue(bean: imagenInstance, field: "nombre")}</g:link></td>
+						<td><g:link action="ver" id="${imagen.id}">${fieldValue(bean: imagen, field: "nombre")}</g:link></td>
 					
-						<td>${fieldValue(bean: imagenInstance, field: "tipoContenido")}</td>
+						<td>${fieldValue(bean: imagen, field: "tipoContenido")}</td>
 					
-						<td>${fieldValue(bean: imagenInstance, field: "tamano")}</td>
+						<td>${fieldValue(bean: imagen, field: "tamano")}</td>
 					
-						<td>${fieldValue(bean: imagenInstance, field: "archivo")}</td>
+						<td>${fieldValue(bean: imagen, field: "archivo")}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
 			<div class="pagination">
-				<g:paginate total="${imagenInstanceTotal}" />
+				<g:paginate total="${totalDeImagenes}" />
 			</div>
 		</div>
 	</body>

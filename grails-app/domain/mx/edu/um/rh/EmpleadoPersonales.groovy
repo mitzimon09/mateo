@@ -11,14 +11,20 @@ class EmpleadoPersonales {
     Short finadoMadre
     String iglesia
     String responsabilidad
-
-    static belongsTo = [emleado:Empleado]
-
+    
+    //static belongsTo = [empleado:Empleado]
+    
     static constraints = {
         estadoCivil maxSize:2,blank:false
         madre maxSize:50,blank:false        
         padre maxSize:50,blank:false        
-        conyuge maxSize:50     
+        conyuge maxSize:50, nullable:true
+        //
+        fechaMatrimonio nullable:true
+        finadoPadre nullable:true
+        finadoMadre nullable:true
+        iglesia nullable:true
+        responsabilidad nullable:true     
     }
     
     static mapping={

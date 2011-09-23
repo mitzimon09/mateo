@@ -11,5 +11,5 @@ class TipoEmpleado {
     
     static mapping={
         table name:'tipoempleado',schema:'aron'
-        }
+    }
 }

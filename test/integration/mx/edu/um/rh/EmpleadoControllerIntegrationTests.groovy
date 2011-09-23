@@ -12,16 +12,16 @@ import org.junit.*
 //@TestMixin(GrailsUnitTestMixin)
 @TestFor(EmpleadoController)
 class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
-    
+
     def springSecurityService
     def empleadoServiceInt
     def empleadoService
-    
+
     /*
      *Esta Prueba no corre en el controller prueba la funcionalidad del service
      */
-    
-    @Test
+
+    /*@Test
     void debieraTraerUnEmpleadoPorClaveANivelService(){
         log.debug "test EmpleadoByClave"
         def clave="9800052"
@@ -32,18 +32,18 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 'OSUNA',empleado.apMaterno
         assertEquals 139,empleado.id
     }
-            
+
     @Test
     void debieraMarcarErrorEmpleadoPorClaveANivelService(){
         log.debug "test EmpleadoByClave"
         def clave="9999999"
-        try{            
+        try{
             def empleado=empleadoServiceInt.getEmpleado(clave)
-        }catch (NullPointerException npe){            
+        }catch (NullPointerException npe){
             assertEquals "empleado.inexistente",npe.message
-        }       
+        }
     }
-        
+
     @Test
     void debieraTraerEmpleadosByEmpresaAndTipo(){
         log.debug "debieraTraerEmpleadosByEmpresaAndTipo"
@@ -54,11 +54,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals tipo.descripcion,"DENOMINACIONAL"
         assertEquals empresa.nombre,"CENTRAL"
         def empleados=empleadoServiceInt.getEmpleadosByEmpresaAndTipo(empresa,tipo)
-        for(Empleado empleado in empleados){            
-            assertEquals 1,empleado.empleadoLaborales.tipo.id
+        for(Empleado empleado in empleados){
+            assertEquals 1,empleado.tipo.id
             assertEquals 102,empleado.empresa.id
         }
-        assertEquals 432,empleados.size()  
+        assertEquals 432,empleados.size()
     }
     @Test
     void debieraTraerCeroEmpleadosByEmpresaAndTipo(){
@@ -71,12 +71,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals empresa.nombre,"Prueba"
         def empleados=empleadoServiceInt.getEmpleadosByEmpresaAndTipo(empresa,tipo)
         for(Empleado empleado in empleados){
-            assertEquals empleado.empleadoLaborales.tipo.id,1      
+            assertEquals empleado.tipo.id,1
             assertEquals empleado.empresa.id,121
         }
         assertEquals 0,empleados.size()
     }
-       
+
     @Test
     void debieraTraerEmpleadosByTipo(){
         log.debug "debieraTraerEmpleadosByTipo"
@@ -84,22 +84,22 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals tipo.descripcion,"DENOMINACIONAL"
         def empleados=empleadoServiceInt.getEmpleadosByTipo(tipo)
         for(Empleado empleado in empleados){
-            assertEquals empleado.empleadoLaborales.tipo.id,1
+            assertEquals empleado.tipo.id,1
         }
         assertEquals 432,empleados.size()
     }
-        
+
     @Test
     void debieraTraerEmpleadosByEmpresa(){
         def empresa=Empresa.get(102)
         assertEquals empresa.nombre,"CENTRAL"
         def empleados=empleadoServiceInt.getEmpleadosByEmpresa(empresa)
-        for(Empleado empleado in empleados){      
+        for(Empleado empleado in empleados){
             assertEquals empleado.empresa.id,102
         }
-        assertEquals 601,empleados.size()  
+        assertEquals 601,empleados.size()
     }
-    
+
     @Test
     void debieraTraerEmpleadosPorRango(){
         //50 empleados
@@ -116,23 +116,23 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertNotNull empleados
         assertEquals 47,empleados.size()
         for(Empleado emp:empleados){
-            assertEquals 1,emp.empleadoLaborales.tipo.id            
-            assertEquals 102,emp.empresa.id           
+            assertEquals 1,emp.empleado.tipo.id
+            assertEquals 102,emp.empresa.id
         }
-        
+
     }
-    
+
     /*
      *Seccion de Leer Las Perdeds del empleado
      */
-    @Test
+    /*@Test
     void debieraLeerPercepcionesDeduccionesEmpleado(){
         def clave="9800052"
         def empleado=empleadoServiceInt.getEmpleado(clave)
-        assertEquals 139,empleado.id        
+        assertEquals 139,empleado.id
         assertNotNull empleado.perdeds
         assertEquals 8,empleado.perdeds.size()
-        Map empleadoPerdeds=empleado.perdeds       
+        Map empleadoPerdeds=empleado.perdeds
         assertEquals true,empleadoPerdeds.containsKey('1')
         EmpleadoPerded emperd=empleadoPerdeds.get('1')
         assertEquals 'D,B,I,N,PS,BN',emperd.atributos
@@ -140,7 +140,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 100,emperd.importe
         assertEquals 1,emperd.perded.id
     }
-        
+
     @Test
     void debieraGuardarPercecionesDeducciones(){
         def clave="9800052"
@@ -165,8 +165,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         Map empleadoPerdeds=empleado.perdeds
         System.out.println("empleados $empleadoPerdeds")
     }
-    
-    
+
+
     @Test
     void debieraModificarPercecionesDeducciones(){
         def clave="9800052"
@@ -187,8 +187,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "D,I,PS,BN",emperd.atributos
         assertEquals '$',emperd.tipoImporte
         assertEquals new BigDecimal("10000") ,emperd.importe
-        
-    }        
+
+    }
     @Test
     void debieraLeerFormula(){
         def clave="9800052"
@@ -201,9 +201,9 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertNotNull emperd.perded
         assertEquals 1,emperd.perded.id
         assertNotNull emperd.perded.formula
-        assertEquals 'PD001*PD007',emperd.perded.formula
+        assertEquals '-',emperd.perded.formula
     }
-            
+
     @Test
     void debieraModificarFormula(){
         def clave="9800052"
@@ -216,14 +216,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertNotNull emperd.perded
         assertEquals 1,emperd.perded.id
         assertNotNull emperd.perded.formula
-        assertEquals 'PD001*PD007',emperd.perded.formula
+        assertEquals '-',emperd.perded.formula
         emperd.perded.formula='P000*P200'
         emperd.save()
         emperd=null
         emperd=empleadoPerdeds.get('1')
         assertEquals 'P000*P200',emperd.perded.formula
     }
-    
+
     @Test
     void debieraValidarTodosEmpleadosNomina(){
         //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
@@ -251,7 +251,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals true,tmp.containsKey("empleado.escalafon.invalido")
         assertEquals "9810207",tmp.get("empleado.escalafon.invalido")
     }
-    
+
+
     @Test
     void debieraMostarErrorCuentaBancoEmpleadosNomina(){
         //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
@@ -265,7 +266,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 1,tmp.size()
         assertEquals true,tmp.containsKey("empleado.cuentaBanco.invalido")
         assertEquals "9810213",tmp.get("empleado.cuentaBanco.invalido")
-    }    
+    }
     @Test
     void debieraMostarErrorTurnoEmpleadosNomina(){
         //Escalafon,CuentaDeBanco,Tiempo trabaja completo o asi,grupo, cuenta contable,centro de costo
@@ -294,8 +295,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals true,tmp.containsKey("empleado.grupo.invalido")
         assertEquals "9800104",tmp.get("empleado.grupo.invalido")
     }
-    
-    
+
+
     @Test
     void debieraMostarCuentaContableEmpleadosNomina(){
         //Pruebas Aun no Implementadas
@@ -304,100 +305,81 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     void debieraMostarCentroCostoEmpleadosNomina(){
         //Pruebas Aun no Implementadas
     }
-
+		*/
     @Test
     void debieraDarDeAltaEmpleado(){
+//    	def organizacion = new Organizacion (
+//            codigo: 'TST1'
+//            , nombre: 'TEST-1'
+//            , nombreCompleto: 'TEST-1'
+//        ).save()
+//        assertNotNull organizacion
 
-    	def organizacion = new Organizacion (
-            codigo: 'TEST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-
-        assertNotNull organizacion
-
-	def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-
-        assertNotNull empresa
-
-        def empleado = new Empleado (
-			clave: "test"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-		)
-        /*
-        def empleadoLaborales = new EmpleadoLaborales (
-        	escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadBase: new BigDecimal(0.00)
-        )
-
-        def empleadoPersonales = new EmpleadoPersonales(
-        	estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-        )*/
-
-//        empleado.id = 1762
+//		def empresa = new Empresa(
+//                codigo: "emp2"
+//                , nombre: "emp"
+//                , nombreCompleto: 'emptest'
+//                , organizacion: organizacion
+//            ).save()
 //
-//        empleadoPersonales.empleado = empleado
-//        empleadoPersonales.save()
-//
-//        empleadoLaborales.empleado = empleado
-//        empleadoLaborales.save()
-//
-//        assertNotNull empleado
-//        assertEquals 1762L, empleado.id
-//
-        def controller = new EmpleadoController()
-        controller.params.clave = empleado.clave
-        controller.params.nombre = empleado.nombre
-        controller.params.apPaterno = empleado.apPaterno
-        controller.params.apMaterno = empleado.apMaterno
-        controller.params.genero = empleado.genero
-        controller.params.fechaNacimiento = empleado.fechaNacimiento
-        controller.params.direccion = empleado.direccion
-        controller.params.status = empleado.status
-        controller.params.empresa = empleado.empresa
-        controller.params.id = empleado.id
+//        assertNotNull empresa
 
+	def controller = new EmpleadoController()
+	controller.params.clave = "test"
+        controller.params.nombre = "test"
+        controller.params.apPaterno = "test"
+        controller.params.apMaterno = "test"
+        controller.params.genero = "fm"
+        controller.params.fechaNacimiento = new Date()
+        controller.params.direccion = "test"
+        controller.params.status = "23"
+        //controller.params.empresa = empresa
+
+        controller.params.escalafon = 3
+        controller.params.turno = 1
+        controller.params.rfc = "12345678901234"
+        controller.params.curp = "1232"
+        controller.params.modalidad = "tt"
+        controller.params.fechaAlta = new Date()
+        controller.params.antiguedadBase = new BigDecimal(0.00)
+        controller.params.antiguedadFiscal = new BigDecimal(0.00)
+
+        controller.params.estadoCivil = "3e"
+        controller.params.madre = "test"
+        controller.params.padre = "test"
         controller.save()
 
+//        println "Empleados insertados: ${Empleado.count()}"
+//        assert Empleado.count() == 1
+//        List empleados = Empleado.findAll()
+//        assert empleados
+//        for(Empleado e : empleados){
+//            println e
+//            //println e.toString
+//        }
+        
         assert controller
         assertNotNull controller.response.redirectedUrl
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
+
     }
 
-    /*@Test
+
+    @Test
     void debieraModificarDatosDeEmpleado(){
 
-    	def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-        assertNotNull organizacion
+//    	def organizacion = new Organizacion (
+//            codigo: 'TST1'
+//            , nombre: 'TEST-1'
+//            , nombreCompleto: 'TEST-1'
+//        ).save()
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
+//		def empresa = new Empresa(
+//                codigo: "emp2"
+//                , nombre: "emp"
+//                , nombreCompleto: 'emptest'
+//                , organizacion: organizacion
+//            ).save()
 
     	def empleado = new Empleado (
 			clave: "test"
@@ -408,15 +390,28 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaNacimiento: new Date()
 			, direccion: "aqui"
 			, status: "23"
-			, empresa: empresa
-		)
-		empleado.id = 1762
-		empleado.save()
+			//, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+
 		assertNotNull empleado
 
         def controller = new EmpleadoController()
         controller.params.id = empleado.id
         def model = controller.show()
+        assert model
         assert model.empleadoInstance
 
         assertEquals "test", model.empleadoInstance.nombre
@@ -425,7 +420,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "fm", model.empleadoInstance.genero
 
         controller.params.id = empleado.id
-        model = controller.edit()
+        model = controller.show()
         assert model.empleadoInstance
 
         controller.params.id = empleado.id
@@ -436,8 +431,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.update()
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
 
-        empleado.refresh()
-		assertEquals "another", model.empleadoInstance.nombre
+        //empleado.refresh()
+	assertEquals "another", model.empleadoInstance.nombre
         assertEquals "another", model.empleadoInstance.apPaterno
         assertEquals "another", model.empleadoInstance.apMaterno
         assertEquals "fm", model.empleadoInstance.genero
@@ -446,21 +441,21 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void debieraCambiarEstatusDeEmpleado(){
 
-    	def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-        assertNotNull organizacion
+//    	def organizacion = new Organizacion (
+//            codigo: 'TST1'
+//            , nombre: 'TEST-1'
+//            , nombreCompleto: 'TEST-1'
+//        ).save()
+//        assertNotNull organizacion
+//
+//		def empresa = new Empresa(
+//                codigo: "emp2"
+//                , nombre: "emp"
+//                , nombreCompleto: 'emptest'
+//                , organizacion: organizacion
+//            ).save()
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-
-    	def empleado = new Empleado (
+        def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
 			, apPaterno: "test"
@@ -469,12 +464,22 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaNacimiento: new Date()
 			, direccion: "aqui"
 			, status: "23"
-			, empresa: empresa
-		)
-		empleado.id = 1762
-		empleado.save()
+			//, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
 		assertNotNull empleado
-
 
         def controller = new EmpleadoController()
         controller.params.id = empleado.id
@@ -484,7 +489,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "23", empleado.status
         controller.params.id = empleado.id
         model = controller.edit()
-        controller.eliminar()
+        controller.delete()
 
         assertEquals "I", empleado.status
         assert controller.response.redirectedUrl.startsWith('/empleado/show')
@@ -493,21 +498,21 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
     @Test
     void debieraMostrarDatosDeEmpleado() {
-    	def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-        assertNotNull organizacion
+//    	def organizacion = new Organizacion (
+//            codigo: 'TST1'
+//            , nombre: 'TEST-1'
+//            , nombreCompleto: 'TEST-1'
+//        ).save()
+//        assertNotNull organizacion
+//
+//		def empresa = new Empresa(
+//                codigo: "emp2"
+//                , nombre: "emp"
+//                , nombreCompleto: 'emptest'
+//                , organizacion: organizacion
+//            ).save()
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-
-    	def empleado = new Empleado (
+        def empleado = new Empleado (
 			clave: "test"
 			, nombre: "test"
 			, apPaterno: "test"
@@ -516,10 +521,21 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaNacimiento: new Date()
 			, direccion: "aqui"
 			, status: "23"
-			, empresa: empresa
-		)
-		empleado.id = 1762
-		empleado.save()
+			//, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
 		assertNotNull empleado
 
 		def controller = new EmpleadoController()
@@ -536,33 +552,45 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void MostrarListaDeEmpleados() {
 
-		def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
-        ).save()
-        assertNotNull organizacion
+//	def organizacion = new Organizacion (
+//            codigo: 'TST1'
+//            , nombre: 'TEST-1'
+//            , nombreCompleto: 'TEST-1'
+//        ).save()
+//        assertNotNull organizacion
+//
+//		def empresa = new Empresa(
+//                codigo: "emp2"
+//                , nombre: "emp"
+//                , nombreCompleto: 'emptest'
+//                , organizacion: organizacion
+//            ).save()
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
         for(i in 1..20) {
         	  def empleado = new Empleado (
-				clave: "test$i"
-				, nombre: "test$i"
-				, apPaterno: "test$i"
-				, apMaterno: "test$i"
-				, genero: "$i"
-				, fechaNacimiento: new Date()
-				, direccion: "aqui$i"
-				, status: "$i"
-				, empresa: empresa
-			)
-			empleado.id = 1761 + "$i".toInteger()
-			empleado.save()
+			clave: "test$i"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			//, empresa: empresa
+			//
+			, curp: "123456789009787$i"
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: "1234567890123$i"
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
         }
 
         def controller = new EmpleadoController()
@@ -576,5 +604,36 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         assertEquals 10, model.empleadoInstanceList.size()
         assert 20 <= model.empleadoInstanceTotal
-    }*/
+    }
+
+    @Test
+    void debieraAsignarSiguienteNumeroDeClaveDisponible() {
+    	def empleado = new Empleado (
+			clave: "test"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			//, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+
+		def controller = new EmpleadoController()
+        controller.list()
+    }
 }

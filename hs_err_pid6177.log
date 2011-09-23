@@ -1,0 +1,1069 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0xb6e1486a, pid=6177, tid=3065031536
+#
+# JRE version: 6.0_24-b07
+# Java VM: Java HotSpot(TM) Server VM (19.1-b02 mixed mode linux-x86 )
+# Problematic frame:
+# V  [libjvm.so+0x2e386a]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x092a0000):  JavaThread "main" [_thread_in_vm, id=6186, stack(0xb6aba000,0xb6b0b000)]
+
+siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=0x00000004
+
+Registers:
+EAX=0x8c1a328c, EBX=0x00000000, ECX=0xfffffffb, EDX=0x092a0774
+ESP=0xb6b05dcc, EBP=0xb6b05f80, ESI=0x00000000, EDI=0x092a0774
+EIP=0xb6e1486a, CR2=0x00000004, EFLAGS=0x00210282
+
+Register to memory mapping:
+
+EAX=0x8c1a328c
+{constant pool} 
+ - klass: {other class}
+ - cache: 0x9395c1a0
+ -   1 :  : 'org/codehaus/groovy/runtime/InvokerInvocationException'
+ -   2 :  : 'org/codehaus/groovy/runtime/InvokerInvocationException'
+ -   3 :  : 'groovy/lang/GroovyRuntimeException'
+ -   4 :  : 'groovy/lang/GroovyRuntimeException'
+ -   5 :  : 'InvokerInvocationException.java'
+ -   6 :  : '<init>'
+ -   7 :  : '(Ljava/lang/reflect/InvocationTargetException;)V'
+ -   8 :  : 'java/lang/reflect/InvocationTargetException'
+ -   9 :  : 'java/lang/reflect/InvocationTargetException' {0x880d0570}
+ -  10 :  : 'getTargetException'
+ -  11 :  : '()Ljava/lang/Throwable;'
+ -  12 :  : name_index=10 signature_index=11
+ -  13 :  : klass_index=9 name_and_type_index=12
+ -  14 :  : '(Ljava/lang/Throwable;)V'
+ -  15 :  : name_index=6 signature_index=14
+ -  16 :  : klass_index=4 name_and_type_index=15
+ -  17 :  : 'this'
+ -  18 :  : 'Lorg/codehaus/groovy/runtime/InvokerInvocationException;'
+ -  19 :  : 'e'
+ -  20 :  : 'Ljava/lang/reflect/InvocationTargetException;'
+ -  21 :  : 'cause'
+ -  22 :  : 'Ljava/lang/Throwable;'
+ -  23 :  : 'getMessage'
+ -  24 :  : '()Ljava/lang/String;'
+ -  25 :  : 'getCause'
+ -  26 :  : name_index=25 signature_index=11
+ -  27 :  : klass_index=2 name_and_type_index=26
+ -  28 :  : 'java.lang.NullPointerException'
+ -  29 :  : "java.lang.NullPointerException" {0x8bc408c8}
+ -  30 :  : 'java/lang/Throwable'
+ -  31 :  : 'java/lang/Throwable'
+ -  32 :  : 'toString'
+ -  33 :  : name_index=32 signature_index=24
+ -  34 :  : klass_index=31 name_and_type_index=33
+ -  35 :  : 'Code'
+ -  36 :  : 'LocalVariableTable'
+ -  37 :  : 'LineNumberTable'
+ -  38 :  : 'SourceFile'
+
+
+EBX=0x00000000
+0x00000000 is pointing to unknown location
+
+ECX=0xfffffffb
+0xfffffffb is pointing to unknown location
+
+EDX=0x092a0774
+0x092a0774 is pointing to unknown location
+
+ESP=0xb6b05dcc
+0xb6b05dcc is pointing into the stack for thread: 0x092a0000
+"main" prio=10 tid=0x092a0000 nid=0x182a runnable [0xb6b06000]
+   java.lang.Thread.State: RUNNABLE
+
+EBP=0xb6b05f80
+0xb6b05f80 is pointing into the stack for thread: 0x092a0000
+"main" prio=10 tid=0x092a0000 nid=0x182a runnable [0xb6b06000]
+   java.lang.Thread.State: RUNNABLE
+
+ESI=0x00000000
+0x00000000 is pointing to unknown location
+
+EDI=0x092a0774
+0x092a0774 is pointing to unknown location
+
+
+Top of Stack: (sp=0xb6b05dcc)
+0xb6b05dcc:   93ca55e8 b6b05de0 b730ce88 092a07c4
+0xb6b05ddc:   092a0000 b6b05e00 b71da88c 092a07c4
+0xb6b05dec:   092a0260 092a0268 092a0654 092a0784
+0xb6b05dfc:   b730ce88 b6b05e30 b6dda286 880d0490
+0xb6b05e0c:   00000002 092a0000 092a0000 8c1a3410
+0xb6b05e1c:   b730ce88 00000000 b730ce88 092a07c4
+0xb6b05e2c:   092a0000 b6b05e60 b704e6de 092a07c4
+0xb6b05e3c:   b6dea129 092a3408 b730ce88 092a0798 
+
+Instructions: (pc=0xb6e1486a)
+0xb6e1485a:   00 00 8b 7d 08 8b 75 0c 8b 07 83 c0 24 8b 1c b0
+0xb6e1486a:   8b 43 04 8d 48 08 8b 40 08 51 ff 90 88 00 00 00 
+
+Stack: [0xb6aba000,0xb6b0b000],  sp=0xb6b05dcc,  free space=303k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x2e386a]
+V  [libjvm.so+0x2e4c84]
+V  [libjvm.so+0x51d838]
+V  [libjvm.so+0x521aea]
+V  [libjvm.so+0x521d51]
+V  [libjvm.so+0x521a8c]
+V  [libjvm.so+0x3c869b]
+j  org.codehaus.groovy.runtime.InvokerInvocationException.<init>(Ljava/lang/reflect/InvocationTargetException;)V+5
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+66
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+759
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+56
+j  groovy.lang.GroovyObjectSupport.invokeMethod(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+7
+j  groovy.lang.MetaClassImpl.invokeMethodOnGroovyObject(Ljava/lang/String;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+853
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+18
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+9
+j  org.codehaus.gant.GantBinding$_initializeGantBinding_closure5_closure16.doCall(Ljava/lang/Object;)Ljava/lang/Object;+157
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x3cfb21]
+V  [libjvm.so+0x5c5478]
+V  [libjvm.so+0x3cf94f]
+V  [libjvm.so+0x61ad5b]
+V  [libjvm.so+0x61e137]
+V  [libjvm.so+0x44d35f]
+C  [libjava.so+0x151d4]  Java_sun_reflect_NativeMethodAccessorImpl_invoke0+0x34
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSite.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+12
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  org.codehaus.gant.GantBinding$_initializeGantBinding_closure5_closure16.doCall()Ljava/lang/Object;+16
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x3cfb21]
+V  [libjvm.so+0x5c5478]
+V  [libjvm.so+0x3cf94f]
+V  [libjvm.so+0x61ad5b]
+V  [libjvm.so+0x61e137]
+V  [libjvm.so+0x44d35f]
+C  [libjava.so+0x151d4]  Java_sun_reflect_NativeMethodAccessorImpl_invoke0+0x34
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object;+8
+j  groovy.lang.Closure.call()Ljava/lang/Object;+6
+j  java_util_concurrent_Callable$call.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+13
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+8
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;)Ljava/lang/Object;+5
+j  gant.Gant$_dispatch_closure5.doCall(Ljava/lang/Object;)Ljava/lang/Object;+69
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x3cfb21]
+V  [libjvm.so+0x5c5478]
+V  [libjvm.so+0x3cf94f]
+V  [libjvm.so+0x61ad5b]
+V  [libjvm.so+0x61e137]
+V  [libjvm.so+0x44d35f]
+C  [libjava.so+0x151d4]  Java_sun_reflect_NativeMethodAccessorImpl_invoke0+0x34
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object;+8
+j  groovy.lang.Closure.call(Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.Closure$call.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+16
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+8
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  gant.Gant$_dispatch_closure7.doCall(Ljava/lang/Object;)Ljava/lang/Object;+22
+v  ~StubRoutines::call_stub
+V  [libjvm.so+0x3cfb21]
+V  [libjvm.so+0x5c5478]
+V  [libjvm.so+0x3cf94f]
+V  [libjvm.so+0x61ad5b]
+V  [libjvm.so+0x61e137]
+V  [libjvm.so+0x44d35f]
+C  [libjava.so+0x151d4]  Java_sun_reflect_NativeMethodAccessorImpl_invoke0+0x34
+...<more frames>...
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  org.codehaus.groovy.runtime.InvokerInvocationException.<init>(Ljava/lang/reflect/InvocationTargetException;)V+5
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+66
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+759
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+56
+j  groovy.lang.GroovyObjectSupport.invokeMethod(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+7
+j  groovy.lang.MetaClassImpl.invokeMethodOnGroovyObject(Ljava/lang/String;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+853
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+18
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+9
+j  org.codehaus.gant.GantBinding$_initializeGantBinding_closure5_closure16.doCall(Ljava/lang/Object;)Ljava/lang/Object;+157
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSite.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+12
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  org.codehaus.gant.GantBinding$_initializeGantBinding_closure5_closure16.doCall()Ljava/lang/Object;+16
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object;+8
+j  groovy.lang.Closure.call()Ljava/lang/Object;+6
+j  java_util_concurrent_Callable$call.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+13
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+8
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;)Ljava/lang/Object;+5
+j  gant.Gant$_dispatch_closure5.doCall(Ljava/lang/Object;)Ljava/lang/Object;+69
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object;+8
+j  groovy.lang.Closure.call(Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.Closure$call.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+16
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+8
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  gant.Gant$_dispatch_closure7.doCall(Ljava/lang/Object;)Ljava/lang/Object;+22
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSite.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+12
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  gant.Gant$_dispatch_closure7.doCall()Ljava/lang/Object;+16
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.Closure.call([Ljava/lang/Object;)Ljava/lang/Object;+8
+j  groovy.lang.Closure.call()Ljava/lang/Object;+6
+j  java_util_concurrent_Callable$call.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+13
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(Lorg/codehaus/groovy/runtime/callsite/CallSite;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+8
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(Ljava/lang/Object;)Ljava/lang/Object;+5
+j  gant.Gant.withBuildListeners(Lgroovy/lang/Closure;)Ljava/lang/Object;+125
+j  gant.Gant.this$2$withBuildListeners(Lgroovy/lang/Closure;)Ljava/lang/Object;+2
+j  gant.Gant$this$2$withBuildListeners.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;)Ljava/lang/Object;+6
+j  gant.Gant.dispatch(Ljava/util/List;)Ljava/lang/Integer;+337
+j  gant.Gant.this$2$dispatch(Ljava/util/List;)Ljava/lang/Integer;+2
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.reflection.CachedMethod.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  groovy.lang.MetaMethod.doMethodInvoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+9
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+1036
+j  groovy.lang.ExpandoMetaClass.invokeMethod(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;ZZ)Ljava/lang/Object;+39
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;+10
+j  groovy.lang.MetaClassImpl.invokeMethod(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+71
+j  gant.Gant.invokeMethod(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;+7
+j  groovy.lang.GroovyObject$invokeMethod.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+22
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+7
+j  gant.Gant.executeTargets(Ljava/lang/String;Ljava/util/List;)Ljava/lang/Integer;+12
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSite.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+19
+j  org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+12
+j  org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(Lorg/codehaus/groovy/runtime/callsite/CallSite;Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+17
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;[Ljava/lang/Object;)Ljava/lang/Object;+3
+j  org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(Lgroovy/lang/GroovyObject;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+7
+j  gant.Gant.executeTargets()Ljava/lang/Integer;+32
+j  org.codehaus.groovy.grails.cli.GrailsScriptRunner.executeWithGantInstance(Lgant/Gant;Lgroovy/lang/Closure;)I+16
+j  org.codehaus.groovy.grails.cli.GrailsScriptRunner.callPluginOrGrailsScript(Ljava/lang/String;Ljava/lang/String;)I+928
+j  org.codehaus.groovy.grails.cli.GrailsScriptRunner.executeCommand(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I+328
+j  org.codehaus.groovy.grails.cli.GrailsScriptRunner.main([Ljava/lang/String;)V+331
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+j  sun.reflect.DelegatingMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+6
+j  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+161
+j  com.springsource.loaded.ri.ReflectiveInterceptor.jlrMethodInvoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+1696
+j  org.codehaus.groovy.grails.cli.support.GrailsStarter.rootLoader([Ljava/lang/String;)V+1246
+j  org.codehaus.groovy.grails.cli.support.GrailsStarter.main([Ljava/lang/String;)V+1
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x095cc400 JavaThread "Thread-47" daemon [_thread_blocked, id=6328, stack(0x8150a000,0x8155b000)]
+  0x094c3c00 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-10" daemon [_thread_blocked, id=6327, stack(0x8155b000,0x815ac000)]
+  0x0a7d8400 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-9" daemon [_thread_blocked, id=6319, stack(0x815ac000,0x815fd000)]
+  0x0a480800 JavaThread "Thread-46" daemon [_thread_blocked, id=6318, stack(0x815fd000,0x8164e000)]
+  0x0a481800 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-8" daemon [_thread_blocked, id=6317, stack(0x8164e000,0x8169f000)]
+  0x83244400 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-7" daemon [_thread_blocked, id=6314, stack(0x8169f000,0x816f0000)]
+  0x0ae77800 JavaThread "Thread-45" daemon [_thread_blocked, id=6313, stack(0x816f0000,0x81741000)]
+  0x0a231c00 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-6" daemon [_thread_blocked, id=6310, stack(0x81741000,0x81792000)]
+  0x83991400 JavaThread "Thread-44" daemon [_thread_blocked, id=6308, stack(0x81792000,0x817e3000)]
+  0x09fa7000 JavaThread "Thread-43" daemon [_thread_blocked, id=6307, stack(0x817e3000,0x81834000)]
+  0x09e1e400 JavaThread "Thread-42" daemon [_thread_blocked, id=6306, stack(0x81834000,0x81885000)]
+  0x84a30c00 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-5" daemon [_thread_blocked, id=6305, stack(0x81885000,0x818d6000)]
+  0x84088400 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-4" daemon [_thread_blocked, id=6304, stack(0x818d6000,0x81927000)]
+  0x84088000 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-3" daemon [_thread_blocked, id=6303, stack(0x81927000,0x81978000)]
+  0x84087800 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-2" daemon [_thread_blocked, id=6302, stack(0x81978000,0x819c9000)]
+  0x84a32c00 JavaThread ""http-bio-localhost/127.0.0.1-8080"-exec-1" daemon [_thread_blocked, id=6301, stack(0x819c9000,0x81a1a000)]
+  0x09f65800 JavaThread "Thread-41" daemon [_thread_blocked, id=6297, stack(0x81a1a000,0x81a6b000)]
+  0x09f64c00 JavaThread ""http-bio-localhost/127.0.0.1-8080"-AsyncTimeout" daemon [_thread_blocked, id=6296, stack(0x81a6b000,0x81abc000)]
+  0x09f63000 JavaThread ""http-bio-localhost/127.0.0.1-8080"-Acceptor-0" daemon [_thread_in_native, id=6295, stack(0x81abc000,0x81b0d000)]
+  0x09775800 JavaThread "ContainerBackgroundProcessor[StandardEngine[Tomcat]]" daemon [_thread_blocked, id=6294, stack(0x8485e000,0x848af000)]
+  0x8705cc00 JavaThread "Thread-40" daemon [_thread_blocked, id=6290, stack(0x81b0d000,0x81b5e000)]
+  0x85ee4800 JavaThread "Thread-39" daemon [_thread_blocked, id=6289, stack(0x81b5e000,0x81baf000)]
+  0x8705b000 JavaThread "Thread-38" daemon [_thread_blocked, id=6286, stack(0x81baf000,0x81c00000)]
+  0x87057000 JavaThread "Thread-36" daemon [_thread_blocked, id=6284, stack(0x81d1a000,0x81d6b000)]
+  0x8705a800 JavaThread "Thread-35" daemon [_thread_blocked, id=6283, stack(0x81d6b000,0x81dbc000)]
+  0x83247800 JavaThread "Thread-34" daemon [_thread_blocked, id=6282, stack(0x81dbc000,0x81e0d000)]
+  0x83c18800 JavaThread "Thread-33" daemon [_thread_blocked, id=6281, stack(0x81e0d000,0x81e5e000)]
+  0x83c16800 JavaThread "Thread-32" daemon [_thread_blocked, id=6280, stack(0x81e5e000,0x81eaf000)]
+  0x83246800 JavaThread "Thread-31" daemon [_thread_blocked, id=6279, stack(0x81eaf000,0x81f00000)]
+  0x8324a400 JavaThread "Thread-30" daemon [_thread_blocked, id=6278, stack(0x82050000,0x820a1000)]
+  0x83c15c00 JavaThread "Thread-29" daemon [_thread_blocked, id=6277, stack(0x820a1000,0x820f2000)]
+  0x83bb9000 JavaThread "Thread-28" daemon [_thread_blocked, id=6276, stack(0x820f2000,0x82143000)]
+  0x09c9e800 JavaThread "Thread-27" daemon [_thread_blocked, id=6275, stack(0x82143000,0x82194000)]
+  0x09bc1c00 JavaThread "Thread-26" daemon [_thread_blocked, id=6274, stack(0x82194000,0x821e5000)]
+  0x098d6c00 JavaThread "Thread-25" daemon [_thread_blocked, id=6273, stack(0x821e5000,0x82236000)]
+  0x09d38400 JavaThread "Thread-24" daemon [_thread_blocked, id=6272, stack(0x82236000,0x82287000)]
+  0x0a34a400 JavaThread "Thread-23" daemon [_thread_blocked, id=6271, stack(0x82527000,0x82578000)]
+  0x0a7c0400 JavaThread "Thread-22" daemon [_thread_blocked, id=6270, stack(0x82578000,0x825c9000)]
+  0x0958e000 JavaThread "Thread-21" daemon [_thread_blocked, id=6269, stack(0x8360d000,0x8365e000)]
+  0x097f2800 JavaThread "org.hibernate.cache.StandardQueryCache.data" daemon [_thread_blocked, id=6268, stack(0x8365e000,0x836af000)]
+  0x09591000 JavaThread "org.hibernate.cache.UpdateTimestampsCache.data" daemon [_thread_blocked, id=6267, stack(0x836af000,0x83700000)]
+  0x097edc00 JavaThread "inventario.Almacen.data" daemon [_thread_blocked, id=6264, stack(0x82287000,0x822d8000)]
+  0x09f54c00 JavaThread "inventario.FacturaAlmacen.data" daemon [_thread_blocked, id=6263, stack(0x822d8000,0x82329000)]
+  0x09f53000 JavaThread "inventario.FolioInventario.data" daemon [_thread_blocked, id=6262, stack(0x82329000,0x8237a000)]
+  0x09f58000 JavaThread "contabilidad.Auxiliar.data" daemon [_thread_blocked, id=6261, stack(0x8237a000,0x823cb000)]
+  0x09f56800 JavaThread "general.UsuarioRol.data" daemon [_thread_blocked, id=6260, stack(0x823cb000,0x8241c000)]
+  0x09f50c00 JavaThread "contabilidad.Cuenta.data" daemon [_thread_blocked, id=6259, stack(0x8241c000,0x8246d000)]
+  0x0989d000 JavaThread "contabilidad.Movimiento.data" daemon [_thread_blocked, id=6258, stack(0x8246d000,0x824be000)]
+  0x0989f000 JavaThread "general.Imagen.data" daemon [_thread_blocked, id=6257, stack(0x824be000,0x8250f000)]
+  0x0989fc00 JavaThread "general.TipoCliente.data" daemon [_thread_blocked, id=6256, stack(0x825c9000,0x8261a000)]
+  0x0989a800 JavaThread "contabilidad.Ejercicio.data" daemon [_thread_blocked, id=6255, stack(0x8261a000,0x8266b000)]
+  0x09899000 JavaThread "inventario.LoteEntrada.data" daemon [_thread_blocked, id=6254, stack(0x8266b000,0x826bc000)]
+  0x0a029c00 JavaThread "contabilidad.Libro.data" daemon [_thread_blocked, id=6253, stack(0x826bc000,0x8270d000)]
+  0x0a028c00 JavaThread "inventario.LoteSalida.data" daemon [_thread_blocked, id=6252, stack(0x8270d000,0x8275e000)]
+  0x0a02cc00 JavaThread "contabilidad.Servicio.data" daemon [_thread_blocked, id=6251, stack(0x8275e000,0x827af000)]
+  0x0a025c00 JavaThread "general.Compra.data" daemon [_thread_blocked, id=6250, stack(0x827af000,0x82800000)]
+  0x0aca1800 JavaThread "contabilidad.ServicioMovimiento.data" daemon [_thread_blocked, id=6249, stack(0x8290d000,0x8295e000)]
+  0x0a606400 JavaThread "general.Usuario.data" daemon [_thread_blocked, id=6248, stack(0x8295e000,0x829af000)]
+  0x0a163000 JavaThread "inventario.TipoProducto.data" daemon [_thread_blocked, id=6247, stack(0x8380d000,0x8385e000)]
+  0x09f72400 JavaThread "general.Proveedor.data" daemon [_thread_blocked, id=6246, stack(0x829af000,0x82a00000)]
+  0x09f71c00 JavaThread "general.Articulo.data" daemon [_thread_blocked, id=6245, stack(0x8385e000,0x838af000)]
+  0x0aca0c00 JavaThread "inventario.Producto.data" daemon [_thread_blocked, id=6244, stack(0x838af000,0x83900000)]
+  0x09515000 JavaThread "contabilidad.Poliza.data" daemon [_thread_blocked, id=6243, stack(0x83e0d000,0x83e5e000)]
+  0x09514c00 JavaThread "general.Cliente.data" daemon [_thread_blocked, id=6242, stack(0x83e5e000,0x83eaf000)]
+  0x094dac00 JavaThread "inventario.CancelacionAlmacen.data" daemon [_thread_blocked, id=6241, stack(0x83eaf000,0x83f00000)]
+  0x861dd400 JavaThread "contabilidad.ServicioTransaccion.data" daemon [_thread_blocked, id=6240, stack(0x8480d000,0x8485e000)]
+  0x861db800 JavaThread "contabilidad.Folio.data" daemon [_thread_blocked, id=6239, stack(0x8490d000,0x8495e000)]
+  0x867a4c00 JavaThread "inventario.Entrada.data" daemon [_thread_blocked, id=6238, stack(0x8495e000,0x849af000)]
+  0x870d8400 JavaThread "inventario.Salida.data" daemon [_thread_blocked, id=6237, stack(0x849af000,0x84a00000)]
+  0x85b83c00 JavaThread "general.Tag.data" daemon [_thread_blocked, id=6236, stack(0x84b27000,0x84b78000)]
+  0x867a3400 JavaThread "general.Rol.data" daemon [_thread_blocked, id=6235, stack(0x84b78000,0x84bc9000)]
+  0x8621bc00 JavaThread "contabilidad.Transaccion.data" daemon [_thread_blocked, id=6234, stack(0x84bc9000,0x84c1a000)]
+  0x863e9400 JavaThread "general.Empresa.data" daemon [_thread_blocked, id=6233, stack(0x848af000,0x84900000)]
+  0x86795000 JavaThread "general.Organizacion.data" daemon [_thread_blocked, id=6232, stack(0x84c6b000,0x84cbc000)]
+  0x85c2c000 JavaThread "net.sf.ehcache.CacheManager@4e9d18" daemon [_thread_blocked, id=6231, stack(0x84d5e000,0x84daf000)]
+  0x0a2f4400 JavaThread "Thread-17" daemon [_thread_blocked, id=6224, stack(0x84c1a000,0x84c6b000)]
+  0x09f8cc00 JavaThread "Thread-16" daemon [_thread_blocked, id=6223, stack(0x84cbc000,0x84d0d000)]
+  0x85c2f800 JavaThread "Thread-8" daemon [_thread_blocked, id=6212, stack(0x84daf000,0x84e00000)]
+  0x860e3800 JavaThread "pool-2-thread-1" [_thread_blocked, id=6207, stack(0x8579e000,0x857ef000)]
+  0x85f49400 JavaThread "Synchronizer (Spring UAA/1.0.1)" daemon [_thread_blocked, id=6206, stack(0x857ef000,0x85840000)]
+  0x852ef400 JavaThread "Timer-0" daemon [_thread_blocked, id=6198, stack(0x85840000,0x85891000)]
+  0x09373c00 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=6195, stack(0x87142000,0x87193000)]
+  0x09379800 JavaThread "CompilerThread1" daemon [_thread_blocked, id=6194, stack(0x86f12000,0x86f93000)]
+  0x09377800 JavaThread "CompilerThread0" daemon [_thread_blocked, id=6193, stack(0x87193000,0x87214000)]
+  0x09333800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6192, stack(0x8726c000,0x872bd000)]
+  0x09321000 JavaThread "Finalizer" daemon [_thread_blocked, id=6191, stack(0x87303000,0x87354000)]
+  0x0931f800 JavaThread "Reference Handler" daemon [_thread_blocked, id=6190, stack(0x87354000,0x873a5000)]
+=>0x092a0000 JavaThread "main" [_thread_in_vm, id=6186, stack(0xb6aba000,0xb6b0b000)]
+
+Other Threads:
+  0x0931bc00 VMThread [stack: 0x873a5000,0x87426000] [id=6189]
+  0x09375800 WatcherThread [stack: 0x86e91000,0x86f12000] [id=6196]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ PSYoungGen      total 124416K, used 118K [0xa8ec0000, 0xb0960000, 0xb3960000)
+  eden space 123392K, 0% used [0xa8ec0000,0xa8edd920,0xb0740000)
+  from space 1024K, 0% used [0xb0860000,0xb0860000,0xb0960000)
+  to   space 1088K, 0% used [0xb0740000,0xb0740000,0xb0850000)
+ PSOldGen        total 349568K, used 127212K [0x93960000, 0xa8ec0000, 0xa8ec0000)
+  object space 349568K, 36% used [0x93960000,0x9b59b3a8,0xa8ec0000)
+ PSPermGen       total 196608K, used 196592K [0x87960000, 0x93960000, 0x93960000)
+  object space 196608K, 99% used [0x87960000,0x9395c260,0x93960000)
+
+Dynamic libraries:
+08048000-08052000 r-xp 00000000 08:01 789381     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/bin/java
+08052000-08053000 rwxp 00009000 08:01 789381     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/bin/java
+09299000-0b144000 rwxp 00000000 00:00 0          [heap]
+814b9000-814bc000 ---p 00000000 00:00 0 
+814bc000-8150a000 rwxp 00000000 00:00 0 
+8150a000-8150d000 ---p 00000000 00:00 0 
+8150d000-8155b000 rwxp 00000000 00:00 0 
+8155b000-8155e000 ---p 00000000 00:00 0 
+8155e000-815ac000 rwxp 00000000 00:00 0 
+815ac000-815af000 ---p 00000000 00:00 0 
+815af000-815fd000 rwxp 00000000 00:00 0 
+815fd000-81600000 ---p 00000000 00:00 0 
+81600000-8164e000 rwxp 00000000 00:00 0 
+8164e000-81651000 ---p 00000000 00:00 0 
+81651000-8169f000 rwxp 00000000 00:00 0 
+8169f000-816a2000 ---p 00000000 00:00 0 
+816a2000-816f0000 rwxp 00000000 00:00 0 
+816f0000-816f3000 ---p 00000000 00:00 0 
+816f3000-81741000 rwxp 00000000 00:00 0 
+81741000-81744000 ---p 00000000 00:00 0 
+81744000-81792000 rwxp 00000000 00:00 0 
+81792000-81795000 ---p 00000000 00:00 0 
+81795000-817e3000 rwxp 00000000 00:00 0 
+817e3000-817e6000 ---p 00000000 00:00 0 
+817e6000-81834000 rwxp 00000000 00:00 0 
+81834000-81837000 ---p 00000000 00:00 0 
+81837000-81885000 rwxp 00000000 00:00 0 
+81885000-81888000 ---p 00000000 00:00 0 
+81888000-818d6000 rwxp 00000000 00:00 0 
+818d6000-818d9000 ---p 00000000 00:00 0 
+818d9000-81927000 rwxp 00000000 00:00 0 
+81927000-8192a000 ---p 00000000 00:00 0 
+8192a000-81978000 rwxp 00000000 00:00 0 
+81978000-8197b000 ---p 00000000 00:00 0 
+8197b000-819c9000 rwxp 00000000 00:00 0 
+819c9000-819cc000 ---p 00000000 00:00 0 
+819cc000-81a1a000 rwxp 00000000 00:00 0 
+81a1a000-81a1d000 ---p 00000000 00:00 0 
+81a1d000-81a6b000 rwxp 00000000 00:00 0 
+81a6b000-81a6e000 ---p 00000000 00:00 0 
+81a6e000-81abc000 rwxp 00000000 00:00 0 
+81abc000-81abf000 ---p 00000000 00:00 0 
+81abf000-81b0d000 rwxp 00000000 00:00 0 
+81b0d000-81b10000 ---p 00000000 00:00 0 
+81b10000-81b5e000 rwxp 00000000 00:00 0 
+81b5e000-81b61000 ---p 00000000 00:00 0 
+81b61000-81baf000 rwxp 00000000 00:00 0 
+81baf000-81bb2000 ---p 00000000 00:00 0 
+81bb2000-81c00000 rwxp 00000000 00:00 0 
+81c00000-81d00000 rwxp 00000000 00:00 0 
+81d1a000-81d1d000 ---p 00000000 00:00 0 
+81d1d000-81d6b000 rwxp 00000000 00:00 0 
+81d6b000-81d6e000 ---p 00000000 00:00 0 
+81d6e000-81dbc000 rwxp 00000000 00:00 0 
+81dbc000-81dbf000 ---p 00000000 00:00 0 
+81dbf000-81e0d000 rwxp 00000000 00:00 0 
+81e0d000-81e10000 ---p 00000000 00:00 0 
+81e10000-81e5e000 rwxp 00000000 00:00 0 
+81e5e000-81e61000 ---p 00000000 00:00 0 
+81e61000-81eaf000 rwxp 00000000 00:00 0 
+81eaf000-81eb2000 ---p 00000000 00:00 0 
+81eb2000-81f00000 rwxp 00000000 00:00 0 
+81f00000-82000000 rwxp 00000000 00:00 0 
+82050000-82053000 ---p 00000000 00:00 0 
+82053000-820a1000 rwxp 00000000 00:00 0 
+820a1000-820a4000 ---p 00000000 00:00 0 
+820a4000-820f2000 rwxp 00000000 00:00 0 
+820f2000-820f5000 ---p 00000000 00:00 0 
+820f5000-82143000 rwxp 00000000 00:00 0 
+82143000-82146000 ---p 00000000 00:00 0 
+82146000-82194000 rwxp 00000000 00:00 0 
+82194000-82197000 ---p 00000000 00:00 0 
+82197000-821e5000 rwxp 00000000 00:00 0 
+821e5000-821e8000 ---p 00000000 00:00 0 
+821e8000-82236000 rwxp 00000000 00:00 0 
+82236000-82239000 ---p 00000000 00:00 0 
+82239000-82287000 rwxp 00000000 00:00 0 
+82287000-8228a000 ---p 00000000 00:00 0 
+8228a000-822d8000 rwxp 00000000 00:00 0 
+822d8000-822db000 ---p 00000000 00:00 0 
+822db000-82329000 rwxp 00000000 00:00 0 
+82329000-8232c000 ---p 00000000 00:00 0 
+8232c000-8237a000 rwxp 00000000 00:00 0 
+8237a000-8237d000 ---p 00000000 00:00 0 
+8237d000-823cb000 rwxp 00000000 00:00 0 
+823cb000-823ce000 ---p 00000000 00:00 0 
+823ce000-8241c000 rwxp 00000000 00:00 0 
+8241c000-8241f000 ---p 00000000 00:00 0 
+8241f000-8246d000 rwxp 00000000 00:00 0 
+8246d000-82470000 ---p 00000000 00:00 0 
+82470000-824be000 rwxp 00000000 00:00 0 
+824be000-824c1000 ---p 00000000 00:00 0 
+824c1000-8250f000 rwxp 00000000 00:00 0 
+82527000-8252a000 ---p 00000000 00:00 0 
+8252a000-82578000 rwxp 00000000 00:00 0 
+82578000-8257b000 ---p 00000000 00:00 0 
+8257b000-825c9000 rwxp 00000000 00:00 0 
+825c9000-825cc000 ---p 00000000 00:00 0 
+825cc000-8261a000 rwxp 00000000 00:00 0 
+8261a000-8261d000 ---p 00000000 00:00 0 
+8261d000-8266b000 rwxp 00000000 00:00 0 
+8266b000-8266e000 ---p 00000000 00:00 0 
+8266e000-826bc000 rwxp 00000000 00:00 0 
+826bc000-826bf000 ---p 00000000 00:00 0 
+826bf000-8270d000 rwxp 00000000 00:00 0 
+8270d000-82710000 ---p 00000000 00:00 0 
+82710000-8275e000 rwxp 00000000 00:00 0 
+8275e000-82761000 ---p 00000000 00:00 0 
+82761000-827af000 rwxp 00000000 00:00 0 
+827af000-827b2000 ---p 00000000 00:00 0 
+827b2000-82800000 rwxp 00000000 00:00 0 
+82800000-828ff000 rwxp 00000000 00:00 0 
+828ff000-82900000 ---p 00000000 00:00 0 
+8290d000-82910000 ---p 00000000 00:00 0 
+82910000-8295e000 rwxp 00000000 00:00 0 
+8295e000-82961000 ---p 00000000 00:00 0 
+82961000-829af000 rwxp 00000000 00:00 0 
+829af000-829b2000 ---p 00000000 00:00 0 
+829b2000-82a00000 rwxp 00000000 00:00 0 
+82a00000-82af0000 rwxp 00000000 00:00 0 
+82af0000-82b00000 ---p 00000000 00:00 0 
+82b00000-82c00000 rwxp 00000000 00:00 0 
+82c00000-82cfe000 rwxp 00000000 00:00 0 
+82cfe000-82d00000 ---p 00000000 00:00 0 
+82d00000-82def000 rwxp 00000000 00:00 0 
+82def000-82e00000 ---p 00000000 00:00 0 
+82e00000-82ee8000 rwxp 00000000 00:00 0 
+82ee8000-82f00000 ---p 00000000 00:00 0 
+82f00000-82ff9000 rwxp 00000000 00:00 0 
+82ff9000-83000000 ---p 00000000 00:00 0 
+83000000-830f0000 rwxp 00000000 00:00 0 
+830f0000-83100000 ---p 00000000 00:00 0 
+83100000-83200000 rwxp 00000000 00:00 0 
+83200000-832fe000 rwxp 00000000 00:00 0 
+832fe000-83300000 ---p 00000000 00:00 0 
+83300000-833e3000 rwxp 00000000 00:00 0 
+833e3000-83400000 ---p 00000000 00:00 0 
+83400000-834f1000 rwxp 00000000 00:00 0 
+834f1000-83500000 ---p 00000000 00:00 0 
+83500000-835f6000 rwxp 00000000 00:00 0 
+835f6000-83600000 ---p 00000000 00:00 0 
+8360d000-83610000 ---p 00000000 00:00 0 
+83610000-8365e000 rwxp 00000000 00:00 0 
+8365e000-83661000 ---p 00000000 00:00 0 
+83661000-836af000 rwxp 00000000 00:00 0 
+836af000-836b2000 ---p 00000000 00:00 0 
+836b2000-83700000 rwxp 00000000 00:00 0 
+83700000-837fe000 rwxp 00000000 00:00 0 
+837fe000-83800000 ---p 00000000 00:00 0 
+8380d000-83810000 ---p 00000000 00:00 0 
+83810000-8385e000 rwxp 00000000 00:00 0 
+8385e000-83861000 ---p 00000000 00:00 0 
+83861000-838af000 rwxp 00000000 00:00 0 
+838af000-838b2000 ---p 00000000 00:00 0 
+838b2000-83900000 rwxp 00000000 00:00 0 
+83900000-839fa000 rwxp 00000000 00:00 0 
+839fa000-83a00000 ---p 00000000 00:00 0 
+83a00000-83af9000 rwxp 00000000 00:00 0 
+83af9000-83b00000 ---p 00000000 00:00 0 
+83b00000-83bf9000 rwxp 00000000 00:00 0 
+83bf9000-83c00000 ---p 00000000 00:00 0 
+83c00000-83cff000 rwxp 00000000 00:00 0 
+83cff000-83d00000 ---p 00000000 00:00 0 
+83d00000-83dfc000 rwxp 00000000 00:00 0 
+83dfc000-83e00000 ---p 00000000 00:00 0 
+83e0d000-83e10000 ---p 00000000 00:00 0 
+83e10000-83e5e000 rwxp 00000000 00:00 0 
+83e5e000-83e61000 ---p 00000000 00:00 0 
+83e61000-83eaf000 rwxp 00000000 00:00 0 
+83eaf000-83eb2000 ---p 00000000 00:00 0 
+83eb2000-83f00000 rwxp 00000000 00:00 0 
+83f00000-83ff8000 rwxp 00000000 00:00 0 
+83ff8000-84000000 ---p 00000000 00:00 0 
+84000000-840fd000 rwxp 00000000 00:00 0 
+840fd000-84100000 ---p 00000000 00:00 0 
+84100000-841e8000 rwxp 00000000 00:00 0 
+841e8000-84200000 ---p 00000000 00:00 0 
+84200000-84300000 rwxp 00000000 00:00 0 
+84300000-843fd000 rwxp 00000000 00:00 0 
+843fd000-84400000 ---p 00000000 00:00 0 
+84400000-844f9000 rwxp 00000000 00:00 0 
+844f9000-84500000 ---p 00000000 00:00 0 
+84500000-845e9000 rwxp 00000000 00:00 0 
+845e9000-84600000 ---p 00000000 00:00 0 
+84600000-846f9000 rwxp 00000000 00:00 0 
+846f9000-84700000 ---p 00000000 00:00 0 
+84700000-847f9000 rwxp 00000000 00:00 0 
+847f9000-84800000 ---p 00000000 00:00 0 
+8480d000-84810000 ---p 00000000 00:00 0 
+84810000-8485e000 rwxp 00000000 00:00 0 
+8485e000-84861000 ---p 00000000 00:00 0 
+84861000-848af000 rwxp 00000000 00:00 0 
+848af000-848b2000 ---p 00000000 00:00 0 
+848b2000-84900000 rwxp 00000000 00:00 0 
+8490d000-84910000 ---p 00000000 00:00 0 
+84910000-8495e000 rwxp 00000000 00:00 0 
+8495e000-84961000 ---p 00000000 00:00 0 
+84961000-849af000 rwxp 00000000 00:00 0 
+849af000-849b2000 ---p 00000000 00:00 0 
+849b2000-84a00000 rwxp 00000000 00:00 0 
+84a00000-84b00000 rwxp 00000000 00:00 0 
+84b27000-84b2a000 ---p 00000000 00:00 0 
+84b2a000-84b78000 rwxp 00000000 00:00 0 
+84b78000-84b7b000 ---p 00000000 00:00 0 
+84b7b000-84bc9000 rwxp 00000000 00:00 0 
+84bc9000-84bcc000 ---p 00000000 00:00 0 
+84bcc000-84c1a000 rwxp 00000000 00:00 0 
+84c1a000-84c1d000 ---p 00000000 00:00 0 
+84c1d000-84c6b000 rwxp 00000000 00:00 0 
+84c6b000-84c6e000 ---p 00000000 00:00 0 
+84c6e000-84cbc000 rwxp 00000000 00:00 0 
+84cbc000-84cbf000 ---p 00000000 00:00 0 
+84cbf000-84d0d000 rwxp 00000000 00:00 0 
+84d0d000-84d10000 ---p 00000000 00:00 0 
+84d10000-84d5e000 rwxp 00000000 00:00 0 
+84d5e000-84d61000 ---p 00000000 00:00 0 
+84d61000-84daf000 rwxp 00000000 00:00 0 
+84daf000-84db2000 ---p 00000000 00:00 0 
+84db2000-84e00000 rwxp 00000000 00:00 0 
+84e00000-84eff000 rwxp 00000000 00:00 0 
+84eff000-84f00000 ---p 00000000 00:00 0 
+84f00000-84ffc000 rwxp 00000000 00:00 0 
+84ffc000-85000000 ---p 00000000 00:00 0 
+85000000-850e9000 rwxp 00000000 00:00 0 
+850e9000-85100000 ---p 00000000 00:00 0 
+85100000-851e7000 rwxp 00000000 00:00 0 
+851e7000-85200000 ---p 00000000 00:00 0 
+85200000-852fe000 rwxp 00000000 00:00 0 
+852fe000-85300000 ---p 00000000 00:00 0 
+85300000-853fe000 rwxp 00000000 00:00 0 
+853fe000-85400000 ---p 00000000 00:00 0 
+85400000-854ff000 rwxp 00000000 00:00 0 
+854ff000-85500000 ---p 00000000 00:00 0 
+85500000-85600000 rwxp 00000000 00:00 0 
+85600000-85700000 rwxp 00000000 00:00 0 
+8574b000-8574e000 r-xs 00027000 08:01 789356     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/sunjce_provider.jar
+85753000-85761000 r-xs 00679000 08:01 789319     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/charsets.jar
+85761000-85771000 r-xp 00000000 08:01 1462       /lib/tls/i686/cmov/libresolv-2.10.1.so
+85771000-85772000 r-xp 00010000 08:01 1462       /lib/tls/i686/cmov/libresolv-2.10.1.so
+85772000-85773000 rwxp 00011000 08:01 1462       /lib/tls/i686/cmov/libresolv-2.10.1.so
+85773000-85775000 rwxp 00000000 00:00 0 
+85775000-8577a000 r-xp 00000000 08:01 1455       /lib/tls/i686/cmov/libnss_dns-2.10.1.so
+8577a000-8577b000 r-xp 00004000 08:01 1455       /lib/tls/i686/cmov/libnss_dns-2.10.1.so
+8577b000-8577c000 rwxp 00005000 08:01 1455       /lib/tls/i686/cmov/libnss_dns-2.10.1.so
+8577c000-8577e000 r-xp 00000000 08:01 1006       /lib/libnss_mdns4_minimal.so.2
+8577e000-8577f000 r-xp 00001000 08:01 1006       /lib/libnss_mdns4_minimal.so.2
+8577f000-85780000 rwxp 00002000 08:01 1006       /lib/libnss_mdns4_minimal.so.2
+85781000-8578f000 r-xs 00679000 08:01 789319     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/charsets.jar
+8578f000-85795000 r-xp 00000000 08:01 789468     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libmanagement.so
+85795000-85796000 rwxp 00005000 08:01 789468     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libmanagement.so
+85796000-8579e000 r-xs 00115000 08:01 791920     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/resources.jar
+8579e000-857a1000 ---p 00000000 00:00 0 
+857a1000-857ef000 rwxp 00000000 00:00 0 
+857ef000-857f2000 ---p 00000000 00:00 0 
+857f2000-85840000 rwxp 00000000 00:00 0 
+85840000-85843000 ---p 00000000 00:00 0 
+85843000-85891000 rwxp 00000000 00:00 0 
+85891000-85894000 r-xs 0002a000 08:06 3409244    /home/mitzimon/.ivy2/cache/org.grails/grails-test/jars/grails-test-1.4.0.M1.jar
+85894000-8589a000 r-xs 0005f000 08:06 3670342    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-testing/jars/grails-plugin-testing-1.4.0.M1.jar
+8589a000-858a0000 r-xs 00034000 08:06 3412798    /home/mitzimon/.ivy2/cache/junit/junit/jars/junit-4.8.1.jar
+858a0000-858a2000 r-xs 00001000 08:06 3802714    /home/mitzimon/.ivy2/cache/org.hibernate/hibernate-ehcache/jars/hibernate-ehcache-3.6.1.Final.jar
+858a2000-858aa000 r-xs 0008e000 08:06 3802099    /home/mitzimon/.ivy2/cache/javassist/javassist/jars/javassist-3.11.0.GA.jar
+858aa000-858b1000 r-xs 00034000 08:06 3802909    /home/mitzimon/.ivy2/cache/org.springframework.security/org.springframework.security.web/jars/org.springframework.security.web-3.0.4.RELEASE.jar
+858b1000-858bb000 r-xs 00042000 08:06 3802907    /home/mitzimon/.ivy2/cache/org.springframework.security/org.springframework.security.core/jars/org.springframework.security.core-3.0.4.RELEASE.jar
+858bb000-858bd000 r-xs 00003000 08:06 4720352    /home/mitzimon/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.1.jar
+858bd000-858c3000 r-xs 0007e000 08:06 3408384    /home/mitzimon/.ivy2/cache/postgresql/postgresql/jars/postgresql-9.0-801.jdbc4.jar
+858c3000-858cb000 r-xs 000b9000 08:06 3670340    /home/mitzimon/.ivy2/cache/mysql/mysql-connector-java/jars/mysql-connector-java-5.1.16.jar
+858cb000-858cd000 r-xs 00000000 08:06 3409243    /home/mitzimon/.ivy2/cache/org.slf4j/jul-to-slf4j/jars/jul-to-slf4j-1.6.1.jar
+858cd000-858cf000 r-xs 00003000 08:06 3409242    /home/mitzimon/.ivy2/cache/org.slf4j/jcl-over-slf4j/jars/jcl-over-slf4j-1.6.1.jar
+858cf000-858d8000 r-xs 0006d000 08:06 3408382    /home/mitzimon/.ivy2/cache/log4j/log4j/jars/log4j-1.2.16.jar
+858d8000-858e5000 r-xs 00096000 08:06 3409241    /home/mitzimon/.ivy2/cache/net.sf.ehcache/ehcache-core/jars/ehcache-core-2.3.1.jar
+858e5000-858e7000 r-xs 00005000 08:06 3409240    /home/mitzimon/.ivy2/cache/xpp3/xpp3_min/jars/xpp3_min-1.1.4c.jar
+858e7000-858e9000 r-xs 00004000 08:06 3412778    /home/mitzimon/.ivy2/cache/javax.servlet/jstl/jars/jstl-1.1.2.jar
+858e9000-858f3000 r-xs 00120000 08:06 3670338    /home/mitzimon/.ivy2/cache/com.h2database/h2/jars/h2-1.2.147.jar
+858f3000-858f6000 r-xs 00016000 08:06 3408381    /home/mitzimon/.ivy2/cache/commons-pool/commons-pool/jars/commons-pool-1.5.5.jar
+858f6000-858f9000 r-xs 00022000 08:06 3408380    /home/mitzimon/.ivy2/cache/commons-dbcp/commons-dbcp/jars/commons-dbcp-1.3.jar
+858f9000-858fb000 r-xs 0000e000 08:06 3412776    /home/mitzimon/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar
+858fb000-858fe000 r-xs 0000c000 08:06 3412774    /home/mitzimon/.ivy2/cache/commons-fileupload/commons-fileupload/jars/commons-fileupload-1.2.1.jar
+858fe000-85905000 r-xs 00049000 08:06 3412772    /home/mitzimon/.ivy2/cache/cglib/cglib-nodep/jars/cglib-nodep-2.1_3.jar
+85905000-85909000 r-xs 00019000 08:06 3409239    /home/mitzimon/.ivy2/cache/org.aspectj/aspectjrt/jars/aspectjrt-1.6.10.jar
+85909000-8591f000 r-xs 00184000 08:06 3409238    /home/mitzimon/.ivy2/cache/org.aspectj/aspectjweaver/jars/aspectjweaver-1.6.10.jar
+8591f000-85922000 r-xs 00009000 08:06 3802713    /home/mitzimon/.ivy2/cache/javax.validation/validation-api/jars/validation-api-1.0.0.GA.jar
+85922000-85929000 r-xs 00040000 08:06 3409253    /home/mitzimon/.ivy2/cache/org.hibernate/hibernate-validator/jars/hibernate-validator-4.1.0.Final.jar
+85929000-8592e000 r-xs 00014000 08:06 3802711    /home/mitzimon/.ivy2/cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.0.Final.jar
+8592e000-85931000 r-xs 0000f000 08:06 3802709    /home/mitzimon/.ivy2/cache/org.hibernate/hibernate-commons-annotations/jars/hibernate-commons-annotations-3.2.0.Final.jar
+85931000-85936000 r-xs 00048000 08:06 3802103    /home/mitzimon/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar
+85936000-8593c000 r-xs 00067000 08:06 3802101    /home/mitzimon/.ivy2/cache/antlr/antlr/jars/antlr-2.7.6.jar
+8593c000-8596e000 r-xs 002c5000 08:06 3802708    /home/mitzimon/.ivy2/cache/org.hibernate/hibernate-core/jars/hibernate-core-3.6.1.Final.jar
+8596e000-85971000 r-xs 00021000 08:06 3670336    /home/mitzimon/.ivy2/cache/org.springframework/spring-datastore-simple/jars/spring-datastore-simple-1.0.0.M6.jar
+85971000-85979000 r-xs 0002e000 08:06 3670334    /home/mitzimon/.ivy2/cache/org.springframework/spring-datastore-core/jars/spring-datastore-core-1.0.0.M6.jar
+85979000-85983000 r-xs 00062000 08:06 3670332    /home/mitzimon/.ivy2/cache/org.springframework/spring-webmvc/jars/spring-webmvc-3.1.0.M1.jar
+85983000-8598d000 r-xs 0005d000 08:06 3670330    /home/mitzimon/.ivy2/cache/org.springframework/spring-web/jars/spring-web-3.1.0.M1.jar
+8598d000-85995000 r-xs 00034000 08:06 3670328    /home/mitzimon/.ivy2/cache/org.springframework/spring-tx/jars/spring-tx-3.1.0.M1.jar
+85995000-8599e000 r-xs 0004b000 08:06 3670326    /home/mitzimon/.ivy2/cache/org.springframework/spring-orm/jars/spring-orm-3.1.0.M1.jar
+8599e000-859a3000 r-xs 0002b000 08:06 3670324    /home/mitzimon/.ivy2/cache/org.springframework/spring-jms/jars/spring-jms-3.1.0.M1.jar
+859a3000-859ad000 r-xs 00057000 08:06 3670322    /home/mitzimon/.ivy2/cache/org.springframework/spring-jdbc/jars/spring-jdbc-3.1.0.M1.jar
+859ad000-859b1000 r-xs 00027000 08:06 3670320    /home/mitzimon/.ivy2/cache/org.springframework/spring-expression/jars/spring-expression-3.1.0.M1.jar
+859b1000-859b4000 r-xs 00015000 08:06 3670318    /home/mitzimon/.ivy2/cache/org.springframework/spring-context-support/jars/spring-context-support-3.1.0.M1.jar
+859b4000-859c9000 r-xs 000ae000 08:06 3670316    /home/mitzimon/.ivy2/cache/org.springframework/spring-context/jars/spring-context-3.1.0.M1.jar
+859c9000-859d5000 r-xs 00082000 08:06 3670314    /home/mitzimon/.ivy2/cache/org.springframework/spring-beans/jars/spring-beans-3.1.0.M1.jar
+859d5000-859d6000 r-xs 0000c000 08:06 3670312    /home/mitzimon/.ivy2/cache/org.springframework/spring-asm/jars/spring-asm-3.1.0.M1.jar
+859d6000-859d8000 r-xs 0000a000 08:06 3670310    /home/mitzimon/.ivy2/cache/org.springframework/spring-aspects/jars/spring-aspects-3.1.0.M1.jar
+859d8000-859e1000 r-xs 00048000 08:06 3670308    /home/mitzimon/.ivy2/cache/org.springframework/spring-aop/jars/spring-aop-3.1.0.M1.jar
+859e1000-859eb000 r-xs 0005b000 08:06 3670306    /home/mitzimon/.ivy2/cache/org.springframework/spring-core/jars/spring-core-3.1.0.M1.jar
+859eb000-859ec000 r-xs 00006000 08:06 3670304    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-validation/jars/grails-plugin-validation-1.4.0.M1.jar
+859ec000-859ee000 r-xs 0001c000 08:06 3670302    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-url-mappings/jars/grails-plugin-url-mappings-1.4.0.M1.jar
+859ee000-859f0000 r-xs 0000e000 08:06 3670300    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-mimetypes/jars/grails-plugin-mimetypes-1.4.0.M1.jar
+859f0000-859f2000 r-xs 00005000 08:06 3670298    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-servlets/jars/grails-plugin-servlets-1.4.0.M1.jar
+859f2000-859f3000 r-xs 00008000 08:06 3670296    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-services/jars/grails-plugin-services-1.4.0.M1.jar
+859f3000-859f5000 r-xs 00005000 08:06 3670294    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-scaffolding/jars/grails-plugin-scaffolding-1.4.0.M1.jar
+859f5000-859fc000 r-xs 00068000 08:06 3670288    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-gsp/jars/grails-plugin-gsp-1.4.0.M1.jar
+859fc000-85a00000 r-xs 00024000 08:06 3670282    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-converters/jars/grails-plugin-converters-1.4.0.M1.jar
+85a00000-85bfd000 rwxp 00000000 00:00 0 
+85bfd000-85c00000 ---p 00000000 00:00 0 
+85c00000-85cda000 rwxp 00000000 00:00 0 
+85cda000-85d00000 ---p 00000000 00:00 0 
+85d00000-85def000 rwxp 00000000 00:00 0 
+85def000-85e00000 ---p 00000000 00:00 0 
+85e00000-85efc000 rwxp 00000000 00:00 0 
+85efc000-85f00000 ---p 00000000 00:00 0 
+85f00000-85ff5000 rwxp 00000000 00:00 0 
+85ff5000-86000000 ---p 00000000 00:00 0 
+86000000-860f6000 rwxp 00000000 00:00 0 
+860f6000-86100000 ---p 00000000 00:00 0 
+86100000-861ed000 rwxp 00000000 00:00 0 
+861ed000-86200000 ---p 00000000 00:00 0 
+86200000-862e4000 rwxp 00000000 00:00 0 
+862e4000-86300000 ---p 00000000 00:00 0 
+86300000-863fb000 rwxp 00000000 00:00 0 
+863fb000-86400000 ---p 00000000 00:00 0 
+86400000-864f9000 rwxp 00000000 00:00 0 
+864f9000-86500000 ---p 00000000 00:00 0 
+86500000-865ed000 rwxp 00000000 00:00 0 
+865ed000-86600000 ---p 00000000 00:00 0 
+86600000-866eb000 rwxp 00000000 00:00 0 
+866eb000-86700000 ---p 00000000 00:00 0 
+86700000-867ee000 rwxp 00000000 00:00 0 
+867ee000-86800000 ---p 00000000 00:00 0 
+86800000-86802000 r-xs 0000a000 08:06 3670292    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-logging/jars/grails-plugin-logging-1.4.0.M1.jar
+86802000-86806000 r-xs 00027000 08:06 3670278    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-controllers/jars/grails-plugin-controllers-1.4.0.M1.jar
+86806000-86808000 r-xs 00015000 08:06 3670276    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-codecs/jars/grails-plugin-codecs-1.4.0.M1.jar
+86808000-8680c000 r-xs 0003a000 08:06 3670274    /home/mitzimon/.ivy2/cache/org.grails/grails-datastore-gorm/jars/grails-datastore-gorm-1.0.0.M6.jar
+8680c000-8680e000 r-xs 00009000 08:06 3409237    /home/mitzimon/.ivy2/cache/org.grails/grails-spring/jars/grails-spring-1.4.0.M1.jar
+8680e000-86817000 r-xs 00074000 08:06 3670272    /home/mitzimon/.ivy2/cache/org.grails/grails-hibernate/jars/grails-hibernate-1.4.0.M1.jar
+86817000-8682b000 r-xp 00000000 08:01 789480     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libnet.so
+8682b000-8682c000 rwxp 00013000 08:01 789480     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libnet.so
+8682d000-86830000 r-xs 00019000 08:06 3670280    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-domain-class/jars/grails-plugin-domain-class-1.4.0.M1.jar
+86830000-86832000 r-xs 00009000 08:06 3409236    /home/mitzimon/.ivy2/cache/org.grails/grails-crud/jars/grails-crud-1.4.0.M1.jar
+86832000-86838000 r-xs 00027000 08:06 3412728    /home/mitzimon/.ivy2/cache/opensymphony/sitemesh/jars/sitemesh-2.4.jar
+86838000-8683d000 r-xs 00014000 08:06 3670270    /home/mitzimon/.ivy2/cache/org.hibernate.java-persistence/jpa-api/jars/jpa-api-2.0-cr-1.jar
+8683d000-8683f000 r-xs 00002000 08:06 3412724    /home/mitzimon/.ivy2/cache/javax.transaction/jta/jars/jta-1.1.jar
+8683f000-86843000 r-xs 0003c000 08:06 3412722    /home/mitzimon/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar
+86843000-86846000 r-xs 00018000 08:06 3412720    /home/mitzimon/.ivy2/cache/commons-io/commons-io/jars/commons-io-1.4.jar
+86846000-86854000 r-xs 0007f000 08:06 3412718    /home/mitzimon/.ivy2/cache/commons-collections/commons-collections/jars/commons-collections-3.2.1.jar
+86854000-86856000 r-xs 0000d000 08:06 3408360    /home/mitzimon/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.4.jar
+86856000-86858000 r-xs 00000000 08:06 3412714    /home/mitzimon/.ivy2/cache/aopalliance/aopalliance/jars/aopalliance-1.0.jar
+86858000-8685f000 r-xs 0005a000 08:06 3412485    /home/mitzimon/.ivy2/cache/org.codehaus.gpars/gpars/jars/gpars-0.9.jar
+8685f000-86866000 r-xs 0004c000 08:06 3670268    /home/mitzimon/.ivy2/cache/org.coconut.forkjoin/jsr166y/jars/jsr166y-070108.jar
+86866000-86869000 r-xs 0001f000 08:06 3412712    /home/mitzimon/.ivy2/cache/commons-validator/commons-validator/jars/commons-validator-1.3.1.jar
+86869000-8686c000 r-xs 00019000 08:06 3412710    /home/mitzimon/.ivy2/cache/commons-el/commons-el/jars/commons-el-1.0.jar
+8686c000-86871000 r-xs 00034000 08:06 3412708    /home/mitzimon/.ivy2/cache/commons-beanutils/commons-beanutils/jars/commons-beanutils-1.8.0.jar
+86871000-868c9000 r-xs 00557000 08:06 3409235    /home/mitzimon/.ivy2/cache/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.0.jar
+868c9000-868cb000 r-xs 0000b000 08:06 3802580    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-tomcat/jars/grails-plugin-tomcat-1.4.0.M1.jar
+868cb000-868cd000 r-xs 00012000 08:06 3670127    /home/mitzimon/.ivy2/cache/org.apache.tomcat.embed/tomcat-embed-logging-log4j/jars/tomcat-embed-logging-log4j-7.0.8.jar
+868cd000-868d8000 r-xs 000b4000 08:06 3670125    /home/mitzimon/.ivy2/cache/org.apache.tomcat.embed/tomcat-embed-jasper/jars/tomcat-embed-jasper-7.0.8.jar
+868d8000-868f7000 r-xs 0022a000 08:06 3670123    /home/mitzimon/.ivy2/cache/org.apache.tomcat.embed/tomcat-embed-core/jars/tomcat-embed-core-7.0.8.jar
+868f7000-868f9000 r-xs 0000c000 08:06 3802578    /home/mitzimon/.ivy2/cache/org.apache.tomcat/tomcat-catalina-ant/jars/tomcat-catalina-ant-7.0.8.jar
+868f9000-868fb000 r-xs 00009000 08:06 3409205    /home/mitzimon/.ivy2/cache/com.googlecode.concurrentlinkedhashmap/concurrentlinkedhashmap-lru/jars/concurrentlinkedhashmap-lru-1.1_jdk5.jar
+868fb000-86900000 r-xs 0002f000 08:06 3670104    /home/mitzimon/.ivy2/cache/org.springframework/spring-test/jars/spring-test-3.1.0.M1.jar
+86900000-86b00000 rwxp 00000000 00:00 0 
+86b00000-86bfc000 rwxp 00000000 00:00 0 
+86bfc000-86c00000 ---p 00000000 00:00 0 
+86c00000-86cfa000 rwxp 00000000 00:00 0 
+86cfa000-86d00000 ---p 00000000 00:00 0 
+86d00000-86de1000 rwxp 00000000 00:00 0 
+86de1000-86e00000 ---p 00000000 00:00 0 
+86e00000-86e01000 r-xs 00002000 08:06 3409204    /home/mitzimon/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.6.1.jar
+86e01000-86e03000 r-xs 00005000 08:06 3409203    /home/mitzimon/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.6.1.jar
+86e03000-86e0e000 r-xs 00098000 08:06 3409202    /home/mitzimon/.ivy2/cache/org.grails/grails-web/jars/grails-web-1.4.0.M1.jar
+86e0e000-86e14000 r-xs 00046000 08:06 3409201    /home/mitzimon/.ivy2/cache/org.grails/grails-resources/jars/grails-resources-1.4.0.M1.jar
+86e14000-86e20000 r-xs 0008d000 08:06 3409200    /home/mitzimon/.ivy2/cache/org.grails/grails-core/jars/grails-core-1.4.0.M1.jar
+86e20000-86e2b000 r-xs 000f9000 08:06 3409199    /home/mitzimon/.ivy2/cache/org.grails/grails-scripts/jars/grails-scripts-1.4.0.M1.jar
+86e2b000-86e32000 r-xs 00064000 08:06 3409198    /home/mitzimon/.ivy2/cache/org.grails/grails-bootstrap/jars/grails-bootstrap-1.4.0.M1.jar
+86e32000-86e35000 r-xs 00032000 08:06 3409197    /home/mitzimon/.ivy2/cache/org.grails/grails-docs/jars/grails-docs-1.4.0.M1.jar
+86e35000-86e38000 r-xs 00041000 08:06 3412503    /home/mitzimon/.ivy2/cache/xalan/serializer/jars/serializer-2.7.1.jar
+86e38000-86e56000 r-xs 001bb000 08:06 3409194    /home/mitzimon/.ivy2/cache/org.apache.ant/ant/jars/ant-1.8.2.jar
+86e56000-86e6c000 r-xs 001b0000 08:06 3409193    /home/mitzimon/.ivy2/cache/org.tmatesoft.svnkit/svnkit/jars/svnkit-1.3.4.jar
+86e6c000-86e91000 r-xs 00172000 08:06 3670102    /home/mitzimon/.ivy2/cache/org.bouncycastle/bcprov-jdk15/jars/bcprov-jdk15-1.45.jar
+86e91000-86e92000 ---p 00000000 00:00 0 
+86e92000-86f12000 rwxp 00000000 00:00 0 
+86f12000-86f15000 ---p 00000000 00:00 0 
+86f15000-86f93000 rwxp 00000000 00:00 0 
+86f93000-86f95000 r-xs 0000e000 08:06 3670286    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-filters/jars/grails-plugin-filters-1.4.0.M1.jar
+86f95000-86f97000 r-xs 00008000 08:06 3412501    /home/mitzimon/.ivy2/cache/org.fusesource.jansi/jansi/jars/jansi-1.2.1.jar
+86f97000-86f99000 r-xs 00014000 08:06 3412499    /home/mitzimon/.ivy2/cache/jline/jline/jars/jline-0.9.94.jar
+86f99000-86f9a000 r-xs 00001000 08:06 3412497    /home/mitzimon/.ivy2/cache/org.apache.ant/ant-trax/jars/ant-trax-1.7.1.jar
+86f9a000-86f9c000 r-xs 00017000 08:06 3409196    /home/mitzimon/.ivy2/cache/org.apache.ant/ant-junit/jars/ant-junit-1.8.2.jar
+86f9c000-86fa1000 r-xs 00024000 08:06 3670100    /home/mitzimon/.ivy2/cache/org.bouncycastle/bcpg-jdk15/jars/bcpg-jdk15-1.45.jar
+86fa1000-87000000 r-xs 00baa000 08:01 792178     /usr/lib/jvm/java-6-sun-1.6.0.24/lib/tools.jar
+87000000-870fa000 rwxp 00000000 00:00 0 
+870fa000-87100000 ---p 00000000 00:00 0 
+87100000-87101000 r-xs 00004000 08:06 3670290    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-i18n/jars/grails-plugin-i18n-1.4.0.M1.jar
+87101000-87106000 r-xs 0004c000 08:06 3670096    /home/mitzimon/.ivy2/cache/com.google.protobuf/protobuf-java/jars/protobuf-java-2.3.0.jar
+87106000-87109000 r-xs 0001a000 08:06 3670094    /home/mitzimon/.ivy2/cache/org.springframework.uaa/org.springframework.uaa.client/bundles/org.springframework.uaa.client-1.0.1.RELEASE.jar
+87109000-87110000 r-xs 00094000 08:01 788719     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/jsse.jar
+87110000-87115000 r-xs 0004f000 08:01 796733     /opt/grails-1.4.0.M1/lib/org.codehaus.gant/gant_groovy1.8/jars/gant_groovy1.8-1.9.5.jar
+87115000-87133000 r-xs 001bb000 08:01 796582     /opt/grails-1.4.0.M1/lib/org.apache.ant/ant/jars/ant-1.8.2.jar
+87133000-87142000 r-xs 000d9000 08:01 796607     /opt/grails-1.4.0.M1/lib/org.apache.ivy/ivy/jars/ivy-2.2.0.jar
+87142000-87145000 ---p 00000000 00:00 0 
+87145000-87193000 rwxp 00000000 00:00 0 
+87193000-87196000 ---p 00000000 00:00 0 
+87196000-87214000 rwxp 00000000 00:00 0 
+87214000-8726c000 r-xs 00557000 08:01 796747     /opt/grails-1.4.0.M1/lib/org.codehaus.groovy/groovy-all/jars/groovy-all-1.8.0.jar
+8726c000-8726f000 ---p 00000000 00:00 0 
+8726f000-872bd000 rwxp 00000000 00:00 0 
+872bd000-872c4000 r-xs 00000000 08:01 133747     /usr/lib/gconv/gconv-modules.cache
+872c4000-87303000 r-xp 00000000 08:01 135589     /usr/lib/locale/en_US.utf8/LC_CTYPE
+87303000-87306000 ---p 00000000 00:00 0 
+87306000-87354000 rwxp 00000000 00:00 0 
+87354000-87357000 ---p 00000000 00:00 0 
+87357000-873a5000 rwxp 00000000 00:00 0 
+873a5000-873a6000 ---p 00000000 00:00 0 
+873a6000-8745a000 rwxp 00000000 00:00 0 
+8745a000-875f2000 r-xs 03027000 08:01 789622     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/rt.jar
+875f2000-875f3000 ---p 00000000 00:00 0 
+875f3000-87673000 rwxp 00000000 00:00 0 
+87673000-87674000 ---p 00000000 00:00 0 
+87674000-87754000 rwxp 00000000 00:00 0 
+87754000-877ff000 rwxp 00000000 00:00 0 
+877ff000-8785f000 rwxp 00000000 00:00 0 
+8785f000-87909000 rwxp 00000000 00:00 0 
+87909000-87947000 rwxp 00000000 00:00 0 
+87947000-8795f000 ---p 00000000 00:00 0 
+8795f000-93960000 rwxp 00000000 00:00 0 
+93960000-a8ec0000 rwxp 00000000 00:00 0 
+a8ec0000-b0960000 rwxp 00000000 00:00 0 
+b0960000-b3960000 ---p 00000000 00:00 0 
+b3960000-b3961000 r-xs 00008000 08:06 3670284    /home/mitzimon/.ivy2/cache/org.grails/grails-plugin-datasource/jars/grails-plugin-datasource-1.4.0.M1.jar
+b3961000-b3980000 rwxp 00000000 00:00 0 
+b3980000-b3a21000 rwxp 00000000 00:00 0 
+b3a21000-b41c9000 rwxp 00000000 00:00 0 
+b41c9000-b6a21000 rwxp 00000000 00:00 0 
+b6a21000-b6a30000 r-xp 00000000 08:01 789432     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libzip.so
+b6a30000-b6a32000 rwxp 0000e000 08:01 789432     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libzip.so
+b6a32000-b6a3c000 r-xp 00000000 08:01 1456       /lib/tls/i686/cmov/libnss_files-2.10.1.so
+b6a3c000-b6a3d000 r-xp 00009000 08:01 1456       /lib/tls/i686/cmov/libnss_files-2.10.1.so
+b6a3d000-b6a3e000 rwxp 0000a000 08:01 1456       /lib/tls/i686/cmov/libnss_files-2.10.1.so
+b6a3e000-b6a47000 r-xp 00000000 08:01 1458       /lib/tls/i686/cmov/libnss_nis-2.10.1.so
+b6a47000-b6a48000 r-xp 00008000 08:01 1458       /lib/tls/i686/cmov/libnss_nis-2.10.1.so
+b6a48000-b6a49000 rwxp 00009000 08:01 1458       /lib/tls/i686/cmov/libnss_nis-2.10.1.so
+b6a49000-b6a50000 r-xs 00060000 08:01 796325     /opt/grails-1.4.0.M1/lib/com.springsource.springloaded/springloaded-core/jars/springloaded-core-0.8.0.RELEASE.jar
+b6a50000-b6a57000 r-xs 00064000 08:01 797294     /opt/grails-1.4.0.M1/dist/grails-bootstrap-1.4.0.M1.jar
+b6a57000-b6a5f000 rwxs 00000000 08:01 801403     /tmp/hsperfdata_mitzimon/6177
+b6a5f000-b6a72000 r-xp 00000000 08:01 1453       /lib/tls/i686/cmov/libnsl-2.10.1.so
+b6a72000-b6a73000 r-xp 00012000 08:01 1453       /lib/tls/i686/cmov/libnsl-2.10.1.so
+b6a73000-b6a74000 rwxp 00013000 08:01 1453       /lib/tls/i686/cmov/libnsl-2.10.1.so
+b6a74000-b6a76000 rwxp 00000000 00:00 0 
+b6a76000-b6a78000 r-xs 00002000 08:06 3409195    /home/mitzimon/.ivy2/cache/org.apache.ant/ant-launcher/jars/ant-launcher-1.8.2.jar
+b6a78000-b6a7a000 r-xs 00001000 08:01 789357     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/dnsns.jar
+b6a7a000-b6a80000 r-xp 00000000 08:01 1454       /lib/tls/i686/cmov/libnss_compat-2.10.1.so
+b6a80000-b6a81000 r-xp 00005000 08:01 1454       /lib/tls/i686/cmov/libnss_compat-2.10.1.so
+b6a81000-b6a82000 rwxp 00006000 08:01 1454       /lib/tls/i686/cmov/libnss_compat-2.10.1.so
+b6a82000-b6a8b000 r-xp 00000000 08:01 789470     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libinstrument.so
+b6a8b000-b6a8c000 rwxp 00008000 08:01 789470     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libinstrument.so
+b6a8c000-b6aaf000 r-xp 00000000 08:01 789427     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libjava.so
+b6aaf000-b6ab1000 rwxp 00023000 08:01 789427     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libjava.so
+b6ab1000-b6ab8000 r-xp 00000000 08:01 1463       /lib/tls/i686/cmov/librt-2.10.1.so
+b6ab8000-b6ab9000 r-xp 00006000 08:01 1463       /lib/tls/i686/cmov/librt-2.10.1.so
+b6ab9000-b6aba000 rwxp 00007000 08:01 1463       /lib/tls/i686/cmov/librt-2.10.1.so
+b6aba000-b6abd000 ---p 00000000 00:00 0 
+b6abd000-b6b0b000 rwxp 00000000 00:00 0 
+b6b0b000-b6b2f000 r-xp 00000000 08:01 1451       /lib/tls/i686/cmov/libm-2.10.1.so
+b6b2f000-b6b30000 r-xp 00023000 08:01 1451       /lib/tls/i686/cmov/libm-2.10.1.so
+b6b30000-b6b31000 rwxp 00024000 08:01 1451       /lib/tls/i686/cmov/libm-2.10.1.so
+b6b31000-b72be000 r-xp 00000000 08:01 789447     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/server/libjvm.so
+b72be000-b7311000 rwxp 0078d000 08:01 789447     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/server/libjvm.so
+b7311000-b7730000 rwxp 00000000 00:00 0 
+b7730000-b786e000 r-xp 00000000 08:01 1446       /lib/tls/i686/cmov/libc-2.10.1.so
+b786e000-b786f000 ---p 0013e000 08:01 1446       /lib/tls/i686/cmov/libc-2.10.1.so
+b786f000-b7871000 r-xp 0013e000 08:01 1446       /lib/tls/i686/cmov/libc-2.10.1.so
+b7871000-b7872000 rwxp 00140000 08:01 1446       /lib/tls/i686/cmov/libc-2.10.1.so
+b7872000-b7875000 rwxp 00000000 00:00 0 
+b7875000-b7877000 r-xp 00000000 08:01 1450       /lib/tls/i686/cmov/libdl-2.10.1.so
+b7877000-b7878000 r-xp 00001000 08:01 1450       /lib/tls/i686/cmov/libdl-2.10.1.so
+b7878000-b7879000 rwxp 00002000 08:01 1450       /lib/tls/i686/cmov/libdl-2.10.1.so
+b7879000-b7880000 r-xp 00000000 08:01 789436     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/jli/libjli.so
+b7880000-b7882000 rwxp 00006000 08:01 789436     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/jli/libjli.so
+b7882000-b7883000 rwxp 00000000 00:00 0 
+b7883000-b7898000 r-xp 00000000 08:01 1461       /lib/tls/i686/cmov/libpthread-2.10.1.so
+b7898000-b7899000 r-xp 00014000 08:01 1461       /lib/tls/i686/cmov/libpthread-2.10.1.so
+b7899000-b789a000 rwxp 00015000 08:01 1461       /lib/tls/i686/cmov/libpthread-2.10.1.so
+b789a000-b789c000 rwxp 00000000 00:00 0 
+b789c000-b789d000 r-xs 00003000 08:06 3670098    /home/mitzimon/.ivy2/cache/com.googlecode.json-simple/json-simple/jars/json-simple-1.1.jar
+b789d000-b78a3000 r-xp 00000000 08:01 789450     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/native_threads/libhpi.so
+b78a3000-b78a4000 rwxp 00006000 08:01 789450     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/native_threads/libhpi.so
+b78a4000-b78a5000 rwxp 00000000 00:00 0 
+b78a5000-b78a6000 r-xp 00000000 00:00 0 
+b78a6000-b78b1000 r-xp 00000000 08:01 789461     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libverify.so
+b78b1000-b78b2000 rwxp 0000b000 08:01 789461     /usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/libverify.so
+b78b2000-b78b4000 rwxp 00000000 00:00 0 
+b78b4000-b78b5000 r-xp 00000000 00:00 0          [vdso]
+b78b5000-b78d0000 r-xp 00000000 08:01 1426       /lib/ld-2.10.1.so
+b78d0000-b78d1000 r-xp 0001a000 08:01 1426       /lib/ld-2.10.1.so
+b78d1000-b78d2000 rwxp 0001b000 08:01 1426       /lib/ld-2.10.1.so
+bfa3f000-bfa54000 rwxp 00000000 00:00 0          [stack]
+
+VM Arguments:
+jvm_args: -Xmx512M -XX:MaxPermSize=192m -Dfile.encoding=UTF-8 -javaagent:/opt/grails-1.4.0.M1/lib/com.springsource.springloaded/springloaded-core/jars/springloaded-core-0.8.0.RELEASE.jar -Xverify:none -Dspringloaded=profile=grails -Dgrails.home=/opt/grails-1.4.0.M1 -Dtools.jar=/usr/lib/jvm/java-6-sun/lib/tools.jar 
+java_command: org.codehaus.groovy.grails.cli.support.GrailsStarter --main org.codehaus.groovy.grails.cli.GrailsScriptRunner --conf /opt/grails-1.4.0.M1/conf/groovy-starter.conf --classpath   run-app
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/usr/lib/jvm/java-6-sun
+PATH=/home/mitzimon/bin:/usr/lib/jvm/java-6-sun/bin:/opt/groovy-1.7.10/bin:/opt/grails-1.4.0.M1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+USERNAME=mitzimon
+LD_LIBRARY_PATH=/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386/server:/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/i386:/usr/lib/jvm/java-6-sun-1.6.0.24/jre/../lib/i386
+SHELL=/bin/bash
+DISPLAY=:0.0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x708f80], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGBUS: [libjvm.so+0x708f80], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGFPE: [libjvm.so+0x5c4100], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGPIPE: [libjvm.so+0x5c4100], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGXFSZ: [libjvm.so+0x5c4100], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGILL: [libjvm.so+0x5c4100], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGUSR2: [libjvm.so+0x5c70e0], sa_mask[0]=0x00000000, sa_flags=0x10000004
+SIGHUP: [libjvm.so+0x5c6cc0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGINT: [libjvm.so+0x5c6cc0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGTERM: [libjvm.so+0x5c6cc0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGQUIT: [libjvm.so+0x5c6cc0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+
+
+---------------  S Y S T E M  ---------------
+
+OS:squeeze/sid
+
+uname:Linux 2.6.31-23-generic #75-Ubuntu SMP Fri Mar 18 18:08:39 UTC 2011 i686
+libc:glibc 2.10.1 NPTL 2.10.1 
+rlimit: STACK 8192k, CORE 0k, NPROC infinity, NOFILE 1024, AS infinity
+load average:2.66 2.02 1.49
+
+/proc/meminfo:
+MemTotal:        3055776 kB
+MemFree:          507560 kB
+Buffers:          103296 kB
+Cached:           921068 kB
+SwapCached:            0 kB
+Active:          1973624 kB
+Inactive:         487436 kB
+Active(anon):    1698944 kB
+Inactive(anon):        0 kB
+Active(file):     274680 kB
+Inactive(file):   487436 kB
+Unevictable:          16 kB
+Mlocked:              16 kB
+HighTotal:       2194700 kB
+HighFree:          39928 kB
+LowTotal:         861076 kB
+LowFree:          467632 kB
+SwapTotal:       5855652 kB
+SwapFree:        5855652 kB
+Dirty:               624 kB
+Writeback:             4 kB
+AnonPages:       1436756 kB
+Mapped:           131164 kB
+Slab:              51424 kB
+SReclaimable:      35504 kB
+SUnreclaim:        15920 kB
+PageTables:         9880 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     7383540 kB
+Committed_AS:    3382148 kB
+VmallocTotal:     122880 kB
+VmallocUsed:       20276 kB
+VmallocChunk:      96060 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       4096 kB
+DirectMap4k:       16376 kB
+DirectMap4M:      892928 kB
+
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 6 model 23 stepping 10, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1
+
+Memory: 4k page, physical 3055776k(507560k free), swap 5855652k(5855652k free)
+
+vm_info: Java HotSpot(TM) Server VM (19.1-b02) for linux-x86 JRE (1.6.0_24-b07), built on Feb  2 2011 16:51:52 by "java_re" with gcc 3.2.1-7a (J2SE release)
+
+time: Wed Jul 27 10:44:42 2011
+elapsed time: 285 seconds
+

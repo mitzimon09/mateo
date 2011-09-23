@@ -8,7 +8,7 @@ class Empresa {
 
     static belongsTo = [Organizacion]
 
-    static hasMany = [usuarios: Usuario]
+    static hasMany = [usuarios: Usuario, compras: Compra]
 
     static constraints = {
         codigo(blank:false, unique:true, maxSize:6)
