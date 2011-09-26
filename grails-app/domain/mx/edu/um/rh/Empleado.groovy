@@ -11,7 +11,8 @@ class Empleado {
     String direccion
     String status
     Map perdeds
-
+    
+    //laborales
     TipoEmpleado tipo
     String curp
     String rfc
@@ -30,7 +31,8 @@ class Empleado {
     BigDecimal antiguedadBase
     BigDecimal antiguedadFiscal
     Grupo grupo
-
+    
+    //personales
     String padre
     String madre
     String estadoCivil
@@ -40,14 +42,16 @@ class Empleado {
     Short finadoMadre
     String iglesia
     String responsabilidad
-
+    String telefonoCasa
+    String telefonocelular
+    String email
+    
     static transients = ['perdeds']
-
+    
     static hasMany=[perdedsList:EmpleadoPerded]//, empleado:EmpleadoPersonales, empleado:empleado]
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
-
-
+    
     public String getNombreCompleto(){
         "$nombre $apPaterno $apMaterno"
     }
@@ -175,8 +179,10 @@ class Empleado {
         finadoPadre nullable:true
         finadoMadre nullable:true
         iglesia nullable:true
-        responsabilidad nullable:true
-
+        telefonoCasa nullable:true
+	telefonocelular nullable:true
+	email nullable:true        
+        responsabilidad nullable:true  
     }
 
     static mapping={

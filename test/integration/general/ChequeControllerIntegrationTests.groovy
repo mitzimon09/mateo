@@ -1,6 +1,5 @@
 package general
 
-
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
@@ -9,7 +8,7 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestFor(ChequeController)
-class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
+class ChequeTests  extends BaseIntegrationTest {
 
 	def springSecurityService
     def procesoServiceInterface
@@ -28,14 +27,14 @@ class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
         def controller = new ChequeController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "CREADA", cheque.status
+        assertEquals "CR", cheque.status
 		
 		controller.params.id = cheque.id
         def model = controller.edita()
         assert model.cheque
         
         controller.enviar()
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "EN", cheque.status
     }
     
     @Test
@@ -45,21 +44,21 @@ class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
         def currentUser = springSecurityService.currentUser
 		    def cheque = new Cheque(
 		        empresa: currentUser.empresa
-		        , status: "ENVIADA"
+		        , status: "EN"
 	      ).save()
         assertNotNull cheque
 
         def controller = new ChequeController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "EN", cheque.status
 		
 		controller.params.id = cheque.id
         def model = controller.edita()
         assert model.cheque
         
         controller.aprobar()
-        assertEquals "APROBADA", cheque.status
+        assertEquals "AP", cheque.status
     }
     
         @Test
@@ -69,21 +68,21 @@ class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
         def currentUser = springSecurityService.currentUser
 		    def cheque = new Cheque(
 		        empresa: currentUser.empresa
-		        , status: "ENVIADA"
+		        , status: "EN"
 	      ).save()
         assertNotNull cheque
 
         def controller = new ChequeController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "EN", cheque.status
 		
 		controller.params.id = cheque.id
         def model = controller.edita()
         assert model.cheque
         
         controller.rechazar()
-        assertEquals "RECHAZADA", cheque.status
+        assertEquals "RE", cheque.status
     }
     
         @Test
@@ -93,21 +92,21 @@ class ChequeControllerIntegrationTests  extends BaseIntegrationTest {
         def currentUser = springSecurityService.currentUser
 		    def cheque = new Cheque(
 		        empresa: currentUser.empresa
-		        , status: "ENVIADA"
+		        , status: "EN"
 	      ).save()
         assertNotNull cheque
 
         def controller = new ChequeController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-        assertEquals "ENVIADA", cheque.status
+        assertEquals "EN", cheque.status
 		
 		controller.params.id = cheque.id
         def model = controller.edita()
         assert model.cheque
         
         controller.cancelar()
-        assertEquals "CANCELADA", cheque.status
+        assertEquals "CA", cheque.status
     }
     
 }

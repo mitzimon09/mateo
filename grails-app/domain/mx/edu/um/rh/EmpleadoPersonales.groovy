@@ -24,7 +24,8 @@ class EmpleadoPersonales {
         finadoPadre nullable:true
         finadoMadre nullable:true
         iglesia nullable:true
-        responsabilidad nullable:true     
+        responsabilidad nullable:true  
+        empleado nullable:true 
     }
     
     static mapping={

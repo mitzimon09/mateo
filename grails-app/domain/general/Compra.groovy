@@ -1,7 +1,7 @@
 package general
 
 class Compra {
-    String status = 'CREADA'
+    String status = 'CR'
     Set articulos
     BigDecimal total = new BigDecimal("0.00")
     Date fechaCreado = new Date()
@@ -16,7 +16,7 @@ class Compra {
         static hasMany = [articulos: Articulo]
 	
     static constraints = {
-        status inList :['CREADA', 'ENVIADA', 'RECHAZADA', 'APROBADA', 'COMPRADA', 'ENTREGADA', 'CANCELADA']
+        status inList :['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA']
       	total scale: 2, precision: 8, min: new BigDecimal('0')
       	observaciones nullable: true, maxSize: 128
     }

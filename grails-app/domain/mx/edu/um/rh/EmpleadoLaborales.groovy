@@ -25,7 +25,7 @@ class EmpleadoLaborales {
     
     static constraints = {
         cuenta maxSize:16, nullable:true
-        curp maxSize:30
+        curp maxSize:30, nullable:true
         escalafon blank:false
         imms maxSize:15, nullable:true
         rfc maxSize:15,blank:false
@@ -33,7 +33,7 @@ class EmpleadoLaborales {
         turno blank:false
         fechaAlta blank:false
         antiguedadBase blank:false
-         adventista nullable:true
+        adventista nullable:true
         antiguedadFiscal nullable:true
         cuenta nullable:true
         curp nullable:true
@@ -44,6 +44,8 @@ class EmpleadoLaborales {
         imms nullable:true
         rango nullable:true
         tipo nullable:true
+        grupo nullable:true
+        empleado nullable:true
     }
     
     static mapping={
