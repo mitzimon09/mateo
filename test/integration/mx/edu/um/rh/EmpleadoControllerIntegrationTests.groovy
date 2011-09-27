@@ -323,6 +323,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 //
 //        assertNotNull empresa
 
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+
 	def controller = new EmpleadoController()
 	controller.empleadoService = empleadoService
 	controller.params.tipo = tipoEmpleado	
