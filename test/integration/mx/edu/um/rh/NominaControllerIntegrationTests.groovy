@@ -130,7 +130,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      * from aron.PERDEDS, (select perded_id from aron.PERDEDS_PORCENTAJES where grupo_id=6) pp
      * where aron.PERDEDS.id=pp.perded_id
     **/
-    /*@Test
+    @Test
     void debieraArmarMapFormulasGrupoX(){
         log.debug 'testArmarMapGrupoX'
 
@@ -147,13 +147,13 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             assertTrue mapGX.containsKey(p.clave)
             assertEquals mapGX.get(p.clave), p.formula
         }
-    }*/
+    }
 
     /**
      *Prueba que se sustituyan los valores en las formulas en el Map del GrupoX
      *Para el Pattern y Matcher ver: http://www.programacion.com/articulo/expresiones_regulares_en_java_127
      **/
-    /*@Test
+    @Test
     void debieraSustituirPorcentajesEnFormulasGrupoX(){
         log.debug 'testSustituirPorcentajesEnFormulasGrupoX'
 
@@ -186,13 +186,13 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             Matcher m = p.matcher(f)
             assertTrue !m.find()
         }
-    }*/
+    }
 
     /**
      * Comprueba que se trainga el Map de Formulas Completo de un Empleado, pero aun sin sustituir las del Empleado
      * Map<(String)ClavePercepcion,(String)formulaPerecepcion>
     **/
-    /*@Test
+    @Test
     void debieraArmarMapDeFormulasPorEmpleado(){ 
         log.debug 'testArmarMapDeFormulasPorEmpleado'
 
@@ -211,7 +211,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             assertTrue mapPerdedsEmpleado.containsKey(ep.perded.clave)
             assertEquals mapPerdedsEmpleado.get(ep.perded.clave) , ep.perded.formula
         }
-    }*/
+    }
 
     /**
      *Sustituye en las formulas los porcentajes del Empleado. Cada caracter '%' se sustituye el porcentaje
@@ -278,7 +278,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *Regresa los movimientos de todos los empleados en el rango especificado por las claves
     **/
-    @Test
+    //@Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
 
     }
@@ -286,7 +286,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarNominaPorTipoDeEmpleado(){
 
     }
@@ -295,7 +295,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      *tipo nomina=diaria, semanal, quincenal
      *NOTA: En la nomina diaria, validar cuando dieron de alta el empleado para calcularle hasta donde ha trabajado y no mas
     **/
-    @Test
+    //@Test
     void debieraRegresarPorTipoDeNominaDeUnEmpleado(){ 
 
     }
@@ -303,7 +303,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarPorTipoDeNominaDeRangoEmpleados(){
 
     }
@@ -311,7 +311,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarPorTipoNominaPorTipoEmpleado(){
 
     }
@@ -319,7 +319,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarPercecionEspecificadaUnEmpleado(){
 
     }
@@ -327,7 +327,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
 
     }
@@ -335,7 +335,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *
     **/
-    @Test
+    //@Test
     void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
 
     }
