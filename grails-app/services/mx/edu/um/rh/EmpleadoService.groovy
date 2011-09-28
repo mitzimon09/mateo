@@ -6,7 +6,8 @@ import mx.edu.um.*
 
 class EmpleadoService implements EmpleadoServiceInt {
     
-    
+    //static session = "session"
+
     Empleado getEmpleado(String clave) throws NullPointerException{
         //log.debug "getEmpleadoByClave"
         def empleado=Empleado.findByClave(clave)

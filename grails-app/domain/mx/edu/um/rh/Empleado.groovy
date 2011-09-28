@@ -1,7 +1,7 @@
 package mx.edu.um.rh
 import general.*
 class Empleado {
-    Empresa empresa
+    //Empresa empresa
     String clave
     String nombre
     String apPaterno
@@ -53,27 +53,26 @@ class Empleado {
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
     
-    
     public String getNombreCompleto(){
         "$nombre $apPaterno $apMaterno"
     }
-    
+
     /*public void save(params){
     	System.out.println("saved")
     }
-    
+
     public void Empleado.metaclass.save(params){
     	System.out.println("saved")
     }*/
-    
+
     public String getDisponibilidad(){
         String disponiblidad = ""
-        try{            
+        try{
             disponiblidad=this.turno.toString()
         }catch (NullPointerException npe){
             log.error("Empleado "+this.clave+","+npe);
             npe.printStackTrace();
-        }        
+        }
         return disponiblidad
     }
     /*
@@ -85,7 +84,7 @@ class Empleado {
             if(this.escalafon!=null && !this.escalafon.equals(0)){
                 isValido=true;
             }
-        }        
+        }
         return isValido
     }
     /*
@@ -96,7 +95,7 @@ class Empleado {
         if(this){
             if(this.cuenta!=null && !this.cuenta.trim().equals("")){
                 isValido=true;
-            }            
+            }
         }
         return isValido
     }
@@ -109,10 +108,10 @@ class Empleado {
             if(this.turno!=null &&!this.turno.equals(0)){
                 isValido=true
             }
-        }        
+        }
         return isValido
     }
-    
+
     /*
      *Checa si el empleado tiene un grupo valido, dicho tiempo debe ser mayor a cero y diferente de null
      */
@@ -125,7 +124,7 @@ class Empleado {
         }
         return isValido
     }
-    
+
     /*
      *Este  Metodo carga un map con las perdeds del empleado cuando se llama empleado.perdeds
      */
@@ -136,7 +135,7 @@ class Empleado {
         for(EmpleadoPerded ep:perdedsList.toList()){
             //log.debug "guarda: key $ep.perded.id value $ep"
             perdedsMap.put(ep.perded.id.toString(),ep)
-        }        
+        }
         return perdedsMap
     }
 
@@ -189,8 +188,8 @@ class Empleado {
         grupo nullable:true
         //Personales
         estadoCivil maxSize:2,blank:false
-        madre maxSize:50,blank:false        
-        padre maxSize:50,blank:false        
+        madre maxSize:50,blank:false
+        padre maxSize:50,blank:false
         conyuge maxSize:50, nullable:true
         //
         fechaMatrimonio nullable:true
@@ -198,26 +197,25 @@ class Empleado {
         finadoMadre nullable:true
         iglesia nullable:true
         telefonoCasa nullable:true
-		telefonocelular nullable:true
-		email nullable:true        
+	telefonocelular nullable:true
+	email nullable:true        
         responsabilidad nullable:true  
-        
     }
-    
+
     static mapping={
         table name:'empleado_grails',schema:'aron'
         apPaterno column:'appaterno'
         apMaterno column:'apmaterno'
         fechaNacimiento column:'fechanacimiento'
-        
+
         experienciaFueraUM column:'experiencia_fuera_um'
         tipo column:'id_tipoempleado'
         grupo column:'id_grupo'
         adventista type:'yes_no'
-        
+
         estadoCivil column:'estadocivil'
         fechaMatrimonio column:'fechaMatrimonio'
-    }   
+    }
     static namedQueries = {
         listaEmpleadosParametros{Empleado empleado, Empleado empleadoDos ->
             //Valida que el usuario no venga null
@@ -228,24 +226,24 @@ class Empleado {
                     }
                 }
                 //Valida el status
-                if(empleado.status){                    
-                    eq 'status',empleado.status                    
-                }               
-                
+                if(empleado.status){
+                    eq 'status',empleado.status
+                }
+
                 if(empleado){
                         if(empleado.tipo){
                             tipo{
                                 if(empleado.tipo.id){
-                                    idEq(empleado.tipo.id)   
-                                }                            
-                            }                            
-                        }                        
-                }                
-                if(empleado.empresa){
-                    empresa{
-                        idEq(empleado.empresa.id)
-                    }
+                                    idEq(empleado.tipo.id)
+                                }
+                            }
+                        }
                 }
+//                if(empleado.empresa){
+//                    empresa{
+//                        idEq(empleado.empresa.id)
+//                    }
+//                }
             }
         }
     }
