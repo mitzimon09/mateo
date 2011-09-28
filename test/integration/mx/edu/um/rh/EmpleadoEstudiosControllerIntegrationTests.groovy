@@ -81,7 +81,9 @@ class EmpleadoEstudiosControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull usuario
 		
 		def currentUser = springSecurityService.currentUser
-
+        
+    	List<EmpleadoEstudios> ees = new ArrayList<EmpleadoEstudios>()
+        
         for(i in 1..20) {
         	def empleadoEstudios = new EmpleadoEstudios(
         	    empleado: empleado
@@ -94,25 +96,25 @@ class EmpleadoEstudiosControllerIntegrationTests extends BaseIntegrationTest {
                 , fecha_captura: new Date()
 		    ).save()
     		assertNotNull empleadoEstudios
+    		
+    		ees.add(empleadoEstudios)
         }
+        
+        empleado.estudios = ees
+        assertNotNull empleado.estudios
 
-        def controller = new EmpleadoEstudiosController()
-        controller.springSecurityService = springSecurityService
-        controller.index()
+        assertEquals 20, ees.size()
 
-        assertEquals '/empleadoEstidios/lista', controller.response.redirectedUrl
+        ArrayList<EmpleadoEstudios> estudiosEmpleado = empleado.estudios
+        assertNotNull estudiosEmpleado
+        assertEquals empleado, estudiosEmpleado.get(0).empleado
 
-		def model = controller.lista()
-		assertNotNull model
-		assertNotNull model.empleadoEstidios
-
-        assertEquals 10, model.empleadoEstidios.size()
-        assert 20 <= model.totalDeEmpleadoEstidios
+        
     }
 /*
     @Test
-    void CrearEmpleadoEstidio() {
     	authenticateAdmin()
+    void CrearEmpleadoEstidio() {
 		
 		def currentUser = springSecurityService.currentUser
 

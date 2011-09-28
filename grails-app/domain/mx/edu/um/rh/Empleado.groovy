@@ -11,7 +11,7 @@ class Empleado {
     String direccion
     String status
     Map perdeds
-    Map estudios
+    ArrayList<EmpleadoEstudios> estudios
     
     //laborales
     TipoEmpleado tipo
@@ -139,6 +139,22 @@ class Empleado {
         }        
         return perdedsMap
     }
+
+    /*
+     *Este  Metodo carga un map con los estudios del empleado cuando se llama empleado.estudios
+    Map getEstudios(){
+        log.debug "getEstudios"
+        List estudiosEmpleado = estudios.toList()
+        Map estudiosMap = new HashMap()
+        for(EmpleadoEstudios ee : estudios.toList()){
+            //log.debug "guarda: key $ep.perded.id value $ep"
+            estudiosMap.put(ee.empleado.id.toString(),ee)
+        }        
+        return estudiosMap
+    }
+     */
+    
+    
 
     static constraints = {
         clave maxSize:7,blank:false,unique:true
