@@ -27,7 +27,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
                 , hora_inicio: new Date()
                 , hora_final: new Date()
                 , prorroga: '15'
-                , status: 'creada'
+                , status: 'CR'
 		    ).save()
     		assertNotNull evento
         }
@@ -63,7 +63,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.hora_inicio = new Date()
         controller.params.hora_final = new Date()
         controller.params.prorroga = '15'
-        controller.params.status = 'creada'
+        controller.params.status = 'CR'
         controller.crea()
         
         assert controller
@@ -82,7 +82,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , hora_inicio: new Date()
             , hora_final: new Date()
             , prorroga: '15'
-            , status: 'creada'
+            , status: 'CR'
 	    ).save()
 		assertNotNull evento
     		
@@ -118,7 +118,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , hora_inicio: new Date()
             , hora_final: new Date()
             , prorroga: '15'
-            , status: 'creada'
+            , status: 'CR'
 	    ).save()
 		assertNotNull evento
         
