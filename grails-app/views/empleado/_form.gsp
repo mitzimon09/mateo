@@ -345,13 +345,16 @@
    <script type="text/javascript">
    $(function() {
 		$( "#accordion" ).accordion({
-                    collapsible: true,
-			fillSpace: true
+              collapsible: true,
+			fillSpace: true,
+                         active: false,
                       
 		});
+                
 	});
 	$(function() {
 		$( "#accordionResizer" ).resizable({
+                  
 			minHeight: 140,
 			resize: function() {
 				$( "#accordion" ).accordion( "resize" );
