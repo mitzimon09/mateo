@@ -1,4 +1,4 @@
-package edu.um.common.evaluador;
+package mx.edu.um.common.evaluador;
 
 import java.math.BigDecimal;
 

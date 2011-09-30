@@ -15,11 +15,9 @@ class EmpleadoPerded {
 
     static mapping={
         table name:'empleado_perdeds',schema:'aron'
-        //table name:'empleado_perdeds_test',schema:'aron'
-        isEditableByNOM type:'yes_no'
+        isEditableByNOM column: 'editable_by_nom', type:'yes_no'
         otorgado type:'yes_no'
         id generator:'native'
         perded column:'perded_id'
-        //sort "id"
     }
 }

@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_DIRRH'])
 class EventoController {
     def springSecurityService
 
@@ -36,6 +36,7 @@ class EventoController {
         }
     }
 
+    @Secured(['ROLE_EMP'])
     def ver = {
         def evento = Evento.get(params.id)
         if (!evento) {
@@ -88,6 +89,7 @@ class EventoController {
     def elimina = {
         def evento = Evento.get(params.id)
         if (evento) {
+            //if(evento.status != Constantes.STATUS_CREADO)
             try {
                 evento.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'evento.label', default: 'Evento'), params.id])

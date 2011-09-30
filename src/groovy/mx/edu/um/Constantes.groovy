@@ -18,5 +18,7 @@ class Constantes {
     static final String STATUS_CANCELADO="CA"
     static final String STATUS_REVISADO="RE"
     static final String STATUS_AUTORIZADO="AU"
+    static final String STATUS_INICIADO="IN"
+    static final String STATUS_TERMINADO="TE"
 }
 
