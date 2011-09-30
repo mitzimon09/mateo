@@ -29,9 +29,6 @@ class DepartamentoController {
     }
     
     def crea = {
-        
-        log.debug "departamento#############: $params"
-        
         def departamento = new Departamento(params)
         def usuario = springSecurityService.currentUser
         departamento.organizacion = usuario.empresa.organizacion
@@ -104,14 +101,31 @@ class DepartamentoController {
                     return
                 }
             }
+             
+                def cuenta = Cuenta.get(departamento.cuenta.id)
+                
             
+                if (params.tieneAuxiliares == 'on'){
+                params.tieneAuxiliares = true
+                }else{params.tieneAuxiliares = false}
             
-            log.debug "departamento#############: $params.tieneAuxiliares"
-            log.debug "departamento: $departamento.cuenta.id"
+                if (params.tieneMovimientos == 'on'){
+                    params.tieneMovimientos = true
+                }else{params.tieneMovimientos = false}
+                
+                if (params.status == 'on'){
+                    params.status = true
+                }else{params.status = false}
+        
+                
+                cuenta.tieneAuxiliares = params.tieneAuxiliares
+                cuenta.tieneMovimientos = params.tieneMovimientos
+                cuenta.status = params.status
+                
+                departamento.cuenta = cuenta.save()
             
-            departamento.cuenta = Cuenta.actualiza(departamento.cuenta.id)
-           
-            departamento.properties = params
+                
+               departamento.properties = params
             if (!departamento.hasErrors() && departamento.save(flush: true)) {
 
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'departamento.label', default: 'Departamento'), departamento.nombre])
@@ -119,6 +133,29 @@ class DepartamentoController {
             }
             else {
                 render(view: "edita", model: [departamento: departamento])
+            }
+        }
+        else {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'departamento.label', default: 'Departamento'), params.id])
+            redirect(action: "lista")
+        }
+    }
+    
+    
+     def elimina = {
+        def departamento = Departamento.get(params.id)
+        if (departamento) {
+            def cuenta = Cuenta.get(departamento.cuenta.id)
+            def nombre = departamento.nombre
+            try {
+                
+                cuenta.status = false
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), nombre])
+                redirect(action: "lista")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'departamento.label', default: 'Departamento'), nombre])
+                redirect(action: "ver", id: params.id)
             }
         }
         else {

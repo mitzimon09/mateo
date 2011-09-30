@@ -120,6 +120,7 @@ grails.plugins.springsecurity.roleHierarchy = '''
    ROLE_ORG > ROLE_DIRFIN
    ROLE_ORG > ROLE_DIRRH
    ROLE_ORG > ROLE_CCP
+   ROLE_ORG > ROLE_DIRRH
    ROLE_EMP > ROLE_USER
    ROLE_COMPRAS > ROLE_USER
    ROLE_DIRFIN > ROLE_USER

@@ -4,6 +4,9 @@ import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
 
+import mx.edu.um.rh.Vacaciones
+import mx.edu.um.rh.VacacionesController
+
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
