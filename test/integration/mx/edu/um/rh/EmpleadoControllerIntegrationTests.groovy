@@ -89,8 +89,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             conyuge : "TESTC",
             fechaMatrimonio : new Date(),
             iglesia : "TESTI",
-            responsabilidad : "TESTR",
-            perdedsList : eps
+            responsabilidad : "TESTR"//,
+            //perdedsList : eps
         ).save()
         assertNotNull empleado
 
