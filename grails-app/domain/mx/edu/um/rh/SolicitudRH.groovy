@@ -19,6 +19,7 @@ class SolicitudRH {
 	SolicitudSalida solicitudSalida
 	Vacaciones vacaciones
 	String status = "CR"
+	JefeCCosto jefeCCosto
 	
 	static belongsTo = {[Empleado:empleado, Empresa:empresa]}
 
@@ -37,7 +38,28 @@ class SolicitudRH {
 		email nullable: true
 		solicitudSalida nullable: true
 		vacaciones nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA']
+		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU']
+		jefeCCosto nullable: true
     }
+    
+    static namedQueries = {
+        listaSolicitudesParametros{SolicitudRH solicitudRH ->
+            if(solicitudRH){
+                //Valida el status
+                if(solicitudRH.status){                    
+                    eq 'status', solicitudRH.status                    
+                }
+                if(solicitudRH.empresa){
+                    empresa{
+                        idEq(solicitudRH.empresa.id)
+                    }
+                }
+                              
+                if(solicitudRH.empleado ){
+                    eq 'jefeCCosto', solicitudRH.empleado
+                }
+            }//if(solicitudRH)
+        }
+    }//named queries
     
 }

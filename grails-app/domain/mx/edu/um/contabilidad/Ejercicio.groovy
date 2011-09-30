@@ -29,4 +29,3 @@ class Ejercicio {
         return "$idEjercicio"
     }
 }
-

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="mx.edu.um.contabilidad.CentroCosto"
+        table="cont_ccosto"
+        schema="mateo"
+        lazy="false"
+    >
+
+        <composite-id
+            name="key"
+            class="mx.edu.um.contabilidad.CCostoPK"
+        >
+
+                    <key-many-to-one
+                        name="ejercicio"
+                        class="mx.edu.um.contabilidad.Ejercicio"
+                        column="id_ejercicio"
+                    />
+
+                     <key-property
+                        name="idCCosto"
+                        type="java.lang.String"
+                        column="id_ccosto"
+                />
+
+        </composite-id>
+
+        <property
+            name="nombre"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="nombre"
+            length="60"
+            not-null="true"
+        />
+
+        <property
+            name="detalle"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="detalle"
+            length="1"
+            not-null="true"
+        />
+
+        <property
+            name="iniciales"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="iniciales"
+            length="5"
+        />
+
+<!--
+<set
+            name="cuentas"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+            <key>
+                <column name="id_ejercicio"/>
+                <column name="id_ccosto"/>
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.financiero.model.Cuenta"
+            />
+
+</set>
+
+<set
+            name="polizas"
+            lazy="true"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+            <key>
+                <column name="id_ejercicio2"/>
+                <column name="id_ccosto"/>
+            </key>
+
+            <one-to-many
+                  class="mx.edu.um.financiero.model.Poliza"
+            />
+
+</set>
+-->
+
+    </class>
+
+</hibernate-mapping>

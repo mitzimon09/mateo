@@ -18,6 +18,7 @@ class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
             , nombre: 'TEST-1'
             , nombreCompleto: 'TEST-1'
         ).save()
+        assertNotNull organizacion
 
 		def empresa = new Empresa(
                 codigo: "emp2"
@@ -25,11 +26,13 @@ class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+        assertNotNull empresa
         
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
     	).save()
+    	assertNotNull tipoEmpleado
     	
     	def usuario = new Usuario (
     		username: "test"
@@ -39,6 +42,7 @@ class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
     		, correo: "test@test.test"
     		, empresa: empresa
     	).save()
+    	assertNotNull usuario
     	
     	def empleado = new Empleado (
 			clave: "1110000"
@@ -64,13 +68,15 @@ class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
         	, madre: "test"
         	, padre: "test"
 		).save()
+		assertNotNull empleado
     
     	for(i in 1..20) {
-        	new JefeCCosto (
+        	def jefeCCosto = new JefeCCosto (
         		jefe: empleado
         		, userCaptura: usuario
         		, fechaCaptura: new Date()
         	).save()
+        	assertNotNull jefeCCosto
         }
         
         def controller = new JefeCCostoController()
@@ -222,11 +228,11 @@ class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
         assert model.jefeCCosto
         
         model = controller.edita()
-        assert model.cliente
+        assert model.jefeCCosto
         controller.actualiza()
-        assertEquals "/jefeCCosto/ver/${cliente.id}", controller.response.redirectedUrl
+        assertEquals "/jefeCCosto/ver/${jefeCCosto.id}", controller.response.redirectedUrl
 
-        cliente.refresh()
+        jefeCCosto.refresh()
     }
     
     @Test

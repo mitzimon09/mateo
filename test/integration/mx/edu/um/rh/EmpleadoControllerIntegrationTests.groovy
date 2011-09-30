@@ -116,11 +116,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 47,empleados.size()
         for(Empleado emp:empleados){
             assertEquals 1,emp.empleado.tipo.id            
-            assertEquals 102,emp.empresa.id           
+                assertEquals 102,emp.empresa.id           
+            }
+            
         }
         
-    }
-    
     /*
      *Seccion de Leer Las Perdeds del empleado
      */

@@ -229,7 +229,7 @@ class Empleado {
                         idEq(empleado.empresa.id)
                     }
                 }
-            }
+            }//if (empleado)
         }
     }
 }

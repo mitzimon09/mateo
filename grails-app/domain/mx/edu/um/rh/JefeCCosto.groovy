@@ -4,8 +4,8 @@ import general.*
 import mx.edu.um.contabilidad.*
 
 class JefeCCosto {
-	Ejercicio ejercicio
-	CentroCosto ccosto
+	String ccosto
+	String ejercicio
 	Empleado jefe
 	Empleado subjefe
 	Usuario userCaptura
@@ -14,8 +14,8 @@ class JefeCCosto {
 	String status
 
     static constraints = {
-    	ejercicio nullable: true
 		ccosto nullable: true
+		ejercicio nullable:true
 		jefe blank: false
 		subjefe nullable: true
 		userCaptura blank: false

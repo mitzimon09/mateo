@@ -15,4 +15,8 @@ class Puesto {
     static mapping = {
         table name:'puesto', schema:'aron'
     }
+    
+    String toString() {
+        return "$nombre"
+    }
 }

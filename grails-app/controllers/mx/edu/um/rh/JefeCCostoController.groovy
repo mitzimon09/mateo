@@ -1,8 +1,12 @@
 package mx.edu.um.rh
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
 
 class JefeCCostoController {
+	def springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -21,7 +25,7 @@ class JefeCCostoController {
         return [jefeCCosto: jefeCCosto]
     }
 
-    def save = {
+    def crea = {
         def jefeCCosto = new JefeCCosto(params)
         if (jefeCCosto.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'jefeCCosto.label', default: 'JefeCCosto'), jefeCCosto.id])

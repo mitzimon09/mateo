@@ -9,15 +9,20 @@ class SolicitudRHController {
 
 	def springSecurityService
 	def procesoService
+	def solicitudRHService
+	def usuarioEmpleadoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	@Secured(['ROLE_CCP'])
     def index = {
         redirect(action: "lista", params: params)
     }
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		//def solitudesRH = solicitudRHService.getSolicitudesRHByRol()
+		//[solicitudesRH: SolicitudesRH, totalDeSolicitudesRH: SolicitudesRH.count()]
 		[solicitudesRH: SolicitudRH.list(params), totalDeSolicitudesRH: SolicitudRH.count()]
 	}
 
@@ -106,7 +111,8 @@ class SolicitudRHController {
         }
     }
     
-    @Secured(['ROLE_EMP'])
+    
+    @Secured(['ROLE_USER'])
     def enviar = {
 		def solicitudRH = SolicitudRH.get(params.id)
 		if (solicitudRH){
@@ -122,7 +128,7 @@ class SolicitudRHController {
 		}
     }
     
-    @Secured(['ROLE_CCP','ROLE_DIRFIN'])
+    @Secured(['ROLE_CCP'])
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
@@ -144,7 +150,35 @@ class SolicitudRHController {
 		//}
     }
     
-    @Secured(['ROLE_CCP','ROLE_DIRFIN'])
+    @Secured(['ROLE_RHOPER'])
+    def revisar = {
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
+			def solicitudRH = SolicitudRH.get(params.id)
+			if (solicitudRH){
+				if(solicitudRH.status.equals("AP")){
+					solicitudRH = procesoService.revisar(solicitudRH)
+					solicitudRH.save(flush:true)
+					redirect(action: "lista")
+				}
+			}
+		//}
+    }
+    
+    @Secured(['ROLE_CCP', 'ROLE_DIRRH'])
+    def autorizar = {
+    	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
+			def solicitudRH = SolicitudRH.get(params.id)
+			if (solicitudRH){
+				if(solicitudRH.status.equals("RE")){
+					solicitudRH = procesoService.autorizar(solicitudRH)
+					solicitudRH.save(flush:true)
+					redirect(action: "lista")
+				}
+			}
+		//}
+    }
+    
+    @Secured(['ROLE_CCP','ROLE_DIRFIN', 'ROLE_RHOPER'])
     def rechazar = {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){
@@ -170,7 +204,7 @@ class SolicitudRHController {
 			}
 	}
 	
-	@Secured(['ROLE_COMPRAS'])
+	@Secured(['ROLE_DIRRH'])
     def cancelar = {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){

@@ -1,4 +1,4 @@
-package mx.edu.um.rh
+package contabilidad
 
 
 
@@ -8,8 +8,8 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.domain.DomainUnitTestMixin} for usage instructions
  */
-@TestFor(Nacionalidad)
-class NacionalidadTests {
+@TestFor(Departamento)
+class DepartamentoTests {
 
     void testSomething() {
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="mx.edu.um.afe.model.AFECategoria"
+        table="afe_cat_categoria"
+        schema="noe"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Integer"
+        >
+            <generator class="increment">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-AFECategoria.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <version
+            name="version"
+            column="version"
+            type="java.lang.Integer"
+        />
+
+        <property
+            name="clave"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="clave"
+            length="5"
+            not-null="true"
+        />
+
+        <property
+            name="descripcion"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="descripcion"
+            length="100"
+            not-null="true"
+        />
+
+        <property
+            name="precioHora"
+            type="java.math.BigDecimal"
+            update="true"
+            insert="true"
+            column="precio_hora"
+            not-null="true"
+        />
+
+        <property
+            name="status"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="status"
+            length="2"
+            not-null="true"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-AFECategoria.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

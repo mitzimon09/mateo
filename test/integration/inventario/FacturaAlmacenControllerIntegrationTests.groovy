@@ -183,15 +183,12 @@ class FacturaAlmacenControllerIntegrationTests extends BaseIntegrationTest {
         assert model.facturaAlmacen
         assertEquals cliente, model.facturaAlmacen.cliente
 
-        controller.params.id = facturaAlmacen.id
-        controller.params.version = facturaAlmacen.version
-        controller.params.folio = '10002'
-        controller.params.fecha = new Date()
+        controller.params.folio = '101'
         controller.actualiza()
         assertEquals "/facturaAlmacen/ver/${facturaAlmacen.id}", controller.response.redirectedUrl
 
         facturaAlmacen.refresh()
-        assertEquals '10002', facturaAlmacen.folio
+        assertEquals '101', facturaAlmacen.folio
     }
 
     @Test

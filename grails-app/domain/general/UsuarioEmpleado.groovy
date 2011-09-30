@@ -1,6 +1,7 @@
 package general
 
 import mx.edu.um.rh.Empleado
+import mx.edu.um.rh.JefeCCosto
 
 class UsuarioEmpleado {
 	Usuario usuario
