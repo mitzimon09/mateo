@@ -198,6 +198,8 @@ class Empleado {
 
         estadoCivil column:'estadocivil'
         fechaMatrimonio column:'fechaMatrimonio'
+
+        //perdedsList cascade:'all-delete-orphan'
     }
     static namedQueries = {
         listaEmpleadosParametros{Empleado empleado, Empleado empleadoDos ->

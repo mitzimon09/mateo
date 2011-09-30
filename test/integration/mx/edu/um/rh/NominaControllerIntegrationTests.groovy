@@ -278,8 +278,15 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      *Regresa los movimientos de todos los empleados en el rango especificado por las claves
     **/
-    //@Test
+    @Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
+        List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
+        System.out.println(empleadosPorRango.size())
+
+        String claveInicial = "CLAVE UNO"
+        String claveFinal = "CLAVE DOS"
+
+        Map<String,List> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
 
     }
 
@@ -296,7 +303,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      *NOTA: En la nomina diaria, validar cuando dieron de alta el empleado para calcularle hasta donde ha trabajado y no mas
     **/
     //@Test
-    void debieraRegresarPorTipoDeNominaDeUnEmpleado(){ 
+    void debieraRegresarPorTipoDeNominaDeUnEmpleado(){ //esta es la primera prueba que ya esta, no? antes de rango de empleados
 
     }
 

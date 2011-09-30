@@ -108,5 +108,12 @@ class NominaService {
         log.debug "cantidad percepciones: ${percepcionesValoresEmpleado.size()}"
         return percepcionesValoresEmpleado
     }
+
+    public getNominaEmpleadosPorRango(claveInicial, claveFinal){
+
+
+
+        return null
+    }
     
 }

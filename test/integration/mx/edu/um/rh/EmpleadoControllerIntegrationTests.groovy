@@ -16,6 +16,101 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     def springSecurityService
     def empleadoService
 
+        Empleado crearEmpleadoPrueba(String claveEmpleado){
+        Grupo grupoPrueba = new Grupo(
+            nombre : "A",
+            minimo : 103,
+            maximo : 141
+        ).save()
+        assertNotNull grupoPrueba
+
+        TipoEmpleado tipoEmpleado = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL",
+            prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleado
+
+        //Agregando las Percepciones NOTA: Se traen directo de la BD porque son catalogos y se espera que no cambien, pero podria necesitarse
+        //a futuro que se hicieran unas de prueba asi como el Empleado mismo, para no depender de la BD
+        List<PerDed> ps = new ArrayList<PerDed>()
+
+        ps.add(PerDed.findByClave("PD003"))
+        ps.add(PerDed.findByClave("PD004"))
+        ps.add(PerDed.findByClave("PD005"))
+        ps.add(PerDed.findByClave("PD006"))
+
+        List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
+        for(int i = 0; i < 4; i++){
+            EmpleadoPerded ep= new EmpleadoPerded(
+                perded : ps.get(i),
+                importe : i + 100,
+                tipoImporte : "%",
+                atributos : "N",
+                otorgado : false,
+                isEditableByNOM : true,
+                //empleado : empleado
+                )
+            //ep.save()
+            eps.add(ep)
+            assertNotNull ep
+        }
+
+        Empleado empleado = new Empleado(
+            clave : claveEmpleado,
+            nombre : "TESTA",
+            apPaterno : "TESTA",
+            apMaterno : "TESTA",
+            genero : "FM",
+            fechaNacimiento : new Date(),
+            direccion : "TEST",
+            status : "A",
+            //Map perdeds
+            tipo : tipoEmpleado,
+            curp : "TEST123",
+            rfc : "ABC-1234567890",
+            cuenta : "123456789",
+            imms : "123456789012345",
+            escalafon : 75,
+            turno : 100,
+            fechaAlta : new Date(),
+            fechaBaja : new Date(),
+            experienciaFueraUM : new BigDecimal(0.00),
+            modalidad : "A",
+            ife : "123456789012",
+            rango : "SR",
+            adventista : true,
+            fechaAntiguedadBase : new Date(),
+            antiguedadBase : new BigDecimal(0.00),
+            antiguedadFiscal : new BigDecimal(0.00),
+            grupo : grupoPrueba ,
+            padre : "TESTP",
+            madre: "TESTM",
+            estadoCivil : "S",
+            conyuge : "TESTC",
+            fechaMatrimonio : new Date(),
+            iglesia : "TESTI",
+            responsabilidad : "TESTR",
+            perdedsList : eps
+        ).save()
+        assertNotNull empleado
+
+        List<Empleado> empleadoList = Empleado.findAll()
+        println "empleados: ${empleadoList.size()}"
+        println "en BD: ${Empleado.count()}}"
+        Empleado e = empleadoList.get(0)
+        println "empleado en lista: ${e.clave}"
+        println "empleado en lista attr: ${e}"
+
+        empleado.perdedsList = eps
+        assertNotNull empleado.perdedsList
+
+        Map<String,EmpleadoPerded> perdedsEmpleado = empleado.perdeds
+        assertNotNull perdedsEmpleado
+        println "empleado.perdeds.size: ${perdedsEmpleado.size()}"
+
+        return empleado
+    }
+
     /*
      *Esta Prueba no corre en el controller prueba la funcionalidad del service
      */
@@ -97,10 +192,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             assertEquals empleado.empresa.id,102
         }
         assertEquals 601,empleados.size()
-    }
+    }*/
 
+    /*
     @Test
-    void debieraTraerEmpleadosPorRango(){
+    void debieraTraerEmpleadosPorRangoAndEmpresaAndTipo(){
         //50 empleados
         //select * from (select * from aron.empleado where clave between '9800001' and '9800093' and status='A'  and empresa_id='102')emp,
         //(select * from aron.empleadolaborales where id_tipoempleado=1 )lab where emp.id=lab.id
@@ -111,16 +207,33 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals empresa.nombre,"CENTRAL"
         TipoEmpleado tipo=TipoEmpleado.get(1)
         assertEquals tipo.descripcion,"DENOMINACIONAL"
-        def empleados=empleadoServiceInt.getEmpleadosByRangoEmpresaAndTipo(empresa,tipo,claveUno,claveDos)
+        def empleados=empleadoService.getEmpleadosByRangoEmpresaAndTipo(empresa,tipo,claveUno,claveDos)
         assertNotNull empleados
         assertEquals 47,empleados.size()
         for(Empleado emp:empleados){
             assertEquals 1,emp.empleado.tipo.id
             assertEquals 102,emp.empresa.id
         }
+    }*/
 
-    }
+    /*
+    @Test
+    void debieraTraerEmpleadosPorRango(){
+        //Este aun no funciona porque no funciona el metodo crearEmpleado(String clave)
+        String claveUno = "9800001"
+        String calveDos = "9800002"
+        String calveTres = "9800003"
+        Empleado empleado = crearEmpleadoPrueba(claveUno)
+        assertNotNull empleado
 
+
+        //Debiera traer 3 empleados (9800001, 9800002 y 9800003)
+        def empleados = empleadoService.getEmpleadosByRango(claveUno, claveDos)
+        assertNotNull empleados
+        assertEquals 3,empleados.size()
+
+    }*/
+/*
     /*
      *Seccion de Leer Las Perdeds del empleado
      */
