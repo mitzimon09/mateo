@@ -122,7 +122,7 @@ class CuentaController {
         }
     }
 
-    def carga = {
+    def carga1 = {
         log.debug "Cargando catalogo de cuentas"
 
         def usuario = springSecurityService.currentUser
@@ -135,7 +135,7 @@ class CuentaController {
             String[] nextLine
             def padre
             while(nextLine = reader.readNext()) {
-                log.debug "${nextLine[0]} | ${nextLine[1]}"
+            log.debug "${nextLine[0]} | ${nextLine[1]}"
                 if (nextLine[2] != '0') {
                     padre = catalogo[nextLine[2]]
                 } else {
@@ -148,7 +148,71 @@ class CuentaController {
                     , padre : padre
                     , organizacion : usuario.empresa.organizacion
                 ).save()
-                catalogo[nextLine[0]] = cuenta 
+                catalogo[nextLine[0]] = cuenta
+            }
+        }
+
+        redirect(action:'lista')
+    }
+
+    def carga2 = {
+        log.debug "Cagando catalogo de cuentas"
+
+        def usuario = springSecurityService.currentUser
+        Cuenta.withTransaction {
+            Cuenta.executeUpdate("delete from Cuenta where organizacion = ?",[usuario.empresa.organizacion])
+
+            def catalogo = [:]
+
+            CSVReader reader = new CSVReader(new FileReader(servletContext.getRealPath("/WEB-INF/catalogos/catalogo2.csv")))
+            String[] nextLine
+            def padre
+            
+            while(nextLine = reader.readNext()) {
+                log.debug "CUENTAS: ${nextLine[0]} | ${nextLine[1]} | ${nextLine[2]} | ${nextLine[3]}"
+
+                if (nextLine[3] != '0') {
+                    padre = catalogo[nextLine[3]]
+                    log.debug "PADRE: ${nextLine[3]}"
+                } else {
+                    padre = null
+                }
+                
+              
+              //Departamento
+              if(nextLine[0] > '700000'){
+                  
+                def cuentaDepartamento = new Cuenta (
+                    codigo : nextLine[0]
+                    , numero : nextLine[1]
+                    , descripcion : nextLine[2]
+                    , padre : padre
+                    , status: true
+                    , organizacion : usuario.empresa.organizacion
+                ).save()    
+                    
+                    
+                def departamento = new Departamento (
+                    nombre : nextLine[2]
+                    ,cuenta : cuentaDepartamento
+                    ,organizacion : usuario.empresa.organizacion
+                ).save()
+              }
+              //Cuenta
+                else{
+                def cuenta2 = new Cuenta (
+                    codigo : nextLine[0]
+                    , numero : nextLine[1]
+                    , descripcion : nextLine[2]
+                    , padre : padre
+                    , organizacion : usuario.empresa.organizacion
+                    , status : false
+                ).save()
+                
+                    catalogo[nextLine[0]] = cuenta2 
+              }
+
+                
             }
         }
 

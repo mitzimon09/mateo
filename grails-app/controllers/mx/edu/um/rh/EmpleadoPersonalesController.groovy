@@ -1,102 +1,106 @@
 package mx.edu.um.rh
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
+@Secured(['ROLE_ADMIN'])
 class EmpleadoPersonalesController {
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "lista", params: params)
     }
 
-	def list = {
+	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[empleadoPersonalesInstanceList: EmpleadoPersonales.list(params), empleadoPersonalesInstanceTotal: EmpleadoPersonales.count()]
+		[empleadoPersonaless: EmpleadoPersonales.list(params), totalDeEmpleadoPersonaless: EmpleadoPersonales.count()]
 	}
 
-    def create = {
-        def empleadoPersonalesInstance = new EmpleadoPersonales()
-        empleadoPersonalesInstance.properties = params
-        return [empleadoPersonalesInstance: empleadoPersonalesInstance]
+    def nuevo = {
+        def empleadoPersonales = new EmpleadoPersonales()
+        empleadoPersonales.properties = params
+        return [empleadoPersonales: empleadoPersonales]
     }
 
-    def save = {
-        def empleadoPersonalesInstance = new EmpleadoPersonales(params)
-        if (empleadoPersonalesInstance.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), empleadoPersonalesInstance.id])
-            redirect(action: "show", id: empleadoPersonalesInstance.id)
+    def crea = {
+        def empleadoPersonales = new EmpleadoPersonales(params)
+        if (empleadoPersonales.save(flush: true)) {
+            flash.message = message(code: 'default.created.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), empleadoPersonales.id])
+            redirect(action: "ver", id: empleadoPersonales.id)
         }
         else {
-            render(view: "create", model: [empleadoPersonalesInstance: empleadoPersonalesInstance])
+            render(view: "nuevo", model: [empleadoPersonales: empleadoPersonales])
         }
     }
 
-    def show = {
-        def empleadoPersonalesInstance = EmpleadoPersonales.get(params.id)
-        if (!empleadoPersonalesInstance) {
+    def ver = {
+        def empleadoPersonales = EmpleadoPersonales.get(params.id)
+        if (!empleadoPersonales) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            [empleadoPersonalesInstance: empleadoPersonalesInstance]
+            [empleadoPersonales: empleadoPersonales]
         }
     }
 
-    def edit = {
-        def empleadoPersonalesInstance = EmpleadoPersonales.get(params.id)
-        if (!empleadoPersonalesInstance) {
+    def edita = {
+        def empleadoPersonales = EmpleadoPersonales.get(params.id)
+        if (!empleadoPersonales) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
         else {
-            return [empleadoPersonalesInstance: empleadoPersonalesInstance]
+            return [empleadoPersonales: empleadoPersonales]
         }
     }
 
-    def update = {
-        def empleadoPersonalesInstance = EmpleadoPersonales.get(params.id)
-        if (empleadoPersonalesInstance) {
+    def actualiza = {
+        def empleadoPersonales = EmpleadoPersonales.get(params.id)
+        if (empleadoPersonales) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (empleadoPersonalesInstance.version > version) {
+                if (empleadoPersonales.version > version) {
                     
-                    empleadoPersonalesInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales')] as Object[], "Another user has updated this EmpleadoPersonales while you were editing")
-                    render(view: "edit", model: [empleadoPersonalesInstance: empleadoPersonalesInstance])
+                    empleadoPersonales.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales')] as Object[], "Another user has updated this EmpleadoPersonales while you were editing")
+                    render(view: "edita", model: [empleadoPersonales: empleadoPersonales])
                     return
                 }
             }
-            empleadoPersonalesInstance.properties = params
-            if (!empleadoPersonalesInstance.hasErrors() && empleadoPersonalesInstance.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), empleadoPersonalesInstance.id])
-                redirect(action: "show", id: empleadoPersonalesInstance.id)
+            empleadoPersonales.properties = params
+            if (!empleadoPersonales.hasErrors() && empleadoPersonales.save(flush: true)) {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), empleadoPersonales.id])
+                redirect(action: "ver", id: empleadoPersonales.id)
             }
             else {
-                render(view: "edit", model: [empleadoPersonalesInstance: empleadoPersonalesInstance])
+                render(view: "edita", model: [empleadoPersonales: empleadoPersonales])
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 
-    def delete = {
-        def empleadoPersonalesInstance = EmpleadoPersonales.get(params.id)
-        if (empleadoPersonalesInstance) {
+    def elimina = {
+        def empleadoPersonales = EmpleadoPersonales.get(params.id)
+        if (empleadoPersonales) {
             try {
-                empleadoPersonalesInstance.delete(flush: true)
+                empleadoPersonales.delete(flush: true)
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-                redirect(action: "list")
+                redirect(action: "lista")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-                redirect(action: "show", id: params.id)
+                redirect(action: "ver", id: params.id)
             }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleadoPersonales.label', default: 'EmpleadoPersonales'), params.id])
-            redirect(action: "list")
+            redirect(action: "lista")
         }
     }
 }

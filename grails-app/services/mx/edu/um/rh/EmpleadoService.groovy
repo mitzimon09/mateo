@@ -6,6 +6,7 @@ import mx.edu.um.*
 
 class EmpleadoService implements EmpleadoServiceInt {
     
+    def empleadoPuestoService
     //static session = "session"
 
     Empleado getEmpleado(String clave) throws NullPointerException{
@@ -82,6 +83,16 @@ class EmpleadoService implements EmpleadoServiceInt {
         empleado.empresa=empresa
         empleado.status=Constantes.STATUS_ACTIVO
         def empleados=Empleado.listaEmpleadosParametros(empleado,null)
+        return empleados.list()
+    }
+    
+    List<Empleado> getEmpleadosByEmpleadoCCosto(Empleado empleado) throws NullPointerException{
+        def empleadoPuesto = empleadoPuestoService.getEmpleadosByEmpleado(empleado)
+        def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empresa, empleadoPuesto.cCosto)
+        def empleados
+        for (EmpleadoPuesto empleadoPuesto1 in empleadoPuestos){
+        	empleados.add(empleadoPuesto1.empleado)
+        }
         return empleados.list()
     }
     

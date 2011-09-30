@@ -11,6 +11,7 @@ class Empleado {
     String direccion
     String status
     Map perdeds
+    ArrayList<EmpleadoEstudios> estudios
     
     //laborales
     TipoEmpleado tipo
@@ -46,9 +47,9 @@ class Empleado {
     String telefonocelular
     String email
     
-    static transients = ['perdeds']
+    static transients = ['perdeds', 'estudios']
     
-    static hasMany=[perdedsList:EmpleadoPerded]//, empleado:EmpleadoPersonales, empleado:empleado]
+    static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
     
@@ -137,6 +138,22 @@ class Empleado {
         }
         return perdedsMap
     }
+
+    /*
+     *Este  Metodo carga un map con los estudios del empleado cuando se llama empleado.estudios
+    Map getEstudios(){
+        log.debug "getEstudios"
+        List estudiosEmpleado = estudios.toList()
+        Map estudiosMap = new HashMap()
+        for(EmpleadoEstudios ee : estudios.toList()){
+            //log.debug "guarda: key $ep.perded.id value $ep"
+            estudiosMap.put(ee.empleado.id.toString(),ee)
+        }        
+        return estudiosMap
+    }
+     */
+    
+    
 
     static constraints = {
         clave maxSize:7,blank:false,unique:true

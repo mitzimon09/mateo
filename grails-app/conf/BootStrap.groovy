@@ -56,13 +56,25 @@ class BootStrap {
             if (!rolDirFin) {
             	rolDirFin = new general.Rol(authority: 'ROLE_DIRFIN').save(flush:true)
             }
+            def rolDirRH = general.Rol.findByAuthority('ROLE_DIRRH')
+            if (!rolDirRH) {
+            	rolDirRH = new general.Rol(authority: 'ROLE_DIRRH').save(flush:true)
+            }
             def rolCcp = general.Rol.findByAuthority('ROLE_CCP')
             if (!rolCcp) {
             	rolCcp = new general.Rol(authority: 'ROLE_CCP').save(flush:true)
         	}
+            def rolDirRH = general.Rol.findByAuthority('ROLE_DIRRH')
+            if (!rolDirRH) {
+            	rolDirRH = new general.Rol(authority: 'ROLE_DIRRH').save(flush:true)
+        	}
             def rolNom = general.Rol.findByAuthority('ROLE_NOM')
             if (!rolNom) {
                 rolNom = new general.Rol(authority: 'ROLE_NOM').save(flush:true)
+            }
+            def rolRHOper = general.Rol.findByAuthority('ROLE_RHOPER')
+            if (!rolRHOper) {
+                rolRHOper = new general.Rol(authority: 'ROLE_RHOPER').save(flush:true)
             }
         }
 

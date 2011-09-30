@@ -9,6 +9,7 @@ class Cuenta {
     Boolean tieneMovimientos = false
     Boolean tieneAuxiliares = false
     Cuenta padre
+    Boolean status = false
     Organizacion organizacion
     Set hijos
     Set auxiliares
@@ -19,8 +20,8 @@ class Cuenta {
 
     static constraints = {
         codigo maxSize:32, nullable:true 
-        numero blank:false, maxSize:32, unique:'organizacion'
-        descripcion blank:false, maxSize:128, unique:'organizacion'
+        numero blank:false, maxSize:32//, unique:'organizacion'
+        descripcion blank:false, maxSize:128//, unique:'organizacion'
         padre nullable:true
     }
 
@@ -59,7 +60,7 @@ class Cuenta {
     }
 
     String toString() {
-        return "$numero | $descripcion"
+        return "$numero | $codigo"
     }
 
     boolean equals(o) {
