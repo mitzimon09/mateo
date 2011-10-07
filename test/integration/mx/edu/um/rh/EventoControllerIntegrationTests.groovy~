@@ -181,6 +181,4 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         model = controller.cerrarEvento()
         assertEquals evento.status, Constantes.STATUS_TERMINADO
 	}
-	
-	
 }
