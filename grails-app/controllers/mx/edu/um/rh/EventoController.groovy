@@ -111,7 +111,7 @@ class EventoController {
     def iniciarEvento = {
         def evento = Evento.get(params.id)
         evento.status = Constantes.STATUS_INICIADO
-        redirect(action: "paseLista")
+        redirect(action: "paseLista", id: params.id)
     }
     
     def cerrarEvento = {
@@ -121,5 +121,9 @@ class EventoController {
         }
         redirect(action: "lista")
     }
-    def paseLista = {}
+    
+    def paseLista = {
+        def evento = Evento.get(params.id)
+        
+    }
 }
