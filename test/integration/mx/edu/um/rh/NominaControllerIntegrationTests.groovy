@@ -10,7 +10,7 @@ import general.*
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(NominaController)
+//@TestFor(NominaController)
 class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
     def empleadoService
@@ -81,13 +81,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         //Agregando las Percepciones
         //generarPerdedsForEmpleado(empleado)
         List<PerDed> ps = new ArrayList<PerDed>()
-//        for(int i = 1; i <= 5; i++){
-//            ps.add(PerDed.get(i))
-//        }
-//        for(int i = 9; i <= 11; i++){
-//            ps.add(PerDed.get(i))
-//        }
-
         ps.add(PerDed.findByClave("PD003"))
         ps.add(PerDed.findByClave("PD004"))
         ps.add(PerDed.findByClave("PD005"))
@@ -119,6 +112,147 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         return empleado
     }
 
+    public crearGrupos(){
+        println "Creando Grupos"
+        Grupo grupoA = new Grupo(
+            nombre: "A",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoA
+
+        Grupo grupoB = new Grupo(
+            nombre: "B",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoB
+
+        Grupo grupoC = new Grupo(
+            nombre: "C",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoC
+
+        Grupo grupoD = new Grupo(
+            nombre: "D",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoD
+
+        Grupo grupoE = new Grupo(
+            nombre: "E",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoE
+
+        Grupo grupoX = new Grupo(
+            nombre: "X",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoX
+    }
+
+    public crearPerdeds(){
+        println "Creando Perdeds"
+        PerDed PD002 = new PerDed(
+            clave: "PD002",
+            nombre: "PERCEPCION DOS",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "%",
+            atributos : ["A":"B"]
+        ).save()
+        assertNotNull PD002
+
+        PerDed PD003 = new PerDed(
+            clave: "PD003",
+            nombre: "PERCEPCION TRES",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "PD001 * PD007",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD003
+
+        PerDed PD004 = new PerDed(
+            clave: "PD004",
+            nombre: "TPERCEPCION CUATRO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "PD002",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD004
+
+        PerDed PD005 = new PerDed(
+            clave: "PD005",
+            nombre: "PERCEPCION CINCO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "% * PD002",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD005
+
+        PerDed PD006 = new PerDed(
+            clave: "PD006",
+            nombre: "PERCEPCION SEIS",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "% * PD001",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD006
+
+        PerDed PD007 = new PerDed(
+            clave: "PD007",
+            nombre: "PERCEPCION SIETE",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "0",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD007
+    }
+
+    public crearPorcentajes(){
+        println "Creando Porcentajes"
+        Porcentaje porcentajePD002 = new Porcentaje(
+            valor : new BigDecimal("2.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD002"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD002
+
+        Porcentaje porcentajePD005 = new Porcentaje(
+            valor : new BigDecimal("4.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD002"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD005
+
+        Porcentaje porcentajePD006 = new Porcentaje(
+            valor : new BigDecimal("6.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD002"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD006
+    }
+
 
     /**
      * Comprueba que se pueda obtener el Map de Formulas del Grupo X.
@@ -134,10 +268,24 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     void debieraArmarMapFormulasGrupoX(){
         log.debug 'testArmarMapGrupoX'
 
+        crearGrupos()
+        println "grupos: ${Grupo.findAll().size()}"
+        assertNotNull Grupo.findAll()
+        assertTrue Grupo.findAll().size() != 0
+
+        crearPerdeds()
+        println "perdeds: ${PerDed.findAll().size()}"
+        assertNotNull PerDed.findAll()
+        assertTrue PerDed.findAll().size() != 0
+
+        crearPorcentajes()
+        assertNotNull Porcentaje.findAll()
+        assertTrue Porcentaje.findAll().size() != 0
+
         Map<String,String> mapGX = perdedService.getMapFormulasGrupoX()
         assertNotNull mapGX
 
-        List<Porcentaje> porcentajes = Porcentaje.findAllByGrupo(Grupo.get(6))
+        List<Porcentaje> porcentajes = Porcentaje.findAllByGrupo(Grupo.findByNombre("X"))
         List<PerDed> perdedsGX = new ArrayList<PerDed>()
         for(Porcentaje p : porcentajes){
             perdedsGX.add(p.perded)
@@ -156,6 +304,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     @Test
     void debieraSustituirPorcentajesEnFormulasGrupoX(){
         log.debug 'testSustituirPorcentajesEnFormulasGrupoX'
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
 
         Map<String,String> mapGX = perdedService.getMapFormulasGrupoX()
         assertNotNull mapGX
@@ -196,6 +348,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     void debieraArmarMapDeFormulasPorEmpleado(){ 
         log.debug 'testArmarMapDeFormulasPorEmpleado'
 
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+
         Empleado empleado = crearEmpleadoPrueba()
 
         //Sin sustituir las formulas del Empleado (las generales ya estan sustituidas en este paso)
@@ -219,6 +375,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraSustituirPorcentajesEnFormulasDeEmpleado(){
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        
         Empleado empleado = crearEmpleadoPrueba()
         System.out.println(empleado)
 
@@ -261,6 +422,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaDeUnEmpleado(){
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+
         Empleado empleado = crearEmpleadoPrueba()
         System.out.println(empleado)
 
@@ -280,6 +446,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
         System.out.println(empleadosPorRango.size())
 

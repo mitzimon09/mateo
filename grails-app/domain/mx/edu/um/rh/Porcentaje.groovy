@@ -15,7 +15,7 @@ class Porcentaje {
         valorDos blank:true, maxSize:19, scale:6
         perded blank:false
         grupo blank:false
-        empresa blank:false
+        //empresa blank:false
     }
     
     static mapping={
