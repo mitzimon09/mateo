@@ -19,20 +19,36 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     def springSecurityService
 
     Empleado crearEmpleadoPrueba(){
-        Grupo grupoPrueba = new Grupo(
+        def grupoPrueba = new Grupo(
             nombre : "A",
             minimo : 103,
             maximo : 141
         ).save()
         assertNotNull grupoPrueba
 
-        TipoEmpleado tipoEmpleado = new TipoEmpleado(
+        def tipoEmpleado = new TipoEmpleado(
             descripcion : "DENOMINACIONAL",
             prefijo : "980"
         ).save()
         assertNotNull tipoEmpleado
 
-        Empleado empleado = new Empleado(
+        def organizacion = new Organizacion (
+            codigo : 'TST1'
+            , nombre : 'TEST-1'
+            , nombreCompleto : 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo : "123456",
+            nombre : "EMPRESA PRUEBA",
+            nombreCompleto : "Empresa de Prueba - Nombre Completo",
+            organizacion : organizacion
+        ).save()
+        assertNotNull empresa
+
+        def empleado = new Empleado(
+            empresa: empresa,
             clave : "9800001",
             nombre : "TESTA",
             apPaterno : "TESTA",
@@ -73,7 +89,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
         List<Empleado> empleadoList = Empleado.findAll()
         println "empleados: ${empleadoList.size()}"
-        println "en BD: ${Empleado.count()}}"
+        println "en BD: ${Empleado.count()}"
         Empleado e = empleadoList.get(0)
         println "empleado en lista: ${e.clave}"
         println "empleado en lista attr: ${e}"
@@ -159,6 +175,18 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
     public crearPerdeds(){
         println "Creando Perdeds"
+
+        PerDed PD001 = new PerDed(
+            clave: "PD001",
+            nombre: "PERCEPCION UNO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "%",
+            atributos : ["A":"B"]
+        ).save()
+        assertNotNull PD001
+
         PerDed PD002 = new PerDed(
             clave: "PD002",
             nombre: "PERCEPCION DOS",
@@ -228,8 +256,17 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
     public crearPorcentajes(){
         println "Creando Porcentajes"
-        Porcentaje porcentajePD002 = new Porcentaje(
+
+        Porcentaje porcentajePD001 = new Porcentaje(
             valor : new BigDecimal("2.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD001"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD001
+
+        Porcentaje porcentajePD002 = new Porcentaje(
+            valor : new BigDecimal("4.00"),
             valorDos : new BigDecimal("0.00"),
             perded : PerDed.findByClave("PD002"),
             grupo : Grupo.findByNombre("X")
@@ -237,20 +274,28 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull porcentajePD002
 
         Porcentaje porcentajePD005 = new Porcentaje(
-            valor : new BigDecimal("4.00"),
+            valor : new BigDecimal("6.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD002"),
+            perded : PerDed.findByClave("PD005"),
             grupo : Grupo.findByNombre("X")
         ).save()
         assertNotNull porcentajePD005
 
         Porcentaje porcentajePD006 = new Porcentaje(
-            valor : new BigDecimal("6.00"),
+            valor : new BigDecimal("8.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD002"),
+            perded : PerDed.findByClave("PD006"),
             grupo : Grupo.findByNombre("X")
         ).save()
         assertNotNull porcentajePD006
+
+        Porcentaje porcentajePD007 = new Porcentaje(
+            valor : new BigDecimal("0.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD007"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD007
     }
 
 

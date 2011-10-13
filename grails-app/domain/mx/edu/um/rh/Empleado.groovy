@@ -1,7 +1,7 @@
 package mx.edu.um.rh
 import general.*
 class Empleado {
-    //Empresa empresa
+    Empresa empresa
     String clave
     String nombre
     String apPaterno
@@ -241,11 +241,11 @@ class Empleado {
                             }
                         }
                 }
-//                if(empleado.empresa){
-//                    empresa{
-//                        idEq(empleado.empresa.id)
-//                    }
-//                }
+                if(empleado.empresa){
+                    empresa{
+                        idEq(empleado.empresa.id)
+                    }
+                }
             }
         }
     }
