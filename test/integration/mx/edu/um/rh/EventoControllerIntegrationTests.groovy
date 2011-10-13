@@ -6,6 +6,8 @@ import org.junit.*
 import general.BaseIntegrationTest
 
 import mx.edu.um.Constantes
+import general.Organizacion
+import general.Empresa
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
@@ -27,7 +29,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
                 , hora_inicio: new Date()
                 , hora_final: new Date()
                 , prorroga: '15'
-                , status: Constantes.STATUS_INICIADO
+                , status: Constantes.STATUS_CREADO
 		    ).save()
     		assertNotNull evento
         }
@@ -63,7 +65,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.hora_inicio = new Date()
         controller.params.hora_final = new Date()
         controller.params.prorroga = '15'
-        controller.params.status = Constantes.STATUS_INICIADO
+        controller.params.status = Constantes.STATUS_CREADO
         controller.crea()
         
         assert controller
@@ -82,7 +84,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , hora_inicio: new Date()
             , hora_final: new Date()
             , prorroga: '15'
-            , status: Constantes.STATUS_INICIADO
+            , status: Constantes.STATUS_CREADO
 	    ).save()
 		assertNotNull evento
     		
@@ -118,7 +120,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , hora_inicio: new Date()
             , hora_final: new Date()
             , prorroga: '15'
-            , status: Constantes.STATUS_INICIADO
+            , status: Constantes.STATUS_CREADO
 	    ).save()
 		assertNotNull evento
         
@@ -174,13 +176,84 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         def controller = new EventoController()
         controller.springSecurityService = springSecurityService
         controller.params.id = evento.id
-        def model = controller.ver()
-        assert model.evento
-        assertEquals Constantes.STATUS_INICIADO, model.evento.status
+        assertEquals Constantes.STATUS_INICIADO, evento.status
         
-        model = controller.cerrarEvento()
+        controller.cerrarEvento()
         assertEquals evento.status, Constantes.STATUS_TERMINADO
 	}
 	
+	@Test
+	void PaseDeLista() {
+        def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+	    def grupoPrueba = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupoPrueba
+        
+	    def tipoEmpleado = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL"
+            , prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleado
 	
+	    Empleado empleado = new Empleado(
+            clave : "9800001"
+            , nombre : "TESTA"
+            , apPaterno : "TESTA"
+            , apMaterno : "TESTA"
+            , genero : "FM"
+            , fechaNacimiento : new Date()
+            , direccion : "TEST"
+            , status : "A"
+            , empresa: empresa
+            , curp : "TEST123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "TESTP"
+            , madre: "TESTM"
+            , estadoCivil : "S"
+        ).save()
+        assertNotNull empleado
+        
+	    def evento = new Evento(
+            nombre: 'test' 
+            , descripcion: 'test'
+            , hora_inicio: new Date()
+            , hora_final: new Date()
+            , prorroga: '15'
+            , status: Constantes.STATUS_INICIADO
+            , clave: '9800001'
+	    ).save()
+		assertNotNull evento
+		
+		def controller = new EventoController()
+        controller.springSecurityService = springSecurityService
+        controller.params.id = evento.id
+        //controller.params.clave = empleado.clave
+        assertEquals Constantes.STATUS_INICIADO, evento.status
+        assertEquals empleado.clave, evento.clave
+        
+        def model = controller.paseLista()
+	}
 }

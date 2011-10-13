@@ -10,9 +10,10 @@ class EmpleadoService implements EmpleadoServiceInt {
     //static session = "session"
 
     Empleado getEmpleado(String clave) throws NullPointerException{
-        //log.debug "getEmpleadoByClave"
+        log.debug "getEmpleadoByClave"
+        log.debug "clave>>" + clave
         def empleado=Empleado.findByClave(clave)
-        //log.debug "Empleado: $empleado"
+        log.debug "Empleado: $empleado"
         if(!empleado){
             throw new NullPointerException("empleado.inexistente")
         }
