@@ -82,7 +82,7 @@
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${evento?.id}" />
 					<sec:ifLoggedIn>
-                        <g:link class="list" action="iniciarEvento"><g:message code="default.button.inicioEvento.label" default="Iniciar Evento" /></g:link>
+                        <g:link class="list" action="iniciarEvento" id="${evento?.id}"><g:message code="default.button.inicioEvento.label" default="Iniciar Evento" /></g:link>
                     </sec:ifLoggedIn>
 					<g:link class="edit" action="edita" id="${evento?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />

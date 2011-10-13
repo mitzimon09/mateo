@@ -9,6 +9,7 @@ import mx.edu.um.Constantes
 @Secured(['ROLE_DIRRH'])
 class EventoController {
     def springSecurityService
+    def empleadoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -46,7 +47,11 @@ class EventoController {
             redirect(action: "lista")
         }
         else {
-            [evento: evento]
+            if(evento.status == Constantes.STATUS_INICIADO) {
+                render(view: "paseLista", model: [evento: evento])
+            }else {
+                [evento: evento]
+            }
         }
     }
 
@@ -110,8 +115,14 @@ class EventoController {
     
     def iniciarEvento = {
         def evento = Evento.get(params.id)
-        evento.status = Constantes.STATUS_INICIADO
-        redirect(action: "paseLista", id: params.id)
+        if(evento.status == Constantes.STATUS_CREADO){
+            evento.status = Constantes.STATUS_INICIADO
+            render(view: "paseLista", model: [evento: evento])
+        }else {
+            flash.message = message(code: 'El evento {0} ya ha terminado', args: [evento.nombre])
+            redirect(action: "lista")
+        }
+        //redirect(action: "paseLista", id: params.id])
     }
     
     def cerrarEvento = {
@@ -124,6 +135,8 @@ class EventoController {
     
     def paseLista = {
         def evento = Evento.get(params.id)
-        
+        log.debug "evento.clave = " + evento.clave
+        def empleado = empleadoService.getEmpleado(evento.clave)
+        log.debug "empleado>"+empleado
     }
 }
