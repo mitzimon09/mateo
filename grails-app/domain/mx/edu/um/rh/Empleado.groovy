@@ -240,11 +240,11 @@ class Empleado {
                             }
                         }
                 }
-//                if(empleado.empresa){
-//                    empresa{
-//                        idEq(empleado.empresa.id)
-//                    }
-//                }
+                if(empleado.empresa){
+                    empresa{
+                        idEq(empleado.empresa.id)
+                    }
+                }
             }
         }
     }
