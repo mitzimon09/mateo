@@ -9,7 +9,11 @@ class TipoEmpleado {
         prefijo maxSize:3,blank:false
     }
     
-    static mapping={
+    static mapping = {
         table name:'tipoempleado',schema:'aron'
+    }
+    
+    String toString () {
+        return "$descripcion|$prefijo"
     }
 }

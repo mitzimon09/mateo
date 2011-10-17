@@ -347,7 +347,7 @@
 		$( "#accordion" ).accordion({
               collapsible: true,
 			fillSpace: true,
-                         active: false,
+         //active: false,
                       
 		});
                 
