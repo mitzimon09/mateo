@@ -18,7 +18,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     def perdedService
     def springSecurityService
 
-    Empleado crearEmpleadoPrueba(){
+    Empleado crearEmpleadoPrueba(String claveEmpleado){
         def grupoPrueba = new Grupo(
             nombre : "A",
             minimo : 103,
@@ -32,31 +32,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assertNotNull tipoEmpleado
 
-        def organizacion = new Organizacion (
-            codigo : 'TST1'
-            , nombre : 'TEST-1'
-            , nombreCompleto : 'TEST-1'
-        ).save()
-        assertNotNull organizacion
-
-        def empresa = new Empresa(
-            codigo : "123456",
-            nombre : "EMPRESA PRUEBA",
-            nombreCompleto : "Empresa de Prueba - Nombre Completo",
-            organizacion : organizacion
-        ).save()
-        assertNotNull empresa
-
         def empleado = new Empleado(
-            empresa: empresa,
-            clave : "9800001",
+            empresa: Empresa.findByCodigo("CTL"),
+            clave : claveEmpleado,
             nombre : "TESTA",
             apPaterno : "TESTA",
             apMaterno : "TESTA",
             genero : "FM",
             fechaNacimiento : new Date(),
             direccion : "TEST",
-            status : "A",
+            status : Constantes.STATUS_ACTIVO,
             //Map perdeds
             tipo : tipoEmpleado,
             curp : "TEST123",
@@ -83,19 +68,14 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             fechaMatrimonio : new Date(),
             iglesia : "TESTI",
             responsabilidad : "TESTR"//,
-            //perdedsList : generarPerdedsForEmpleado()
         ).save()
         assertNotNull empleado
 
         List<Empleado> empleadoList = Empleado.findAll()
         println "empleados: ${empleadoList.size()}"
         println "en BD: ${Empleado.count()}"
-        Empleado e = empleadoList.get(0)
-        println "empleado en lista: ${e.clave}"
-        println "empleado en lista attr: ${e}"
 
         //Agregando las Percepciones
-        //generarPerdedsForEmpleado(empleado)
         List<PerDed> ps = new ArrayList<PerDed>()
         ps.add(PerDed.findByClave("PD003"))
         ps.add(PerDed.findByClave("PD004"))
@@ -397,7 +377,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPerdeds()
         crearPorcentajes()
 
-        Empleado empleado = crearEmpleadoPrueba()
+        def clave = "9800001"
+//        def codigoEmpresa = "100000"
+//        def codigoOrganizacion = "100000"
+        Empleado empleado = crearEmpleadoPrueba(clave)
 
         //Sin sustituir las formulas del Empleado (las generales ya estan sustituidas en este paso)
         Map<String,String> mapPerdedsEmpleado = nominaService.getMapPercepcionesEmpleado(empleado)
@@ -425,8 +408,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPerdeds()
         crearPorcentajes()
         
-        Empleado empleado = crearEmpleadoPrueba()
-        System.out.println(empleado)
+        def clave = "9800001"
+//        def codigoEmpresa = "100000"
+//        def codigoOrganizacion = "100000"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        //System.out.println(empleado)
 
         Map<String,String> mapPerdesConFormulasSustituidasDelEmpleado = nominaService.getMapPercepcionesSustituidasEmpleado(empleado)
         assertNotNull mapPerdesConFormulasSustituidasDelEmpleado
@@ -464,6 +450,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      * Regresa una lista con las percepciones de un Empleado, donde el primer valor(0) es la clave del Empleado y el resto son los valores
      * de las percepciones usando el siguiente formato:
      * NombrePercepcion(String) , ValorPercepcion(String)
+     *
+     * Lo que debe regresar este metodo segun los valores que se metieron en el Empleado de Prueba
+     * PD001 = 2
+     * PD002 = 4
+     * PD003 = 0
+     * PD004 = 4
+     * PD005 = 6 x 4 = 24
+     * PD006 = 8 x 2 = 16
+     * PD007 = 0
+     *
     **/
     @Test
     void debieraRegresarNominaDeUnEmpleado(){
@@ -472,15 +468,18 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPerdeds()
         crearPorcentajes()
 
-        Empleado empleado = crearEmpleadoPrueba()
-        System.out.println(empleado)
+        def clave = "9800001"
+//        def codigoEmpresa = "100000"
+//        def codigoOrganizacion = "100000"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        //System.out.println(empleado)
 
         List<String> nominaEmpleado = nominaService.getNominaEmpleado(empleado);
         assertNotNull nominaEmpleado
         
         assertEquals nominaEmpleado.size(), 5
 
-        println "Nomina EMpleado"
+        println "Nomina Empleado"
         for(String n : nominaEmpleado){
             println n
         }
@@ -497,12 +496,26 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
-        System.out.println(empleadosPorRango.size())
 
-        String claveInicial = "CLAVE UNO"
-        String claveFinal = "CLAVE DOS"
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleadosPorRango.size() == 10
 
-        Map<String,List> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
+        String claveInicial = "9800000"
+        String claveFinal = "9800004"
+
+        List<String> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
+        assertTrue nominaEmpleadosPorRango.size() == 5
+
+        println "Nomina Empleados"
+        for(String strNomina : nominaEmpleadosPorRango){
+            println strNomina
+        }
 
     }
 

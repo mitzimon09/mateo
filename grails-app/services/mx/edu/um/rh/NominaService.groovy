@@ -111,10 +111,24 @@ class NominaService {
     }
 
     public getNominaEmpleadosPorRango(claveInicial, claveFinal){
+//        List <Empleado> empleadosTotalesEnBD = Empleado.findAll()
+//        log.debug "empleadosTotales: ${empleadosTotalesEnBD.size()}"
+//
+//        log.debug "empleados - claves"
+//        for(Empleado e : empleadosTotalesEnBD){
+//            log.debug "clave: ${e.clave}"
+//        }
 
+        List<List> nominaEmpleadosByRango = new ArrayList<List>()
 
+        List<Empleado> empleadosFilterByRango = empleadoService.getEmpleadosByRango(claveInicial, claveFinal)
+        log.debug "empleados: ${empleadosFilterByRango.size()}"
 
-        return null
+        for(Empleado e: empleadosFilterByRango){
+            nominaEmpleadosByRango.add(getNominaEmpleado(e))
+        }
+
+        return nominaEmpleadosByRango
     }
     
 }

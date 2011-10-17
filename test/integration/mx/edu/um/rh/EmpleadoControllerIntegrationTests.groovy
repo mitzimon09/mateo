@@ -4,6 +4,7 @@ import general.*
 import grails.test.*
 import grails.test.mixin.*
 import org.junit.*
+import mx.edu.um.Constantes
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -14,7 +15,266 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
     def springSecurityService
     def empleadoService
-    
+
+    Empleado crearEmpleadoPrueba(String claveEmpleado){
+        def grupoPrueba = new Grupo(
+            nombre : "A",
+            minimo : 103,
+            maximo : 141
+        ).save()
+        assertNotNull grupoPrueba
+
+        def tipoEmpleado = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL",
+            prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleado
+
+        def empleado = new Empleado(
+            empresa: Empresa.findByCodigo("CTL"),
+            clave : claveEmpleado,
+            nombre : "TESTA",
+            apPaterno : "TESTA",
+            apMaterno : "TESTA",
+            genero : "FM",
+            fechaNacimiento : new Date(),
+            direccion : "TEST",
+            status : Constantes.STATUS_ACTIVO,
+            //Map perdeds
+            tipo : tipoEmpleado,
+            curp : "TEST123",
+            rfc : "ABC-1234567890",
+            cuenta : "123456789",
+            imms : "123456789012345",
+            escalafon : 75,
+            turno : 100,
+            fechaAlta : new Date(),
+            fechaBaja : new Date(),
+            experienciaFueraUM : new BigDecimal(0.00),
+            modalidad : "A",
+            ife : "123456789012",
+            rango : "SR",
+            adventista : true,
+            fechaAntiguedadBase : new Date(),
+            antiguedadBase : new BigDecimal(0.00),
+            antiguedadFiscal : new BigDecimal(0.00),
+            grupo : grupoPrueba ,
+            padre : "TESTP",
+            madre: "TESTM",
+            estadoCivil : "S",
+            conyuge : "TESTC",
+            fechaMatrimonio : new Date(),
+            iglesia : "TESTI",
+            responsabilidad : "TESTR"//,
+        ).save()
+        assertNotNull empleado
+
+        List<Empleado> empleadoList = Empleado.findAll()
+        println "empleados: ${empleadoList.size()}"
+        println "en BD: ${Empleado.count()}"
+
+        //Agregando las Percepciones
+        List<PerDed> ps = new ArrayList<PerDed>()
+        ps.add(PerDed.findByClave("PD003"))
+        ps.add(PerDed.findByClave("PD004"))
+        ps.add(PerDed.findByClave("PD005"))
+        ps.add(PerDed.findByClave("PD006"))
+
+        List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
+        for(int i = 0; i < 4; i++){
+            EmpleadoPerded ep= new EmpleadoPerded(
+                perded : ps.get(i),
+                importe : i + 100,
+                tipoImporte : "%",
+                atributos : "N",
+                otorgado : false,
+                isEditableByNOM : true,
+                empleado : empleado
+                )
+            ep.save()
+            eps.add(ep)
+            assertNotNull ep
+        }
+
+        empleado.perdedsList = eps
+        assertNotNull empleado.perdedsList
+
+        Map<String,EmpleadoPerded> perdedsEmpleado = empleado.perdeds
+        assertNotNull perdedsEmpleado
+
+        return empleado
+    }
+
+    public crearGrupos(){
+        println "Creando Grupos"
+        Grupo grupoA = new Grupo(
+            nombre: "A",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoA
+
+        Grupo grupoB = new Grupo(
+            nombre: "B",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoB
+
+        Grupo grupoC = new Grupo(
+            nombre: "C",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoC
+
+        Grupo grupoD = new Grupo(
+            nombre: "D",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoD
+
+        Grupo grupoE = new Grupo(
+            nombre: "E",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoE
+
+        Grupo grupoX = new Grupo(
+            nombre: "X",
+            maximo: "10",
+            minimo: "5"
+        ).save()
+        assertNotNull grupoX
+    }
+
+    public crearPerdeds(){
+        println "Creando Perdeds"
+
+        PerDed PD001 = new PerDed(
+            clave: "PD001",
+            nombre: "PERCEPCION UNO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "%",
+            atributos : ["A":"B"]
+        ).save()
+        assertNotNull PD001
+
+        PerDed PD002 = new PerDed(
+            clave: "PD002",
+            nombre: "PERCEPCION DOS",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "%",
+            atributos : ["A":"B"]
+        ).save()
+        assertNotNull PD002
+
+        PerDed PD003 = new PerDed(
+            clave: "PD003",
+            nombre: "PERCEPCION TRES",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "PD001 * PD007",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD003
+
+        PerDed PD004 = new PerDed(
+            clave: "PD004",
+            nombre: "TPERCEPCION CUATRO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "PD002",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD004
+
+        PerDed PD005 = new PerDed(
+            clave: "PD005",
+            nombre: "PERCEPCION CINCO",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "% * PD002",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD005
+
+        PerDed PD006 = new PerDed(
+            clave: "PD006",
+            nombre: "PERCEPCION SEIS",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "% * PD001",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD006
+
+        PerDed PD007 = new PerDed(
+            clave: "PD007",
+            nombre: "PERCEPCION SIETE",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "0",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD007
+    }
+
+    public crearPorcentajes(){
+        println "Creando Porcentajes"
+
+        Porcentaje porcentajePD001 = new Porcentaje(
+            valor : new BigDecimal("2.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD001"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD001
+
+        Porcentaje porcentajePD002 = new Porcentaje(
+            valor : new BigDecimal("4.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD002"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD002
+
+        Porcentaje porcentajePD005 = new Porcentaje(
+            valor : new BigDecimal("6.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD005"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD005
+
+        Porcentaje porcentajePD006 = new Porcentaje(
+            valor : new BigDecimal("8.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD006"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD006
+
+        Porcentaje porcentajePD007 = new Porcentaje(
+            valor : new BigDecimal("0.00"),
+            valorDos : new BigDecimal("0.00"),
+            perded : PerDed.findByClave("PD007"),
+            grupo : Grupo.findByNombre("X")
+        ).save()
+        assertNotNull porcentajePD007
+    }
+
     @Test
     void MostrarListaDeEmpleados() {
 		authenticateAdmin()
@@ -328,116 +588,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		assertEquals controller.params.clave, "1110002"        
   	}
 	
-    Empleado crearEmpleadoPrueba(String claveEmpleado){
-        def organizacion = new Organizacion(
-            codigo: 'test'
-            , nombre: 'test'
-            , nombreCompleto: 'test'
-        ).save()
-        assertNotNull organizacion
-
-        def empresa = new Empresa(
-            codigo: 'test'
-            , nombre: 'test'
-            , nombreCompleto: 'test'
-            , organizacion: organizacion
-        ).save()
-        assertNotNull empresa
-        
-	    def grupoPrueba = new Grupo(
-            nombre : "A"
-            , minimo : 103
-            , maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
-        
-	    def tipoEmpleado = new TipoEmpleado(
-            descripcion : "DENOMINACIONAL"
-            , prefijo : "980"
-        ).save()
-        assertNotNull tipoEmpleado
-
-        //Agregando las Percepciones NOTA: Se traen directo de la BD porque son catalogos y se espera que no cambien, pero podria necesitarse
-        //a futuro que se hicieran unas de prueba asi como el Empleado mismo, para no depender de la BD
-        List<PerDed> ps = new ArrayList<PerDed>()
-
-        ps.add(PerDed.findByClave("PD003"))
-        ps.add(PerDed.findByClave("PD004"))
-        ps.add(PerDed.findByClave("PD005"))
-        ps.add(PerDed.findByClave("PD006"))
-
-        List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
-        for(int i = 0; i < 4; i++){
-            EmpleadoPerded ep= new EmpleadoPerded(
-                perded : ps.get(i),
-                importe : i + 100,
-                tipoImporte : "%",
-                atributos : "N",
-                otorgado : false,
-                isEditableByNOM : true,
-                //empleado : empleado
-                )
-            //ep.save()
-            eps.add(ep)
-            assertNotNull ep
-        }
-
-        Empleado empleado = new Empleado(
-            clave : claveEmpleado,
-            nombre : "TESTA",
-            apPaterno : "TESTA",
-            apMaterno : "TESTA",
-            genero : "FM",
-            fechaNacimiento : new Date(),
-            direccion : "TEST",
-            status : "A",
-            //Map perdeds
-            tipo : tipoEmpleado,
-            curp : "TEST123",
-            rfc : "ABC-1234567890",
-            cuenta : "123456789",
-            imms : "123456789012345",
-            escalafon : 75,
-            turno : 100,
-            fechaAlta : new Date(),
-            fechaBaja : new Date(),
-            experienciaFueraUM : new BigDecimal(0.00),
-            modalidad : "A",
-            ife : "123456789012",
-            rango : "SR",
-            adventista : true,
-            fechaAntiguedadBase : new Date(),
-            antiguedadBase : new BigDecimal(0.00),
-            antiguedadFiscal : new BigDecimal(0.00),
-            grupo : grupoPrueba ,
-            padre : "TESTP",
-            madre: "TESTM",
-            estadoCivil : "S",
-            conyuge : "TESTC",
-            fechaMatrimonio : new Date(),
-            iglesia : "TESTI",
-            responsabilidad : "TESTR"//,
-            //perdedsList : eps
-        ).save()
-        assertNotNull empleado
-
-        List<Empleado> empleadoList = Empleado.findAll()
-        println "empleados: ${empleadoList.size()}"
-        println "en BD: ${Empleado.count()}}"
-        Empleado e = empleadoList.get(0)
-        println "empleado en lista: ${e.clave}"
-        println "empleado en lista attr: ${e}"
-
-        empleado.perdedsList = eps
-        assertNotNull empleado.perdedsList
-
-        Map<String,EmpleadoPerded> perdedsEmpleado = empleado.perdeds
-        assertNotNull perdedsEmpleado
-        println "empleado.perdeds.size: ${perdedsEmpleado.size()}"
-
-        return empleado
-    }
-
     /*
      *Esta Prueba no corre en el controller prueba la funcionalidad del service
      */
@@ -543,23 +693,40 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         }
     }*/
 
-    /*
+    
     @Test
     void debieraTraerEmpleadosPorRango(){
-        //Este aun no funciona porque no funciona el metodo crearEmpleado(String clave)
-        String claveUno = "9800001"
-        String calveDos = "9800002"
-        String calveTres = "9800003"
-        Empleado empleado = crearEmpleadoPrueba(claveUno)
-        assertNotNull empleado
 
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
 
-        //Debiera traer 3 empleados (9800001, 9800002 y 9800003)
-        def empleados = empleadoService.getEmpleadosByRango(claveUno, claveDos)
-        assertNotNull empleados
-        assertEquals 3,empleados.size()
+        List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
-    }*/
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleadosPorRango.size() == 10
+        println "empleados en BD: ${empleadosPorRango.size()}"
+
+        String claveInicial = "9800000"
+        String claveFinal = "9800009"
+
+        empleadosPorRango = empleadoService.getEmpleadosByRango(claveInicial, claveFinal)
+
+        println "empleados filtrados"
+        for(Empleado e : empleadosPorRango){
+            println "${e.clave}"
+        }
+
+        assertNotNull empleadosPorRango
+        assertEquals 10, empleadosPorRango.size()
+
+    }
     
     /*
      *Seccion de Leer Las Perdeds del empleado

@@ -223,7 +223,8 @@ class Empleado {
             if(empleado){
                 if(empleadoDos){
                     if(empleado.clave && empleadoDos.clave){
-                        between("clave", empleado.clave, empleadoDos.clave)
+                        println "claveUno: ${empleado.clave} | claveDos: ${empleadoDos.clave}}"
+                        between("clave", empleado.clave.toString(), empleadoDos.clave.toString())
                     }
                 }
                 //Valida el status
