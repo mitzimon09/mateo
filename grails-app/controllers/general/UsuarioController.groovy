@@ -248,6 +248,10 @@ class UsuarioController {
             roles << Rol.findByAuthority('ROLE_CCP')
         } else if (params.ROLE_EMP) {
             roles << Rol.findByAuthority('ROLE_EMP')
+        } else if (params.ROLE_RHOPER) {
+            roles << Rol.findByAuthority('ROLE_RHOPER')
+        } else if (params.ROLE_DIRRH) {
+            roles << Rol.findByAuthority('ROLE_DIRRH')
         } else {
             roles << Rol.findByAuthority('ROLE_USER')
         }

@@ -75,13 +75,13 @@ class EmpleadoService implements EmpleadoServiceInt {
     }
     
     List<Empleado> getEmpleadosByEmpleadoCCosto(Empleado empleado) throws NullPointerException{
-        def empleadoPuesto = empleadoPuestoService.getEmpleadosByEmpleado(empleado)
-        def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empresa, empleadoPuesto.cCosto)
-        def empleados
+        def empleadoPuesto = empleadoPuestoService.getEmpleadoPuestoByEmpleado(empleado)
+        def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empleado.empresa, empleadoPuesto.cCosto)
+        def empleados = new ArrayList<EmpleadoPuesto>()
         for (EmpleadoPuesto empleadoPuesto1 in empleadoPuestos){
         	empleados.add(empleadoPuesto1.empleado)
         }
-        return empleados.list()
+        return empleados
     }
     
     /*

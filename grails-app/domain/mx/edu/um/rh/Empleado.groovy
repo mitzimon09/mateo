@@ -1,7 +1,7 @@
 package mx.edu.um.rh
 import general.*
 class Empleado {
-    //Empresa empresa
+    Empresa empresa
     String clave
     String nombre
     String apPaterno

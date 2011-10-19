@@ -13,11 +13,11 @@ class SolicitudSalida {
 	
 	Empleado empleado
 	Integer diasVacaciones
-	Integer primaVacacional
+	Integer primaVacacional//boolean
 	Date fechaInicial
 	String destino
 	Integer kilometros
-	String contacto
+	String contacto//rm
 	Usuario user
 	Date fechaCaptura
 	Usuario recibeUser
@@ -26,11 +26,11 @@ class SolicitudSalida {
 	Date fechaAutorizacionRh
 	String status
 	Integer visitaPadres
-	Integer nacional
+	Integer nacional//boolean
 	Integer userPrimaVacacional
 	Date fechaPrimaVacacional
 	String folio
-	String observacionesEmpleado
+	String observacionesEmpleado//dejar 1 solo campo de observaciones
 	String folioPago
 	Date fechaFinal
 	String contactoTelefono
