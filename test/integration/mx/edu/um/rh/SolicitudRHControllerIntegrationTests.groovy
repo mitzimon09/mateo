@@ -1105,6 +1105,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 
         assertEquals 10, model.observacionesInstanceList.size()
         assert 20 <= model.observacionesInstanceTotal
-    
     }
+    
+    @Test
+    void debieraTraerEmpleadosDeVacacionesEnCiertoRangoDeTiempo(){
+    	//
+    }
+    
 }
