@@ -7,19 +7,23 @@ class SolicitudRH {
 	Empresa empresa
 	Date fechaInicial
 	Date fechaFinal
-	Usuario usuarioCrea
+	Usuario usuarioCrea //user
 	Date dateCreated
-	Usuario usuarioRecibe
+	Usuario usuarioRecibe //jefeCCosto
 	Date fechaRecibe
-	Usuario usuarioAutoriza
+	Usuario usuarioAutoriza //dirRH
 	Date fechaAutoriza
-	String observaciones
+	Observaciones observaciones
 	String telContacto
 	String email
 	SolicitudSalida solicitudSalida
 	Vacaciones vacaciones
 	String status = "CR"
 	JefeCCosto jefeCCosto
+	
+	String folio
+	
+	
 	
 	static belongsTo = {[Empleado:empleado, Empresa:empresa]}
 
@@ -38,8 +42,9 @@ class SolicitudRH {
 		email nullable: true
 		solicitudSalida nullable: true
 		vacaciones nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU']
+		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU']
 		jefeCCosto nullable: true
+		folio nullable: true
     }
     
     static namedQueries = {
@@ -49,17 +54,15 @@ class SolicitudRH {
                 if(solicitudRH.status){                    
                     eq 'status', solicitudRH.status                    
                 }
+                if(solicitudRH.empleado){
+                	eq 'empleado', solicitudRH.empleado
+                }
                 if(solicitudRH.empresa){
                     empresa{
                         idEq(solicitudRH.empresa.id)
                     }
                 }
-                              
-                if(solicitudRH.empleado ){
-                    eq 'jefeCCosto', solicitudRH.empleado
-                }
             }//if(solicitudRH)
         }
     }//named queries
-    
 }

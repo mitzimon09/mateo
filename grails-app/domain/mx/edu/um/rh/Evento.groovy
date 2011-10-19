@@ -9,10 +9,7 @@ class Evento {
     Date hora_final
     Integer prorroga = new Integer('0')
     String status = Constantes.STATUS_CREADO
-    String clave
     
-    static transients = ['clave']
-
     static constraints = {
         nombre maxSize: 50
         descripcion maxSize: 250

@@ -14,16 +14,17 @@ class SolicitudRHController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	@Secured(['ROLE_CCP'])
+	@Secured(['ROLE_CCP', 'ROLE_DIRRH'])
     def index = {
         redirect(action: "lista", params: params)
     }
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		//def solitudesRH = solicitudRHService.getSolicitudesRHByRol()
-		//[solicitudesRH: SolicitudesRH, totalDeSolicitudesRH: SolicitudesRH.count()]
-		[solicitudesRH: SolicitudRH.list(params), totalDeSolicitudesRH: SolicitudRH.count()]
+		log.debug "o " + springSecurityService.currentUser.authorities
+		def solicitudesRH1 = solicitudRHService.getSolicitudesRHByRol()
+		[solicitudesRH: solicitudesRH1, totalDeSolicitudesRH: solicitudesRH1.size()]
+		//[solicitudesRH: SolicitudRH.list(params), totalDeSolicitudesRH: SolicitudRH.count()]
 	}
 
     def nueva = {
@@ -116,7 +117,7 @@ class SolicitudRHController {
     def enviar = {
 		def solicitudRH = SolicitudRH.get(params.id)
 		if (solicitudRH){
-			if(solicitudRH.status.equals("CR")){
+			if(solicitudRH.status.equals("CR") || solicitudRH.status.equals("SU")){
 				solicitudRH = procesoService.enviar(solicitudRH)
 				solicitudRH.save(flush:true)
 				redirect(action: "lista")
@@ -209,6 +210,16 @@ class SolicitudRHController {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){
 					solicitudRH = procesoService.cancelar(solicitudRH)
+					solicitudRH.save(flush:true)
+					redirect(action: "lista")
+			}
+	}
+	
+	@Secured(['ROLE_DIRRH', 'ROLE_CCP'])
+    def suspender = {
+			def solicitudRH = SolicitudRH.get(params.id)
+			if (solicitudRH){
+					solicitudRH = procesoService.suspender(solicitudRH)
 					solicitudRH.save(flush:true)
 					redirect(action: "lista")
 			}

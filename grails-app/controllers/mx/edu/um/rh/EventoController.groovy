@@ -135,8 +135,8 @@ class EventoController {
     
     def paseLista = {
         def evento = Evento.get(params.id)
-        log.debug "evento.clave = " + evento.clave
-        def empleado = empleadoService.getEmpleado(evento.clave)
+        log.debug "evento.clave = " + params.clave
+        def empleado = empleadoService.getEmpleado(params.clave)
         log.debug "empleado>"+empleado
     }
 }

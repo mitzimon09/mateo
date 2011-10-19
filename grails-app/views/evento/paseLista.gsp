@@ -30,11 +30,12 @@
 				<fieldset class="form">
 				    //todo aqui <br>
 				    campo para capturar # nomina
-				    <div class="fieldcontain ${hasErrors(bean: evento, field: 'clave', 'error')} required">
-                        <label for="clave">
+				    <div class="fieldcontain required">
+                        <label>
                             <g:message code="evento.clave.label" default="# Clave" />
+                            <span class="required-indicator">*</span>
                         </label>
-                        <g:textField name="clave" value=""/>
+                        <g:textField id="clave" name="clave" value="params.clave" required="" />
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
