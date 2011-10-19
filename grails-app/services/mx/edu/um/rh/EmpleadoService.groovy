@@ -10,15 +10,27 @@ class EmpleadoService implements EmpleadoServiceInt {
     //static session = "session"
 
     Empleado getEmpleado(String clave) throws NullPointerException{
-        //log.debug "getEmpleadoByClave"
+        log.debug "getEmpleadoByClave"
+        log.debug "clave>>" + clave
         def empleado=Empleado.findByClave(clave)
-        //log.debug "Empleado: $empleado"
+        log.debug "Empleado: $empleado"
         if(!empleado){
             throw new NullPointerException("empleado.inexistente")
         }
         return empleado
     }
-    
+
+    List<Empleado> getEmpleadosByRango(String claveUno,String claveDos) throws NullPointerException{
+        Empleado empleado=new Empleado()
+        Empleado empleadoDos=new Empleado()
+        empleado.clave=claveUno
+        empleadoDos.clave=claveDos
+        empleado.status=Constantes.STATUS_ACTIVO
+        def empleados=Empleado.listaEmpleadosParametros(empleado,empleadoDos)
+        log.debug "Empleados ${empleados.list().size()}"
+        return empleados.list()
+    }
+
     List<Empleado> getEmpleadosByRangoEmpresaAndTipo(Empresa empresa,TipoEmpleado tipo,String claveUno,String claveDos) throws NullPointerException{
         Empleado empleado=new Empleado()
         Empleado empleadoDos=new Empleado()
@@ -33,6 +45,7 @@ class EmpleadoService implements EmpleadoServiceInt {
         log.debug "Empleados ${empleados.list().size()}"
         return empleados.list()        
     }
+
     
     List<Empleado> getEmpleadosByEmpresaAndTipo(Empresa empresa,TipoEmpleado tipo) throws NullPointerException{
         log.debug "getEmpleadosByEmpresaAndTipo $empresa.id $tipo.id"

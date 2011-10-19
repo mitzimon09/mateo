@@ -1,7 +1,8 @@
 package mx.edu.um.rh
+
 import general.*
+
 class Empleado {
-    Empresa empresa
     String clave
     String nombre
     String apPaterno
@@ -14,6 +15,7 @@ class Empleado {
     ArrayList<EmpleadoEstudios> estudios
     
     //laborales
+    Empresa empresa
     TipoEmpleado tipo
     String curp
     String rfc
@@ -52,6 +54,68 @@ class Empleado {
     static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
+    
+    static constraints = {
+        clave maxSize: 7, blank: false, unique: true
+        nombre maxSize: 50, blank: false
+        apPaterno maxSize: 30, blank: false
+        apMaterno maxSize: 30, blank: false
+        fechaNacimiento blank:false
+        direccion maxSize: 100, blank: false
+        genero maxSize: 2, blank: false
+        status maxSize: 2, blank: false
+        //Laborales
+        cuenta maxSize: 16, nullable: true
+        curp maxSize: 30
+        escalafon blank: false
+        imms maxSize: 15, nullable: true
+        rfc maxSize: 15, blank: false
+        modalidad maxSize: 2, blank: false
+        turno blank: false
+        fechaAlta blank: false
+        antiguedadBase blank: false
+        antiguedadFiscal blank: false
+        //
+        adventista nullable: true
+        experienciaFueraUM nullable: true
+        fechaAntiguedadBase nullable: true
+        fechaBaja nullable: true
+        ife nullable: true
+        rango nullable: true
+        tipo nullable: true
+        grupo nullable: true
+        //Personales
+        estadoCivil maxSize: 2, blank: false
+        madre maxSize: 50, blank: false
+        padre maxSize: 50, blank: false
+        conyuge maxSize: 50, nullable: true
+        //
+        fechaMatrimonio nullable: true
+        finadoPadre nullable: true
+        finadoMadre nullable: true
+        iglesia nullable: true
+        telefonoCasa nullable: true
+	    telefonocelular nullable: true
+	    email nullable: true
+        responsabilidad nullable: true
+    }
+
+    static mapping={
+        table name:'empleado_grails',schema:'aron'
+        apPaterno column:'appaterno'
+        apMaterno column:'apmaterno'
+        fechaNacimiento column:'fechanacimiento'
+
+        experienciaFueraUM column:'experiencia_fuera_um'
+        tipo column:'id_tipoempleado'
+        grupo column:'id_grupo'
+        adventista type:'yes_no'
+
+        estadoCivil column:'estadocivil'
+        fechaMatrimonio column:'fechaMatrimonio'
+
+        //perdedsList cascade:'all-delete-orphan'
+    }
     
     public String getNombreCompleto(){
         "$nombre $apPaterno $apMaterno"
@@ -153,69 +217,6 @@ class Empleado {
     }
      */
     
-    
-
-    static constraints = {
-        clave maxSize:7,blank:false,unique:true
-        nombre maxSize:50,blank:false
-        apPaterno maxSize:30,blank:false,column:'appaterno'
-        apMaterno maxSize:30,blank:false,column:'apmaterno'
-        fechaNacimiento blank:false,column:'fechanacimiento'
-        direccion maxSize:100,blank:false
-        genero maxSize:2,blank:false
-        status maxSize:2,blank:false
-        //Laborales
-        cuenta maxSize:16, nullable:true
-        curp maxSize:30
-        escalafon blank:false
-        imms maxSize:15, nullable:true
-        rfc maxSize:15,blank:false
-        modalidad maxSize:2,blank:false
-        turno blank:false
-        fechaAlta blank:false
-        antiguedadBase blank:false
-        antiguedadFiscal blank:false
-        //
-        adventista nullable:true
-        cuenta nullable:true
-        experienciaFueraUM nullable:true
-        fechaAntiguedadBase nullable:true
-        fechaBaja nullable:true
-        ife nullable:true
-        imms nullable:true
-        rango nullable:true
-        tipo nullable:true
-        grupo nullable:true
-        //Personales
-        estadoCivil maxSize:2,blank:false
-        madre maxSize:50,blank:false
-        padre maxSize:50,blank:false
-        conyuge maxSize:50, nullable:true
-        //
-        fechaMatrimonio nullable:true
-        finadoPadre nullable:true
-        finadoMadre nullable:true
-        iglesia nullable:true
-        telefonoCasa nullable:true
-	telefonocelular nullable:true
-	email nullable:true        
-        responsabilidad nullable:true  
-    }
-
-    static mapping={
-        table name:'empleado_grails',schema:'aron'
-        apPaterno column:'appaterno'
-        apMaterno column:'apmaterno'
-        fechaNacimiento column:'fechanacimiento'
-
-        experienciaFueraUM column:'experiencia_fuera_um'
-        tipo column:'id_tipoempleado'
-        grupo column:'id_grupo'
-        adventista type:'yes_no'
-
-        estadoCivil column:'estadocivil'
-        fechaMatrimonio column:'fechaMatrimonio'
-    }
     static namedQueries = {
         listaEmpleadosParametros{Empleado empleado, Empleado empleadoDos ->
             //Valida que el usuario no venga null
@@ -239,11 +240,11 @@ class Empleado {
                             }
                         }
                 }
-//                if(empleado.empresa){
-//                    empresa{
-//                        idEq(empleado.empresa.id)
-//                    }
-//                }
+                if(empleado.empresa){
+                    empresa{
+                        idEq(empleado.empresa.id)
+                    }
+                }
             }
         }
     }

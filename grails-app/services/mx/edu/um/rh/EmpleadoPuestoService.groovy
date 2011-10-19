@@ -1,6 +1,6 @@
 package mx.edu.um.rh
 
-import general.*
+import general.Empresa
 class EmpleadoPuestoService {
 
     EmpleadoPuesto getEmpleadoPuestoByEmpleado(Empleado empleado) throws NullPointerException{

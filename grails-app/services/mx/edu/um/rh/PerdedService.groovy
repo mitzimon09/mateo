@@ -12,9 +12,9 @@ class PerdedService {
         log.debug 'Entro a getMapGrupoX'
         Map<String,String> mapGX = new TreeMap<String,String>()
 
-        List<Porcentaje> porcentajes = Porcentaje.findAllByGrupo(Grupo.get(6))
+        List<Porcentaje> porcentajes = Porcentaje.findAllByGrupo(Grupo.findByNombre("X"))
 //        log.debug "porcentajes.size ${porcentajes.size()}"
-        List<PerDed> perdedsGX = new ArrayList<PerDed   >()
+        List<PerDed> perdedsGX = new ArrayList<PerDed>()
         for(Porcentaje p : porcentajes){
 //            log.debug "porcentaje: ${p}"
 //            log.debug "p.perded_id: ${p.perded}"

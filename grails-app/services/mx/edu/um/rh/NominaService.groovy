@@ -51,6 +51,7 @@ class NominaService {
         porcentajes = Porcentaje.findAll()
 
         for(Porcentaje porcentaje : porcentajes){
+            log.debug "Percepcion: ${porcentaje.perded.clave} | ${porcentaje.perded.formula}"
             if(percepcionesEmpleado.containsKey(porcentaje.perded.clave)){
                 String formulaOriginal = percepcionesEmpleado.get(porcentaje.perded.clave)
                 log.debug "formulaOriginal: ${formulaOriginal}"
@@ -107,6 +108,13 @@ class NominaService {
 
         log.debug "cantidad percepciones: ${percepcionesValoresEmpleado.size()}"
         return percepcionesValoresEmpleado
+    }
+
+    public getNominaEmpleadosPorRango(claveInicial, claveFinal){
+
+
+
+        return null
     }
     
 }

@@ -9,9 +9,10 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(NominaService)
-class NominaServiceTests {
+class NominaServiceTests extends GroovyTestCase{
 
-    void testSomething() {
-
+    @Test
+    void debieraRegresarNominaDeEmpleadosPorRango() {
+        
     }
 }

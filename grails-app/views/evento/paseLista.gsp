@@ -4,7 +4,7 @@
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'evento.label', default: 'Evento')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<title><g:message code="Pase de Lista para {0}" args="[evento.nombre]"/></title>
 	</head>
 	<body>
 		<a href="#create-evento" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<div id="create-evento" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<h1><g:message code="Pase de Lista para {0}" args="[evento.nombre]" /></h1>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
@@ -28,9 +28,21 @@
 			</g:hasErrors>
 			<g:form action="crea" >
 				<fieldset class="form">
-					<g:render template="form"/>
+				    //todo aqui <br>
+				    campo para capturar # nomina
+				    <div class="fieldcontain required">
+                        <label>
+                            <g:message code="evento.clave.label" default="# Clave" />
+                            <span class="required-indicator">*</span>
+                        </label>
+                        <g:textField id="clave" name="clave" value="params.clave" required="" />
+                    </div>
 				</fieldset>
 				<fieldset class="buttons">
+                    <sec:ifLoggedIn>
+                        <g:link class="list" action="paseLista" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Pase Lista" /></g:link>
+                        <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
+                    </sec:ifLoggedIn>
 					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 				</fieldset>
 			</g:form>

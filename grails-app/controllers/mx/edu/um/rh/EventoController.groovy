@@ -4,9 +4,12 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
+import mx.edu.um.Constantes
+
 @Secured(['ROLE_DIRRH'])
 class EventoController {
     def springSecurityService
+    def empleadoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -44,7 +47,11 @@ class EventoController {
             redirect(action: "lista")
         }
         else {
-            [evento: evento]
+            if(evento.status == Constantes.STATUS_INICIADO) {
+                render(view: "paseLista", model: [evento: evento])
+            }else {
+                [evento: evento]
+            }
         }
     }
 
@@ -104,5 +111,32 @@ class EventoController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'evento.label', default: 'Evento'), params.id])
             redirect(action: "lista")
         }
+    }
+    
+    def iniciarEvento = {
+        def evento = Evento.get(params.id)
+        if(evento.status == Constantes.STATUS_CREADO){
+            evento.status = Constantes.STATUS_INICIADO
+            render(view: "paseLista", model: [evento: evento])
+        }else {
+            flash.message = message(code: 'El evento {0} ya ha terminado', args: [evento.nombre])
+            redirect(action: "lista")
+        }
+        //redirect(action: "paseLista", id: params.id])
+    }
+    
+    def cerrarEvento = {
+        def evento = Evento.get(params.id)
+        if(evento.status == Constantes.STATUS_INICIADO){
+            evento.status = Constantes.STATUS_TERMINADO
+        }
+        redirect(action: "lista")
+    }
+    
+    def paseLista = {
+        def evento = Evento.get(params.id)
+        log.debug "evento.clave = " + params.clave
+        def empleado = empleadoService.getEmpleado(params.clave)
+        log.debug "empleado>"+empleado
     }
 }
