@@ -108,7 +108,7 @@
 				<li class="fieldcontain">
 					<span id="padre-label" class="property-label"><g:message code="empleado.padre.label" default="Padre" /></span>
 					
-						<span class="property-value" aria-labelledby="padre-label"><g:link controller="padre" action="show" id="${empleado?.padre?.id}">${empleado?.empresa?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="padre-label"><g:fieldValue bean="${empleado}" field="padre"/></span></span>
 					
 				</li>
 				</g:if>
@@ -117,7 +117,7 @@
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${empleado?.id}" />
-					<g:link class="edit" action="edit" id="${empleado?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:link class="edit" action="edita" id="${empleado?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

@@ -34,9 +34,15 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+        
         for(i in 1..20) {
 	        Empleado empleado = new Empleado(
-                clave : "98000$i"
+                clave : "11100$i"
                 , nombre : "test"
                 , apPaterno : "test"
                 , apMaterno : "test"
@@ -56,6 +62,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , padre : "test"
                 , madre: "test"
                 , estadoCivil : "S"
+                , tipo: tipoEmpleado
             ).save()
             assertNotNull empleado
         }
@@ -141,9 +148,15 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , organizacion: organizacion
         ).save()
         assertNotNull empresa
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
             
     	Empleado empleado = new Empleado(
-            clave : "9800001"
+            clave : "1110000"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
@@ -163,6 +176,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , padre : "test"
             , madre: "test"
             , estadoCivil : "S"
+            , tipo: tipoEmpleado
         ).save()
         assertNotNull empleado
 
@@ -210,9 +224,15 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , organizacion: organizacion
         ).save()
         assertNotNull empresa
+
+		def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado        
             
     	Empleado empleado = new Empleado(
-            clave : "9800001"
+            clave : "1110001"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
@@ -232,6 +252,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , padre : "test"
             , madre: "test"
             , estadoCivil : "S"
+            , tipo: tipoEmpleado
         ).save()
         assertNotNull empleado
 
@@ -274,7 +295,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     	assertNotNull tipoEmpleado
     	
     	Empleado empleado = new Empleado(
-            clave : "1110001"
+            clave : "111000"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
@@ -325,7 +346,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assert controller
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
         
-		assertEquals controller.params.clave, "1110002"        
+		assertEquals controller.params.clave, "1110001"
   	}
 	
     Empleado crearEmpleadoPrueba(String claveEmpleado){

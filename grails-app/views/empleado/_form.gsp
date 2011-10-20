@@ -119,13 +119,13 @@
 	<g:textField name="cuenta" maxlength="16" value="${empleado?.cuenta}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: empleado, field: 'curp', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: empleado, field: 'curp', 'error')} required">
 	<label for="curp">
 		<g:message code="empleado.curp.label" default="Curp" />
                 <span class="required-indicator">*</span>
 		
 	</label>
-	<g:textField name="curp" maxlength="30" value="${empleado?.curp}"/>
+	<g:textField name="curp" maxlength="30" required="" value="${empleado?.curp}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'escalafon', 'error')} required">

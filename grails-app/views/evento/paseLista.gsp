@@ -35,7 +35,7 @@
                             <g:message code="evento.clave.label" default="# Clave" />
                             <span class="required-indicator">*</span>
                         </label>
-                        <g:textField id="clave" name="clave" value="params.clave" required="" />
+                        <g:textField id="clave" name="clave" value="${clave}" required="" />
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
