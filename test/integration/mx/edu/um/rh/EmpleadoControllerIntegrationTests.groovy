@@ -646,20 +646,39 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             assertEquals empleado.empresa.id,121
         }
         assertEquals 0,empleados.size()
-    }
+    }*/
 
     @Test
     void debieraTraerEmpleadosByTipo(){
         log.debug "debieraTraerEmpleadosByTipo"
-        def tipo=TipoEmpleado.get(1)
-        assertEquals tipo.descripcion,"DENOMINACIONAL"
-        def empleados=empleadoServiceInt.getEmpleadosByTipo(tipo)
-        for(Empleado empleado in empleados){
-            assertEquals empleado.tipo.id,1
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+
+        List<Empleado> empleados = new ArrayList<Empleado>()
+
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            empleados.add(crearEmpleadoPrueba(claveConcatenada))
         }
-        assertEquals 432,empleados.size()
+        assertTrue empleados.size() == 10
+        println "empleados en BD: ${empleados.size()}"
+        
+        def tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+        assertNotNull tipoEmpleado
+        
+        def empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        println "empleadosFilterByType: ${empleadosFilterByType.size()}"
+        for(Empleado e in empleadosFilterByType){
+            assertEquals e.tipo.descripcion , "DENOMINACIONAL"
+        }
+        assertEquals  10 , empleadosFilterByType.size()
     }
 
+    /*
     @Test
     void debieraTraerEmpleadosByEmpresa(){
         def empresa=Empresa.get(102)

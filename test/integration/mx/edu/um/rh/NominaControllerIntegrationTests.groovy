@@ -529,7 +529,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     /**
      * Regresa la nomina de todos los empleados que coincidan con el tipo especificado
     **/
-    //@Test
+    @Test
     void debieraRegresarNominaPorTipoDeEmpleado(){
         crearGrupos()
         crearPerdeds()
@@ -541,13 +541,12 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         String claveGenerica = "980000"
         for(int i = 0; i < 10; i++){
             def claveConcatenada = claveGenerica + i.toString()
-            //println "claveConcatenada ${claveConcatenada}"
             empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
         }
         assertTrue empleadosPorRango.size() == 10
 
         TipoEmpleado tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
-        assertTrue tipoEmpleado
+        assertNotNull tipoEmpleado
 
         List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado)
         assertTrue nominaEmpleadosPorTipo.size() == 10
@@ -584,7 +583,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      * Regresa una Lista de Strings con la percepcion especifica por cada empleado en el rango especificado
     **/
     @Test
-    void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
+        void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
@@ -604,7 +603,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         String claveInicio = "9800000"
         String claveFinal = "9800004"
 
-        List<String> percepcionEspecificaByRangoEmpleados = nominaService.getPercepcionEmpleadosByRango(percepcionPD001, claveInicio, claveFinal)
+        List<String> percepcionEspecificaByRangoEmpleados = nominaService.getPercepcionEspecificaEmpleadosByRango(percepcionPD001, claveInicio, claveFinal)
         assertNotNull percepcionEspecificaByRangoEmpleados
         assertTrue percepcionEspecificaByRangoEmpleados.size() == 5
 
@@ -616,11 +615,36 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     }
 
     /**
-     *
+     * Regresa una Lista de Strings con la percepcion especifica de los empleados del tipo especificado
     **/
-    //@Test
+    @Test
     void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
 
+        List<Empleado> empleados = new ArrayList<Empleado>()
+
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleados.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleados.size() == 10
+
+        PerDed percepcionPD001 = PerDed.findByClave("PD001")
+        TipoEmpleado tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+        assertNotNull tipoEmpleado
+
+        List<String> nominaEmpleadosByType = nominaService.getPercepcionEspecificaEmpleadosByType(percepcionPD001, tipoEmpleado)
+        assertTrue nominaEmpleadosByType.size() == 10
+
+        println "Nomina Empleados"
+        for(String strNomina : nominaEmpleadosByType){
+            println strNomina
+        }
     }
 
     /**

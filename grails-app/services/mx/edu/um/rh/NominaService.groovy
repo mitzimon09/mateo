@@ -148,8 +148,8 @@ class NominaService {
     List<String> getNominaEmpleadosPorTipo(TipoEmpleado tipoEmpleado){
         List<List> nominaEmpleadosByTipo = new ArrayList<List>()
 
-        List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(empleado)
-        log.debug "empleados: ${empleadosFilterByType.size()}"
+        List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        log.debug "nominaEmpleadosByTipo: ${empleadosFilterByType.size()}"
 
         for(Empleado e: empleadosFilterByType){
             nominaEmpleadosByTipo.add(getNominaEmpleado(e))
@@ -197,7 +197,7 @@ class NominaService {
     /**
      * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado en un rango especificado
     **/
-    List<String> getPercepcionEmpleadosByRango(PerDed percepcion, String claveInicio, String claveFinal){
+    List<String> getPercepcionEspecificaEmpleadosByRango(PerDed percepcion, String claveInicio, String claveFinal){
 
         List<String> percepcionesEspecificasEmpleadosByRango = new ArrayList<String>()
         List<Empleado> empleadosFilterByRango = empleadoService.getEmpleadosByRango(claveInicio, claveFinal)
@@ -210,6 +210,25 @@ class NominaService {
         }
 
         return percepcionesEspecificasEmpleadosByRango
+    }
+
+    /**
+     * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado de un tipo especifico
+    **/
+    List<String> getPercepcionEspecificaEmpleadosByType(PerDed percepcion, TipoEmpleado tipoEmpleado){
+
+        List<String> percepcionesEspecificasEmpleadosByType = new ArrayList<String>()
+        List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        log.debug "empleadosFilterByType: ${empleadosFilterByType.size()}"
+
+        for(Empleado e: empleadosFilterByType){
+            String percepcionEspecifica = getPercepcionEspecificaEmpleado(percepcion, e)
+            log.debug "percepcionEspecificaEmpleado: ${percepcionEspecifica} | ${e.clave}"
+            percepcionesEspecificasEmpleadosByType.add("${percepcionEspecifica} | e.clave")
+        }
+
+        log.debug "percepcionesEspecificasEmpleadosByType.size() - ${percepcionesEspecificasEmpleadosByType.size()}"
+        return percepcionesEspecificasEmpleadosByType
     }
     
 }

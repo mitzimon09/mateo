@@ -232,15 +232,15 @@ class Empleado {
                     eq 'status',empleado.status
                 }
 
-                if(empleado){
+                //if(empleado){
                         if(empleado.tipo){
-                            tipo{
+                            //tipo{
                                 if(empleado.tipo.id){
                                     idEq(empleado.tipo.id)
                                 }
-                            }
+                            //}
                         }
-                }
+                //}
                 if(empleado.empresa){
                     empresa{
                         idEq(empleado.empresa.id)
