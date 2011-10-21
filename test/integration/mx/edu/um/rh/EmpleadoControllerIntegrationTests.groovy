@@ -295,7 +295,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     	assertNotNull tipoEmpleado
     	
     	Empleado empleado = new Empleado(
-            clave : "111000"
+            clave : "1110008"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
@@ -318,6 +318,56 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , tipo: tipoEmpleado
         ).save()
         assertNotNull empleado
+        
+        Empleado empleado1 = new Empleado(
+            clave : "1110010"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
+        assertNotNull empleado1
+        
+        Empleado empleado2 = new Empleado(
+            clave : "1110011"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
+        assertNotNull empleado2
         
 		def controller = new EmpleadoController()
         controller.empleadoService = empleadoService

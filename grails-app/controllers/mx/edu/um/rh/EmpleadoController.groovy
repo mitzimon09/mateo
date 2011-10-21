@@ -27,9 +27,7 @@ class EmpleadoController {
 	
 	
     def crea = {
-    	log.debug "tipo > " + params.tipo.id
-        params.clave = asignarClave(params.tipo.id)
-        log.debug "clave > " + params.clave
+        params.clave = siguienteClave(params.tipo.id)
         def empleado = new Empleado(params)
         log.debug "clave before saving " + empleado.clave
         if (empleado.save(flush: true)) {
@@ -99,41 +97,26 @@ class EmpleadoController {
     	}
     }
     
-    String asignarClave(def tipo) {
+    String siguienteClave(def tipo) {
     	TipoEmpleado tipoEmpleado = TipoEmpleado.get(tipo)
         String clave = ""
         def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
         log.debug "empleados > " + empleados
-	    if (empleados.size() == 0) {
-		    clave = tipoEmpleado.prefijo + "0000"
-		    return clave
-	    }
-	    log.debug "otro coso" + empleados[0].clave
-	    def lastKey = -1
-	    def finalKey = 0
-	    def key = 0
-	    for (i in 0..(empleados.size() - 1)) {
-	    	def empleadotmp = empleados.get(i)
-	    	assert empleadotmp
-	    	key = empleados[i].clave.substring(3).toInteger()
-	    	if (lastKey != -1) {
-	    		if (lastKey + 1 != key) {
-	    			finalKey = lastKey + 1
-	    		}
-	    		else if (lastKey != key){
-	    			finalKey = lastKey
-	    			//finalKey = key + 1
-	    		}
-	    	}
-	    	else{
-				lastKey = key+1
-	    	}
-	    }
-	    while ((finalKey + "").length() < 4) {
-	    //while (finalKey.length() < 4) {
-	    	finalKey = "0" + finalKey
-	    }
-	    return (tipoEmpleado.prefijo + finalKey)
+        Map <String, Empleado> claves = new TreeMap<String, Empleado>()
+        for(Empleado empleado : empleados){
+        	claves.put(empleado.clave,empleado)
+        }
+        for(i in 1..9999){
+        	def keytmp = i
+        	while ((keytmp + "").length() < 4) {
+		    	keytmp = "0" + keytmp
+		    }
+		    String claveCompleta = tipoEmpleado.prefijo + keytmp
+        	if(!claves.containsKey(claveCompleta)){
+        		log.debug "claveCompleta > " + claveCompleta
+        		return claveCompleta
+        	}
+        }
     }
     
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException {
