@@ -24,11 +24,11 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull grupoPrueba
 
-        def tipoEmpleado = new TipoEmpleado(
-            descripcion : "DENOMINACIONAL",
-            prefijo : "980"
-        ).save()
-        assertNotNull tipoEmpleado
+//        def tipoEmpleado = new TipoEmpleado(
+//            descripcion : "DENOMINACIONAL",
+//            prefijo : "980"
+//        ).save()
+//        assertNotNull tipoEmpleado
 
         def empleado = new Empleado(
             empresa: Empresa.findByCodigo("CTL"),
@@ -41,7 +41,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             direccion : "TEST",
             status : Constantes.STATUS_ACTIVO,
             //Map perdeds
-            tipo : tipoEmpleado,
+            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
             curp : "TEST123",
             rfc : "ABC-1234567890",
             cuenta : "123456789",
@@ -81,6 +81,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ps.add(PerDed.findByClave("PD006"))
 
         List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
+        //3,4,5,6
         for(int i = 0; i < 4; i++){
             EmpleadoPerded ep= new EmpleadoPerded(
                 perded : ps.get(i),
@@ -103,6 +104,16 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertNotNull perdedsEmpleado
 
         return empleado
+    }
+
+    public crearTipoEmpleados(){
+        println "Creando TipoEmpleados"
+
+        TipoEmpleado tipoEmpleadoDENOMINACIONAL = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL",
+            prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleadoDENOMINACIONAL
     }
 
     public crearGrupos(){
@@ -508,8 +519,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "I", empleado.status
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
     }
-	
-	@Test
+
+    //@Test
     void AsignarSiguienteNumeroDeClaveDisponible() {
     
     	def organizacion = new Organizacion(
@@ -655,6 +666,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleados = new ArrayList<Empleado>()
 
@@ -666,12 +678,22 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         }
         assertTrue empleados.size() == 10
         println "empleados en BD: ${empleados.size()}"
+
+//        for(Empleado emp : empleados){
+//            println "emp.tipo.descripcion: ${emp.tipo.descripcion}"
+//        }
         
         def tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
         assertNotNull tipoEmpleado
         
         def empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-        println "empleadosFilterByType: ${empleadosFilterByType.size()}"
+
+        println "empleados filtrados by type.size(): ${empleadosFilterByType.size()}"
+        println "empleados filtrados by type"
+        for(Empleado e : empleadosFilterByType){
+            println "${e.clave}"
+        }
+
         for(Empleado e in empleadosFilterByType){
             assertEquals e.tipo.descripcion , "DENOMINACIONAL"
         }
@@ -719,6 +741,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -737,7 +760,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         empleadosPorRango = empleadoService.getEmpleadosByRango(claveInicial, claveFinal)
 
-        println "empleados filtrados"
+        println "empleados filtrados by rango.size(): ${empleadosPorRango.size()}"
+        println "empleados filtrados by rango"
         for(Empleado e : empleadosPorRango){
             println "${e.clave}"
         }

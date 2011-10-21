@@ -28,12 +28,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assertNotNull grupoPrueba
 
-        def tipoEmpleado = new TipoEmpleado(
-            descripcion : "DENOMINACIONAL",
-            prefijo : "980"
-        ).save()
-        assertNotNull tipoEmpleado
-
         def empleado = new Empleado(
             empresa: Empresa.findByCodigo("CTL"),
             clave : claveEmpleado,
@@ -45,7 +39,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             direccion : "TEST",
             status : Constantes.STATUS_ACTIVO,
             //Map perdeds
-            tipo : tipoEmpleado,
+            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
             curp : "TEST123",
             rfc : "ABC-1234567890",
             cuenta : "123456789",
@@ -108,6 +102,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull perdedsEmpleado
 
         return empleado
+    }
+
+    public crearTipoEmpleados(){
+        println "Creando TipoEmpleados"
+
+        TipoEmpleado tipoEmpleadoDENOMINACIONAL = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL",
+            prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleadoDENOMINACIONAL
     }
 
     public crearGrupos(){
@@ -342,8 +346,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         Map<String,String> mapGXSustituido = perdedService.getMapGrupoXSustituido()
         assertNotNull mapGXSustituido
 
-        //assertTrue mapGX.size() == mapGXSustituido.size()
-
         List<String> valuesMapGX = new ArrayList<String>()
         valuesMapGX.addAll(mapGX.values())
         List<String> valuesMapGXSustituido = new ArrayList<String>()
@@ -378,6 +380,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         def clave = "9800001"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -407,6 +410,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
         
         def clave = "9800001"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -474,17 +478,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         def clave = "9800001"
-//        def codigoEmpresa = "100000"
-//        def codigoOrganizacion = "100000"
         Empleado empleado = crearEmpleadoPrueba(clave)
         //System.out.println(empleado)
 
         List<String> nominaEmpleado = nominaService.getNominaEmpleado(empleado);
         assertNotNull nominaEmpleado
         
-        assertEquals nominaEmpleado.size(), 5
+        assertEquals 5 , nominaEmpleado.size()
 
         println "Nomina Empleado"
         for(String n : nominaEmpleado){
@@ -501,6 +504,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -534,6 +538,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -551,8 +556,8 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado)
         assertTrue nominaEmpleadosPorTipo.size() == 10
 
-        println "Nomina Empleados"
-        for(String strNomina : nominaEmpleadosPorRango){
+        println "Nomina Empleados Por Tipo"
+        for(String strNomina : nominaEmpleadosPorTipo){
             println strNomina
         }
     }
@@ -566,6 +571,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         def clave = "9800001"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -587,6 +593,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -622,6 +629,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleados = new ArrayList<Empleado>()
 
