@@ -21,13 +21,15 @@ class EmpleadoService implements EmpleadoServiceInt {
     }
 
     List<Empleado> getEmpleadosByRango(String claveUno,String claveDos) throws NullPointerException{
-        Empleado empleado=new Empleado()
+        log.debug "getEmpleadosByRango"
+        Empleado empleadoUno=new Empleado()
         Empleado empleadoDos=new Empleado()
-        empleado.clave=claveUno
+        empleadoUno.clave=claveUno
         empleadoDos.clave=claveDos
-        empleado.status=Constantes.STATUS_ACTIVO
-        def empleados=Empleado.listaEmpleadosParametros(empleado,empleadoDos)
-        log.debug "Empleados ${empleados.list().size()}"
+        empleadoUno.status=Constantes.STATUS_ACTIVO
+        empleadoDos.status=Constantes.STATUS_ACTIVO
+        def empleados=Empleado.listaEmpleadosParametros(empleadoUno,empleadoDos)
+        log.debug "EmpleadosByRango ${empleados.list().size()}"
         return empleados.list()
     }
 
@@ -88,13 +90,13 @@ class EmpleadoService implements EmpleadoServiceInt {
     }
     
     List<Empleado> getEmpleadosByEmpleadoCCosto(Empleado empleado) throws NullPointerException{
-        def empleadoPuesto = empleadoPuestoService.getEmpleadosByEmpleado(empleado)
-        def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empresa, empleadoPuesto.cCosto)
-        def empleados
+        def empleadoPuesto = empleadoPuestoService.getEmpleadoPuestoByEmpleado(empleado)
+        def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empleado.empresa, empleadoPuesto.cCosto)
+        def empleados = new ArrayList<EmpleadoPuesto>()
         for (EmpleadoPuesto empleadoPuesto1 in empleadoPuestos){
         	empleados.add(empleadoPuesto1.empleado)
         }
-        return empleados.list()
+        return empleados
     }
     
     /*

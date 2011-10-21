@@ -6,6 +6,8 @@ import grails.test.*
 import org.junit.*
 import java.util.regex.*
 import general.*
+import mx.edu.um.Constantes
+import mx.edu.um.common.evaluador.*
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -18,7 +20,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     def perdedService
     def springSecurityService
 
-    Empleado crearEmpleadoPrueba(){
+    Empleado crearEmpleadoPrueba(String claveEmpleado){
         def grupoPrueba = new Grupo(
             nombre : "A",
             minimo : 103,
@@ -26,39 +28,18 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assertNotNull grupoPrueba
 
-        def tipoEmpleado = new TipoEmpleado(
-            descripcion : "DENOMINACIONAL",
-            prefijo : "980"
-        ).save()
-        assertNotNull tipoEmpleado
-
-        def organizacion = new Organizacion (
-            codigo : 'TST1'
-            , nombre : 'TEST-1'
-            , nombreCompleto : 'TEST-1'
-        ).save()
-        assertNotNull organizacion
-
-        def empresa = new Empresa(
-            codigo : "123456",
-            nombre : "EMPRESA PRUEBA",
-            nombreCompleto : "Empresa de Prueba - Nombre Completo",
-            organizacion : organizacion
-        ).save()
-        assertNotNull empresa
-
         def empleado = new Empleado(
-            empresa: empresa,
-            clave : "9800001",
+            empresa: Empresa.findByCodigo("CTL"),
+            clave : claveEmpleado,
             nombre : "TESTA",
             apPaterno : "TESTA",
             apMaterno : "TESTA",
             genero : "FM",
             fechaNacimiento : new Date(),
             direccion : "TEST",
-            status : "A",
+            status : Constantes.STATUS_ACTIVO,
             //Map perdeds
-            tipo : tipoEmpleado,
+            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
             curp : "TEST123",
             rfc : "ABC-1234567890",
             cuenta : "123456789",
@@ -83,19 +64,14 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             fechaMatrimonio : new Date(),
             iglesia : "TESTI",
             responsabilidad : "TESTR"//,
-            //perdedsList : generarPerdedsForEmpleado()
         ).save()
         assertNotNull empleado
 
         List<Empleado> empleadoList = Empleado.findAll()
         println "empleados: ${empleadoList.size()}"
         println "en BD: ${Empleado.count()}"
-        Empleado e = empleadoList.get(0)
-        println "empleado en lista: ${e.clave}"
-        println "empleado en lista attr: ${e}"
 
         //Agregando las Percepciones
-        //generarPerdedsForEmpleado(empleado)
         List<PerDed> ps = new ArrayList<PerDed>()
         ps.add(PerDed.findByClave("PD003"))
         ps.add(PerDed.findByClave("PD004"))
@@ -126,6 +102,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull perdedsEmpleado
 
         return empleado
+    }
+
+    public crearTipoEmpleados(){
+        println "Creando TipoEmpleados"
+
+        TipoEmpleado tipoEmpleadoDENOMINACIONAL = new TipoEmpleado(
+            descripcion : "DENOMINACIONAL",
+            prefijo : "980"
+        ).save()
+        assertNotNull tipoEmpleadoDENOMINACIONAL
     }
 
     public crearGrupos(){
@@ -360,8 +346,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         Map<String,String> mapGXSustituido = perdedService.getMapGrupoXSustituido()
         assertNotNull mapGXSustituido
 
-        //assertTrue mapGX.size() == mapGXSustituido.size()
-
         List<String> valuesMapGX = new ArrayList<String>()
         valuesMapGX.addAll(mapGX.values())
         List<String> valuesMapGXSustituido = new ArrayList<String>()
@@ -396,8 +380,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
-        Empleado empleado = crearEmpleadoPrueba()
+        def clave = "9800001"
+        Empleado empleado = crearEmpleadoPrueba(clave)
 
         //Sin sustituir las formulas del Empleado (las generales ya estan sustituidas en este paso)
         Map<String,String> mapPerdedsEmpleado = nominaService.getMapPercepcionesEmpleado(empleado)
@@ -424,9 +410,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
         
-        Empleado empleado = crearEmpleadoPrueba()
-        System.out.println(empleado)
+        def clave = "9800001"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        //System.out.println(empleado)
 
         Map<String,String> mapPerdesConFormulasSustituidasDelEmpleado = nominaService.getMapPercepcionesSustituidasEmpleado(empleado)
         assertNotNull mapPerdesConFormulasSustituidasDelEmpleado
@@ -455,15 +443,34 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     }
 
 
-    /*@Test
+    /**
+     * Evalua una formula con el Evaluador. Verifica que regrese un numero.
+     **/
+    @Test
     void debieraRegresarmeValorNumericoFromEvaluador(){
-        assertError 'IMPLEMENTAME!!!!'
-    }*/
+        Evaluador evaluador = new Evaluador();
+
+        String formula = "(12000 + 1000 - 3000) * 10"
+
+        String formulaEvaluada = evaluador.evaluaExpresion(formula.toString())
+        println "formulaEvaluada: ${formulaEvaluada}"
+        assertEquals "100000" , formulaEvaluada
+    }
 
     /**
      * Regresa una lista con las percepciones de un Empleado, donde el primer valor(0) es la clave del Empleado y el resto son los valores
      * de las percepciones usando el siguiente formato:
      * NombrePercepcion(String) , ValorPercepcion(String)
+     *
+     * Lo que debe regresar este metodo segun los valores que se metieron en el Empleado de Prueba
+     * PD001 = 2
+     * PD002 = 4
+     * PD003 = 0
+     * PD004 = 4
+     * PD005 = 6 x 4 = 24
+     * PD006 = 8 x 2 = 16
+     * PD007 = 0
+     *
     **/
     @Test
     void debieraRegresarNominaDeUnEmpleado(){
@@ -471,23 +478,25 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
-        Empleado empleado = crearEmpleadoPrueba()
-        System.out.println(empleado)
+        def clave = "9800001"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        //System.out.println(empleado)
 
         List<String> nominaEmpleado = nominaService.getNominaEmpleado(empleado);
         assertNotNull nominaEmpleado
         
-        assertEquals nominaEmpleado.size(), 5
+        assertEquals 5 , nominaEmpleado.size()
 
-        println "Nomina EMpleado"
+        println "Nomina Empleado"
         for(String n : nominaEmpleado){
             println n
         }
     }
 
     /**
-     *Regresa los movimientos de todos los empleados en el rango especificado por las claves
+     *Regresa la nomina de todos los empleados en el rango especificado por las claves
     **/
     @Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
@@ -495,23 +504,155 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
+        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
-        System.out.println(empleadosPorRango.size())
 
-        String claveInicial = "CLAVE UNO"
-        String claveFinal = "CLAVE DOS"
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleadosPorRango.size() == 10
 
-        Map<String,List> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
+        String claveInicial = "9800000"
+        String claveFinal = "9800004"
+
+        List<String> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
+        assertTrue nominaEmpleadosPorRango.size() == 5
+
+        println "Nomina Empleados"
+        for(String strNomina : nominaEmpleadosPorRango){
+            println strNomina
+        }
 
     }
 
     /**
-     *
+     * Regresa la nomina de todos los empleados que coincidan con el tipo especificado
     **/
-    //@Test
+    @Test
     void debieraRegresarNominaPorTipoDeEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
 
+        List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
+
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleadosPorRango.size() == 10
+
+        TipoEmpleado tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+        assertNotNull tipoEmpleado
+
+        List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado)
+        assertTrue nominaEmpleadosPorTipo.size() == 10
+
+        println "Nomina Empleados Por Tipo"
+        for(String strNomina : nominaEmpleadosPorTipo){
+            println strNomina
+        }
+    }
+
+    /**
+     * Regresa un String con el valor de la Percepcion especificada de un Empleado
+     * PD001 = 2
+    **/
+    @Test
+    void debieraRegresarPercecionEspecificadaUnEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800001"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        assertNotNull empleado
+
+        PerDed percepcionPD001 = PerDed.findByClave("PD001")
+
+        String valorPercepcion = nominaService.getPercepcionEspecificaEmpleado(percepcionPD001, empleado)
+
+        assertEquals "PD001 | 2.00000" , valorPercepcion
+        
+    }
+
+   /**
+     * Regresa una Lista de Strings con la percepcion especifica por cada empleado en el rango especificado
+    **/
+    @Test
+        void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
+
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleadosPorRango.size() == 10
+
+        PerDed percepcionPD001 = PerDed.findByClave("PD001")
+        String claveInicio = "9800000"
+        String claveFinal = "9800004"
+
+        List<String> percepcionEspecificaByRangoEmpleados = nominaService.getPercepcionEspecificaEmpleadosByRango(percepcionPD001, claveInicio, claveFinal)
+        assertNotNull percepcionEspecificaByRangoEmpleados
+        assertTrue percepcionEspecificaByRangoEmpleados.size() == 5
+
+        for(String str : percepcionEspecificaByRangoEmpleados){
+            println "str: ${str.substring(0,5)}"
+            assertEquals "PD001" , str.substring(0,5)
+        }
+        
+    }
+
+    /**
+     * Regresa una Lista de Strings con la percepcion especifica de los empleados del tipo especificado
+    **/
+    @Test
+    void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        List<Empleado> empleados = new ArrayList<Empleado>()
+
+        //Creando 10 empleados
+        String claveGenerica = "980000"
+        for(int i = 0; i < 10; i++){
+            def claveConcatenada = claveGenerica + i.toString()
+            //println "claveConcatenada ${claveConcatenada}"
+            empleados.add(crearEmpleadoPrueba(claveConcatenada))
+        }
+        assertTrue empleados.size() == 10
+
+        PerDed percepcionPD001 = PerDed.findByClave("PD001")
+        TipoEmpleado tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+        assertNotNull tipoEmpleado
+
+        List<String> nominaEmpleadosByType = nominaService.getPercepcionEspecificaEmpleadosByType(percepcionPD001, tipoEmpleado)
+        assertTrue nominaEmpleadosByType.size() == 10
+
+        println "Nomina Empleados"
+        for(String strNomina : nominaEmpleadosByType){
+            println strNomina
+        }
     }
 
     /**
@@ -539,27 +680,4 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
     }
 
-    /**
-     *
-    **/
-    //@Test
-    void debieraRegresarPercecionEspecificadaUnEmpleado(){
-
-    }
-
-    /**
-     *
-    **/
-    //@Test
-    void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
-
-    }
-
-    /**
-     *
-    **/
-    //@Test
-    void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
-
-    }
 }

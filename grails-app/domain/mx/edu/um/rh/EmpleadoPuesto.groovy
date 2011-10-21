@@ -32,11 +32,6 @@ class EmpleadoPuesto {
                 if(empleadoPuesto.status){                    
                     eq 'status', empleadoPuesto.status                    
                 }
-                if(empleadoPuesto.empresa){
-                    empresa{
-                        idEq(empleadoPuesto.empresa.id)
-                    }
-                }
                               
                 if(empleadoPuesto.empleado ){
                     eq 'empleado', empleadoPuesto.empleado

@@ -6,10 +6,8 @@ class UsuarioEmpleadoService {
     def usuarioService
     UsuarioEmpleado getUsuarioEmpleadoByUsername(String username) throws NullPointerException{
         def usuario=usuarioService.getUsuarioByUsername(username)
-        log.debug "usuario :) " + usuario.username
         def usuarioEmpleado = new UsuarioEmpleado()
         usuarioEmpleado.usuario = usuario
-        log.debug "usuarioEmpleado.usuario :D " + usuarioEmpleado.usuario.username
         usuarioEmpleado = UsuarioEmpleado.getEmpleado(usuarioEmpleado).list().get(0)
         if(!usuarioEmpleado){
             throw new NullPointerException("UsuarioEmpleado.inexistente")

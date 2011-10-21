@@ -11,6 +11,8 @@ class Vacaciones {
 	SolicitudSalida solicitudSalida
 	Empresa empresa
 	
+	
+	
 	static belongsTo = {[Empleado:empleado, Empresa:empresa]}
 
     static constraints = {

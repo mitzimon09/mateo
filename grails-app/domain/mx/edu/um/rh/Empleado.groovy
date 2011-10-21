@@ -224,7 +224,8 @@ class Empleado {
             if(empleado){
                 if(empleadoDos){
                     if(empleado.clave && empleadoDos.clave){
-                        between("clave", empleado.clave, empleadoDos.clave)
+                        //println "claveUno: ${empleado.clave} | claveDos: ${empleadoDos.clave}}"
+                        between("clave", empleado.clave.toString(), empleadoDos.clave.toString())
                     }
                 }
                 //Valida el status
@@ -232,7 +233,7 @@ class Empleado {
                     eq 'status',empleado.status
                 }
 
-                if(empleado){
+                //if(empleado){
                         if(empleado.tipo){
                             tipo{
                                 if(empleado.tipo.id){
@@ -240,7 +241,7 @@ class Empleado {
                                 }
                             }
                         }
-                }
+                //}
                 if(empleado.empresa){
                     empresa{
                         idEq(empleado.empresa.id)

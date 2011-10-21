@@ -38,7 +38,8 @@ class NominaService {
     }
 
     /**
-     *
+     * Devuelve un Map con las Percepciones del Empleado con las formulas sustituidas. Aqui el Map ya contiene las Percepciones Globales y
+     * las propias del Empleado
     **/
     Map<String,String> getMapPercepcionesSustituidasEmpleado(Empleado empleado) throws NullPointerException{
         log.debug 'Entro a getMapPercepcionesSustituidasEmpleado'
@@ -67,6 +68,9 @@ class NominaService {
         return percepcionesEmpleado
     }
 
+    /**
+     * Devuelve una Lista con la Nomina del Empleado, donde cada valor de la lista tiene el formato: "percepcion , formulaEvaluada"
+    **/
     List<String> getNominaEmpleado(Empleado e){
         Evaluador evaluador = new Evaluador();
         List<String> percepcionesValoresEmpleado = new ArrayList<String>()
@@ -110,11 +114,121 @@ class NominaService {
         return percepcionesValoresEmpleado
     }
 
-    public getNominaEmpleadosPorRango(claveInicial, claveFinal){
+    /**
+     * Devuelve una lista con las nominas de un rango especifico de empleados.
+     * Cada elemento en la lista, es a su vez una lista conteniendo las percepciones de cada empleado en el siguiente formato:
+     * "percepcion , formulaEvaluada"
+    **/
+    List<List> getNominaEmpleadosPorRango(String claveInicial, String claveFinal){
+//        List <Empleado> empleadosTotalesEnBD = Empleado.findAll()
+//        log.debug "empleadosTotales: ${empleadosTotalesEnBD.size()}"
+//
+//        log.debug "empleados - claves"
+//        for(Empleado e : empleadosTotalesEnBD){
+//            log.debug "clave: ${e.clave}"
+//        }
 
+        List<List> nominaEmpleadosByRango = new ArrayList<List>()
 
+        List<Empleado> empleadosFilterByRango = empleadoService.getEmpleadosByRango(claveInicial, claveFinal)
+        log.debug "empleados: ${empleadosFilterByRango.size()}"
 
-        return null
+        for(Empleado e: empleadosFilterByRango){
+            nominaEmpleadosByRango.add(getNominaEmpleado(e))
+        }
+
+        return nominaEmpleadosByRango
+    }
+
+    /**
+     * Devuelve una lista con las nominas de un tipo especifico de empleados.
+     * Cada elemento en la lista, es a su vez una lista conteniendo las percepciones de cada empleado en el siguiente formato:
+     * "percepcion , formulaEvaluada"
+    **/
+    List<String> getNominaEmpleadosPorTipo(TipoEmpleado tipoEmpleado){
+        List<List> nominaEmpleadosByTipo = new ArrayList<List>()
+
+        List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        log.debug "nominaEmpleadosByTipo: ${empleadosFilterByType.size()}"
+
+        for(Empleado e: empleadosFilterByType){
+            nominaEmpleadosByTipo.add(getNominaEmpleado(e))
+        }
+
+        return nominaEmpleadosByTipo
+    }
+
+    /**
+     * Devuelve un String con el valor de la Percepcion especificada de un empleado especifico
+    **/
+    String getPercepcionEspecificaEmpleado(PerDed percepcionEmp, Empleado empleado){
+        Evaluador evaluador = new Evaluador();
+        Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(empleado)
+
+            String percepcion = percepcionEmp.clave
+            StringBuffer formula = new StringBuffer("")
+            String formulaEvaluada = ""
+            String idTemp;
+            String temp;
+            int pos=0;
+
+            if(percepcionesMap.containsKey(percepcion) != null){
+                formula = new StringBuffer(percepcionesMap.get(percepcion))
+                log.debug "formula: ${formula}"
+		pos = formula.indexOf("PD");
+		while(pos != -1){
+			idTemp=formula.substring(pos,pos+5);
+                        log.debug "idTemp: ${idTemp}"
+			temp=(String)percepcionesMap.get(idTemp);
+                        log.debug "tmp: ${temp}"
+                        //log.debug "temp: ${temp}"
+			formula.replace(pos,pos+5,temp);
+			pos=formula.indexOf("PD");
+		}
+		//log.debug "formula: ${formula}"
+                formulaEvaluada = evaluador.evaluaExpresion(formula.toString())
+                log.debug "evaluada: ${formulaEvaluada}"
+            }
+            log.debug "Percepcion evaluada: ${percepcionEmp.clave} | ${formulaEvaluada}"
+
+        return "${percepcionEmp.clave} | ${formulaEvaluada}"
+    }
+
+    /**
+     * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado en un rango especificado
+    **/
+    List<String> getPercepcionEspecificaEmpleadosByRango(PerDed percepcion, String claveInicio, String claveFinal){
+
+        List<String> percepcionesEspecificasEmpleadosByRango = new ArrayList<String>()
+        List<Empleado> empleadosFilterByRango = empleadoService.getEmpleadosByRango(claveInicio, claveFinal)
+        log.debug "empleadosFilterByRango: ${empleadosFilterByRango.size()}"
+
+        for(Empleado e: empleadosFilterByRango){
+            String percepcionEspecifica = getPercepcionEspecificaEmpleado(percepcion, e)
+            log.debug "percepcionEspecificaEmpleado: ${percepcionEspecifica}"
+            percepcionesEspecificasEmpleadosByRango.add("${percepcionEspecifica} | e.clave")
+        }
+
+        return percepcionesEspecificasEmpleadosByRango
+    }
+
+    /**
+     * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado de un tipo especifico
+    **/
+    List<String> getPercepcionEspecificaEmpleadosByType(PerDed percepcion, TipoEmpleado tipoEmpleado){
+
+        List<String> percepcionesEspecificasEmpleadosByType = new ArrayList<String>()
+        List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
+        log.debug "empleadosFilterByType: ${empleadosFilterByType.size()}"
+
+        for(Empleado e: empleadosFilterByType){
+            String percepcionEspecifica = getPercepcionEspecificaEmpleado(percepcion, e)
+            log.debug "percepcionEspecificaEmpleado: ${percepcionEspecifica} | ${e.clave}"
+            percepcionesEspecificasEmpleadosByType.add("${percepcionEspecifica} | e.clave")
+        }
+
+        log.debug "percepcionesEspecificasEmpleadosByType.size() - ${percepcionesEspecificasEmpleadosByType.size()}"
+        return percepcionesEspecificasEmpleadosByType
     }
     
 }

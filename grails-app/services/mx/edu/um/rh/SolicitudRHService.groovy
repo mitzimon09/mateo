@@ -8,20 +8,21 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 class SolicitudRHService {
 	def springSecurityService
+	def usuarioEmpleadoService
+	def empleadoService
 
-    List<SolicitudRH> getSolicitudRHByEmpleadoCCosto(Empleado empleado) throws NullPointerException{
+    List<SolicitudRH> getSolicitudRHByEmpleado(Empleado empleado) throws NullPointerException{
         SolicitudRH solicitudRH = new SolicitudRH()
         solicitudRH.empleado = empleado
-        solicitudRH.status = 'EN'
+        solicitudRH.status = Constantes.STATUS_AUTORIZADO
         def solicitudesRH=SolicitudRH.listaSolicitudesParametros(solicitudRH)
-        log.debug "SolicitudesRH ${solicitudesRH.list().size()}"
         return solicitudesRH.list()        
     }
     
     @Secured(['ROLE_RHOPER'])
     List<SolicitudRH> getSolicitudesRHByRHOper(Empresa empresa) throws NullPointerException{
         SolicitudRH solicitudRH = new SolicitudRH()
-        solicitudRH.empresa=empresa
+        solicitudRH.empresa = empresa
         solicitudRH.status = Constantes.STATUS_APROBADO
         def solicitudesRH = SolicitudRH.listaSolicitudesParametros(solicitudRH)
         if (!solicitudesRH){
@@ -35,19 +36,28 @@ class SolicitudRHService {
     	def currentUser = springSecurityService.currentUser
 		    SolicitudRH solicitudRH = new SolicitudRH()
 		    solicitudRH.empresa=currentUser.empresa
-    	if (currentUser.authorities.equals('ROLE_DIRRH')){
+    	if (SpringSecurityUtils.ifAnyGranted('ROLE_DIRRH')){
 		    solicitudRH.status = Constantes.STATUS_AUTORIZADO
 		}
-		else if (currentUser.authorities.equals('ROLE_RHOPER')){
+		else if (SpringSecurityUtils.ifAnyGranted('ROLE_RHOPER')){
 		    solicitudRH.status = Constantes.STATUS_APROBADO
 		}
-		else if (currentUser.authorities == 'ROLE_USER'){
-			
+		else if (SpringSecurityUtils.ifAnyGranted('ROLE_CCP')){
+			def empleadoUsuario = usuarioEmpleadoService.getUsuarioEmpleadoByUsername(currentUser.username+"")
+			def empleado = empleadoUsuario.empleado
+			def solicitudesRH = new ArrayList<SolicitudRH>()
+			def empleados = empleadoService.getEmpleadosByEmpleadoCCosto(empleado)
+			for (Empleado empleadotmp in empleados){
+				def solicitudesTmp = getSolicitudRHByEmpleado(empleadotmp)
+				for (SolicitudRH solicitud1 in solicitudesTmp){
+					solicitudesRH.add(solicitud1)
+				}
+			}
+			return solicitudesRH
+		}
+		else if (SpringSecurityUtils.ifAnyGranted('ROLE_USER')){
 		}
 		else{
-			log.debug ">__<"
-			log.debug currentUser.authorities
-			log.debug currentUser.username
 		}
 	    def solicitudesRH = SolicitudRH.listaSolicitudesParametros(solicitudRH)
 	    if (!solicitudesRH){

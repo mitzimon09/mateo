@@ -20,5 +20,6 @@ class Constantes {
     static final String STATUS_AUTORIZADO="AU"
     static final String STATUS_INICIADO="IN"
     static final String STATUS_TERMINADO="TE"
+    static final String STATUS_SUSPENDIDO="SU"
 }
 
