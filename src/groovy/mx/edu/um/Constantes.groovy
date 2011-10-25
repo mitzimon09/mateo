@@ -21,5 +21,8 @@ class Constantes {
     static final String STATUS_INICIADO="IN"
     static final String STATUS_TERMINADO="TE"
     static final String STATUS_SUSPENDIDO="SU"
+    static final String STATUS_ASISTENCIA="AS"
+    static final String STATUS_TARDANZA="TA"
+    static final String STATUS_INASISTENCIA="IA"
 }
 

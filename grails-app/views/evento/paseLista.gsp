@@ -26,8 +26,9 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="crea" >
+			<g:form action="paseLista" >
 				<fieldset class="form">
+	  				<g:hiddenField id="evento" name="evento.id" value="${evento?.id}" />
 				    //todo aqui <br>
 				    campo para capturar # nomina
 				    <div class="fieldcontain required">
@@ -35,15 +36,15 @@
                             <g:message code="evento.clave.label" default="# Clave" />
                             <span class="required-indicator">*</span>
                         </label>
-                        <g:textField id="clave" name="clave" value="${clave}" required="" />
+                        <input type="text" id="clave" name="clave" value="" required="" />
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
+					<g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
                     <sec:ifLoggedIn>
                         <g:link class="list" action="paseLista" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Pase Lista" /></g:link>
                         <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
                     </sec:ifLoggedIn>
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
 				</fieldset>
 			</g:form>
 		</div>

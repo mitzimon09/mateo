@@ -250,4 +250,8 @@ class Empleado {
             }
         }
     }
+    
+    String toString() {
+    	return nombreCompleto
+    }
 }

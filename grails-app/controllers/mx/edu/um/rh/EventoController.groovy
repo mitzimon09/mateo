@@ -134,9 +134,26 @@ class EventoController {
     }
     
     def paseLista = {
-        def evento = Evento.get(params.id)
-        log.debug "evento.clave = " + params.clave
-        def empleado = empleadoService.getEmpleado(params.clave)
-        log.debug "empleado>"+empleado
+    	log.info "paseLista"
+        def evento = Evento.get(params.evento.id)
+        log.debug "evento > " + evento
+        log.debug "clave > " + params.clave
+        if(params.clave.size() == 7){
+		    def empleado = empleadoService.getEmpleado(params.clave)
+	        log.debug "empleado > " + empleado
+	        
+	        /*def empleadoEveto = new EmpleadoEvento(
+	        	empleado: empleado
+	        	, evento: evento
+	        	, entrada: new Date()
+	        	, salida: new Date()
+	        ).save()
+	        */
+            flash.message = message(code: 'Se registro al Empleado {0} en el evento {1}', args: [params.clave, evento.nombre])
+	        render(view: "paseLista", model: [evento: evento])
+        }else{
+            flash.message = message(code: 'El Empleado con clave {0} no ha sido encontrado', args: [params.clave])
+            render(view: "paseLista", model: [evento: evento])
+        }
     }
 }
