@@ -26,14 +26,6 @@
 	<g:datePicker name="fechaFinal" precision="day" value="${solicitudRH?.fechaFinal}"  />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: solicitudRH, field: 'usuarioCrea', 'error')} required">
-	<label for="usuarioCrea">
-		<g:message code="solicitudRH.usuarioCrea.label" default="Usuario Crea" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="usuarioCrea" name="usuarioCrea.id" from="${general.Usuario.list()}" optionKey="id" required="" value="${solicitudRH?.usuarioCrea?.id}" class="many-to-one"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: solicitudRH, field: 'usuarioRecibe', 'error')} ">
 	<label for="usuarioRecibe">
 		<g:message code="solicitudRH.usuarioRecibe.label" default="Usuario Recibe" />

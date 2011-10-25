@@ -24,6 +24,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 	
 	@Test
 	void usuarioCreaUnaSolicitudRH(){
+		authenticateUser()
 		
 		def organizacion = new Organizacion (
             codigo: 'TST1'
@@ -71,6 +72,8 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
     		, correo: "test@test.test"
     		, empresa: empresa
     	).save()
+    	
+    	assertNotNull usuario
     	
     	def usuarioEmpleado = new UsuarioEmpleado (
     		usuario: usuario
@@ -1109,7 +1112,82 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
     
     @Test
     void debieraTraerEmpleadosDeVacacionesEnCiertoRangoDeTiempo(){
-    	//
-    }
+    	authenticateDirRH()
+	      
+	      def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+
+		def empresa = new Empresa(
+                codigo: "emp2"
+                , nombre: "emp"
+                , nombreCompleto: 'emptest'
+                , organizacion: organizacion
+            ).save()
     
+    	def empleado = new Empleado (
+			clave: "1110000"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: "fm"
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: "23"
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: "tt"
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: "te"
+        	, madre: "test"
+        	, padre: "test"
+		).save()
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	
+    	def fechaInicial = new Date()
+    	fechaInicial = fechaInicial - 10
+    	
+    	
+    	def solicitudRH = new SolicitudRH (
+    		empresa: empresa
+    		, empleado: usuarioEmpleado.empleado
+			, fechaInicial: fechaInicial
+			, fechaFinal: new Date()
+			, usuarioCrea: usuarioEmpleado.usuario
+			, dateCreated: new Date()
+			, status: "CR"
+			, email: "test1"
+    	).save()
+
+    	//elegir rango de tiempo, dateEmpieza dateTermina
+    	Date fechaEmpiezaRango = new Date() -60;
+    	Date fechaTerminaRango = new Date()
+    	
+    	def solicitudesRH = solicitudRHService.getSolicitudesRHByRangoDeFecha(fechaEmpiezaRango, fechaTerminaRango)
+    	for(SolicitudRH solicitud in solicitudesRH){      
+            assert ((solicitud.fechaInicial >= fechaEmpiezaRango && solicitud.fechaInicial <= fechaTerminaRango) || (solicitud.fechaFinal >= fechaEmpiezaRango && solicitud.fechaFinal <= fechaTerminaRango) || (solicitud.fechaInicial <= fechaEmpiezaRango && solicitud.fechaInicial >= fechaTerminaRango))
+        }
+    }
 }

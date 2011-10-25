@@ -248,4 +248,8 @@ class Empleado {
             }
         }
     }
+    
+    String toString () {
+        return "$nombre $apPaterno $apMaterno"
+    }
 }

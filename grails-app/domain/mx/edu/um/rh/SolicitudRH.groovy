@@ -64,5 +64,25 @@ class SolicitudRH {
                 }
             }//if(solicitudRH)
         }
+        solicitudesPorRangoDeFecha{ fechaEmpiezaRango, fechaTerminaRango ->
+        	or {
+        		and {
+					ge 'fechaInicial', fechaEmpiezaRango
+			    	le 'fechaInicial', fechaTerminaRango
+        		}
+        		and {
+					ge 'fechaFinal', fechaEmpiezaRango
+					le 'fechaFinal', fechaTerminaRango
+        		}
+        		and {
+        			le 'fechaInicial', fechaEmpiezaRango
+        			ge 'fechaFinal', fechaTerminaRango
+        		}
+        	}
+        }//solicitudesPorRangoDeFecha
     }//named queries
+    
+    String toString () {
+        return "Solicitud RH $folio"
+    }
 }

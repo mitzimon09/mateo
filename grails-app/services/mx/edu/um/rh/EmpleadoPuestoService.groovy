@@ -6,7 +6,6 @@ class EmpleadoPuestoService {
     EmpleadoPuesto getEmpleadoPuestoByEmpleado(Empleado empleado) throws NullPointerException{
         EmpleadoPuesto empleadoPuesto = new EmpleadoPuesto()
         empleadoPuesto.empleado=empleado
-        //empleado.status=Constantes.STATUS_ACTIVO
         def empleadoPuestos=EmpleadoPuesto.listaEmpleadosPuestosParametros(empleadoPuesto)
         if(!empleadoPuestos){
             throw new NullPointerException("empleadoPuestos.inexistentes")
