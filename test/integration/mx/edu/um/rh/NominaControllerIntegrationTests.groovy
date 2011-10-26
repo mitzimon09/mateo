@@ -8,6 +8,7 @@ import java.util.regex.*
 import general.*
 import mx.edu.um.Constantes
 import mx.edu.um.common.evaluador.*
+import enums.*
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -484,7 +485,9 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         Empleado empleado = crearEmpleadoPrueba(clave)
         //System.out.println(empleado)
 
-        List<String> nominaEmpleado = nominaService.getNominaEmpleado(empleado);
+        TipoNomina tipoNomina = TipoNomina.MENSUAL
+
+        List<String> nominaEmpleado = nominaService.getNominaEmpleado(empleado, tipoNomina)
         assertNotNull nominaEmpleado
         
         assertEquals 5 , nominaEmpleado.size()
@@ -520,7 +523,9 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         String claveInicial = "9800000"
         String claveFinal = "9800004"
 
-        List<String> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal)
+        TipoNomina tipoNomina = TipoNomina.MENSUAL
+
+        List<String> nominaEmpleadosPorRango = nominaService.getNominaEmpleadosPorRango(claveInicial, claveFinal, tipoNomina)
         assertTrue nominaEmpleadosPorRango.size() == 5
 
         println "Nomina Empleados"
@@ -553,7 +558,9 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         TipoEmpleado tipoEmpleado = TipoEmpleado.findByDescripcion("DENOMINACIONAL")
         assertNotNull tipoEmpleado
 
-        List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado)
+        TipoNomina tipoNomina = TipoNomina.MENSUAL
+
+        List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado, tipoNomina)
         assertTrue nominaEmpleadosPorTipo.size() == 10
 
         println "Nomina Empleados Por Tipo"
@@ -652,6 +659,64 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         println "Nomina Empleados"
         for(String strNomina : nominaEmpleadosByType){
             println strNomina
+        }
+    }
+
+
+    /**
+     * Regresa una lista con las percepciones de un Empleado, donde el primer valor(0) es la clave del Empleado y el resto son los valores
+     * de las percepciones usando el siguiente formato:
+     * NombrePercepcion(String) , ValorPercepcion(String)
+     *
+     * Lo que debe regresar este metodo segun los valores que se metieron en el Empleado de Prueba
+     * PD001 = 2 / 30 = 0.666666
+     * PD002 = 4 / 30 = 0.133333
+     * PD003 = 0 / 30 = 0
+     * PD004 = 4 / 30 = 0.133333
+     * PD005 = 6 x 4 = 24 /30 = 0.800000
+     * PD006 = 8 x 2 = 16 /30 = 0.533333
+     * PD007 = 0 /30 = 0
+     *
+     **/
+    @Test
+    void debieraRegresarNominaDiariaDeUnEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800001"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+        assertNotNull empleado
+
+        //PRUEBAS DE COMO FUNCIONA EL ENUM DE TipoNomina
+//        TipoNomina tipoNomina = TipoNomina.DIARIA
+//
+//        if(tipoNomina == TipoNomina.DIARIA){
+//            println "Validacion aceptada, la nomina SI ES DIARIA, xD!"
+//        }
+//
+//        String nombreTipoNomina = tipoNomina.name()
+//        println "nombreTipoNomina: ${nombreTipoNomina}"
+//
+//        TipoNomina.values().each(){
+//            println it.name()
+//        }
+//
+//        String nombreTipoNominaString = "DIARIA"
+//        println "TipoNomina[tipoNomina] --> ${TipoNomina[nombreTipoNominaString]}"
+//        println TipoNomina."$nombreTipoNominaString"
+
+        TipoNomina tipoNomina = TipoNomina.DIARIA
+
+        List<String> nominaDiariaDeUnEmpleado = nominaService.getNominaEmpleado(empleado, tipoNomina)
+        assertNotNull nominaDiariaDeUnEmpleado
+
+        assertEquals 5 , nominaDiariaDeUnEmpleado.size()
+
+        println "Nomina Diaria Empleado"
+        for(String n : nominaDiariaDeUnEmpleado){
+            println n
         }
     }
 
