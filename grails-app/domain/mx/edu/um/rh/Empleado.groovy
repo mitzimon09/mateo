@@ -7,6 +7,7 @@ class Empleado {
     String nombre
     String apPaterno
     String apMaterno
+    String nombreCompleto
     String genero
     Date fechaNacimiento
     String direccion
@@ -49,7 +50,7 @@ class Empleado {
     String telefonocelular
     String email
     
-    static transients = ['perdeds', 'estudios']
+    static transients = ['perdeds', 'estudios', 'nombreCompleto']
     
     static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
@@ -66,7 +67,7 @@ class Empleado {
         status maxSize: 2, blank: false
         //Laborales
         cuenta maxSize: 16, nullable: true
-        curp maxSize: 30
+        curp maxSize: 30, blank: false
         escalafon blank: false
         imms maxSize: 15, nullable: true
         rfc maxSize: 15, blank: false
@@ -82,7 +83,7 @@ class Empleado {
         fechaBaja nullable: true
         ife nullable: true
         rango nullable: true
-        tipo nullable: true
+        tipo blank: false
         grupo nullable: true
         //Personales
         estadoCivil maxSize: 2, blank: false
@@ -248,5 +249,9 @@ class Empleado {
                 }
             }
         }
+    }
+    
+    String toString() {
+    	return nombreCompleto
     }
 }

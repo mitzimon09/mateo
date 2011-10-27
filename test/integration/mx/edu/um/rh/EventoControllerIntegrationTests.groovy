@@ -199,6 +199,12 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assertNotNull empresa
         
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+        
 	    Empleado empleado = new Empleado(
             clave : "9800001"
             , nombre : "TESTA"
@@ -220,6 +226,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , padre : "TESTP"
             , madre: "TESTM"
             , estadoCivil : "S"
+            , tipo: tipoEmpleado
         ).save()
         assertNotNull empleado
         
@@ -235,12 +242,13 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
 		assertNotNull evento
 		
 		def controller = new EventoController()
-        controller.springSecurityService = springSecurityService
-        controller.params.id = evento.id
+        //controller.springSecurityService = springSecurityService
+        controller.params.evento = evento.id
+        assertEquals evento.id, controller.params.evento
         controller.params.clave = "9800001"
         assertEquals Constantes.STATUS_INICIADO, evento.status
-        assertEquals empleado.clave, "9800001"
-        
-        def model = controller.paseLista()
+        controller.paseLista()
+                
+        //def model = controller.paseLista()
 	}
 }

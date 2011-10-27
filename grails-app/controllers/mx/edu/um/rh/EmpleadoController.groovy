@@ -2,8 +2,10 @@ package mx.edu.um.rh
 
 import grails.converters.JSON
 import mx.edu.um.rh.interfaces.*
+import grails.plugins.springsecurity.Secured
 import mx.edu.um.rh.*
 
+@Secured(['ROLE_ADMIN'])
 class EmpleadoController {
 
 	def empleadoService
@@ -20,16 +22,13 @@ class EmpleadoController {
 	}
 
     def nuevo = {
-        def empleado = new Empleado()
-        empleado.properties = params
-        return [empleado: empleado]
+        return [empleado:new Empleado()]
     }
 	
 	
     def crea = {
-        params.clave = asignarClave(params.tipo)
+        params.clave = siguienteClave(params.tipo.id)
         def empleado = new Empleado(params)
-    	empleado.clave = asignarClave(empleado.tipo)
         log.debug "clave before saving " + empleado.clave
         if (empleado.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleado.id])
@@ -94,40 +93,30 @@ class EmpleadoController {
     	if (empleado){
     		empleado.status="I" //inactivo
     		empleado.save(flush:true)
-    		redirect(action: "ver")
+    		redirect(action: "ver", id: empleado.id)
     	}
     }
     
-    def asignarClave = { tipoEmpleado ->
-        assert tipoEmpleado
+    String siguienteClave(def tipo) {
+    	TipoEmpleado tipoEmpleado = TipoEmpleado.get(tipo)
         String clave = ""
         def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-	    if (empleados.size() == 0) {
-		    clave = tipoEmpleado.prefijo + "0000"
-		    return clave
-	    }
-        def lastKey = -1
-        def finalKey = 0
-        def key = 0
-        for (i in 0..(empleados.size() - 1)) {
-        	def empleadotmp = empleados.get(i)
-        	assert empleadotmp
-        	key = empleados[i].clave.substring(3).toInteger()
-        	if (lastKey != -1) {
-        		if (lastKey + 1 != key) {
-        			finalKey = lastKey + 1
-        		}
-        		else{
-        			finalKey = key + 1
-        		}
+        log.debug "empleados > " + empleados
+        Map <String, Empleado> claves = new TreeMap<String, Empleado>()
+        for(Empleado empleado : empleados){
+        	claves.put(empleado.clave,empleado)
+        }
+        for(i in 1..9999){
+        	def keytmp = i
+        	while ((keytmp + "").length() < 4) {
+		    	keytmp = "0" + keytmp
+		    }
+		    String claveCompleta = tipoEmpleado.prefijo + keytmp
+        	if(!claves.containsKey(claveCompleta)){
+        		log.debug "claveCompleta > " + claveCompleta
+        		return claveCompleta
         	}
-        	lastKey = key
         }
-        while ((finalKey + "").length() < 4) {
-        //while (finalKey.length() < 4) {
-        	finalKey = "0" + finalKey
-        }
-        return (tipoEmpleado.prefijo + finalKey)
     }
     
     List<Empleado> getEmpleadosByTipo(TipoEmpleado tipo) throws NullPointerException {
