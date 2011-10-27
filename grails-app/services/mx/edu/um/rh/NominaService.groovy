@@ -83,7 +83,7 @@ class NominaService {
     List<String> getNominaEmpleado(Empleado e, TipoNomina tipoNomina){
         Evaluador evaluador = new Evaluador();
         List<String> percepcionesValoresEmpleado = new ArrayList<String>()
-        List<EmpleadoPerded> perdedsEmpleado = new ArrayList()
+        List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
         perdedsEmpleado.addAll(e.perdeds.values())
 
         Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(e)
@@ -120,18 +120,19 @@ class NominaService {
             BigDecimal valorPercepcion = new BigDecimal(formulaEvaluada)
             BigDecimal valorPercepcionPorTipoDeNomina = null
             //Devolviendo la nomina de acuerdo el tipo
+            //TODO - Como le hago para que siempre se guarden al menos 6 ceros???
             if(tipoNomina== TipoNomina.DIARIA){
-                valorPercepcionPorTipoDeNomina = valorPercepcion.divide(new BigDecimal("30"),mc)
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("30"),mc)).toString(),mc)
                 log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
                 percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
             }
             else if(tipoNomina == TipoNomina.SEMANAL){
-                valorPercepcionPorTipoDeNomina = valorPercepcion.divide(new BigDecimal("4"),mc)
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("4"),mc)).toString(),mc)
                 log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
                 percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
             }
             else if(tipoNomina == TipoNomina.QUINCENAL){
-                valorPercepcionPorTipoDeNomina = valorPercepcion.divide(new BigDecimal("2"),mc)
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("2"),mc)).toString(),mc)
                 log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
                 percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
             }
