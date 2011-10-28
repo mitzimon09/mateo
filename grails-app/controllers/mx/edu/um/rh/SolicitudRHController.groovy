@@ -137,7 +137,7 @@ class SolicitudRHController {
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioRecibe = springSecurity.currentUser
+			solicitudRH.usuarioRecibe = springSecurityService.currentUser
 			if (solicitudRH){
 				if(solicitudRH.status.equals("EN") || solicitudRH.status.equals("RE")){
 					solicitudRH = procesoService.aprobar(solicitudRH)
@@ -175,7 +175,7 @@ class SolicitudRHController {
     def autorizar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioAutoriza = springSecurity.currentUser
+			solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 			if (solicitudRH){
 				if(solicitudRH.status.equals("RE")){
 					solicitudRH = procesoService.autorizar(solicitudRH)

@@ -3,6 +3,7 @@ package mx.edu.um.rh
 import general.*
 
 class SolicitudRH {
+	Date fechaCaptura
 	Empleado empleado
 	Empresa empresa
 	Date fechaInicial
