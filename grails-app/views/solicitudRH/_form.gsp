@@ -1,6 +1,12 @@
 <%@ page import="mx.edu.um.rh.SolicitudRH" %>
 
-
+<div class="fieldcontain ${hasErrors(bean: solicitudRH, field: 'folio', 'error')} ">
+	<label for="folio">
+		<g:message code="solicitudRH.folio.label" default="Folio" />
+		
+	</label>
+	<g:textField name="folio" maxlength="50" value="${solicitudRH?.folio}"/>
+</div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudRH, field: 'empleado', 'error')} required">
 	<label for="empleado">

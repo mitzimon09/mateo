@@ -21,13 +21,15 @@ class EmpleadoService implements EmpleadoServiceInt {
     }
 
     List<Empleado> getEmpleadosByRango(String claveUno,String claveDos) throws NullPointerException{
-        Empleado empleado=new Empleado()
+        log.debug "getEmpleadosByRango"
+        Empleado empleadoUno=new Empleado()
         Empleado empleadoDos=new Empleado()
-        empleado.clave=claveUno
+        empleadoUno.clave=claveUno
         empleadoDos.clave=claveDos
-        empleado.status=Constantes.STATUS_ACTIVO
-        def empleados=Empleado.listaEmpleadosParametros(empleado,empleadoDos)
-        log.debug "Empleados ${empleados.list().size()}"
+        empleadoUno.status=Constantes.STATUS_ACTIVO
+        empleadoDos.status=Constantes.STATUS_ACTIVO
+        def empleados=Empleado.listaEmpleadosParametros(empleadoUno,empleadoDos)
+        log.debug "EmpleadosByRango ${empleados.list().size()}"
         return empleados.list()
     }
 
