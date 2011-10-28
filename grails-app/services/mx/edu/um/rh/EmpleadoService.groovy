@@ -11,9 +11,8 @@ class EmpleadoService implements EmpleadoServiceInt {
 
     Empleado getEmpleado(String clave) throws NullPointerException{
         log.debug "getEmpleadoByClave"
-        log.debug "clave>>" + clave
         def empleado=Empleado.findByClave(clave)
-        log.debug "Empleado: $empleado"
+        log.debug "Empleado: $empleado.clave"
         if(!empleado){
             throw new NullPointerException("empleado.inexistente")
         }
@@ -152,5 +151,25 @@ class EmpleadoService implements EmpleadoServiceInt {
         }
         log.debug "errores ${empleadosConErrores}"
         return empleadosConErrores
-    }    
+    }
+    
+    def getEmpleadoEvento(Empleado empleado, Evento evento){
+        log.debug "obtiene EmpleadoEvento"
+        def eventoEmpleados = EmpleadoEvento.list()
+        def empleadoEvento
+        for(eventoEmpleado in eventoEmpleados){
+            if(eventoEmpleado.empleado == empleado && eventoEmpleado.evento == evento){
+                log.debug "la relación empleado-evento existe"
+                empleadoEvento = eventoEmpleado
+            }
+        }
+        if(empleadoEvento == null){
+            log.debug "creando relación empleado-evento"
+            empleadoEvento = new EmpleadoEvento(
+                empleado: empleado
+                , evento: evento
+            ).save()
+        }
+        return empleadoEvento
+    }
 }

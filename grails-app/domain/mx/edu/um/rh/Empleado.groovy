@@ -119,7 +119,7 @@ class Empleado {
     }
     
     public String getNombreCompleto(){
-        "$nombre $apPaterno $apMaterno"
+        return "$nombre $apPaterno $apMaterno"
     }
 
     /*public void save(params){
