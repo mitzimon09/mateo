@@ -20,16 +20,19 @@ class SolicitudVacacionesController extends SolicitudRHController{
     }
 
     def nueva() {
-        [solicitudVacaciones: new SolicitudVacaciones(params)]
+    	def solicitudVacaciones = new SolicitudVacaciones()
+        solicitudVacaciones.properties = params
+        return [solicitudVacaciones: solicitudVacaciones]
     }
 
     def crea() {
         def solicitudVacaciones = new SolicitudVacaciones(params)
+        solicitudVacaciones.usuarioCrea = springSecurityService.currentUser
         if (!solicitudVacaciones.save(flush: true)) {
             render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
             return
         }
-
+		log.debug "Se supone que debe de ir " + solicitudVacaciones
 		flash.message = message(code: 'default.created.message', args: [message(code: 'solicitudVacaciones.label', default: 'SolicitudVacaciones'), solicitudVacaciones.id])
         redirect(action: "ver", id: solicitudVacaciones.id)
     }

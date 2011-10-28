@@ -66,4 +66,22 @@ class SolicitudRHService {
 	    return solicitudesRH.list()
     }
     
+     @Secured(['ROLE_RHOPER'])
+     List<SolicitudRH> getSolicitudesRHByRangoDeFecha(Date fechaEmpiezaRango, Date fechaTerminaRango) throws NullPointerException{
+		def solicitudesRH = SolicitudRH.solicitudesPorRangoDeFecha(fechaEmpiezaRango, fechaTerminaRango)
+		return solicitudesRH.list()
+     }
+     
+     @Secured(['ROLE_RHOPER'])
+     List<Empleado> getEmpleadosDeSolicitudesRHByRangoDeFecha(Date fechaEmpiezaRango, Date fechaTerminaRango) throws NullPointerException{
+		def solicitudesRH = getSolicitudesRHByRangoDeFecha(fechaEmpiezaRango, fechaTerminaRango)
+		def empleados = new ArrayList<Empleado>()
+		for (SolicitudRH solicitudRH in solicitudesRH){
+			if (!empleados.contains(solicitudRH.empleado)){
+				empleados.add(solicitudRH.empleado)
+			}
+		}
+		return empleados
+     }
+    
 }

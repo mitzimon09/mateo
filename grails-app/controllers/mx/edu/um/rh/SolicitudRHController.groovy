@@ -23,8 +23,11 @@ class SolicitudRHController {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		log.debug "o " + springSecurityService.currentUser.authorities
 		def solicitudesRH1 = solicitudRHService.getSolicitudesRHByRol()
+		if(solicitudesRH1.size() > 0)
 		[solicitudesRH: solicitudesRH1, totalDeSolicitudesRH: solicitudesRH1.size()]
-		//[solicitudesRH: SolicitudRH.list(params), totalDeSolicitudesRH: SolicitudRH.count()]
+		else{
+		[solicitudesRH: SolicitudRH.list(params), totalDeSolicitudesRH: SolicitudRH.count()]
+		}
 	}
 
     def nueva = {
@@ -35,6 +38,7 @@ class SolicitudRHController {
 
     def crea = {
         def solicitudRH = new SolicitudRH(params)
+        solicitudRH.usuarioCrea = springSecurityService.currentUser
         if (solicitudRH.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), solicitudRH.id])
             redirect(action: "ver", id: solicitudRH.id)
@@ -133,9 +137,11 @@ class SolicitudRHController {
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
+			solicitudRH.usuarioRecibe = springSecurity.currentUser
 			if (solicitudRH){
 				if(solicitudRH.status.equals("EN") || solicitudRH.status.equals("RE")){
 					solicitudRH = procesoService.aprobar(solicitudRH)
+					solicitudRH.usuarioRecibe = springSecurityService.currentUser
 					solicitudRH.save(flush:true)
 					redirect(action: "lista")
 				}
@@ -165,13 +171,15 @@ class SolicitudRHController {
 		//}
     }
     
-    @Secured(['ROLE_CCP', 'ROLE_DIRRH'])
+    @Secured(['ROLE_RHOPER', 'ROLE_DIRRH'])
     def autorizar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
+			solicitudRH.usuarioAutoriza = springSecurity.currentUser
 			if (solicitudRH){
 				if(solicitudRH.status.equals("RE")){
 					solicitudRH = procesoService.autorizar(solicitudRH)
+					solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 					solicitudRH.save(flush:true)
 					redirect(action: "lista")
 				}
@@ -224,5 +232,35 @@ class SolicitudRHController {
 					redirect(action: "lista")
 			}
 	}
-    
+	
+	@Secured(['ROLE_DIRRH', 'ROLE_RHOPER'])
+	def seleccionarPorRango() {
+		//log.debug "o " + springSecurityService.currentUser.authorities
+		def fechaEmpiezaRango = new Date()
+		def fechaTerminaRango = new Date()
+		def empleados = solicitudRHService.getEmpleadosDeSolicitudesRHByRangoDeFecha(fechaEmpiezaRango, fechaTerminaRango)
+		[empleados: empleados, totalDeEmpleados: empleados.size()]
+	}
+	
+    @Secured(['ROLE_DIRRH', 'ROLE_RHOPER'])
+	def rangoList = {
+		log.info "debug"
+		log.debug params
+		def fechaEmpiezaRango = params.fechaEmpiezaRango
+		def fechaTerminaRango = params.fechaTerminaRango
+		log.debug "fecha inicial" + params.fechaEmpiezaRango
+		log.debug "fecha final" + params.fechaTerminaRango
+		
+		def solicitudesRH1 = solicitudRHService.getSolicitudesRHByRangoDeFecha(fechaEmpiezaRango, fechaTerminaRango)
+		[solicitudesRH: solicitudesRH1, totalDeSolicitudesRH: solicitudesRH1.size()]
+	}
+	
+	def rango(){
+		
+	}
+	
+	def buscarPorRango(){
+	
+		render(view: "rango")
+	}
 }

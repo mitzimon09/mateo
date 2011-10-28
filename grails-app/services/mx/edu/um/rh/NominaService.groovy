@@ -1,7 +1,13 @@
 package mx.edu.um.rh
-import mx.edu.um.rh.interfaces.*
+
+import java.math.BigDecimal
+import java.math.MathContext
+import java.math.RoundingMode
 import java.util.regex.*
+import mx.edu.um.rh.interfaces.*
 import mx.edu.um.common.evaluador.*
+import enums.TipoNomina
+
 
 class NominaService {
 
@@ -70,11 +76,14 @@ class NominaService {
 
     /**
      * Devuelve una Lista con la Nomina del Empleado, donde cada valor de la lista tiene el formato: "percepcion , formulaEvaluada"
+     * El valor de tipoNomina se usa para determinar el tipo de la nomina (diaria, semanal, quincenal o mensual), donde la nomina "normal"
+     * es mensual, por lo que la diaria, simplemente se toma el valor "normal" y se divide por 30 para determinar la nomina diaria, la
+     * quincenal se divide por 15 y asi sucesivamente
     **/
-    List<String> getNominaEmpleado(Empleado e){
+    List<String> getNominaEmpleado(Empleado e, TipoNomina tipoNomina){
         Evaluador evaluador = new Evaluador();
         List<String> percepcionesValoresEmpleado = new ArrayList<String>()
-        List<EmpleadoPerded> perdedsEmpleado = new ArrayList()
+        List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
         perdedsEmpleado.addAll(e.perdeds.values())
 
         Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(e)
@@ -106,8 +115,31 @@ class NominaService {
                 formulaEvaluada = evaluador.evaluaExpresion(formula.toString())
                 log.debug "evaluada: ${formulaEvaluada}"
             }
-            log.debug "Lo que meto a la lista: ${percepcion + "," + formulaEvaluada}"
-            percepcionesValoresEmpleado.add(percepcion + "," + formulaEvaluada)
+
+            MathContext mc = new MathContext(6, RoundingMode.HALF_EVEN);
+            BigDecimal valorPercepcion = new BigDecimal(formulaEvaluada)
+            BigDecimal valorPercepcionPorTipoDeNomina = null
+            //Devolviendo la nomina de acuerdo el tipo
+            //TODO - Como le hago para que siempre se guarden al menos 6 ceros???
+            if(tipoNomina== TipoNomina.DIARIA){
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("30"),mc)).toString(),mc)
+                log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
+                percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
+            }
+            else if(tipoNomina == TipoNomina.SEMANAL){
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("4"),mc)).toString(),mc)
+                log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
+                percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
+            }
+            else if(tipoNomina == TipoNomina.QUINCENAL){
+                valorPercepcionPorTipoDeNomina = new BigDecimal((valorPercepcion.divide(new BigDecimal("2"),mc)).toString(),mc)
+                log.debug "Lo que meto a la lista: ${percepcion + "," + valorPercepcionPorTipoDeNomina.toString()}"
+                percepcionesValoresEmpleado.add(percepcion + "," + valorPercepcionPorTipoDeNomina.toString())
+            }
+            else if(tipoNomina == TipoNomina.MENSUAL){
+                log.debug "Lo que meto a la lista: ${percepcion + "," + formulaEvaluada}"
+                percepcionesValoresEmpleado.add(percepcion + "," + formulaEvaluada)
+            }
         }
 
         log.debug "cantidad percepciones: ${percepcionesValoresEmpleado.size()}"
@@ -119,7 +151,7 @@ class NominaService {
      * Cada elemento en la lista, es a su vez una lista conteniendo las percepciones de cada empleado en el siguiente formato:
      * "percepcion , formulaEvaluada"
     **/
-    List<List> getNominaEmpleadosPorRango(String claveInicial, String claveFinal){
+    List<List> getNominaEmpleadosPorRango(String claveInicial, String claveFinal, TipoNomina tipoNomina){
 //        List <Empleado> empleadosTotalesEnBD = Empleado.findAll()
 //        log.debug "empleadosTotales: ${empleadosTotalesEnBD.size()}"
 //
@@ -134,7 +166,7 @@ class NominaService {
         log.debug "empleados: ${empleadosFilterByRango.size()}"
 
         for(Empleado e: empleadosFilterByRango){
-            nominaEmpleadosByRango.add(getNominaEmpleado(e))
+            nominaEmpleadosByRango.add(getNominaEmpleado(e, tipoNomina))
         }
 
         return nominaEmpleadosByRango
@@ -145,14 +177,14 @@ class NominaService {
      * Cada elemento en la lista, es a su vez una lista conteniendo las percepciones de cada empleado en el siguiente formato:
      * "percepcion , formulaEvaluada"
     **/
-    List<String> getNominaEmpleadosPorTipo(TipoEmpleado tipoEmpleado){
+    List<String> getNominaEmpleadosPorTipo(TipoEmpleado tipoEmpleado, TipoNomina tipoNomina){
         List<List> nominaEmpleadosByTipo = new ArrayList<List>()
 
         List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
         log.debug "nominaEmpleadosByTipo: ${empleadosFilterByType.size()}"
 
         for(Empleado e: empleadosFilterByType){
-            nominaEmpleadosByTipo.add(getNominaEmpleado(e))
+            nominaEmpleadosByTipo.add(getNominaEmpleado(e, tipoNomina))
         }
 
         return nominaEmpleadosByTipo
@@ -230,5 +262,5 @@ class NominaService {
         log.debug "percepcionesEspecificasEmpleadosByType.size() - ${percepcionesEspecificasEmpleadosByType.size()}"
         return percepcionesEspecificasEmpleadosByType
     }
-    
+
 }
