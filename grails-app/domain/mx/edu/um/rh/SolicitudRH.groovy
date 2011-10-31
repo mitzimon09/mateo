@@ -3,6 +3,7 @@ package mx.edu.um.rh
 import general.*
 
 class SolicitudRH {
+	Date fechaCaptura
 	Empleado empleado
 	Empresa empresa
 	Date fechaInicial
@@ -64,5 +65,25 @@ class SolicitudRH {
                 }
             }//if(solicitudRH)
         }
+        solicitudesPorRangoDeFecha{ fechaEmpiezaRango, fechaTerminaRango ->
+        	or {
+        		and {
+					ge 'fechaInicial', fechaEmpiezaRango
+			    	le 'fechaInicial', fechaTerminaRango
+        		}
+        		and {
+					ge 'fechaFinal', fechaEmpiezaRango
+					le 'fechaFinal', fechaTerminaRango
+        		}
+        		and {
+        			le 'fechaInicial', fechaEmpiezaRango
+        			ge 'fechaFinal', fechaTerminaRango
+        		}
+        	}
+        }//solicitudesPorRangoDeFecha
     }//named queries
+    
+    String toString () {
+        return "Solicitud RH $folio"
+    }
 }

@@ -274,6 +274,6 @@ class Empleado {
     }
     
     String toString() {
-    	return nombreCompleto
+    	return "$nombre $apPaterno $apMaterno"
     }
 }

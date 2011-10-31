@@ -29,6 +29,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -40,6 +45,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -99,6 +105,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -110,6 +121,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -166,6 +178,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -177,6 +194,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -247,6 +265,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -258,6 +281,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -329,6 +353,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -340,6 +369,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -413,6 +443,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -424,6 +459,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -497,6 +533,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -508,6 +549,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -581,6 +623,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -592,6 +639,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -664,6 +712,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -675,6 +728,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -746,6 +800,11 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+            
+        def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
     
     	def empleado = new Empleado (
 			clave: "1110000"
@@ -758,6 +817,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
