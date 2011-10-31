@@ -30,7 +30,7 @@
                 </sec:ifLoggedIn>
             </div>
         </div>
-		<g:layoutBody/>
+	<g:layoutBody/>
         <div class="footer" role="contentinfo">
             <p>&copy; 2011 Universidad de Montemorelos A.C.</p>
         </div>

@@ -670,34 +670,52 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 		assertEquals controller.params.clave, "1110001"
   	}
 	
-    /*
-     *Esta Prueba no corre en el controller prueba la funcionalidad del service
-     */
-
-    /*@Test
-    void debieraTraerUnEmpleadoPorClaveANivelService(){
-        log.debug "test EmpleadoByClave"
-        def clave="9800052"
-        def empleado=empleadoServiceInt.getEmpleado(clave)
-        //notThrown(NullPointerException)
-        assertEquals 'ISMAEL',empleado.nombre
-        assertEquals 'CASTILLO',empleado.apPaterno
-        assertEquals 'OSUNA',empleado.apMaterno
-        assertEquals 139,empleado.id
-    }
+    /**
+     * Trae un Empleado segun la clave
+    **/
 
     @Test
-    void debieraMarcarErrorEmpleadoPorClaveANivelService(){
-        log.debug "test EmpleadoByClave"
-        def clave="9999999"
+    void debieraTraerUnEmpleadoPorClave(){
+        println "debieraTraerUnEmpleadoPorClaveANivelService"
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800052"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+
+        def empleadoFromDB = empleadoService.getEmpleado(clave)
+        assertNotNull empleadoFromDB
+        assertEquals '9800052' , empleadoFromDB.clave
+    }
+
+    /**
+     * Falla si se busca un Empleado por una clave inexistente
+     **/
+    @Test
+    void debieraMarcarErrorAlConsultarEmpleadoInexistente(){
+        println "debieraMarcarErrorAlConsultarEmpleadoInexistente"
+
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800052"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+
+        def claveErronea = "9800055"
+
         try{
-            def empleado=empleadoServiceInt.getEmpleado(clave)
+            def empleadoFromDB = empleadoService.getEmpleado(claveErronea)
         }catch (NullPointerException npe){
             assertEquals "empleado.inexistente",npe.message
         }
     }
 
-    @Test
+    /*@Test
     void debieraTraerEmpleadosByEmpresaAndTipo(){
         log.debug "debieraTraerEmpleadosByEmpresaAndTipo"
         //def empresaId=102

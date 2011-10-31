@@ -3,6 +3,7 @@ package mx.edu.um.rh
 import general.*
 
 class Empleado {
+
     String clave
     String nombre
     String apPaterno
@@ -55,7 +56,9 @@ class Empleado {
     static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
     //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
-    
+
+    static auditable = true
+
     static constraints = {
         clave maxSize: 7, blank: false, unique: true
         nombre maxSize: 50, blank: false
@@ -63,14 +66,14 @@ class Empleado {
         apMaterno maxSize: 30, blank: false
         fechaNacimiento blank:false
         direccion maxSize: 100, blank: false
-        genero maxSize: 2, blank: false
-        status maxSize: 2, blank: false
+        genero maxSize: 2, blank: false //inList = ['MA','FE']
+        status maxSize: 2, blank: false //inList = ['A','I'] //No seria mejor crear otro enum para los estatus de Empleado?
         //Laborales
         cuenta maxSize: 16, nullable: true
-        curp maxSize: 30, blank: false
-        escalafon blank: false
+        curp maxSize: 30, blank: false //No se debe validar el tamanio de la CURP aqui? Que yo sepa hay manera de hacer validaciones en el Constraints
+        escalafon blank: false //Impedir que Escalafon sea <0
         imms maxSize: 15, nullable: true
-        rfc maxSize: 15, blank: false
+        rfc maxSize: 15, blank: false //Validar el tamanio del RFC tambien, no?
         modalidad maxSize: 2, blank: false
         turno blank: false
         fechaAlta blank: false
@@ -86,7 +89,7 @@ class Empleado {
         tipo blank: false
         grupo nullable: true
         //Personales
-        estadoCivil maxSize: 2, blank: false
+        estadoCivil maxSize: 2, blank: false //inList = ['SOLTERO','CASADO','DIVORCIADO','UNION LIBRE']
         madre maxSize: 50, blank: false
         padre maxSize: 50, blank: false
         conyuge maxSize: 50, nullable: true
@@ -249,6 +252,25 @@ class Empleado {
                 }
             }
         }
+    }
+
+    def onSave = {
+        println "Nuevo Empleado dado de Alta"
+        // may optionally refer to newState map
+    }
+
+    def onDelete = {
+        println "Empleado dado de Baja"
+        // may optionally refer to oldState map
+    }
+
+    def onChange = { oldMap,newMap ->
+        println "Empleado Modificado ..."
+        oldMap.each({ key, oldVal ->
+            if(oldVal != newMap[key]) {
+                println " * ${key} cambiado a: ${oldVal} to " + newMap[key]
+            }
+        })
     }
     
     String toString() {
