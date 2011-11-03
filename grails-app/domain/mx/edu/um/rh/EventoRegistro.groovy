@@ -1,15 +1,22 @@
 package mx.edu.um.rh
 
 class EventoRegistro {
-    Empleado empleado
-    Date fecha
+    EmpleadoEvento empleadoEvento
+    Date fecha = new Date()
+    Boolean adentro = false
+    
+    static belongsTo = [EmpleadoEvento]
 
     static constraints = {
-        empleado nullable: false
-        fecha nullable: false
+        empleadoEvento nullable: false
+        adentro blank: false
     }
     
     static mapping = {
         table name:'eventoregistro', schema:'aron'
+    }
+    
+    String toString() {
+        return fecha
     }
 }

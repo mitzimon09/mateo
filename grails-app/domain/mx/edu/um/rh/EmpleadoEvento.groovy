@@ -6,7 +6,9 @@ class EmpleadoEvento {
     Empleado empleado
     Evento evento
     String status
-    Boolean adentro = false
+    Boolean adentro = true
+    Integer tiempoPresente = new Integer('0')
+    
     
     static belongsTo = [Empleado, Evento]
     

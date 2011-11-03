@@ -40,20 +40,20 @@
 					</tr>
 				</thead>
 				<tbody>
-				<g:each in="${solicitudesVacacionesList}" status="i" var="solicitudesVacaciones">
+				<g:each in="${solicitudesVacaciones}" status="i" var="solicitudVacaciones">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${solicitudesVacaciones.id}">${fieldValue(bean: solicitudesVacaciones, field: "empleado")}</g:link></td>
+						<td><g:link action="ver" id="${solicitudesVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
 					
-						<td>${fieldValue(bean: solicitudesVacaciones, field: "empresa")}</td>
+						<td>${fieldValue(bean: solicitudVacaciones, field: "empresa")}</td>
 					
-						<td><g:formatDate date="${solicitudesVacaciones.fechaCaptura}" /></td>
+						<td><g:formatDate date="${solicitudVacaciones.fechaCaptura}" /></td>
 					
-						<td><g:formatDate date="${solicitudesVacaciones.fechaInicial}" /></td>
+						<td><g:formatDate date="${solicitudVacaciones.fechaInicial}" /></td>
 					
-						<td><g:formatDate date="${solicitudesVacaciones.fechaFinal}" /></td>
+						<td><g:formatDate date="${solicitudVacaciones.fechaFinal}" /></td>
 					
-						<td><g:formatDate date="${solicitudesVacaciones.fechaRecibeJefe}" /></td>
+						<td><g:formatDate date="${solicitudVacaciones.fechaRecibeJefe}" /></td>
 					
 					</tr>
 				</g:each>

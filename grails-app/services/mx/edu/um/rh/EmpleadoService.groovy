@@ -153,19 +153,19 @@ class EmpleadoService implements EmpleadoServiceInt {
         return empleadosConErrores
     }
     
-    def getEmpleadoEvento(Empleado empleado, Evento evento){
+    def getEmpleadoEvento(Empleado empleado, Evento evento) {
         log.debug "obtiene EmpleadoEvento"
         def eventoEmpleados = EmpleadoEvento.list()
         def empleadoEvento
-        for(eventoEmpleado in eventoEmpleados){
-            if(eventoEmpleado.empleado == empleado && eventoEmpleado.evento == evento){
+        for(eventoEmpleado in eventoEmpleados) {
+            if(eventoEmpleado.empleado == empleado && eventoEmpleado.evento == evento) {
                 log.debug "la relación empleado-evento existe"
                 empleadoEvento = eventoEmpleado
             }
         }
-        if(empleadoEvento == null){
+        if(empleadoEvento == null) {
             log.debug "creando relación empleado-evento"
-            empleadoEvento = new EmpleadoEvento(
+            empleadoEvento = new EmpleadoEvento (
                 empleado: empleado
                 , evento: evento
             ).save()

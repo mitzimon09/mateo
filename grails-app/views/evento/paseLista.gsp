@@ -41,9 +41,8 @@
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
-					<g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
                     <sec:ifLoggedIn>
-                        <g:link class="list" action="paseLista" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Pase Lista" /></g:link>
+					    <g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
                         <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
                     </sec:ifLoggedIn>
 				</fieldset>
