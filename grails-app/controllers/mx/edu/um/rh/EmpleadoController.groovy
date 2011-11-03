@@ -8,7 +8,7 @@ import mx.edu.um.rh.*
 @Secured(['ROLE_ADMIN'])
 class EmpleadoController {
 
-	def empleadoService
+    def empleadoService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -16,10 +16,10 @@ class EmpleadoController {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[empleados: Empleado.list(params), totalDeEmpleados: Empleado.count()]
-	}
+    def lista = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [empleados: Empleado.list(params), totalDeEmpleados: Empleado.count()]
+    }
 
     def nuevo = {
         return [empleado:new Empleado()]

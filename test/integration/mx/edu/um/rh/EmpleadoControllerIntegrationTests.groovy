@@ -859,7 +859,114 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals 10, empleadosPorRango.size()
 
     }
-    
+
+    /**
+     * Agerga una Percepcion al Empleado. En realidad, guarda la relacion EmpleadoPerded
+     * Documentacion acerca de como funcionan las relaciones:
+     * http://grails.org/doc/2.0.0.RC1/guide/GORM.html#sets,ListsAndMaps
+     **/
+    @Test
+    void debieraAniadirPercepcionToEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        PerDed PD100 = new PerDed(
+            clave: "PD100",
+            nombre: "PERCEPCION CIEN",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "PD001 * PD001",
+            atributos: ["A":"B"]
+        ).save()
+        assertNotNull PD100
+
+        def clave = "9800052"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+
+        def perdedClave = "PD100"
+        PerDed perded = PerDed.findByClave(perdedClave)
+
+        BigDecimal importe = new BigDecimal("100.00")
+        String tipoImporte = "A"
+        String atributos = "TEST"
+        Boolean otorgado = true
+        Boolean isEditableByNOM = false
+
+        Boolean agregarPercepcion = empleadoService.addPercepcionToEmpleado(empleado, perded, importe, tipoImporte, atributos, otorgado, isEditableByNOM)
+        assertTrue agregarPercepcion
+
+        Map<String,EmpleadoPerded> perdedsEmpleadoMap = empleado.perdeds
+
+        List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
+        perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
+        assertEquals 5 , perdedsEmpleado.size() //cuatro que ya tenia + 1 que agregue
+
+        boolean loEncontro = false
+        for(EmpleadoPerded ep : perdedsEmpleado){
+            println "ep: ${ep.perded.clave}"
+            if(ep.perded.clave.equals(perdedClave)){
+                loEncontro = true
+                println "perded agregada: ${ep}"
+            }
+        }
+        assertTrue loEncontro
+    }
+
+    /**
+     * Modifica una Percepcion del Empleado. En realidad solo hace un update del EmpleadoPerded
+     * Documentacion acerca de como funcionan las relaciones:
+     * http://grails.org/doc/2.0.0.RC1/guide/GORM.html#sets,ListsAndMaps
+     **/
+    @Test
+    void debieraModificarPercepcionDeEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800052"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+
+        Map<String,EmpleadoPerded> perdedsEmpleadoMap = empleado.perdeds
+
+        List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
+        perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
+        assertEquals 4 , perdedsEmpleado.size()
+
+        EmpleadoPerded empleadoPerded
+        for(EmpleadoPerded ep : perdedsEmpleado){
+            if(ep.perded.clave.equals("PD001")){
+                empleadoPerded = ep
+            }
+        }
+
+        //Modificando
+        empleadoPerded.otorgado = true
+
+        Boolean modificarPerecepcion = empleadoService.updatePercepcionToEmpleado(empleadoPerded)
+
+        perdedsEmpleadoMap = empleado.perdeds
+
+        perdedsEmpleado.clear()
+        perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
+        assertEquals 4 , perdedsEmpleado.size()
+
+        EmpleadoPerded empleadoPerdedUpdated
+        for(EmpleadoPerded ep : perdedsEmpleado){
+            if(ep.perded.clave.equals("PD001")){
+                empleadoPerdedUpdated = ep
+            }
+        }
+
+        assertTrue empleadoPerded.otorgado != empleadoPerdedUpdated.otorgado
+        log.debug "${empleadoPerded.otorgado} ----- ${empleadoPerdedUpdated.otorgado}}"
+
+
+    }
+
     /*
      *Seccion de Leer Las Perdeds del empleado
      */
