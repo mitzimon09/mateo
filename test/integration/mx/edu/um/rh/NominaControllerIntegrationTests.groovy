@@ -793,29 +793,4 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
 
 
-    /**
-     *tipo nomina=diaria, semanal, quincenal
-     *NOTA: En la nomina diaria, validar cuando dieron de alta el empleado para calcularle hasta donde ha trabajado y no mas
-    **/
-    //@Test
-    void debieraRegresarPorTipoDeNominaDeUnEmpleado(){ //esta es la primera prueba que ya esta, no? antes de rango de empleados
-
-    }
-
-    /**
-     *
-    **/
-    //@Test
-    void debieraRegresarPorTipoDeNominaDeRangoEmpleados(){
-
-    }
-
-    /**
-     *
-    **/
-    //@Test
-    void debieraRegresarPorTipoNominaPorTipoEmpleado(){
-
-    }
-
 }

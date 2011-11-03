@@ -27,6 +27,7 @@ class SolicitudVacacionesController extends SolicitudRHController{
 
     def crea() {
         def solicitudVacaciones = new SolicitudVacaciones(params)
+        solicitudVacaciones.fechaCaptura = new Date()
         solicitudVacaciones.usuarioCrea = springSecurityService.currentUser
         if (!solicitudVacaciones.save(flush: true)) {
             render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])

@@ -24,9 +24,8 @@
       <div class="fieldcontain ${hasErrors(bean: empleado, field: 'clave', 'error')} required">
 	<label for="clave">
 		<g:message code="empleado.clave.label" default="Clave" />
-		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="clave" maxlength="7" required="" value="${empleado?.clave}"/>
+	<g:fieldValue bean="${empleado}" field="clave"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'nombre', 'error')} required">
@@ -70,20 +69,21 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'genero', 'error')} required">
-	<label for="genero">
-		<g:message code="empleado.genero.label" default="Genero" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="genero" maxlength="2" required="" value="${empleado?.genero}"/>
+    <label for="genero">
+        <g:message code="empleado.genero.label" default="Genero" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select name="genero" from="${empleado.constraints.genero.inList}" value="${empleado?.genero}" valueMessagePrefix="empleado.genero" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'status', 'error')} required">
-	<label for="status">
-		<g:message code="empleado.status.label" default="Status" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="status" maxlength="2" required="" value="${empleado?.status}"/>
+    <label for="status">
+        <g:message code="empleado.status.label" default="Status" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select name="status" from="${empleado.constraints.status.inList}" value="${empleado?.status}" valueMessagePrefix="empleado.status"  />
 </div>
+
       
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'empresa', 'error')} required">
 	<label for="empresa">
@@ -101,10 +101,10 @@
 	
 <ul class="one-to-many">
 <g:each in="${empleado?.perdedsList?}" var="p">
-    <li><g:link controller="empleadoPerded" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+    <li><g:link controller="empleadoPerded" action="ver" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
 </g:each>
 <li class="add">
-<g:link controller="empleadoPerded" action="create" params="['empleado.id': empleado?.id]">${message(code: 'default.add.label', args: [message(code: 'empleadoPerded.label', default: 'EmpleadoPerded')])}</g:link>
+<g:link controller="empleadoPerded" action="nuevo" params="['empleado.id': empleado?.id]">${message(code: 'default.add.label', args: [message(code: 'empleadoPerded.label', default: 'EmpleadoPerded')])}</g:link>
 </li>
 </ul>
 </div>
@@ -153,12 +153,13 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'modalidad', 'error')} required">
-	<label for="modalidad">
-		<g:message code="empleado.modalidad.label" default="Modalidad" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="modalidad" maxlength="2" required="" value="${empleado?.modalidad}"/>
+    <label for="modalidad">
+        <g:message code="empleado.modalidad.label" default="Modalidad" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select name="modalidad" from="${empleado.constraints.modalidad.inList}" value="${empleado?.modalidad}" valueMessagePrefix="empleado.modalidad"  />
 </div>
+
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'turno', 'error')} required">
 	<label for="turno">
@@ -259,11 +260,11 @@
     <h3><a href="#">Empleado Personales</a></h3>
     <div>
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'estadoCivil', 'error')} required">
-	<label for="estadoCivil">
-		<g:message code="empleado.estadoCivil.label" default="Estado Civil" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:textField name="estadoCivil" maxlength="2" required="" value="${empleado?.estadoCivil}"/>
+    <label for="estadoCivil">
+        <g:message code="empleado.estadoCivil.label" default="Estado Civil" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select name="estadoCivil" from="${empleado.constraints.estadoCivil.inList}" value="${empleado?.estadoCivil}" valueMessagePrefix="empleado.EstadoCivil"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: empleado, field: 'madre', 'error')} required">
