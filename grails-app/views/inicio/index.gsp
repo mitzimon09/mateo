@@ -9,6 +9,7 @@
 		<div id="page-body" role="main">
             <div class="nav" role="navigation">
                 <ul>
+    				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/>&nbsp;&gt;</a></li>
                     <li><g:link class="list" controller="admin" ><g:message code="admin.label" default="Admin" /></g:link></li>
                     <li><g:link class="list" controller="RH" ><g:message code="rh.label" default="RH" /></g:link></li>
                 </ul>

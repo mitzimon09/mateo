@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_RHOPER'])
 class DiasFeriadosController {
     def springSecurityService
 
@@ -16,7 +16,7 @@ class DiasFeriadosController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[diasFeriadoss: DiasFeriados.list(params), totalDeDiasFeriadoss: DiasFeriados.count()]
+		[diasFeriados: DiasFeriados.list(params), totalDeDiasFeriados: DiasFeriados.count()]
 	}
 
     def nuevo = {

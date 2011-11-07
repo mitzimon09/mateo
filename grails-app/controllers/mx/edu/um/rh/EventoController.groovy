@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 import mx.edu.um.Constantes
 
-@Secured(['ROLE_DIRRH'])
+@Secured(['ROLE_RHOPER'])
 class EventoController {
     def springSecurityService
     def empleadoService
@@ -58,7 +58,7 @@ class EventoController {
         }
     }
 
-    @Secured(['ROLE_EMP'])
+    @Secured(['ROLE_USER'])
     def ver = {
         def evento = Evento.get(params.id)
         if (!evento) {

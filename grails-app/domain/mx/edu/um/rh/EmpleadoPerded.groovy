@@ -8,7 +8,9 @@ class EmpleadoPerded {
     String atributos
     Boolean otorgado
     Boolean isEditableByNOM
+
     static belongsTo=[Empleado,PerDed]
+    
     static constraints = {
         tipoImporte maxSize:1
     }

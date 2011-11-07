@@ -93,21 +93,6 @@
 	<g:select id="empresa" name="empresa.id" from="${general.Empresa.list()}" optionKey="id" required="" value="${empleado?.empresa?.id}" class="many-to-one"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: empleado, field: 'perdedsList', 'error')} ">
-	<label for="perdedsList">
-		<g:message code="empleado.perdedsList.label" default="Perdeds List" />
-		
-	</label>
-	
-<ul class="one-to-many">
-<g:each in="${empleado?.perdedsList?}" var="p">
-    <li><g:link controller="empleadoPerded" action="ver" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="empleadoPerded" action="nuevo" params="['empleado.id': empleado?.id]">${message(code: 'default.add.label', args: [message(code: 'empleadoPerded.label', default: 'EmpleadoPerded')])}</g:link>
-</li>
-</ul>
-</div>
 </div>
     <h3><a href="#">Empleado Laborales</a></h3>
     <div>
@@ -254,7 +239,7 @@
 		<g:message code="empleado.grupo.label" default="Grupo" />
 		
 	</label>
-	<g:select id="grupo" name="grupo.id" from="${mx.edu.um.rh.Grupo.list()}" optionKey="id" value="${empleado?.grupo?.id}" class="many-to-one" noSelection="['null': '']"/>
+	<g:select id="grupo" name="grupo.id" from="${mx.edu.um.rh.Grupo.list()}" optionKey="id" value="${empleado?.grupo?.id}" class="many-to-one" />
 </div>
         </div>
     <h3><a href="#">Empleado Personales</a></h3>

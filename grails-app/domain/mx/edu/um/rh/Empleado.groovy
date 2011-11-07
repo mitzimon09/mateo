@@ -88,7 +88,7 @@ class Empleado {
         ife nullable: true
         rango nullable: true
         tipo blank: false
-        grupo nullable: true
+        grupo blank: false
         //Personales
         estadoCivil maxSize: 2, blank: false ,inList:['SO','CA','DI','UL']
         madre maxSize: 50, blank: false

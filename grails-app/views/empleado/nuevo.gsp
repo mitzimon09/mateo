@@ -226,7 +226,7 @@
 		                    <g:message code="empleado.grupo.label" default="Grupo" />
 		
 	                    </label>
-	                    <g:select id="grupo" name="grupo.id" from="${mx.edu.um.rh.Grupo.list()}" optionKey="id" value="${empleado?.grupo?.id}" class="many-to-one" noSelection="['null': '']"/>
+	                    <g:select id="grupo" name="grupo.id" from="${mx.edu.um.rh.Grupo.list()}" optionKey="id" value="${empleado?.grupo?.id}" class="many-to-one" />
                     </div>
 
                     <div class="fieldcontain ${hasErrors(bean: empleado, field: 'estadoCivil', 'error')} required">

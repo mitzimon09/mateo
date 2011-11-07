@@ -172,4 +172,37 @@ class EmpleadoService implements EmpleadoServiceInt {
         }
         return empleadoEvento
     }
+
+    boolean addPercepcionToEmpleado(Empleado empleado, PerDed perded, BigDecimal importe, String tipoImporte, String atributos, boolean otorgado, boolean isEditableByNOM){
+        EmpleadoPerded empleadoPerded = new EmpleadoPerded(
+            perded : perded,
+            empleado : empleado,
+            importe : importe,
+            tipoImporte : tipoImporte,
+            atributos : atributos,
+            otorgado : otorgado,
+            isEditableByNOM : isEditableByNOM
+        )
+
+        empleado.addToPerdedsList(empleadoPerded)
+        
+        if(empleado.save()){
+            log.debug "true"
+            return true
+        }
+        else{
+            log.debug "false"
+            return false
+        }
+    }
+
+    boolean updatePercepcionToEmpleado(EmpleadoPerded empleadoPerded){
+        //COMO ACTUALIZO MANUALMENTE!!!?????
+        if(empleadoPerded.update()){
+            return true
+        }
+        else{
+            return false
+        }
+    }
 }

@@ -6,7 +6,7 @@ class Seccion {
     Integer minimo
     Integer rango_academico
     Categoria categoria
-
+    
     static constraints = {
         descripcion maxSize: 200
         maximo blank: false
@@ -16,5 +16,9 @@ class Seccion {
     
     static mapping = {
         table name:'seccion', schema:'aron'
+    }
+    
+    String toString() {
+        return "$descripcion"
     }
 }
