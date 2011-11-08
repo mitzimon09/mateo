@@ -33,6 +33,7 @@ class SolicitudRHController {
     def nueva = {
         def solicitudRH = new SolicitudRH()
         solicitudRH.properties = params
+        solicitudRH.fechaCaptura = new Date()
         return [solicitudRH: solicitudRH]
     }
 
@@ -50,23 +51,26 @@ class SolicitudRHController {
 
     def ver = {
         def solicitudRH = SolicitudRH.get(params.id)
+        def permisos = permisos()
+        log.debug "fechas " (solicitudRH.fechaFinal - solicitudRH.fechaInicial)
         if (!solicitudRH) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
             redirect(action: "lista")
         }
         else {
-            [solicitudRH: solicitudRH]
+            [solicitudRH: solicitudRH, permisos: permisos]
         }
     }
 
     def edita = {
         def solicitudRH = SolicitudRH.get(params.id)
+        def permisos = permisos()
         if (!solicitudRH) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
             redirect(action: "lista")
         }
         else {
-            return [solicitudRH: solicitudRH]
+            return [solicitudRH: solicitudRH, permisos: permisos]
         }
     }
 
@@ -100,15 +104,20 @@ class SolicitudRHController {
     def elimina = {
         def solicitudRH = SolicitudRH.get(params.id)
         if (solicitudRH) {
-            try {
-                solicitudRH.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
-                redirect(action: "lista")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
-                redirect(action: "ver", id: params.id)
-            }
+        if(solicitudRH.status.equals("CR")){
+		        try {
+		            solicitudRH.delete(flush: true)
+		            flash.message = message(code: 'default.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
+		            redirect(action: "lista")
+		        }
+		        catch (org.springframework.dao.DataIntegrityViolationException e) {
+		            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
+		            redirect(action: "ver", id: params.id)
+		        }
+		    }
+		    else{
+		    	cancelar()
+		    }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
@@ -137,8 +146,9 @@ class SolicitudRHController {
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioRecibe = springSecurityService.currentUser
 			if (solicitudRH){
+				solicitudRH.usuarioRecibe = springSecurityService.currentUser
+				solicitudRH.fechaRecibe = new Date()
 				if(solicitudRH.status.equals("EN") || solicitudRH.status.equals("RE")){
 					solicitudRH = procesoService.aprobar(solicitudRH)
 					solicitudRH.usuarioRecibe = springSecurityService.currentUser
@@ -175,9 +185,10 @@ class SolicitudRHController {
     def autorizar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 			if (solicitudRH){
-				if(solicitudRH.status.equals("RE")){
+				solicitudRH.usuarioAutoriza = springSecurityService.currentUser
+				solicitudRH.fechaAutoriza = new Date()
+				if(solicitudRH.status.equals("RV")){
 					solicitudRH = procesoService.autorizar(solicitudRH)
 					solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 					solicitudRH.save(flush:true)
@@ -263,4 +274,26 @@ class SolicitudRHController {
 	
 		render(view: "rango")
 	}
+	
+	def permisos = {
+        //total de Permisos, 1 = Enviar/continuar proceso despues de suspendida, 2 = Suspender/Rechazar/aprobar, 3= rhoper:revisar/autorizar/rechazar
+        //3= dirh: rechazar/autorizar/cancelar, 4 = Todos
+        def totalPermisos = 0
+        if(SpringSecurityUtils.ifAnyGranted('ROLE_USER')) {
+            totalPermisos = 1
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_CCP')){
+            totalPermisos = 2
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_RHOPER')){
+            totalPermisos = 3
+        }
+        else if (SpringSecurityUtils.ifAnyGranted('ROLE_DIRRH')){
+        	totalPermisos = 4
+        }
+        if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        	  totalPermisos = 5
+        }
+        log.debug "totalPermisosCompra = " + totalPermisos
+        return totalPermisos
+    }
+    
 }

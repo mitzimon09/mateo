@@ -3,7 +3,7 @@ package mx.edu.um.rh
 import general.*
 
 class SolicitudRH {
-	Date fechaCaptura
+	Date fechaCaptura = new Date()
 	Empleado empleado
 	Empresa empresa
 	Date fechaInicial
@@ -43,7 +43,7 @@ class SolicitudRH {
 		email nullable: true
 		solicitudSalida nullable: true
 		vacaciones nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU']
+		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU', 'RV']
 		jefeCCosto nullable: true
 		folio nullable: true
     }

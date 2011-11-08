@@ -39,6 +39,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -50,6 +55,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -92,6 +98,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 		controller.params.fechaFinal = new Date()
 		controller.params.usuarioCrea = usuarioEmpleado.usuario
 		controller.params.dateCreated = new Date()
+		controller.params.folio = "test"
 		controller.crea()
 		
 		assert controller
@@ -116,6 +123,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -127,6 +139,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -162,6 +175,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
     	).save()
 		
 		def controller = new SolicitudRHController()
@@ -194,6 +208,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -205,6 +224,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -240,6 +260,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "EN"
     	).save()
 
@@ -273,6 +294,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -284,6 +310,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -319,6 +346,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "AP"
     	).save()
 
@@ -332,7 +360,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
         assert model.solicitudRH
         
         controller.revisar()
-        assertEquals "RE", solicitudRH.status
+        assertEquals "RV", solicitudRH.status
     }
     
     @Test
@@ -352,6 +380,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -363,6 +396,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -398,13 +432,14 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
-			, status: "RE"
+			, folio: "test"
+			, status: "RV"
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "RE", solicitudRH.status
+		assertEquals "RV", solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
@@ -431,6 +466,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -442,6 +482,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -477,6 +518,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "EN"
     	).save()
 
@@ -510,6 +552,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -521,6 +568,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -556,6 +604,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "EN"
     	).save()
 
@@ -608,6 +657,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
         	, seccion: seccion
         ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -619,6 +673,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -656,6 +711,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, fechaFinal: new Date()
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
+				, folio: "test$i"
 				, status: "AU"
 			).save()
     	}
@@ -678,6 +734,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097873
         	, escalafon: 3
         	, turno: 1
@@ -716,6 +773,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, fechaFinal: new Date()
 				, usuarioCrea: usuarioEmpleado2.usuario
 				, dateCreated: new Date()
+				, folio: "test$i"
 				, status: "AU"
 			).save()
     	}
@@ -775,6 +833,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
             ).save()
 		assertNotNull empresa
 
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -786,6 +849,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -818,6 +882,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, fechaFinal: new Date()
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
+				, folio: "test$i"
 				, status: "AP"
 			).save()
 			assertNotNull SolicitudRH
@@ -860,6 +925,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -871,6 +941,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -900,6 +971,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, fechaFinal: new Date()
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
+				, folio: "test$i"
 				, status: "AU"
 			).save()
     	}
@@ -941,6 +1013,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -952,6 +1029,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -987,6 +1065,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "EN"
     	).save()
 
@@ -1020,6 +1099,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -1031,6 +1115,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -1066,6 +1151,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "SU"
     	).save()
 
@@ -1127,6 +1213,11 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -1138,6 +1229,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -1177,6 +1269,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, fechaFinal: new Date()
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
+			, folio: "test"
 			, status: "CR"
 			, email: "test1"
     	).save()

@@ -7,6 +7,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class SolicitudVacacionesController extends SolicitudRHController{
 	def springSecurityService
 	def procesoService
+	def solicitudVacacionesService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -29,6 +30,21 @@ class SolicitudVacacionesController extends SolicitudRHController{
         def solicitudVacaciones = new SolicitudVacaciones(params)
         solicitudVacaciones.fechaCaptura = new Date()
         solicitudVacaciones.usuarioCrea = springSecurityService.currentUser
+        solicitudVacaciones.diasVacaciones = solicitudVacaciones.fechaFinal - solicitudVacaciones.fechaInicial
+        
+        log.debug "dias de vacaciones" + solicitudVacaciones.diasVacaciones
+        
+        if (((solicitudVacaciones.diasVacaciones) < 7) || derechoAPrimaVacacionalUnaVezAnual()){
+        	solicitudVacaciones.userPrimaVacacional = 0.00
+        	def date = new Date()
+        	log.debug "cuestion " + date
+        }
+        
+        //if kilometros >= 900, se agregan 2 días a las vacaciones del empleado
+        if (((solicitudVacaciones.kilometros >= 900) && (solicitudVacaciones.visitaPadres)) && !visitaPadresUnaVezAnual){
+        	solicitudVacacaciones.diasVacaciones = solicitudVacacaciones.diasVacaciones + 2
+        }
+        
         if (!solicitudVacaciones.save(flush: true)) {
             render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
             return
@@ -40,24 +56,26 @@ class SolicitudVacacionesController extends SolicitudRHController{
 
     def ver() {
         def solicitudVacaciones = SolicitudVacaciones.get(params.id)
+        def permisos = permisos()
         if (!solicitudVacaciones) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudVacaciones.label', default: 'SolicitudVacaciones'), params.id])
             redirect(action: "list")
             return
         }
 
-        [solicitudVacaciones: solicitudVacaciones]
+        [solicitudVacaciones: solicitudVacaciones, permisos: permisos]
     }
 
     def edita() {
         def solicitudVacaciones = SolicitudVacaciones.get(params.id)
+        def permisos = permisos()
         if (!solicitudVacaciones) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudVacaciones.label', default: 'SolicitudVacaciones'), params.id])
             redirect(action: "lista")
             return
         }
 
-        [solicitudVacaciones: solicitudVacaciones]
+        [solicitudVacaciones: solicitudVacaciones, permisos: permisos]
     }
 
     def actualiza() {
@@ -107,5 +125,27 @@ class SolicitudVacacionesController extends SolicitudRHController{
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'solicitudVacaciones.label', default: 'SolicitudVacaciones'), params.id])
             redirect(action: "ver", id: params.id)
         }
+    }
+    
+    def derechoAPrimaVacacionalUnaVezAnual(){
+    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesRHByRangoDeFecha()
+    	
+    	for (SolicitudVacaciones tmp in solicitudesVacaciones){
+    		if (tmp.primaVacacional > 0){
+    			return false
+    		}
+    	}
+    	return true
+    }
+    
+    def visitaPadresUnaVezAnual(){
+    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesRHByRangoDeFecha()
+    	
+    	for (SolicitudVacaciones tmp in solicitudesVacaciones){
+    		if (tmp.visitaPadres){
+    			return false
+    		}
+    	}
+    	return true
     }
 }

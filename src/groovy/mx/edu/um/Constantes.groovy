@@ -16,7 +16,7 @@ class Constantes {
     static final String STATUS_APROBADO="AP"
     static final String STATUS_RECHAZADO="RE"
     static final String STATUS_CANCELADO="CA"
-    static final String STATUS_REVISADO="RE"
+    static final String STATUS_REVISADO="RV"
     static final String STATUS_AUTORIZADO="AU"
     static final String STATUS_INICIADO="IN"
     static final String STATUS_TERMINADO="TE"

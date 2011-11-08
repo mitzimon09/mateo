@@ -9,6 +9,10 @@ class SolicitudPermiso extends SolicitudRH{
 	
 	boolean actualizacion
 	
+	static mapping = {
+		table name:'solicitud_permiso',schema:'aron'
+	}
+	
     static constraints = {
     	motivo blank:false
     }

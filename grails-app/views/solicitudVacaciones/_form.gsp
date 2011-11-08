@@ -34,38 +34,12 @@
 	<g:datePicker name="fechaFinal" precision="day"  value="${solicitudesVacaciones?.fechaFinal}"  />
 </div>
 
-
-
-<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'fechaAutorizacionRh', 'error')} ">
-	<label for="fechaAutorizacionRh">
-		<g:message code="solicitudVacaciones.fechaAutorizacionRh.label" default="Fecha Autorizacion Rh" />
+<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'nacional', 'error')} ">
+	<label for="nacional">
+		<g:message code="solicitudVacaciones.nacional.label" default="Nacional" />
 		
 	</label>
-	<g:datePicker name="fechaAutorizacionRh" precision="day"  value="${solicitudesVacaciones?.fechaAutorizacionRh}" default="none" noSelection="['': '']" />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'diasVacaciones', 'error')} required">
-	<label for="diasVacaciones">
-		<g:message code="solicitudVacaciones.diasVacaciones.label" default="Dias Vacaciones" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field type="number" name="diasVacaciones" required="" value="${fieldValue(bean: solicitudesVacaciones, field: 'diasVacaciones')}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'userPrimaVacacional', 'error')} ">
-	<label for="userPrimaVacacional">
-		<g:message code="solicitudVacaciones.userPrimaVacacional.label" default="User Prima Vacacional" />
-		
-	</label>
-	<g:field type="number" name="userPrimaVacacional" value="${fieldValue(bean: solicitudesVacaciones, field: 'userPrimaVacacional')}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'fechaPrimaVacacional', 'error')} ">
-	<label for="fechaPrimaVacacional">
-		<g:message code="solicitudVacaciones.fechaPrimaVacacional.label" default="Fecha Prima Vacacional" />
-		
-	</label>
-	<g:datePicker name="fechaPrimaVacacional" precision="day"  value="${solicitudesVacaciones?.fechaPrimaVacacional}" default="none" noSelection="['': '']" />
+	<g:checkBox name="nacional" value="${solicitudesVacaciones?.nacional}" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'destino', 'error')} required">
@@ -132,13 +106,6 @@
 	<g:textField name="furlough" value="${solicitudesVacaciones?.furlough}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'nacional', 'error')} ">
-	<label for="nacional">
-		<g:message code="solicitudVacaciones.nacional.label" default="Nacional" />
-		
-	</label>
-	<g:checkBox name="nacional" value="${solicitudesVacaciones?.nacional}" />
-</div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'primaVacacional', 'error')} ">
 	<label for="primaVacacional">
@@ -146,6 +113,22 @@
 		
 	</label>
 	<g:checkBox name="primaVacacional" value="${solicitudesVacaciones?.primaVacacional}" />
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'userPrimaVacacional', 'error')} ">
+	<label for="userPrimaVacacional">
+		<g:message code="solicitudVacaciones.userPrimaVacacional.label" default="User Prima Vacacional" />
+		
+	</label>
+	<g:field type="number" name="userPrimaVacacional" value="${fieldValue(bean: solicitudesVacaciones, field: 'userPrimaVacacional')}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'fechaPrimaVacacional', 'error')} ">
+	<label for="fechaPrimaVacacional">
+		<g:message code="solicitudVacaciones.fechaPrimaVacacional.label" default="Fecha Prima Vacacional" />
+		
+	</label>
+	<g:datePicker name="fechaPrimaVacacional" precision="day"  value="${solicitudesVacaciones?.fechaPrimaVacacional}" default="none" noSelection="['': '']" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudesVacaciones, field: 'visitaPadres', 'error')} ">

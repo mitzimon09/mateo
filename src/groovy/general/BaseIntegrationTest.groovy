@@ -15,7 +15,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_ADMIN')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -26,7 +26,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_CCP')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,309)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -37,7 +37,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_COMPRAS')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -48,7 +48,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_DIRFIN')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -59,7 +59,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_EMP')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -70,7 +70,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_ORG')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -81,7 +81,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_USER')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,13)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -92,7 +92,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_DIRRH')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,310)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,132)
         authenticate(principal,credentials,authorities)
     }
     
@@ -103,7 +103,7 @@ class BaseIntegrationTest extends GroovyTestCase {
                 ,password:credentials
             )
         def authorities = [new GrantedAuthorityImpl('ROLE_RHOPER')]
-        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,311)
+        def principal = new GrailsUser(user.username,credentials,true,true,true,true,authorities,205)
         authenticate(principal,credentials,authorities)
     }
 

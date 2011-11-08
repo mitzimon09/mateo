@@ -9,7 +9,7 @@ class SolicitudVacaciones extends SolicitudRH{
 	Integer diasVacaciones
 	
 	Boolean primaVacacional = false
-	Integer userPrimaVacacional
+	BigDecimal userPrimaVacacional = new BigDecimal(0.00)
 	Date fechaPrimaVacacional
 	Boolean visitaPadres = false
 	Boolean nacional = true
@@ -39,7 +39,7 @@ class SolicitudVacaciones extends SolicitudRH{
 		folioPago nullable: true
 
 		furlough nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU']
+		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU', 'RV']
 			
     }
     
@@ -53,14 +53,22 @@ class SolicitudVacaciones extends SolicitudRH{
     
     
    static namedQueries = {
-    	SolicitudSalidaParametros{SolicitudSalida solicitudSalida, SolicitudSalida solicitudSalidaDos ->
-            if(solicitudSalida){
-                if(solicitudSalidaDos){
-                    if(solicitudSalida.folio && solicitudSalidaDos.folio){
-                        between("folio", solicitudSalida.folio, solicitudSalidaDos.folio)
+    	solicitudVacacionesParametros{SolicitudVacaciones solicitudVacaciones, SolicitudVacaciones solicitudVacacionesDos ->
+            if(solicitudVacaciones){
+                if(solicitudVacacionesDos){
+                    if(solicitudVacaciones.folio && solicitudVacacionesDos.folio){
+                        between("folio", solicitudVacaciones.folio, solicitudVacacionesDos.folio)
                     }
                 }
             }
+        }
+        
+        solicitudVacacionesAnuales{ Date date->
+                if (date){
+		            solicitudVacaciones{
+		                ge 'fechaFinal', date
+		            }
+                }
         }
     }
 }

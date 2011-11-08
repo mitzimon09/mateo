@@ -34,15 +34,13 @@
 					
 						<g:sortableColumn property="fechaFinal" title="${message(code: 'solicitudVacaciones.fechaFinal.label', default: 'Fecha Final')}" />
 					
-						<g:sortableColumn property="folio" title="${message(code: 'solicitudVacaciones.folio.label', default: 'Folio')}" />
-					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${solicitudesRH}" status="i" var="solicitudVacaciones">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "id")}</g:link></td>
+						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "folio")}</g:link></td>
 					
 						<td><g:link controller="empleado" action="ver" id="${solicitudVacaciones.empleado.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
 					
@@ -50,7 +48,6 @@
 					
 						<td><g:formatDate date="${solicitudVacaciones.fechaFinal}" /></td>
 					
-						<td><g:formatDate date="${solicitudVacaciones.folio}" /></td>
 					
 					</tr>
 				</g:each>

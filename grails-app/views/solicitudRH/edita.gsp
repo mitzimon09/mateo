@@ -37,6 +37,35 @@
 				<fieldset class="buttons">
 					<g:actionSubmit class="save" action="actualiza" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:if test="${(permisos == 1 || permisos == 5)}">
+						<g:if test="${solicitudRH?.status.equals('CR') || solicitudRH?.status.equals('SU')}">
+				  			<g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
+						</g:if>
+					</g:if>
+					<g:if test="${(permisos == 2 || permisos == 5)}">
+						<g:if test="${solicitudRH?.status.equals('EN')}">
+				  			<g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
+  							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+  							<g:actionSubmit class="suspender" action="suspender" value="${message(code: 'default.button.suspender.label', default: 'Suspender')}" />
+						</g:if>
+					</g:if>
+					<g:if test="${(permisos == 3 || permisos == 5)}">
+						<g:if test="${solicitudRH?.status.equals('AP')}">
+				  			<g:actionSubmit class="revisar" action="revisar" value="${message(code: 'default.button.revisar.label', default: 'Aprobar')}" />
+  							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+						</g:if>
+						<g:if test="${solicitudRH?.status.equals('RV')}">
+							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+							<g:actionSubmit class="autorizar" action="autorizar" value="${message(code: 'default.button.autorizar.label', default: 'Autorizar')}" />
+						</g:if>
+					</g:if>
+					<g:if test="${(permisos == 4 || permisos == 0)}">
+						<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
+						<g:if test="${!solicitudRH?.status.equals('RV')}">
+				  			<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
+							<g:actionSubmit class="autorizar" action="autorizar" value="${message(code: 'default.button.autorizar.label', default: 'Autorizar')}" />
+						</g:if>
+					</g:if>
 				</fieldset>
 			</g:form>
 		</div>
