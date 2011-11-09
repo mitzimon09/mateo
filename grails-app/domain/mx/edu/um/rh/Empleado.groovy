@@ -55,8 +55,6 @@ class Empleado {
     
     static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
 
-    //static hasOne=[empleado:EmpleadoPersonales, empleado:empleado]
-
     static auditable = true
 
     static constraints = {
@@ -118,7 +116,7 @@ class Empleado {
         estadoCivil column:'estadocivil'
         fechaMatrimonio column:'fechaMatrimonio'
 
-        //perdedsList cascade:'all-delete-orphan'
+        perdedsList cascade:'all-delete-orphan'
     }
     
     public String getNombreCompleto(){
