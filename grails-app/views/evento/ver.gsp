@@ -76,15 +76,25 @@
 					
 				</li>
 				</g:if>
+				
+				<g:if test="${evento?.tiempoTotal}">
+				<li class="fieldcontain">
+					<span id="tiempoTotal-label" class="property-label"><g:message code="evento.tiempoTotal.label" default="Tiempo Total" /></span>
+					
+						<span class="property-value" aria-labelledby="tiempoTotal-label"><g:fieldValue bean="${evento}" field="tiempoTotal"/></span>
+					
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${evento?.id}" />
 					<sec:ifLoggedIn>
-                        <g:link class="list" action="iniciarEvento" id="${evento?.id}"><g:message code="default.button.inicioEvento.label" default="Iniciar Evento" /></g:link>
+					    <g:actionSubmit class="edit" action="iniciarEvento" value="${message(code:'default.button.inicioEvento.label', default:'Iniciar Evento')}" />
+					    <g:actionSubmit class="edit" action="reporte" value="${message(code:'default.button.reporte.label', default:'Reporte de Asistencia')}" />
                     </sec:ifLoggedIn>
-					<g:link class="edit" action="edita" id="${evento?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                    <g:actionSubmit class="edit" action="edita" value="${message(code:'default.button.edit.label', default:'Edit')}" />
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

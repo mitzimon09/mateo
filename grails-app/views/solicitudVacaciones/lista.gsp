@@ -13,7 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="nueva"><g:message code="Nueva Solicitud de Vacaciones" args="[entityName]" /></g:link></li>
-				<li><g:link class="rango" action="rango"><g:message code="Encontrar por rango de fecha" /></g:link></li>
+				<li><g:link class="list" action="rango"><g:message code="Encontrar por rango de fecha" /></g:link></li>
 			</ul>
 		</div>
 		<div id="list-solicitudVacaciones" class="content scaffold-list" role="main">
@@ -43,7 +43,7 @@
 				<g:each in="${solicitudesVacaciones}" status="i" var="solicitudVacaciones">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
+						<td><g:link action="ver" id="${solicitudesVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
 					
 						<td>${fieldValue(bean: solicitudVacaciones, field: "empresa")}</td>
 					

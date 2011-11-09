@@ -1,6 +1,7 @@
 package mx.edu.um.rh
 
 import general.*
+import mx.edu.um.Constantes
 
 class Empleado {
 
@@ -64,15 +65,15 @@ class Empleado {
         apMaterno maxSize: 30, blank: false
         fechaNacimiento blank:false
         direccion maxSize: 100, blank: false
-        genero maxSize: 2, blank: false //inList = ['MA','FE']
-        status maxSize: 2, blank: false //inList = ['A','I'] //No seria mejor crear otro enum para los estatus de Empleado?
+        genero maxSize: 2, blank: false, inList:[Constantes.GENERO_MASCULINO,Constantes.GENERO_FEMENINO]
+        status maxSize: 2, blank: false, inList:[Constantes.STATUS_ACTIVO,Constantes.STATUS_INACTIVO] //No seria mejor crear otro enum para los estatus de Empleado?
         //Laborales
         cuenta maxSize: 16, nullable: true
         curp maxSize: 30, blank: false //No se debe validar el tamanio de la CURP aqui? Que yo sepa hay manera de hacer validaciones en el Constraints
-        escalafon blank: false //Impedir que Escalafon sea <0
+        escalafon min: 0, blank: false 
         imms maxSize: 15, nullable: true
         rfc maxSize: 15, blank: false //Validar el tamanio del RFC tambien, no?
-        modalidad maxSize: 2, blank: false
+        modalidad maxSize: 2, blank: false, inList:[Constantes.MODALIDAD_APOYO,Constantes.MODALIDAD_DOCENTE]
         turno blank: false
         fechaAlta blank: false
         antiguedadBase blank: false
@@ -85,9 +86,9 @@ class Empleado {
         ife nullable: true
         rango nullable: true
         tipo blank: false
-        grupo nullable: true
+        grupo blank: false
         //Personales
-        estadoCivil maxSize: 2, blank: false //inList = ['SOLTERO','CASADO','DIVORCIADO','UNION LIBRE']
+        estadoCivil maxSize: 2, blank: false ,inList:['SO','CA','DI','UL']
         madre maxSize: 50, blank: false
         padre maxSize: 50, blank: false
         conyuge maxSize: 50, nullable: true
@@ -120,7 +121,7 @@ class Empleado {
     }
     
     public String getNombreCompleto(){
-        "$nombre $apPaterno $apMaterno"
+        return "$nombre $apPaterno $apMaterno"
     }
 
     /*public void save(params){

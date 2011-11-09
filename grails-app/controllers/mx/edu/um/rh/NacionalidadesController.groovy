@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_RHOPER'])
 class NacionalidadesController {
     def springSecurityService
 
@@ -16,7 +16,7 @@ class NacionalidadesController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[nacionalidadess: Nacionalidades.list(params), totalDeNacionalidadess: Nacionalidades.count()]
+		[nacionalidades: Nacionalidades.list(params), totalDeNacionalidades: Nacionalidades.count()]
 	}
 
     def nuevo = {

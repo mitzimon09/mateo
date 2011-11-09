@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_RHOPER'])
 class SeccionController {
     def springSecurityService
 
@@ -16,7 +16,7 @@ class SeccionController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[seccions: Seccion.list(params), totalDeSeccions: Seccion.count()]
+		[secciones: Seccion.list(params), totalDeSecciones: Seccion.count()]
 	}
 
     def nuevo = {

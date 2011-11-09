@@ -14,4 +14,8 @@ class Grupo {
     static mapping={
         table name:'grupo',schema:'aron'
     }
+    
+    String toString() {
+        return nombre
+    }
 }
