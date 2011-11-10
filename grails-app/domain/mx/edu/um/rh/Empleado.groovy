@@ -3,7 +3,10 @@ package mx.edu.um.rh
 import general.*
 import mx.edu.um.Constantes
 
+//@Audited
 class Empleado {
+
+    //static auditable = true
 
     String clave
     String nombre
@@ -55,8 +58,6 @@ class Empleado {
     static transients = ['perdeds', 'estudios', 'nombreCompleto']
     
     static hasMany=[perdedsList:EmpleadoPerded, estudiosList: EmpleadoEstudios]//, empleado:EmpleadoPersonales, empleado:empleado]
-
-    static auditable = true
 
     static constraints = {
         clave maxSize: 7, blank: false, unique: true
@@ -123,14 +124,6 @@ class Empleado {
     public String getNombreCompleto(){
         return "$nombre $apPaterno $apMaterno"
     }
-
-    /*public void save(params){
-    	System.out.println("saved")
-    }
-
-    public void Empleado.metaclass.save(params){
-    	System.out.println("saved")
-    }*/
 
     public String getDisponibilidad(){
         String disponiblidad = ""
@@ -253,24 +246,24 @@ class Empleado {
         }
     }
 
-    def onSave = {
-        println "Nuevo Empleado dado de Alta"
-        // may optionally refer to newState map
-    }
-
-    def onDelete = {
-        println "Empleado dado de Baja"
-        // may optionally refer to oldState map
-    }
-
-    def onChange = { oldMap,newMap ->
-        println "Empleado Modificado ..."
-        oldMap.each({ key, oldVal ->
-            if(oldVal != newMap[key]) {
-                println " * ${key} cambiado a: ${oldVal} to " + newMap[key]
-            }
-        })
-    }
+//    def onSave = {
+//        println "Nuevo Empleado dado de Alta"
+//        // may optionally refer to newState map
+//    }
+//
+//    def onDelete = {
+//        println "Empleado dado de Baja"
+//        // may optionally refer to oldState map
+//    }
+//
+//    def onChange = { oldMap,newMap ->
+//        println "Empleado Modificado ..."
+//        oldMap.each({ key, oldVal ->
+//            if(oldVal != newMap[key]) {
+//                println " * ${key} cambiado a: ${oldVal} to " + newMap[key]
+//            }
+//        })
+//    }
     
     String toString() {
     	return "$nombre $apPaterno $apMaterno"

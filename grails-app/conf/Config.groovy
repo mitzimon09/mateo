@@ -93,7 +93,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug  'grails.app','org.hibernate'//,*/'test.integration'
+    debug  'grails.app'//,'org.hibernate'//,*/'test.integration'
 
     //trace  'org.hibernate.type'
 
@@ -140,10 +140,10 @@ grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, app
 }
 
 //To specify a property of the userPrincipal to be logged as the actor name (the person performing the action which triggered the event)
-auditLog {
-  actorKey = 'userPrincipal.name'
-  //actorKey = 'userPrincipal.id'
-}
+//auditLog {
+//  actorKey = 'userPrincipal.name'
+//  actorKey = 'userPrincipal.id'
+//}
 
 //If you are using a custom authentication system in your controller that puts the user data into the session you can set up the actorKey to work with this data instead.
 //auditLog {
