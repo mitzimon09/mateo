@@ -12,6 +12,8 @@ class PerDed {
 
     static hasMany=[atributos:Atributo]
 
+    static belongsTo=[EmpleadoPerded]
+
     static constraints = {
         clave maxSize:6,unique:true,blank:false
         nombre maxSize:50,unique:true,blank:false

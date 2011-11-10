@@ -196,9 +196,12 @@ class EmpleadoService implements EmpleadoServiceInt {
         }
     }
 
-    boolean updatePercepcionToEmpleado(EmpleadoPerded empleadoPerded){
-        //COMO ACTUALIZO MANUALMENTE!!!?????
-        if(empleadoPerded.update()){
+    /**
+     * Modifica una percepcion (EmpleadoPerded)
+     * La percepcion (EmpleadoPerded) del Parametro debe ya traer asignados los cambios con los que se va a guardar
+    **/
+    boolean updatePercepcionFromEmpleado(EmpleadoPerded empleadoPerded){
+        if(empleadoPerded.save()){
             return true
         }
         else{
@@ -215,6 +218,15 @@ class EmpleadoService implements EmpleadoServiceInt {
             }
         }
         log.debug "asistidos > " + asistidos
+    }
 
+    /**
+     * Elimina una percepcion (EmpleadoPerded)
+    **/
+    Boolean deletePercepcionFromEmpleado(Empleado empleado, EmpleadoPerded empleadoPerded){
+
+        Boolean removio = empleado.removeFromPerdedsList(empleadoPerded)
+
+        return removio
     }
 }
