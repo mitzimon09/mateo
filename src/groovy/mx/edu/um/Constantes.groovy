@@ -10,15 +10,26 @@ package mx.edu.um
  * @author eder
  */
 class Constantes {
-    static final String STATUS_ACTIVO="A"
-    static final String STATUS_INACTIVO="I"
+    //Formato de fecha
+    static final String DATE_JAVA_FORMAT = "dd-MM-yyyy";
+    static final String DATE_USER_FORMAT = "(dd-mm-yyyy)";
+
+    //constantes del otro sistema
+    static final String STATUS_ACTIVO = "A";
+    static final String STATUS_INACTIVO = "I";
+    static final String STATUS_CANCELADO = "X";
+    static final String STATUS_CONFIRMADO = "C";
+    static final String STATUS_INSCRITO = "I";
+    static final String STATUS_ABIERTO = "Op";
+    static final String STATUS_CERRADO = "Cl";
+    static final String STATUS_RECHAZADO = "Rz";
+    static final String STATUS_ENVIADO = "OK";
+    static final String STATUS_AUTORIZADO = "At";
+    static final String STATUS_EMAIL_ENVIADO = "EE";
+    static final String STATUS_FINALIZADO = "Z";
     static final String STATUS_CREADO="CR"
-    static final String STATUS_ENVIADO="EN"
     static final String STATUS_APROBADO="AP"
-    static final String STATUS_RECHAZADO="RE"
-    static final String STATUS_CANCELADO="CA"
     static final String STATUS_REVISADO="RE"
-    static final String STATUS_AUTORIZADO="AU"
     static final String STATUS_INICIADO="IN"
     static final String STATUS_TERMINADO="TE"
     static final String STATUS_SUSPENDIDO="SU"
@@ -28,8 +39,14 @@ class Constantes {
     
     static final String GENERO_MASCULINO="M"
     static final String GENERO_FEMENINO="F"
-
+    
     static final String MODALIDAD_APOYO="AP"
     static final String MODALIDAD_DOCENTE="DO"
+    
+    static final String ESTADO_CIVIL_SOLTERO="SO"
+    static final String ESTADO_CIVIL_CASADO="CA"
+    static final String ESTADO_CIVIL_DIVORSIADO="DI"
+    static final String ESTADO_CIVIL_UNION_LIBRE="UL"
+    
 }
 

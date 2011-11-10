@@ -89,7 +89,7 @@ class Empleado {
         tipo blank: false
         grupo blank: false
         //Personales
-        estadoCivil maxSize: 2, blank: false ,inList:['SO','CA','DI','UL']
+        estadoCivil maxSize: 2, blank: false ,inList:[Constantes.ESTADO_CIVIL_SOLTERO, Constantes.ESTADO_CIVIL_CASADO, Constantes.ESTADO_CIVIL_DIVORSIADO, Constantes.ESTADO_CIVIL_UNION_LIBRE]
         madre maxSize: 50, blank: false
         padre maxSize: 50, blank: false
         conyuge maxSize: 50, nullable: true

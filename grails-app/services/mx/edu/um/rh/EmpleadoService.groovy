@@ -208,6 +208,17 @@ class EmpleadoService implements EmpleadoServiceInt {
             return false
         }
     }
+    
+    def eventosPorEmpleado(Empleado empleado) {
+        def eventos = Evento.list()
+        def asistidos = []
+        for(evento in eventos) {
+            if(evento.status == Constantes.STATUS_TERMINADO) {
+                asistidos << EmpleadoEvento.findByEmpleadoAndEvento(empleado, evento)
+            }
+        }
+        log.debug "asistidos > " + asistidos
+    }
 
     /**
      * Elimina una percepcion (EmpleadoPerded)
@@ -217,6 +228,5 @@ class EmpleadoService implements EmpleadoServiceInt {
         Boolean removio = empleado.removeFromPerdedsList(empleadoPerded)
 
         return removio
-
     }
 }

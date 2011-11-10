@@ -19,9 +19,9 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     Empleado crearEmpleadoPrueba(String claveEmpleado){
         println "Creando Empleado Prueba"
         def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
         ).save()
         assertNotNull grupoPrueba
 
@@ -300,43 +300,43 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
     	).save()
     	assertNotNull tipoEmpleado
 
-        def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
-        
         for(i in 1..20) {
 	        Empleado empleado = new Empleado(
                 clave : "11100$i"
                 , nombre : "test"
                 , apPaterno : "test"
                 , apMaterno : "test"
-                , genero : "M"
+                , genero : Constantes.GENERO_FEMENINO
                 , fechaNacimiento : new Date()
                 , direccion : "test"
-                , status : "A"
+                , status : Constantes.STATUS_ACTIVO
                 , empresa: empresa
                 , curp : "test123"
                 , rfc : "ABC-1234567890"
                 , escalafon : 75
                 , turno : 100
                 , fechaAlta : new Date()
-                , modalidad : "AP"
+                , modalidad : Constantes.MODALIDAD_APOYO
                 , antiguedadBase : new BigDecimal(0.00)
                 , antiguedadFiscal : new BigDecimal(0.00)
                 , padre : "test"
                 , madre: "test"
-                , estadoCivil : "SO"
+                , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
                 , tipo: tipoEmpleado
-                , grupo: grupoPrueba
+                , grupo: grupo
             ).save()
             assertNotNull empleado
         }
@@ -370,42 +370,42 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
     	).save()
     	assertNotNull tipoEmpleado
 
-        def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
-        
         def controller = new EmpleadoController()
         controller.empleadoService = empleadoService
         controller.params.nombre = "test"
         controller.params.apPaterno = "test"
         controller.params.apMaterno = "test"
-        controller.params.genero = "F"
+        controller.params.genero = Constantes.GENERO_FEMENINO
         controller.params.fechaNacimiento = new Date()
         controller.params.direccion = "test"
-        controller.params.status = "A"
+        controller.params.status = Constantes.STATUS_ACTIVO
         controller.params.empresa = empresa
         controller.params.curp = "1232"
         controller.params.rfc = "12345678901234"
         controller.params.escalafon = 3
         controller.params.turno = 1
-        controller.params.modalidad = "AP"
+        controller.params.modalidad = Constantes.MODALIDAD_APOYO
         controller.params.antiguedadBase = new BigDecimal(0.00)
         controller.params.antiguedadFiscal = new BigDecimal(0.00)
         controller.params.fechaAlta = new Date()
         controller.params.padre = "test"
         controller.params.madre = "test"
-        controller.params.estadoCivil = "SO"
+        controller.params.estadoCivil = Constantes.ESTADO_CIVIL_SOLTERO
         controller.params.tipo = tipoEmpleado
-        controller.params.grupo = grupoPrueba
+        controller.params.grupo = grupo
         controller.crea()
 
         assert controller
@@ -438,6 +438,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
@@ -449,24 +456,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
-            , genero : "F"
+            , genero : Constantes.GENERO_FEMENINO
             , fechaNacimiento : new Date()
             , direccion : "test"
-            , status : "A"
+            , status : Constantes.STATUS_ACTIVO
             , empresa: empresa
             , curp : "test123"
             , rfc : "ABC-1234567890"
             , escalafon : 75
             , turno : 100
             , fechaAlta : new Date()
-            , modalidad : "AP"
+            , modalidad : Constantes.MODALIDAD_APOYO
             , antiguedadBase : new BigDecimal(0.00)
             , antiguedadFiscal : new BigDecimal(0.00)
             , padre : "test"
             , madre: "test"
-            , estadoCivil : "SO"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
             , tipo: tipoEmpleado
-            , grupo: grupoPrueba
+            , grupo: grupo
         ).save()
         assertNotNull empleado
 
@@ -477,7 +484,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "test", model.empleado.nombre
         assertEquals "test", model.empleado.apPaterno
         assertEquals "test", model.empleado.apMaterno
-        assertEquals "fm", model.empleado.genero
+        assertEquals Constantes.GENERO_FEMENINO, model.empleado.genero
 
         controller.params.id = empleado.id
         model = controller.edita()
@@ -490,22 +497,14 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.actualiza()
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
 
-        empleado.refresh()
         assertEquals "another", model.empleado.nombre
         assertEquals "another", model.empleado.apPaterno
         assertEquals "another", model.empleado.apMaterno
-        assertEquals "F", model.empleado.genero
+        assertEquals Constantes.GENERO_FEMENINO, model.empleado.genero
     }
 
     @Test
     void debieraCambiarEstatusDeEmpleado(){
-
-        def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
 
     	def organizacion = new Organizacion(
             codigo: 'test'
@@ -521,36 +520,43 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , organizacion: organizacion
         ).save()
         assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
 
-		def tipoEmpleado = new TipoEmpleado (
+	def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
     	).save()
     	assertNotNull tipoEmpleado        
             
     	Empleado empleado = new Empleado(
-            clave : "1110001"
+            clave : "1110000"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
-            , genero : "fm"
+            , genero : Constantes.GENERO_FEMENINO
             , fechaNacimiento : new Date()
             , direccion : "test"
-            , status : "A"
+            , status : Constantes.STATUS_ACTIVO
             , empresa: empresa
             , curp : "test123"
             , rfc : "ABC-1234567890"
             , escalafon : 75
             , turno : 100
             , fechaAlta : new Date()
-            , modalidad : "AP"
+            , modalidad : Constantes.MODALIDAD_APOYO
             , antiguedadBase : new BigDecimal(0.00)
             , antiguedadFiscal : new BigDecimal(0.00)
             , padre : "test"
             , madre: "test"
-            , estadoCivil : "SO"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
             , tipo: tipoEmpleado
-            , grupo: grupoPrueba
+            , grupo: grupo
         ).save()
         assertNotNull empleado
 
@@ -559,12 +565,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         def model = controller.ver()
         assert model.empleado
 
-        assertEquals "A", empleado.status
+        assertEquals Constantes.STATUS_ACTIVO, empleado.status
         controller.params.id = empleado.id
         model = controller.edita()
         controller.delete()
 
-        assertEquals "I", empleado.status
+        assertEquals Constantes.STATUS_INACTIVO, empleado.status
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
     }
 
