@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.authentication.TestingAuthenticationToken
+import mx.edu.um.Constantes
 
 class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 	def springSecurityService
@@ -34,31 +35,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def currentUser = springSecurityService.currentUser
 		assertNotNull currentUser
@@ -111,31 +110,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+		Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -184,31 +181,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -272,31 +267,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -361,31 +354,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -452,31 +443,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -543,31 +532,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -634,31 +621,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -724,31 +709,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -814,31 +797,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -901,31 +882,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -947,6 +926,8 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     	   	
     	def controller = new SolicitudVacacionesController()
         
+        def model = controller.nueva()
+        
         controller.params.empleado = empleado
         controller.params.empresa = empleado.empresa
         controller.params.fechaCaptura =  new Date()
@@ -960,8 +941,10 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.folio = "test"
         controller.params.userPrimaVacacional = new BigDecimal(1000.00)
         controller.crea()
+        
+        def solicitud = model
 		//find a way to assert the result of crea()
-        assertEquals 0, controller.params.userPrimaVacacional, 0 //AssertionError: expected:<0.0> but was:<1000.0>
+        assertEquals 0, model.userPrimaVacacional, 0 //AssertionError: expected:<0.0> but was:<1000.0>
 
     }
     
@@ -987,31 +970,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -1091,31 +1072,29 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : "fm"
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : "A"
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : "A"
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : "S"
+            , tipo: tipoEmpleado
+        ).save()
 		
 		def usuario = new Usuario (
     		username: "test"

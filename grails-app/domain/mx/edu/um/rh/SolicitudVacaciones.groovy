@@ -63,10 +63,15 @@ class SolicitudVacaciones extends SolicitudRH{
             }
         }
         
-        solicitudVacacionesAnuales{ Date date->
-                if (date){
-		            solicitudVacaciones{
-		                ge 'fechaFinal', date
+        solicitudVacacionesAnuales{ SolicitudVacaciones solicitudVacaciones->
+                if (solicitudVacaciones.fechaInicial){
+                	if(solicitudVacaciones.empleado){
+				        solicitudVacaciones{
+				        	and{
+				            ge 'fechaFinal', solicitudVacaciones.fechaInicial
+				            eq 'empleado', solicitudVacacionesempleado
+				        	}
+				        }
 		            }
                 }
         }

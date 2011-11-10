@@ -9,6 +9,7 @@ class Evento {
     Date hora_final
     Integer prorroga = new Integer('0')
     String status = Constantes.STATUS_CREADO
+    Integer tiempoTotal
     
     static constraints = {
         nombre maxSize: 50
@@ -19,5 +20,9 @@ class Evento {
     
     static mapping = {
         table name:'evento', schema:'aron'
+    }
+    
+    String toString() {
+        return "$nombre"
     }
 }

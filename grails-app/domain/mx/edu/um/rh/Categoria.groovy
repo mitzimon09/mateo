@@ -10,4 +10,8 @@ class Categoria {
     static mapping = {
         table name:'categoria', schema:'aron'
     }
+    
+    String toString() {
+        return "$nombre"
+    }
 }

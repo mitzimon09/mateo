@@ -5,10 +5,10 @@ import mx.edu.um.rh.interfaces.*
 import grails.plugins.springsecurity.Secured
 import mx.edu.um.rh.*
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_RHOPER'])
 class EmpleadoController {
 
-	def empleadoService
+    def empleadoService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -16,10 +16,10 @@ class EmpleadoController {
         redirect(action: "lista", params: params)
     }
 
-	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[empleados: Empleado.list(params), totalDeEmpleados: Empleado.count()]
-	}
+    def lista = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [empleados: Empleado.list(params), totalDeEmpleados: Empleado.count()]
+    }
 
     def nuevo = {
         return [empleado:new Empleado()]
@@ -31,7 +31,7 @@ class EmpleadoController {
         def empleado = new Empleado(params)
         log.debug "clave before saving " + empleado.clave
         if (empleado.save(flush: true)) {
-            flash.message = message(code: 'default.created.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleado.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleado.clave])
             redirect(action: "ver", id: empleado.id)
         }
         else {
@@ -42,7 +42,7 @@ class EmpleadoController {
     def ver = {
         def empleado = Empleado.get(params.id)
         if (!empleado) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
             redirect(action: "lista")
         }
         else {
@@ -53,7 +53,7 @@ class EmpleadoController {
     def edita = {
         def empleado = Empleado.get(params.id)
         if (!empleado) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
             redirect(action: "lista")
         }
         else {
@@ -75,7 +75,7 @@ class EmpleadoController {
             }
             empleado.properties = params
             if (!empleado.hasErrors() && empleado.save(flush: true)) {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleado.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'empleado.label', default: 'Empleado'), empleado.clave])
                 redirect(action: "ver", id: empleado.id)
             }
             else {
@@ -83,7 +83,7 @@ class EmpleadoController {
             }
         }
         else {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
             redirect(action: "lista")
         }
     }
@@ -126,4 +126,5 @@ class EmpleadoController {
         def empleados = Empleado.listaEmpleadosParametros(empleado,null)
         return empleados.list()
     }
+    
 }

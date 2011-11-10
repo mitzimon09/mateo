@@ -64,6 +64,10 @@ class BootStrap {
             if (!rolNom) {
                 rolNom = new general.Rol(authority: 'ROLE_NOM').save(flush:true)
             }
+            def rolDirRH = general.Rol.findByAuthority('ROLE_DIRRH')
+            if (!rolDirRH) {
+                rolDirRH = new general.Rol(authority: 'ROLE_DIRRH').save(flush:true)
+            }
             def rolRHOper = general.Rol.findByAuthority('ROLE_RHOPER')
             if (!rolRHOper) {
                 rolRHOper = new general.Rol(authority: 'ROLE_RHOPER').save(flush:true)

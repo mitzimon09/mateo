@@ -4,7 +4,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_RHOPER'])
 class NivelEstudiosController {
     def springSecurityService
 
@@ -16,7 +16,7 @@ class NivelEstudiosController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[nivelEstudioss: NivelEstudios.list(params), totalDeNivelEstudioss: NivelEstudios.count()]
+		[nivelEstudios: NivelEstudios.list(params), totalDeNivelEstudios: NivelEstudios.count()]
 	}
 
     def nuevo = {

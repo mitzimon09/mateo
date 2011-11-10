@@ -20,16 +20,16 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
-			<g:hasErrors bean="${solicitudVacacionesInstance}">
+			<g:hasErrors bean="${solicitudVacaciones}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${solicitudVacacionesInstance}" var="error">
+				<g:eachError bean="${solicitudVacaciones}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
 			<g:form method="post" >
-				<g:hiddenField name="id" value="${solicitudVacacionesInstance?.id}" />
-				<g:hiddenField name="version" value="${solicitudVacacionesInstance?.version}" />
+				<g:hiddenField name="id" value="${solicitudVacaciones?.id}" />
+				<g:hiddenField name="version" value="${solicitudVacaciones?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

@@ -54,19 +54,9 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${solicitudVacaciones?.usuarioCrea}">
-				<li class="fieldcontain">
-					<span id="usuarioCrea-label" class="property-label"><g:message code="solicitudVacaciones.usuarioCrea.label" default="Usuario Crea" /></span>
-					
-						<span class="property-value" aria-labelledby="usuarioCrea-label"><g:link controller="usuario" action="ver" id="${solicitudVacaciones?.usuarioCrea?.id}">${solicitudVacaciones?.usuarioCrea?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${solicitudVacaciones?.dateCreated}">
 				<li class="fieldcontain">
-					<span id="dateCreated-label" class="property-label"><g:message code="solicitudVacaciones.dateCreated.label" default="Date Created" /></span>
-					
+					<span id="dateCreated-label" class="property-label"><g:message code="solicitudVacaciones.dateCreated.label" default="fecha de creacion" /></span>
 						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${solicitudVacaciones?.dateCreated}" /></span>
 					
 				</li>
@@ -216,14 +206,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${solicitudVacaciones?.userPrimaVacacional}">
-				<li class="fieldcontain">
-					<span id="userPrimaVacacional-label" class="property-label"><g:message code="solicitudVacaciones.userPrimaVacacional.label" default="User Prima Vacacional" /></span>
-					
-						<span class="property-value" aria-labelledby="userPrimaVacacional-label"><g:fieldValue bean="${solicitudVacaciones}" field="userPrimaVacacional"/></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${solicitudVacaciones?.fechaPrimaVacacional}">
 				<li class="fieldcontain">
@@ -296,24 +278,13 @@
 					
 				</li>
 				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.primaVacacional}">
+				
 				<li class="fieldcontain">
-					<span id="primaVacacional-label" class="property-label"><g:message code="solicitudVacaciones.primaVacacional.label" default="Prima Vacacional" /></span>
+					<span id="userPrimaVacacional-label" class="property-label"><g:message code="solicitudVacaciones.userPrimaVacacional.label" default="Prima Vacacional" /></span>
 					
-						<span class="property-value" aria-labelledby="primaVacacional-label"><g:formatBoolean boolean="${solicitudVacaciones?.primaVacacional}" /></span>
+						<span class="property-value" aria-labelledby="userPrimaVacacional-label"><g:fieldValue bean="${solicitudVacaciones}" field="userPrimaVacacional"/></span>
 					
 				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.visitaPadres}">
-				<li class="fieldcontain">
-					<span id="visitaPadres-label" class="property-label"><g:message code="solicitudVacaciones.visitaPadres.label" default="Visita Padres" /></span>
-					
-						<span class="property-value" aria-labelledby="visitaPadres-label"><g:formatBoolean boolean="${solicitudVacaciones?.visitaPadres}" /></span>
-					
-				</li>
-				</g:if>
 			
 			</ol>
 			<g:form>
@@ -355,3 +326,4 @@
 		</div>
 	</body>
 </html>
+

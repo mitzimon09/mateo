@@ -5,6 +5,7 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'evento.label', default: 'Evento')}" />
 		<title><g:message code="Pase de Lista para {0}" args="[evento.nombre]"/></title>
+	    <meta name="layout" content="main" />
 	</head>
 	<body>
 		<a href="#create-evento" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -32,7 +33,7 @@
 				    //todo aqui <br>
 				    campo para capturar # nomina
 				    <div class="fieldcontain required">
-                        <label>
+                        <label for="clave">
                             <g:message code="evento.clave.label" default="# Clave" />
                             <span class="required-indicator">*</span>
                         </label>
@@ -40,13 +41,17 @@
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
-					<g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
                     <sec:ifLoggedIn>
-                        <g:link class="list" action="paseLista" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Pase Lista" /></g:link>
+					    <g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
                         <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
                     </sec:ifLoggedIn>
 				</fieldset>
 			</g:form>
 		</div>
+		<g:javascript>
+          $(document).ready(function() {
+            $('#clave').focus();
+          });
+        </g:javascript>
 	</body>
 </html>

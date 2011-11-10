@@ -7,12 +7,19 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class SolicitudVacacionesService {
 		def springSecurityService
 
-    List<SolicitudVacaciones> getSolicitudesRHByRangoDeFecha() throws NullPointerException{
+    List<SolicitudVacaciones> getSolicitudesAnuales(Empleado empleado) throws NullPointerException{
     	Calendar yearInit = Calendar.getInstance()
 		yearInit.set(yearInit.get(Calendar.YEAR), 0, 1, 0, 0)
 		def date = yearInit.getTime()
-		
-		def solicitudesVacaciones = SolicitudVacaciones.solicitudVacacionesAnuales(date)
-		return solicitudesVacaciones.list()
+		SolicitudVacaciones solicitudVacaciones = new SolicitudVacaciones()
+		solicitudVacaciones.empleado = empleado
+		solicitudVacaciones.fechaInicial = date
+		def solicitudesVacaciones = SolicitudVacaciones.solicitudVacacionesAnuales(solicitudVacaciones).list()
+		log.debug ">____<"
+		if(solicitudesVacaciones== null){
+            throw new NullPointerException("solicitudesVacaciones inexistente")
+        }
+		log.debug "0____0" + solicitudesVacaciones
+		return solicitudesVacaciones
      }
 }

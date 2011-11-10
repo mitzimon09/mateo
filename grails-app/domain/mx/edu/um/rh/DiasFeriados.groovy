@@ -4,14 +4,13 @@ import general.Usuario
 
 class DiasFeriados {
     String descripcion
-    char diadado
+    boolean diadado //se puede hacer boolean
     Date fecharegistro
     Date fecha
     Usuario user
 
     static constraints = {
         descripcion maxSize: 100
-        diadado maxSize: 1
     }
     
     static mapping = {

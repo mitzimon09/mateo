@@ -9,11 +9,9 @@
 		<div id="page-body" role="main">
             <div class="nav" role="navigation">
                 <ul>
-                    <li><g:link class="list" controller="contabilidad" ><g:message code="contabilidad.label" default="Contabilidad" /></g:link></li>
-                    <li><g:link class="list" controller="inventario" ><g:message code="inventario.label" default="Inventario" /></g:link></li>
-                    <li><g:link class="list" controller="compra" ><g:message code="compra.label" default="Compra" /></g:link></li>
+    				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/>&nbsp;&gt;</a></li>
                     <li><g:link class="list" controller="admin" ><g:message code="admin.label" default="Admin" /></g:link></li>
-                    <li><g:link class="list" controller="evento" ><g:message code="evento.label" default="Evento" /></g:link></li>
+                    <li><g:link class="list" controller="RH" ><g:message code="rh.label" default="RH" /></g:link></li>
                 </ul>
             </div>
 			<g:if test="${flash.message}">

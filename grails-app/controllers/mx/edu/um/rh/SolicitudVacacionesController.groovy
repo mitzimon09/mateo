@@ -34,7 +34,9 @@ class SolicitudVacacionesController extends SolicitudRHController{
         
         log.debug "dias de vacaciones" + solicitudVacaciones.diasVacaciones
         
-        if (((solicitudVacaciones.diasVacaciones) < 7) || derechoAPrimaVacacionalUnaVezAnual()){
+        log.debug "                      empleado " + solicitudVacaciones.empleado
+        
+        if ((solicitudVacaciones.diasVacaciones < 7) || derechoAPrimaVacacionalUnaVezAnual(solicitudVacaciones.empleado)){
         	solicitudVacaciones.userPrimaVacacional = 0.00
         	def date = new Date()
         	log.debug "cuestion " + date
@@ -127,8 +129,8 @@ class SolicitudVacacionesController extends SolicitudRHController{
         }
     }
     
-    def derechoAPrimaVacacionalUnaVezAnual(){
-    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesRHByRangoDeFecha()
+    def derechoAPrimaVacacionalUnaVezAnual(Empleado empleado){
+    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
     	
     	for (SolicitudVacaciones tmp in solicitudesVacaciones){
     		if (tmp.primaVacacional > 0){
@@ -138,9 +140,9 @@ class SolicitudVacacionesController extends SolicitudRHController{
     	return true
     }
     
-    def visitaPadresUnaVezAnual(){
-    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesRHByRangoDeFecha()
-    	
+    def visitaPadresUnaVezAnual(Empleado empleado){
+    	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
+    	log.debug "o____o"
     	for (SolicitudVacaciones tmp in solicitudesVacaciones){
     		if (tmp.visitaPadres){
     			return false
