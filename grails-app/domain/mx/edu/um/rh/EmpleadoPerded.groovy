@@ -2,14 +2,13 @@ package mx.edu.um.rh
 
 class EmpleadoPerded {
     PerDed perded
-    Empleado empleado
     BigDecimal importe
     String tipoImporte
     String atributos
     Boolean otorgado
     Boolean isEditableByNOM
 
-    static belongsTo=[Empleado]
+    static belongsTo=[empleado: Empleado]
     
     static constraints = {
         tipoImporte maxSize:1
@@ -19,8 +18,9 @@ class EmpleadoPerded {
         table name:'empleado_perdeds',schema:'aron'
         isEditableByNOM column: 'editable_by_nom', type:'yes_no'
         otorgado type:'yes_no'
-        id generator:'native'
+        //id generator:'native'
         perded column:'perded_id'
+        empleado column: 'empleado_id'
     }
 
     String toString() {
