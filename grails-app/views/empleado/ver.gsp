@@ -117,8 +117,9 @@
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${empleado?.id}" />
-					<g:link class="edit" action="edita" id="${empleado?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+					<g:actionSubmit class="list" action="eventos" value="${message(code:'default.button.eventos.label', default:'Eventos')}" />
+					<g:actionSubmit class="edit" action="edita" value="${message(code:'default.button.edit.label', default:'Edit')}" />
+					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
 		</div>
