@@ -18,54 +18,48 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
     Empleado crearEmpleadoPrueba(String claveEmpleado){
         def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
         ).save()
         assertNotNull grupoPrueba
 
-//        def tipoEmpleado = new TipoEmpleado(
-//            descripcion : "DENOMINACIONAL",
-//            prefijo : "980"
-//        ).save()
-//        assertNotNull tipoEmpleado
-
         def empleado = new Empleado(
-            empresa: Empresa.findByCodigo("CTL"),
-            clave : claveEmpleado,
-            nombre : "TESTA",
-            apPaterno : "TESTA",
-            apMaterno : "TESTA",
-            genero : "FM",
-            fechaNacimiento : new Date(),
-            direccion : "TEST",
-            status : Constantes.STATUS_ACTIVO,
+            empresa: Empresa.findByCodigo("CTL")
+            , clave : claveEmpleado
+            , nombre : "TESTA"
+            , apPaterno : "TESTA"
+            , apMaterno : "TESTA"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "TEST"
+            , status : Constantes.STATUS_ACTIVO
             //Map perdeds
-            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
-            curp : "TEST123",
-            rfc : "ABC-1234567890",
-            cuenta : "123456789",
-            imms : "123456789012345",
-            escalafon : 75,
-            turno : 100,
-            fechaAlta : new Date(),
-            fechaBaja : new Date(),
-            experienciaFueraUM : new BigDecimal(0.00),
-            modalidad : "A",
-            ife : "123456789012",
-            rango : "SR",
-            adventista : true,
-            fechaAntiguedadBase : new Date(),
-            antiguedadBase : new BigDecimal(0.00),
-            antiguedadFiscal : new BigDecimal(0.00),
-            grupo : grupoPrueba ,
-            padre : "TESTP",
-            madre: "TESTM",
-            estadoCivil : "S",
-            conyuge : "TESTC",
-            fechaMatrimonio : new Date(),
-            iglesia : "TESTI",
-            responsabilidad : "TESTR"//,
+            , tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+            , curp : "TEST123"
+            , rfc : "ABC-1234567890"
+            , cuenta : "123456789"
+            , imms : "123456789012345"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , fechaBaja : new Date()
+            , experienciaFueraUM : new BigDecimal(0.00)
+            , modalidad : "A"
+            , ife : "123456789012"
+            , rango : "SR"
+            , adventista : true
+            , fechaAntiguedadBase : new Date()
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , grupo : grupoPrueba 
+            , padre : "TESTP"
+            , madre: "TESTM"
+            , estadoCivil : "S"
+            , conyuge : "TESTC"
+            , fechaMatrimonio : new Date()
+            , iglesia : "TESTI"
+            , responsabilidad : "TESTR"//
         ).save()
         assertNotNull empleado
 
@@ -75,10 +69,10 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         //Agregando las Percepciones
         List<PerDed> ps = new ArrayList<PerDed>()
-        ps.add(PerDed.findByClave("PD003"))
-        ps.add(PerDed.findByClave("PD004"))
-        ps.add(PerDed.findByClave("PD005"))
-        ps.add(PerDed.findByClave("PD006"))
+        ps.add(PerDed.findByClave("PD103"))
+        ps.add(PerDed.findByClave("PD104"))
+        ps.add(PerDed.findByClave("PD105"))
+        ps.add(PerDed.findByClave("PD106"))
 
         List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
         //3,4,5,6
@@ -164,8 +158,8 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     public crearPerdeds(){
         println "Creando Perdeds"
 
-        PerDed PD001 = new PerDed(
-            clave: "PD001",
+        PerDed PD101 = new PerDed(
+            clave: "PD101",
             nombre: "PERCEPCION UNO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -173,10 +167,10 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             formula: "%",
             atributos : ["A":"B"]
         ).save()
-        assertNotNull PD001
+        assertNotNull PD101
 
-        PerDed PD002 = new PerDed(
-            clave: "PD002",
+        PerDed PD102 = new PerDed(
+            clave: "PD102",
             nombre: "PERCEPCION DOS",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -184,54 +178,54 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             formula: "%",
             atributos : ["A":"B"]
         ).save()
-        assertNotNull PD002
+        assertNotNull PD102
 
-        PerDed PD003 = new PerDed(
-            clave: "PD003",
+        PerDed PD103 = new PerDed(
+            clave: "PD103",
             nombre: "PERCEPCION TRES",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD001 * PD007",
+            formula: "PD101 * PD107",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD003
+        assertNotNull PD103
 
-        PerDed PD004 = new PerDed(
-            clave: "PD004",
+        PerDed PD104 = new PerDed(
+            clave: "PD104",
             nombre: "TPERCEPCION CUATRO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD002",
+            formula: "PD102",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD004
+        assertNotNull PD104
 
-        PerDed PD005 = new PerDed(
-            clave: "PD005",
+        PerDed PD105 = new PerDed(
+            clave: "PD105",
             nombre: "PERCEPCION CINCO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD002",
+            formula: "% * PD102",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD005
+        assertNotNull PD105
 
-        PerDed PD006 = new PerDed(
-            clave: "PD006",
+        PerDed PD106 = new PerDed(
+            clave: "PD106",
             nombre: "PERCEPCION SEIS",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD001",
+            formula: "% * PD101",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD006
+        assertNotNull PD106
 
-        PerDed PD007 = new PerDed(
-            clave: "PD007",
+        PerDed PD107 = new PerDed(
+            clave: "PD107",
             nombre: "PERCEPCION SIETE",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -239,51 +233,51 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             formula: "0",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD007
+        assertNotNull PD107
     }
 
     public crearPorcentajes(){
         println "Creando Porcentajes"
 
-        Porcentaje porcentajePD001 = new Porcentaje(
+        Porcentaje porcentajePD101 = new Porcentaje(
             valor : new BigDecimal("2.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD001"),
+            perded : PerDed.findByClave("PD101"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD001
+        assertNotNull porcentajePD101
 
-        Porcentaje porcentajePD002 = new Porcentaje(
+        Porcentaje porcentajePD102 = new Porcentaje(
             valor : new BigDecimal("4.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD002"),
+            perded : PerDed.findByClave("PD102"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD002
+        assertNotNull porcentajePD102
 
-        Porcentaje porcentajePD005 = new Porcentaje(
+        Porcentaje porcentajePD105 = new Porcentaje(
             valor : new BigDecimal("6.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD005"),
+            perded : PerDed.findByClave("PD105"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD005
+        assertNotNull porcentajePD105
 
-        Porcentaje porcentajePD006 = new Porcentaje(
+        Porcentaje porcentajePD106 = new Porcentaje(
             valor : new BigDecimal("8.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD006"),
+            perded : PerDed.findByClave("PD106"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD006
+        assertNotNull porcentajePD106
 
-        Porcentaje porcentajePD007 = new Porcentaje(
+        Porcentaje porcentajePD107 = new Porcentaje(
             valor : new BigDecimal("0.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD007"),
+            perded : PerDed.findByClave("PD107"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD007
+        assertNotNull porcentajePD107
     }
 
     @Test
@@ -305,6 +299,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
@@ -317,23 +318,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , nombre : "test"
                 , apPaterno : "test"
                 , apMaterno : "test"
-                , genero : "FM"
+                , genero : Constantes.GENERO_FEMENINO
                 , fechaNacimiento : new Date()
                 , direccion : "test"
-                , status : "A"
+                , status : Constantes.STATUS_ACTIVO
                 , empresa: empresa
                 , curp : "test123"
                 , rfc : "ABC-1234567890"
                 , escalafon : 75
                 , turno : 100
                 , fechaAlta : new Date()
-                , modalidad : "A"
+                , modalidad : Constantes.MODALIDAD_APOYO
                 , antiguedadBase : new BigDecimal(0.00)
                 , antiguedadFiscal : new BigDecimal(0.00)
                 , padre : "test"
                 , madre: "test"
-                , estadoCivil : "S"
+                , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
                 , tipo: tipoEmpleado
+                , grupo: grupo
             ).save()
             assertNotNull empleado
         }
@@ -367,6 +369,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
@@ -378,23 +387,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.nombre = "test"
         controller.params.apPaterno = "test"
         controller.params.apMaterno = "test"
-        controller.params.genero = "fm"
+        controller.params.genero = Constantes.GENERO_FEMENINO
         controller.params.fechaNacimiento = new Date()
         controller.params.direccion = "test"
-        controller.params.status = "23"
+        controller.params.status = Constantes.STATUS_ACTIVO
         controller.params.empresa = empresa
         controller.params.curp = "1232"
         controller.params.rfc = "12345678901234"
         controller.params.escalafon = 3
         controller.params.turno = 1
-        controller.params.modalidad = "tt"
+        controller.params.modalidad = Constantes.MODALIDAD_APOYO
         controller.params.antiguedadBase = new BigDecimal(0.00)
         controller.params.antiguedadFiscal = new BigDecimal(0.00)
         controller.params.fechaAlta = new Date()
         controller.params.padre = "test"
         controller.params.madre = "test"
-        controller.params.estadoCivil = "3e"
+        controller.params.estadoCivil = Constantes.ESTADO_CIVIL_SOLTERO
         controller.params.tipo = tipoEmpleado
+        controller.params.grupo = grupo
         controller.crea()
 
         assert controller
@@ -420,6 +430,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         ).save()
         assertNotNull empresa
         
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
     		, prefijo: "111"
@@ -431,23 +448,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
-            , genero : "fm"
+            , genero : Constantes.GENERO_FEMENINO
             , fechaNacimiento : new Date()
             , direccion : "test"
-            , status : "A"
+            , status : Constantes.STATUS_ACTIVO
             , empresa: empresa
             , curp : "test123"
             , rfc : "ABC-1234567890"
             , escalafon : 75
             , turno : 100
             , fechaAlta : new Date()
-            , modalidad : "A"
+            , modalidad : Constantes.MODALIDAD_APOYO
             , antiguedadBase : new BigDecimal(0.00)
             , antiguedadFiscal : new BigDecimal(0.00)
             , padre : "test"
             , madre: "test"
-            , estadoCivil : "S"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
             , tipo: tipoEmpleado
+            , grupo: grupo
         ).save()
         assertNotNull empleado
 
@@ -458,7 +476,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals "test", model.empleado.nombre
         assertEquals "test", model.empleado.apPaterno
         assertEquals "test", model.empleado.apMaterno
-        assertEquals "fm", model.empleado.genero
+        assertEquals Constantes.GENERO_FEMENINO, model.empleado.genero
 
         controller.params.id = empleado.id
         model = controller.edita()
@@ -471,11 +489,10 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         controller.actualiza()
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
 
-        empleado.refresh()
         assertEquals "another", model.empleado.nombre
         assertEquals "another", model.empleado.apPaterno
         assertEquals "another", model.empleado.apMaterno
-        assertEquals "fm", model.empleado.genero
+        assertEquals Constantes.GENERO_FEMENINO, model.empleado.genero
     }
 
     @Test
@@ -495,6 +512,13 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             , organizacion: organizacion
         ).save()
         assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
 
 		def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
@@ -503,27 +527,28 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     	assertNotNull tipoEmpleado        
             
     	Empleado empleado = new Empleado(
-            clave : "1110001"
+            clave : "1110000"
             , nombre : "test"
             , apPaterno : "test"
             , apMaterno : "test"
-            , genero : "fm"
+            , genero : Constantes.GENERO_FEMENINO
             , fechaNacimiento : new Date()
             , direccion : "test"
-            , status : "A"
+            , status : Constantes.STATUS_ACTIVO
             , empresa: empresa
             , curp : "test123"
             , rfc : "ABC-1234567890"
             , escalafon : 75
             , turno : 100
             , fechaAlta : new Date()
-            , modalidad : "A"
+            , modalidad : Constantes.MODALIDAD_APOYO
             , antiguedadBase : new BigDecimal(0.00)
             , antiguedadFiscal : new BigDecimal(0.00)
             , padre : "test"
             , madre: "test"
-            , estadoCivil : "S"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
             , tipo: tipoEmpleado
+            , grupo: grupo
         ).save()
         assertNotNull empleado
 
@@ -532,12 +557,12 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         def model = controller.ver()
         assert model.empleado
 
-        assertEquals "A", empleado.status
+        assertEquals Constantes.STATUS_ACTIVO, empleado.status
         controller.params.id = empleado.id
         model = controller.edita()
         controller.delete()
 
-        assertEquals "I", empleado.status
+        assertEquals Constantes.STATUS_INACTIVO, empleado.status
         assert controller.response.redirectedUrl.startsWith('/empleado/ver')
     }
 
@@ -878,7 +903,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD001 * PD001",
+            formula: "PD101 * PD101",
             atributos: ["A":"B"]
         ).save()
         assertNotNull PD100
@@ -927,7 +952,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800052"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
 
         Map<String,EmpleadoPerded> perdedsEmpleadoMap = empleado.perdeds
@@ -936,17 +961,24 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
         assertEquals 4 , perdedsEmpleado.size()
 
+        for(EmpleadoPerded epd : perdedsEmpleado){
+            println "clave: ${epd.perded.clave}"
+        }
+
         EmpleadoPerded empleadoPerded
         for(EmpleadoPerded ep : perdedsEmpleado){
-            if(ep.perded.clave.equals("PD001")){
+            if(ep.perded.clave.equals("PD103")){ //Todos los empleadoPerded guardados en Empleado van con el atributo otorgado como falso
                 empleadoPerded = ep
             }
         }
-
+        assert empleadoPerded
+        assertTrue empleadoPerded.otorgado == false
+        
         //Modificando
         empleadoPerded.otorgado = true
 
-        Boolean modificarPerecepcion = empleadoService.updatePercepcionToEmpleado(empleadoPerded)
+        Boolean modificarPerecepcion = empleadoService.updatePercepcionFromEmpleado(empleadoPerded)
+        assertTrue modificarPercepcion
 
         perdedsEmpleadoMap = empleado.perdeds
 
@@ -956,14 +988,70 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
         EmpleadoPerded empleadoPerdedUpdated
         for(EmpleadoPerded ep : perdedsEmpleado){
-            if(ep.perded.clave.equals("PD001")){
+            if(ep.perded.clave.equals("PD103")){
                 empleadoPerdedUpdated = ep
             }
         }
 
-        assertTrue empleadoPerded.otorgado != empleadoPerdedUpdated.otorgado
-        log.debug "${empleadoPerded.otorgado} ----- ${empleadoPerdedUpdated.otorgado}}"
+        assertTrue empleadoPerdedUpdated.otorgado == true
 
+    }
+
+    /**
+     * Elimina una Percepcion del Empleado.
+     * Documentacion acerca de como funcionan las relaciones:
+     * http://grails.org/doc/2.0.0.RC1/guide/GORM.html#sets,ListsAndMaps
+     **/
+    @Test
+    void debieraEliminarPercepcionDeEmpleado(){
+        crearGrupos()
+        crearPerdeds()
+        crearPorcentajes()
+        crearTipoEmpleados()
+
+        def clave = "9800000"
+        Empleado empleado = crearEmpleadoPrueba(clave)
+
+        Map<String,EmpleadoPerded> perdedsEmpleadoMap = empleado.perdeds
+
+        List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
+        perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
+        assertEquals 4 , perdedsEmpleado.size()
+
+        for(EmpleadoPerded epd : perdedsEmpleado){
+            println "clave: ${epd.perded.clave}"
+        }
+
+        EmpleadoPerded empleadoPerded
+        for(EmpleadoPerded ep : perdedsEmpleado){
+            if(ep.perded.clave.equals("PD103")){ 
+                empleadoPerded = ep
+            }
+        }
+        assert empleadoPerded
+
+        Boolean eliminoPercepcion = empleadoService.deletePercepcionFromEmpleado(empleado, empleadoPerded)
+        println "eliminoPercepcion: ${eliminoPercepcion}"
+
+        perdedsEmpleadoMap.clear()
+        perdedsEmpleadoMap = empleado.perdeds
+
+        perdedsEmpleado.clear()
+        perdedsEmpleado.addAll(perdedsEmpleadoMap.values())
+        assertEquals 3 , perdedsEmpleado.size()
+
+        println "Ya se debio haber eliminado"
+        for(EmpleadoPerded epd : perdedsEmpleado){
+            println "clave: ${epd.perded.clave}"
+        }
+
+        boolean loEncontro = false
+        for(EmpleadoPerded ep : perdedsEmpleado){
+            if(ep.perded.clave.equals("PD103")){
+                loEncontro = true
+            }
+        }
+        assertTrue loEncontro == false
 
     }
 

@@ -1,12 +1,13 @@
 package mx.edu.um.rh
 import general.*
+import mx.edu.um.Constantes
 
 class SolicitudVacaciones extends SolicitudRH{
 	
 	Date fechaRecibeJefe
 	Date fechaRecibeRh
 	Date fechaAutorizacionRh
-	Integer diasVacaciones
+	Integer diasVacaciones = 0
 	
 	Boolean primaVacacional = false
 	BigDecimal userPrimaVacacional = new BigDecimal(0.00)
@@ -18,7 +19,7 @@ class SolicitudVacaciones extends SolicitudRH{
 	
 	
 	String folioPago
-	String status = "CR"
+	String status = Constantes.STATUS_ENVIADO
 	String furlough
 	
 	static belongsTo = {[Empresa:empresa, Empleado:empleado]}
@@ -39,7 +40,7 @@ class SolicitudVacaciones extends SolicitudRH{
 		folioPago nullable: true
 
 		furlough nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU', 'RV']
+		status inList: [Constantes.STATUS_CREADO, Constantes.STATUS_ENVIADO, Constantes.STATUS_REVISADO, Constantes.STATUS_APROBADO, Constantes.STATUS_CANCELADO, Constantes.STATUS_AUTORIZADO, Constantes.STATUS_SUSPENDIDO, Constantes.STATUS_REVISADO, Constantes.STATUS_RECHAZADO]
 			
     }
     
@@ -63,15 +64,13 @@ class SolicitudVacaciones extends SolicitudRH{
             }
         }
         
-        solicitudVacacionesAnuales{ SolicitudVacaciones solicitudVacaciones->
+        solicitudVacacionesAnuales{SolicitudVacaciones solicitudVacaciones ->
                 if (solicitudVacaciones.fechaInicial){
-                	if(solicitudVacaciones.empleado){
-				        solicitudVacaciones{
+                	if(solicitudVacaciones.empleado != null){
 				        	and{
-				            ge 'fechaFinal', solicitudVacaciones.fechaInicial
-				            eq 'empleado', solicitudVacacionesempleado
+						        ge 'fechaFinal', solicitudVacaciones.fechaInicial
+						        eq 'empleado', solicitudVacaciones.empleado
 				        	}
-				        }
 		            }
                 }
         }

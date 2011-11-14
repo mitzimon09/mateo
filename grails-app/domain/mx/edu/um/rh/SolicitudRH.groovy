@@ -1,6 +1,7 @@
 package mx.edu.um.rh
 
 import general.*
+import mx.edu.um.Constantes
 
 class SolicitudRH {
 	Date fechaCaptura = new Date()
@@ -43,7 +44,7 @@ class SolicitudRH {
 		email nullable: true
 		solicitudSalida nullable: true
 		vacaciones nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU', 'RV']
+		status inList: [Constantes.STATUS_CREADO, Constantes.STATUS_ENVIADO, Constantes.STATUS_REVISADO, Constantes.STATUS_APROBADO, Constantes.STATUS_CANCELADO, Constantes.STATUS_AUTORIZADO, Constantes.STATUS_SUSPENDIDO, Constantes.STATUS_REVISADO, Constantes.STATUS_RECHAZADO]
 		jefeCCosto nullable: true
 		folio nullable: true
     }

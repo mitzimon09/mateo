@@ -196,13 +196,37 @@ class EmpleadoService implements EmpleadoServiceInt {
         }
     }
 
-    boolean updatePercepcionToEmpleado(EmpleadoPerded empleadoPerded){
-        //COMO ACTUALIZO MANUALMENTE!!!?????
-        if(empleadoPerded.update()){
+    /**
+     * Modifica una percepcion (EmpleadoPerded)
+     * La percepcion (EmpleadoPerded) del Parametro debe ya traer asignados los cambios con los que se va a guardar
+    **/
+    boolean updatePercepcionFromEmpleado(EmpleadoPerded empleadoPerded){
+        if(empleadoPerded.save()){
             return true
         }
         else{
             return false
         }
+    }
+    
+    def eventosPorEmpleado(Empleado empleado) {
+        def eventos = Evento.list()
+        def asistidos = []
+        for(evento in eventos) {
+            if(evento.status == Constantes.STATUS_TERMINADO) {
+                asistidos << EmpleadoEvento.findByEmpleadoAndEvento(empleado, evento)
+            }
+        }
+        log.debug "asistidos > " + asistidos
+    }
+
+    /**
+     * Elimina una percepcion (EmpleadoPerded)
+    **/
+    Boolean deletePercepcionFromEmpleado(Empleado empleado, EmpleadoPerded empleadoPerded){
+
+        Boolean removio = empleado.removeFromPerdedsList(empleadoPerded)
+
+        return removio
     }
 }

@@ -30,22 +30,22 @@ class SolicitudVacacionesController extends SolicitudRHController{
         def solicitudVacaciones = new SolicitudVacaciones(params)
         solicitudVacaciones.fechaCaptura = new Date()
         solicitudVacaciones.usuarioCrea = springSecurityService.currentUser
-        solicitudVacaciones.diasVacaciones = solicitudVacaciones.fechaFinal - solicitudVacaciones.fechaInicial
         
-        log.debug "dias de vacaciones" + solicitudVacaciones.diasVacaciones
-        
-        log.debug "                      empleado " + solicitudVacaciones.empleado
-        
-        if ((solicitudVacaciones.diasVacaciones < 7) || derechoAPrimaVacacionalUnaVezAnual(solicitudVacaciones.empleado)){
+        boolean primaAnual = derechoAPrimaVacacionalUnaVezAnual(solicitudVacaciones.empleado)
+        if ((solicitudVacaciones.diasVacaciones < 7) || !primaAnual){
         	solicitudVacaciones.userPrimaVacacional = 0.00
         	def date = new Date()
-        	log.debug "cuestion " + date
+        }
+        boolean visitaAnual = visitaPadresUnaVezAnual(solicitudVacaciones.empleado)
+        //if kilometros >= 900, se agregan 2 días a las vacaciones del empleado
+        if (((solicitudVacaciones.kilometros >= 900) && (solicitudVacaciones.visitaPadres)) && visitaAnual){
+        	int dias = solicitudVacaciones.diasVacaciones
+        	solicitudVacaciones.fechaFinal += 2
         }
         
-        //if kilometros >= 900, se agregan 2 días a las vacaciones del empleado
-        if (((solicitudVacaciones.kilometros >= 900) && (solicitudVacaciones.visitaPadres)) && !visitaPadresUnaVezAnual){
-        	solicitudVacacaciones.diasVacaciones = solicitudVacacaciones.diasVacaciones + 2
-        }
+		solicitudVacaciones.fechaFinal += terminanVacacionesEnViernesOSabado(solicitudVacaciones.fechaFinal)
+        solicitudVacaciones.diasVacaciones = solicitudVacaciones.fechaFinal - solicitudVacaciones.fechaInicial
+        
         
         if (!solicitudVacaciones.save(flush: true)) {
             render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
@@ -131,9 +131,11 @@ class SolicitudVacacionesController extends SolicitudRHController{
     
     def derechoAPrimaVacacionalUnaVezAnual(Empleado empleado){
     	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
-    	
+    	if (solicitudesVacaciones == null){
+    		return true
+    	}
     	for (SolicitudVacaciones tmp in solicitudesVacaciones){
-    		if (tmp.primaVacacional > 0){
+    		if (tmp.userPrimaVacacional > 0){
     			return false
     		}
     	}
@@ -142,12 +144,22 @@ class SolicitudVacacionesController extends SolicitudRHController{
     
     def visitaPadresUnaVezAnual(Empleado empleado){
     	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
-    	log.debug "o____o"
     	for (SolicitudVacaciones tmp in solicitudesVacaciones){
     		if (tmp.visitaPadres){
     			return false
     		}
     	}
     	return true
+    }
+    
+    def terminanVacacionesEnViernesOSabado(Date terminanVacaciones){
+    	int diasExtras = 0
+    	if ((terminanVacaciones.toString()).startsWith("Fri")){
+    		diasExtras = 2
+    	}
+    	else if ((terminanVacaciones.toString()).startsWith("Sat")){
+    		diasExtras = 1
+    	}
+    	return diasExtras
     }
 }

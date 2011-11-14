@@ -14,12 +14,10 @@ class SolicitudVacacionesService {
 		SolicitudVacaciones solicitudVacaciones = new SolicitudVacaciones()
 		solicitudVacaciones.empleado = empleado
 		solicitudVacaciones.fechaInicial = date
-		def solicitudesVacaciones = SolicitudVacaciones.solicitudVacacionesAnuales(solicitudVacaciones).list()
-		log.debug ">____<"
+		def solicitudesVacaciones = SolicitudVacaciones.solicitudVacacionesAnuales(solicitudVacaciones)
 		if(solicitudesVacaciones== null){
             throw new NullPointerException("solicitudesVacaciones inexistente")
         }
-		log.debug "0____0" + solicitudesVacaciones
-		return solicitudesVacaciones
+		return solicitudesVacaciones.list()
      }
 }

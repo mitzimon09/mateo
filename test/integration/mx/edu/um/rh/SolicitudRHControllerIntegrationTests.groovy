@@ -4,6 +4,7 @@ import general.*
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
+import mx.edu.um.Constantes
 
 
 import org.springframework.security.core.GrantedAuthority
@@ -39,36 +40,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -123,36 +131,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -181,14 +196,14 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 		def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "CR", solicitudRH.status
+		assertEquals Constantes.STATUS_CREADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.enviar()
-        assertEquals "EN", solicitudRH.status
+        assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
     }
     
     @Test
@@ -208,36 +223,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -261,20 +283,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "EN"
+			, status: Constantes.STATUS_ENVIADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudRH.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.aprobar()
-        assertEquals "AP", solicitudRH.status
+        assertEquals Constantes.STATUS_APROBADO, solicitudRH.status
     }
     
     @Test
@@ -294,36 +316,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -347,20 +376,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "AP"
+			, status: Constantes.STATUS_APROBADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "AP", solicitudRH.status
+		assertEquals Constantes.STATUS_APROBADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.revisar()
-        assertEquals "RV", solicitudRH.status
+        assertEquals Constantes.STATUS_REVISADO, solicitudRH.status
     }
     
     @Test
@@ -380,36 +409,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -433,20 +469,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "RV"
+			, status: Constantes.STATUS_REVISADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "RV", solicitudRH.status
+		assertEquals Constantes.STATUS_REVISADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.autorizar()
-        assertEquals "AU", solicitudRH.status
+        assertEquals Constantes.STATUS_AUTORIZADO, solicitudRH.status
     }
     
         @Test
@@ -466,36 +502,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -519,20 +562,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "EN"
+			, status: Constantes.STATUS_ENVIADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudRH.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.rechazar()
-        assertEquals "RE", solicitudRH.status
+        assertEquals Constantes.STATUS_RECHAZADO, solicitudRH.status
     }
     
        @Test
@@ -552,36 +595,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -605,20 +655,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "EN"
+			, status: Constantes.STATUS_ENVIADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudRH.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.cancelar()
-        assertEquals "CA", solicitudRH.status
+        assertEquals Constantes.STATUS_CANCELADO, solicitudRH.status
     }
     
     
@@ -657,36 +707,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
         	, seccion: seccion
         ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -712,7 +769,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
 				, folio: "test$i"
-				, status: "AU"
+				, status: Constantes.STATUS_AUTORIZADO
 			).save()
     	}
     	
@@ -722,32 +779,32 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , nombreCompleto: 'emptest'
                 , organizacion: organizacion
             ).save()
+            
+        Empleado empleado2 = new Empleado(
+            clave : "1110002"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
     
-    	def empleado2 = new Empleado (
-			clave: "1110002"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097873
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
 		
 		currentUser = springSecurityService.currentUser
 		
@@ -774,7 +831,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, usuarioCrea: usuarioEmpleado2.usuario
 				, dateCreated: new Date()
 				, folio: "test$i"
-				, status: "AU"
+				, status: Constantes.STATUS_AUTORIZADO
 			).save()
     	}
     	
@@ -809,7 +866,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
         
         def solicitudesRH = solicitudRHService.getSolicitudesRHByRol()
         for(SolicitudRH solicitud in solicitudesRH){      
-            assertEquals solicitud.status, 'AU'
+            assertEquals solicitud.status, Constantes.STATUS_AUTORIZADO
             //assertEquals solicitud.
         }
         assert 20 <= solicitudesRH.size()
@@ -833,36 +890,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
             ).save()
 		assertNotNull empresa
 
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
@@ -883,7 +947,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
 				, folio: "test$i"
-				, status: "AP"
+				, status: Constantes.STATUS_APROBADO
 			).save()
 			assertNotNull SolicitudRH
     	}
@@ -925,36 +989,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
     	
@@ -972,7 +1043,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 				, usuarioCrea: usuarioEmpleado.usuario
 				, dateCreated: new Date()
 				, folio: "test$i"
-				, status: "AU"
+				, status: Constantes.STATUS_AUTORIZADO
 			).save()
     	}
     	
@@ -991,7 +1062,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
         
         def solicitudesRH = solicitudRHService.getSolicitudesRHByRol()
         for(SolicitudRH solicitud in solicitudesRH){      
-            assertEquals solicitud.status, 'AU'
+            assertEquals solicitud.status, Constantes.STATUS_AUTORIZADO
         }
         assert 20 <= solicitudesRH.size()
     }
@@ -1013,36 +1084,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -1066,20 +1144,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "EN"
+			, status: Constantes.STATUS_ENVIADO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudRH.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.suspender()
-        assertEquals "SU", solicitudRH.status
+        assertEquals Constantes.STATUS_SUSPENDIDO, solicitudRH.status
     }
     
     @Test
@@ -1099,36 +1177,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -1152,20 +1237,20 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "SU"
+			, status: Constantes.STATUS_SUSPENDIDO
     	).save()
 
         def controller = new SolicitudRHController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "SU", solicitudRH.status
+		assertEquals Constantes.STATUS_SUSPENDIDO, solicitudRH.status
 		
 		controller.params.id = solicitudRH.id
         def model = controller.edita()
         assert model.solicitudRH
         
         controller.enviar()
-        assertEquals "EN", solicitudRH.status
+        assertEquals Constantes.STATUS_ENVIADO, solicitudRH.status
     }
     
     @Test
@@ -1213,36 +1298,43 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
     	def tipoEmpleado = new TipoEmpleado (
         	descripcion: "test"
         	, prefijo: "666"
         ).save()
     
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -1270,7 +1362,7 @@ class SolicitudRHControllerIntegrationTests extends BaseIntegrationTest{
 			, usuarioCrea: usuarioEmpleado.usuario
 			, dateCreated: new Date()
 			, folio: "test"
-			, status: "CR"
+			, status: Constantes.STATUS_CREADO
 			, email: "test1"
     	).save()
 

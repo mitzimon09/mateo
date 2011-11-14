@@ -15,7 +15,9 @@ class PuestoController {
     }
 
 	def lista = {
-		params.max = Math.min(params.max ? params.int('max') : 10, 100)
+	    log.debug ">><>>>>>>>>>>>>>" + Puesto.count()
+		params.max = Puesto.count()//Math.min(params.max ? params.int('max') : 10, 100)
+		log.debug ">>>>>>>>>>>>>>> max " + params.max
 		[puestos: Puesto.list(params), totalDePuestos: Puesto.count()]
 	}
 

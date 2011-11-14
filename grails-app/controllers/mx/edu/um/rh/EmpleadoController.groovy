@@ -41,6 +41,7 @@ class EmpleadoController {
 
     def ver = {
         def empleado = Empleado.get(params.id)
+        def eventos = empleadoService.eventosPorEmpleado(empleado)
         if (!empleado) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
             redirect(action: "lista")
@@ -101,7 +102,6 @@ class EmpleadoController {
     	TipoEmpleado tipoEmpleado = TipoEmpleado.get(tipo)
         String clave = ""
         def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-        log.debug "empleados > " + empleados
         Map <String, Empleado> claves = new TreeMap<String, Empleado>()
         for(Empleado empleado : empleados){
         	claves.put(empleado.clave,empleado)
