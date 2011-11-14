@@ -4,8 +4,8 @@ import general.Usuario
 
 class DiasFeriados {
     String descripcion
-    boolean diadado //se puede hacer boolean
-    Date fecharegistro
+    boolean diadado = false
+    Date fecharegistro = new Date()
     Date fecha
     Usuario user
 

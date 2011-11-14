@@ -19,48 +19,63 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
     Empleado crearEmpleadoPrueba(String claveEmpleado){
         println "Creando Empleado Prueba"
         def grupoPrueba = new Grupo(
+            nombre : "A",
+            minimo : 103,
+            maximo : 141
+        ).save()
+        assertNotNull grupoPrueba
+
+    	def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
             nombre : "A"
             , minimo : 103
             , maximo : 141
         ).save()
-        assertNotNull grupoPrueba
-
-        def empleado = new Empleado(
-            empresa: Empresa.findByCodigo("CTL"),
-            clave : claveEmpleado,
-            nombre : "TESTA",
-            apPaterno : "TESTA",
-            apMaterno : "TESTA",
-            genero : "M",
-            fechaNacimiento : new Date(),
-            direccion : "TEST",
-            status : Constantes.STATUS_ACTIVO,
-            //Map perdeds
-            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
-            curp : "TEST123",
-            rfc : "ABC-1234567890",
-            cuenta : "123456789",
-            imms : "123456789012345",
-            escalafon : 75,
-            turno : 100,
-            fechaAlta : new Date(),
-            fechaBaja : new Date(),
-            experienciaFueraUM : new BigDecimal(0.00),
-            modalidad : "AP",
-            ife : "123456789012",
-            rango : "SR",
-            adventista : true,
-            fechaAntiguedadBase : new Date(),
-            antiguedadBase : new BigDecimal(0.00),
-            antiguedadFiscal : new BigDecimal(0.00),
-            grupo : grupoPrueba,
-            padre : "TESTP",
-            madre: "TESTM",
-            estadoCivil : "SO",
-            conyuge : "TESTC",
-            fechaMatrimonio : new Date(),
-            iglesia : "TESTI",
-            responsabilidad : "TESTR"//,
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
         ).save()
         assertNotNull empleado
 
@@ -726,7 +741,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800052"
+        def clave = "1000052"
         Empleado empleado = crearEmpleadoPrueba(clave)
 
         def empleadoFromDB = empleadoService.getEmpleado(clave)
@@ -746,7 +761,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800052"
+        def clave = "1000052"
         Empleado empleado = crearEmpleadoPrueba(clave)
 
         def claveErronea = "9800055"
