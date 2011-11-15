@@ -21,91 +21,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     def perdedService
     def springSecurityService
 
-    Empleado crearEmpleadoPrueba(String claveEmpleado){
-        def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
-
-        def empleado = new Empleado(
-            empresa: Empresa.findByCodigo("CTL"),
-            clave : claveEmpleado,
-            nombre : "TESTA",
-            apPaterno : "TESTA",
-            apMaterno : "TESTA",
-            genero : "FM",
-            fechaNacimiento : new Date(),
-            direccion : "TEST",
-            status : Constantes.STATUS_ACTIVO,
-            //Map perdeds
-            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
-            curp : "TEST123",
-            rfc : "ABC-1234567890",
-            cuenta : "123456789",
-            imms : "123456789012345",
-            escalafon : 75,
-            turno : 100,
-            fechaAlta : new Date(),
-            fechaBaja : new Date(),
-            experienciaFueraUM : new BigDecimal(0.00),
-            modalidad : "A",
-            ife : "123456789012",
-            rango : "SR",
-            adventista : true,
-            fechaAntiguedadBase : new Date(),
-            antiguedadBase : new BigDecimal(0.00),
-            antiguedadFiscal : new BigDecimal(0.00),
-            grupo : grupoPrueba ,
-            padre : "TESTP",
-            madre: "TESTM",
-            estadoCivil : "S",
-            conyuge : "TESTC",
-            fechaMatrimonio : new Date(),
-            iglesia : "TESTI",
-            responsabilidad : "TESTR"//,
-        ).save()
-        assertNotNull empleado
-
-        List<Empleado> empleadoList = Empleado.findAll()
-        println "empleados: ${empleadoList.size()}"
-        println "en BD: ${Empleado.count()}"
-
-        //Agregando las Percepciones
-        List<PerDed> ps = new ArrayList<PerDed>()
-        ps.add(PerDed.findByClave("PD003"))
-        ps.add(PerDed.findByClave("PD004"))
-        ps.add(PerDed.findByClave("PD005"))
-        ps.add(PerDed.findByClave("PD006"))
-
-        List<EmpleadoPerded> eps = new ArrayList<EmpleadoPerded>()
-        //3,4,5,6
-        for(int i = 0; i < 4; i++){
-            EmpleadoPerded ep= new EmpleadoPerded(
-                perded : ps.get(i),
-                importe : i + 100,
-                tipoImporte : "%",
-                atributos : "N",
-                otorgado : false,
-                isEditableByNOM : true,
-                empleado : empleado
-                )
-            ep.save()
-            eps.add(ep)
-            assertNotNull ep
-        }
-
-        empleado.perdedsList = eps
-        assertNotNull empleado.perdedsList
-
-        Map<String,EmpleadoPerded> perdedsEmpleado = empleado.perdeds
-        assertNotNull perdedsEmpleado
-
-        return empleado
-    }
-
-    public crearTipoEmpleados(){
+   public crearTipoEmpleados(){
         println "Creando TipoEmpleados"
 
         TipoEmpleado tipoEmpleadoDENOMINACIONAL = new TipoEmpleado(
@@ -163,8 +79,8 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     public crearPerdeds(){
         println "Creando Perdeds"
 
-        PerDed PD001 = new PerDed(
-            clave: "PD001",
+        PerDed PD101 = new PerDed(
+            clave: "PD101",
             nombre: "PERCEPCION UNO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -172,10 +88,10 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             formula: "%",
             atributos : ["A":"B"]
         ).save()
-        assertNotNull PD001
+        assertNotNull PD101
 
-        PerDed PD002 = new PerDed(
-            clave: "PD002",
+        PerDed PD102 = new PerDed(
+            clave: "PD102",
             nombre: "PERCEPCION DOS",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -183,54 +99,54 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             formula: "%",
             atributos : ["A":"B"]
         ).save()
-        assertNotNull PD002
+        assertNotNull PD102
 
-        PerDed PD003 = new PerDed(
-            clave: "PD003",
+        PerDed PD103 = new PerDed(
+            clave: "PD103",
             nombre: "PERCEPCION TRES",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD001 * PD007",
+            formula: "PD001 * PD007",//"PD101 * PD107",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD003
+        assertNotNull PD103
 
-        PerDed PD004 = new PerDed(
-            clave: "PD004",
+        PerDed PD104 = new PerDed(
+            clave: "PD104",
             nombre: "TPERCEPCION CUATRO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD002",
+            formula: "PD002",//"PD102",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD004
+        assertNotNull PD104
 
-        PerDed PD005 = new PerDed(
-            clave: "PD005",
+        PerDed PD105 = new PerDed(
+            clave: "PD105",
             nombre: "PERCEPCION CINCO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD002",
+            formula: "% * PD002",//"% * PD102",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD005
+        assertNotNull PD105
 
-        PerDed PD006 = new PerDed(
-            clave: "PD006",
+        PerDed PD106 = new PerDed(
+            clave: "PD106",
             nombre: "PERCEPCION SEIS",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD001",
+            formula: "% * PD001",//"% * PD101",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD006
+        assertNotNull PD106
 
-        PerDed PD007 = new PerDed(
-            clave: "PD007",
+        PerDed PD107 = new PerDed(
+            clave: "PD107",
             nombre: "PERCEPCION SIETE",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
@@ -238,53 +154,155 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             formula: "0",
             atributos: ["A":"B"]
         ).save()
-        assertNotNull PD007
+        assertNotNull PD107
     }
 
     public crearPorcentajes(){
         println "Creando Porcentajes"
 
-        Porcentaje porcentajePD001 = new Porcentaje(
+        Porcentaje porcentajePD101 = new Porcentaje(
             valor : new BigDecimal("2.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD001"),
+            perded : PerDed.findByClave("PD101"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD001
+        assertNotNull porcentajePD101
 
-        Porcentaje porcentajePD002 = new Porcentaje(
+        Porcentaje porcentajePD102 = new Porcentaje(
             valor : new BigDecimal("4.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD002"),
+            perded : PerDed.findByClave("PD102"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD002
+        assertNotNull porcentajePD102
 
-        Porcentaje porcentajePD005 = new Porcentaje(
+        Porcentaje porcentajePD105 = new Porcentaje(
             valor : new BigDecimal("6.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD005"),
+            perded : PerDed.findByClave("PD105"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD005
+        assertNotNull porcentajePD105
 
-        Porcentaje porcentajePD006 = new Porcentaje(
+        Porcentaje porcentajePD106 = new Porcentaje(
             valor : new BigDecimal("8.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD006"),
+            perded : PerDed.findByClave("PD106"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD006
+        assertNotNull porcentajePD106
 
-        Porcentaje porcentajePD007 = new Porcentaje(
+        Porcentaje porcentajePD107 = new Porcentaje(
             valor : new BigDecimal("0.00"),
             valorDos : new BigDecimal("0.00"),
-            perded : PerDed.findByClave("PD007"),
+            perded : PerDed.findByClave("PD107"),
             grupo : Grupo.findByNombre("X")
         ).save()
-        assertNotNull porcentajePD007
+        assertNotNull porcentajePD107
     }
 
+    /**
+     * Crea un Empleado de Prueba que contiene todas sus Percepciones
+     **/
+    Empleado crearEmpleadoPrueba(String claveEmpleado){
+        println "Creando Empleado Prueba"
+
+        println "empleados en BD: ${Empleado.count()}"
+
+        def empleado = new Empleado(
+            empresa: Empresa.findByCodigo("CTL"),
+            clave : claveEmpleado,
+            nombre : "TESTA",
+            apPaterno : "TESTA",
+            apMaterno : "TESTA",
+            genero : Constantes.GENERO_MASCULINO,
+            fechaNacimiento : new Date(),
+            direccion : "TEST",
+            status : Constantes.STATUS_ACTIVO,
+            tipo : TipoEmpleado.findByDescripcion("DENOMINACIONAL"),
+            curp : "TEST123",
+            rfc : "ABC-1234567890",
+            cuenta : "123456789",
+            imms : "123456789012345",
+            escalafon : 75,
+            turno : 100,
+            fechaAlta : new Date(),
+            fechaBaja : new Date(),
+            experienciaFueraUM : new BigDecimal(0.00),
+            modalidad : Constantes.MODALIDAD_APOYO,
+            ife : "123456789012",
+            rango : "SR",
+            adventista : true,
+            fechaAntiguedadBase : new Date(),
+            antiguedadBase : new BigDecimal(0.00),
+            antiguedadFiscal : new BigDecimal(0.00),
+            grupo : Grupo.findByNombre("A"),
+            padre : "TESTP",
+            madre: "TESTM",
+            estadoCivil : "SO",
+            conyuge : "TESTC",
+            fechaMatrimonio : new Date(),
+            iglesia : "TESTI",
+            responsabilidad : "TESTR"//,
+        ).save(flush:true)
+        assert empleado
+
+        println "empleados en BD: ${Empleado.count()}"
+
+        EmpleadoPerded ep1= new EmpleadoPerded(
+            perded : PerDed.findByClave("PD103"),
+            importe : new BigDecimal("101.00"),
+            tipoImporte : "%",
+            atributos : "N",
+            otorgado : false,
+            isEditableByNOM : true,
+            empleado : empleado
+        )
+        empleado.addToPerdedsList(ep1)
+
+        EmpleadoPerded ep2= new EmpleadoPerded(
+            perded : PerDed.findByClave("PD104"),
+            importe : new BigDecimal("102.00"),
+            tipoImporte : "%",
+            atributos : "N",
+            otorgado : false,
+            isEditableByNOM : true,
+            empleado : empleado
+        )
+        empleado.addToPerdedsList(ep2)
+
+        EmpleadoPerded ep3= new EmpleadoPerded(
+            perded : PerDed.findByClave("PD105"),
+            importe : new BigDecimal("103.00"),
+            tipoImporte : "%",
+            atributos : "N",
+            otorgado : false,
+            isEditableByNOM : true,
+            empleado : empleado
+        )
+        empleado.addToPerdedsList(ep3)
+
+        EmpleadoPerded ep4= new EmpleadoPerded(
+            perded : PerDed.findByClave("PD106"),
+            importe : new BigDecimal("104.00"),
+            tipoImporte : "%",
+            atributos : "N",
+            otorgado : false,
+            isEditableByNOM : true,
+            empleado : empleado
+        )
+        empleado.addToPerdedsList(ep4)
+
+        empleado.save()
+
+        Map<String,EmpleadoPerded> perdedsEmpleado = empleado.perdeds
+        assertNotNull perdedsEmpleado
+        assertEquals 4 , perdedsEmpleado.size()
+
+        empleado = Empleado.findByClave(claveEmpleado)
+        println "empleados en BD: ${Empleado.count()}"
+        return empleado
+    }
 
     /**
      * Comprueba que se pueda obtener el Map de Formulas del Grupo X.
@@ -383,7 +401,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800001"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
 
         //Sin sustituir las formulas del Empleado (las generales ya estan sustituidas en este paso)
@@ -413,7 +431,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
         crearTipoEmpleados()
         
-        def clave = "9800001"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
         //System.out.println(empleado)
 
@@ -483,7 +501,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800001"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
         //System.out.println(empleado)
 
@@ -519,7 +537,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
         //Creando 10 empleados
-        String claveGenerica = "980000"
+        String claveGenerica = "980900"
         for(int i = 0; i < 10; i++){
             def claveConcatenada = claveGenerica + i.toString()
             //println "claveConcatenada ${claveConcatenada}"
@@ -527,8 +545,8 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         }
         assertTrue empleadosPorRango.size() == 10
 
-        String claveInicial = "9800000"
-        String claveFinal = "9800004"
+        String claveInicial = "9809000"
+        String claveFinal = "9809004"
 
         TipoNomina tipoNomina = TipoNomina.MENSUAL
 
@@ -554,6 +572,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaPorTipoDeEmpleado(){
+        println "debieraRegresarNominaPorTipoDeEmpleado"
         crearGrupos()
         crearPerdeds()
         crearPorcentajes()
@@ -562,7 +581,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
         //Creando 10 empleados
-        String claveGenerica = "980000"
+        String claveGenerica = "980900"
         for(int i = 0; i < 10; i++){
             def claveConcatenada = claveGenerica + i.toString()
             empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
@@ -575,6 +594,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         TipoNomina tipoNomina = TipoNomina.MENSUAL
 
         List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado, tipoNomina)
+        log.debug "nominaEmpleadosPorTipo.size: ${nominaEmpleadosPorTipo.size()}"
         assertTrue nominaEmpleadosPorTipo.size() == 10
 
         println "Nomina Empleados Por Tipo"
@@ -600,7 +620,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800001"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
         assertNotNull empleado
 
@@ -634,8 +654,8 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertTrue empleadosPorRango.size() == 10
 
         PerDed percepcionPD001 = PerDed.findByClave("PD001")
-        String claveInicio = "9800000"
-        String claveFinal = "9800004"
+        String claveInicio = "9809000"
+        String claveFinal = "9809004"
 
         List<String> percepcionEspecificaByRangoEmpleados = nominaService.getPercepcionEspecificaEmpleadosByRango(percepcionPD001, claveInicio, claveFinal)
         assertNotNull percepcionEspecificaByRangoEmpleados
@@ -661,7 +681,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         List<Empleado> empleados = new ArrayList<Empleado>()
 
         //Creando 10 empleados
-        String claveGenerica = "980000"
+        String claveGenerica = "980900"
         for(int i = 0; i < 10; i++){
             def claveConcatenada = claveGenerica + i.toString()
             //println "claveConcatenada ${claveConcatenada}"
@@ -707,7 +727,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         crearPorcentajes()
         crearTipoEmpleados()
 
-        def clave = "9800001"
+        def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
         assertNotNull empleado
 
@@ -764,15 +784,15 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
         //Creando 10 empleados
-        String claveGenerica = "980000"
+        String claveGenerica = "980900"
         for(int i = 0; i < 10; i++){
             def claveConcatenada = claveGenerica + i.toString()
             empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
         }
         assertTrue empleadosPorRango.size() == 10
 
-        String claveInicial = "9800000"
-        String claveFinal = "9800004"
+        String claveInicial = "9809000"
+        String claveFinal = "9809004"
 
         TipoNomina tipoNomina = TipoNomina.DIARIA
 

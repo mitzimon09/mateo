@@ -81,24 +81,28 @@ class NominaService {
      * quincenal se divide por 15 y asi sucesivamente
     **/
     List<String> getNominaEmpleado(Empleado e, TipoNomina tipoNomina){
+        log.debug "Obteniendo Nomina del Empleado: ${e.clave}"
         Evaluador evaluador = new Evaluador();
         List<String> percepcionesValoresEmpleado = new ArrayList<String>()
         List<EmpleadoPerded> perdedsEmpleado = new ArrayList<EmpleadoPerded>()
         perdedsEmpleado.addAll(e.perdeds.values())
 
         Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(e)
+        log.debug "percepciones sustituidas en el Map: ${percepcionesMap.getProperties()}"
+        log.debug "percepciones sustituidas en el Map: ${percepcionesMap}"
 
         percepcionesValoresEmpleado.add(e.clave)
 
         for(EmpleadoPerded ep : perdedsEmpleado){
             String percepcion = ep.perded.clave
+            log.debug "percepcion a evaluar: ${percepcion}"
             StringBuffer formula = new StringBuffer("")
             String formulaEvaluada = ""
             String idTemp;
             String temp;
             int pos=0;
 
-            if(percepcionesMap.containsKey(percepcion) != null){
+            if(percepcionesMap.containsKey(percepcion)){
                 formula = new StringBuffer(percepcionesMap.get(percepcion))
                 log.debug "formula: ${formula}"
 		pos = formula.indexOf("PD");
@@ -107,13 +111,15 @@ class NominaService {
                         log.debug "idTemp: ${idTemp}"
 			temp=(String)percepcionesMap.get(idTemp);
                         log.debug "tmp: ${temp}"
-                        //log.debug "temp: ${temp}"
 			formula.replace(pos,pos+5,temp);
 			pos=formula.indexOf("PD");
 		}
-		//log.debug "formula: ${formula}"
                 formulaEvaluada = evaluador.evaluaExpresion(formula.toString())
                 log.debug "evaluada: ${formulaEvaluada}"
+            }
+            else{
+                log.debug "No se encuentra la percepcion: ${percepcion} en el mapa de las percepciones sustituidas: ${percepcionesMap.getProperties()}." +
+                "La formula de la percepcion es: ${ep.perded.formula}"
             }
 
             MathContext mc = new MathContext(6, RoundingMode.HALF_EVEN);
@@ -181,7 +187,7 @@ class NominaService {
         List<List> nominaEmpleadosByTipo = new ArrayList<List>()
 
         List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
-        log.debug "nominaEmpleadosByTipo: ${empleadosFilterByType.size()}"
+        log.debug "empleadosFilterByType: ${empleadosFilterByType.size()}"
 
         for(Empleado e: empleadosFilterByType){
             nominaEmpleadosByTipo.add(getNominaEmpleado(e, tipoNomina))
