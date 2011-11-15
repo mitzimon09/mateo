@@ -215,9 +215,10 @@ class EmpleadoService implements EmpleadoServiceInt {
         for(evento in eventos) {
             def empleadoEvento = EmpleadoEvento.findByEmpleadoAndEvento(empleado, evento)
             if(evento.status == Constantes.STATUS_CERRADO && empleadoEvento != null) {
+            
                 asistidos.put(evento.descripcion, empleadoEvento.status)
             }else{
-                asistidos.put(evento.descripcion, "")
+                asistidos.put(evento.descripcion, "--")
             }
         }
         return asistidos
