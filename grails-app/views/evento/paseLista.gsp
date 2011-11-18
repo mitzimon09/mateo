@@ -41,10 +41,13 @@
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
-                    <sec:ifLoggedIn>
-					    <g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
-                        <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
-                    </sec:ifLoggedIn>
+				    <span class="button">
+                        <sec:ifLoggedIn>
+					        <g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
+                            <g:link class="list" action="cerrarEvento" id="${evento?.id}" ><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
+                            <g:link class="list" action="preparaSubir" id="${evento?.id}" ><g:message code="default.button.cerrarEvento.label" default="Subir Archivo" /></g:link>
+                        </sec:ifLoggedIn>
+                    <span>
 				</fieldset>
 			</g:form>
 		</div>
