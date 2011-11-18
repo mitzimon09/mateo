@@ -12,7 +12,6 @@ class EmpleadoService implements EmpleadoServiceInt {
     Empleado getEmpleado(String clave) throws NullPointerException{
         log.debug "getEmpleadoByClave"
         def empleado=Empleado.findByClave(clave)
-        log.debug "Empleado: $empleado.clave"
         if(!empleado){
             throw new NullPointerException("empleado.inexistente")
         }
