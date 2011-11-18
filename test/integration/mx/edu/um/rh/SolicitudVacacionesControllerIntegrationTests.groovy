@@ -9,10 +9,12 @@ import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.authentication.TestingAuthenticationToken
 import mx.edu.um.Constantes
+import mx.edu.um.rh.*
 
 class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 	def springSecurityService
 	def procesoService
+	def solicitudVacacionesService
 
     @Test
     void debieraMostrarListaDeSolicitudesDeVacaciones() {
@@ -1063,9 +1065,8 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.empleado = empleado
         controller.params.empresa = empleado.empresa
         controller.params.fechaCaptura =  new Date()
-        controller.params.fechaInicial = new Date()
+        controller.params.fechaInicial = new Date()-1
         controller.params.fechaFinal = new Date()
-        controller.params.diasVacaciones = 2
         controller.params.destino = "test"
         controller.params.kilometros = 8
         controller.params.usuarioCrea = currentUser
@@ -1076,7 +1077,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         
         
 		//find a way to assert the result of crea()
-        assertEquals 0, model.solicitudVacaciones.userPrimaVacacional, 0 
+        assertEquals 0, controller.params.userPrimaVacacional, 0 
 
     }
     
@@ -1166,7 +1167,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, status: Constantes.STATUS_ENVIADO
 				, dateCreated: new Date()
 				, folio: "test"
-				, userPrimaVacacional: 0
+				, userPrimaVacacional: 1000
 			).save()
     	   	
     	def controller = new SolicitudVacacionesController()
@@ -1185,7 +1186,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.userPrimaVacacional = new BigDecimal(1000.00)
         model.solicitudVacaciones.id = controller.crea()
 		//find a way to assert the result of crea()
-        assertEquals 0, model.solicitudVacaciones.userPrimaVacacional, 0 //AssertionError: expected:<0.0> but was:<1000.0>
+        assertEquals 0, controller.params.userPrimaVacacional, 0 //AssertionError: expected:<0.0> but was:<1000.0>
 		
     }
     @Test
@@ -1254,36 +1255,43 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     		, correo: "test@test.test"
     		, empresa: empresa
     	).save()
+    	assertNotNull usuario
     	
     	def usuarioEmpleado = new UsuarioEmpleado (
     		usuario: usuario
     		, empleado: empleado
     	).save()
+    	assertNotNull usuarioEmpleado
     	
-    	def controller = new SolicitudVacacionesController()
-		
+    	Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR), 11, 13, 0, 0)
+		def datej = jueves.getTime()
+    	
 		def solicitudVacaciones = new SolicitudVacaciones (
-				empleado: empleado
-				, empresa: empleado.empresa
-				, fechaCaptura: new Date()
-				, fechaInicial: new Date()-30
-				, fechaFinal: new Date()
-				, diasVacaciones: new Integer(1)
-				, destino: "test"
-				, kilometros: new Integer(1)
-				, usuarioCrea: currentUser
-				, status: Constantes.STATUS_ENVIADO
-				, dateCreated: new Date()
-				, folio: "test"
-				, userPrimaVacacional: new BigDecimal(1000.00)
-			).save()
-    	   	
+			empleado: empleado
+			, empresa: empleado.empresa
+			, fechaCaptura: new Date()
+			, fechaInicial: datej-30
+			, fechaFinal: datej
+			, diasVacaciones: new Integer(1)
+			, destino: "test"
+			, kilometros: new Integer(1)
+			, usuarioCrea: currentUser
+			, status: Constantes.STATUS_ENVIADO
+			, dateCreated: new Date()
+			, folio: "test"
+			, userPrimaVacacional: new BigDecimal(1000.00)
+		).save()
+		assertNotNull solicitudVacaciones
+
+    	def controller = new SolicitudVacacionesController()
+	   	
 		def model = controller.nueva()
 		controller.params.empleado = empleado
         controller.params.empresa = empleado.empresa
         controller.params.fechaCaptura =  new Date()
-        controller.params.fechaInicial = new Date()-30
-        controller.params.fechaFinal = new Date()
+        controller.params.fechaInicial = datej-30
+        controller.params.fechaFinal = datej
         controller.params.destino = "test"
         controller.params.kilometros = 1000
         controller.params.usuarioCrea = currentUser
@@ -1291,9 +1299,13 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.visitaPadres = true
         controller.params.folio = "test"
         controller.params.userPrimaVacacional = new BigDecimal(1000.00)
-        model.solicitudVacaciones.id = controller.crea()
+        controller.crea()
         
-        assertEquals 32, controller.params.diasVacaciones
+        assert controller
+        assert controller.response.redirectedUrl.startsWith('/solicitudVacaciones/ver')
+        
+        
+        assertEquals 28,controller.params.diasVacaciones
     	
     }
     
@@ -1363,17 +1375,19 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     		, correo: "test@test.test"
     		, empresa: empresa
     	).save()
+    	assertNotNull usuario
     	
     	def usuarioEmpleado = new UsuarioEmpleado (
     		usuario: usuario
     		, empleado: empleado
     	).save()
+    	assertNotNull usuarioEmpleado
     	
     	def controller = new SolicitudVacacionesController()
 		
     	   	
     	Calendar viernes = Calendar.getInstance()
-		viernes.set(viernes.get(Calendar.YEAR), 10, 11, 0, 0)
+		viernes.set(viernes.get(Calendar.YEAR)-100, 10, 10, 0, 0)
 		def datev = viernes.getTime()
 		
 		Calendar sabado = Calendar.getInstance()
@@ -1386,23 +1400,19 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.fechaCaptura =  new Date()
         controller.params.fechaInicial = datev - 30
         controller.params.fechaFinal = datev
-        controller.params.diasVacaciones = 2
         controller.params.destino = "test"
         controller.params.kilometros = 1000
         controller.params.usuarioCrea = currentUser
         controller.params.dateCreated = new Date()
-        controller.params.visitaPadres = true
         controller.params.folio = "test"
         controller.params.userPrimaVacacional = new BigDecimal(1000.00)
         controller.crea()
-        
-        
-        assertEquals 32, model.solicitudVacaciones.diasVacaciones
+        assertEquals 32, controller.params.diasVacaciones
     	
     }
     
     @Test
-    void agregar(){
+    void noContarDiasFeriadosComoVacaciones(){
     	authenticateDirRH()
 	      def currentUser = springSecurityService.currentUser
 	    def organizacion = new Organizacion(
@@ -1467,34 +1477,164 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     		, correo: "test@test.test"
     		, empresa: empresa
     	).save()
+    	assertNotNull usuario
     	
     	def usuarioEmpleado = new UsuarioEmpleado (
     		usuario: usuario
     		, empleado: empleado
     	).save()
+    	assertNotNull usuarioEmpleado
     	
     	def controller = new SolicitudVacacionesController()
+
+		authenticateRHOper()
+		currentUser = springSecurityService.currentUser
+
+		Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR)-100, 11, 17, 0, 0)
+		def datej = jueves.getTime()
 		
-    	   	
-    	Calendar viernes = Calendar.getInstance()
-		viernes.set(viernes.get(Calendar.YEAR), 10, 11, 0, 0)
-		def datev = viernes.getTime()
-		
-		Calendar sabado = Calendar.getInstance()
-		sabado.set(sabado.get(Calendar.YEAR), 10, 12, 0, 0)
-		def dates = sabado.getTime()
-		
-		//crear dia feriado
-		
-		//crear vacacion que incluya el día feriado
+    	def diasFeriados = new DiasFeriados(
+            descripcion: 'test'
+            , fecha: datej -7
+            , user: currentUser
+	    ).save()
+		assertNotNull diasFeriados
     	   	
 		def model = controller.nueva()
 		controller.params.empleado = empleado
         controller.params.empresa = empleado.empresa
         controller.params.fechaCaptura =  new Date()
-        controller.params.fechaInicial = datev - 30
-        controller.params.fechaFinal = datev
-        controller.params.diasVacaciones = 2
+        controller.params.fechaInicial = datej -30
+        controller.params.fechaFinal = datej
+        controller.params.destino = "test"
+        controller.params.kilometros = 10
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.visitaPadres = true
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        assertEquals 29, controller.params.diasVacaciones
+    	
+    }
+    
+    @Test
+    void validarSiHayDiasDeVacacionesDisponibles(){
+    	authenticateDirRH()
+	      def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	assertNotNull usuario
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	assertNotNull usuarioEmpleado
+    	
+		
+		def vacaciones = new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: 2
+			).save()
+			
+			new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: 18
+			).save()
+			
+			new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: -5
+			).save()
+		
+		authenticateRHOper()
+		
+		currentUser = springSecurityService.currentUser
+
+		Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR)-100, 10, 10, 0, 0)
+		def datej = jueves.getTime()		
+    	
+		
+    	def controller = new SolicitudVacacionesController()
+    	   	
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = datej -30
+        controller.params.fechaFinal = datej
         controller.params.destino = "test"
         controller.params.kilometros = 1000
         controller.params.usuarioCrea = currentUser
@@ -1503,9 +1643,10 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.folio = "test"
         controller.params.userPrimaVacacional = new BigDecimal(1000.00)
         controller.crea()
+        assertEquals 30, controller.params.diasVacaciones
         
-        
-        assertEquals 32, model.solicitudVacaciones.diasVacaciones
+        int dias = solicitudVacacionesService.totalDeDiasDeVacaciones(empleado)
+        assertEquals 15, dias
     	
     }
 }

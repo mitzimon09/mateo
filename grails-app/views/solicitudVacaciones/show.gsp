@@ -23,51 +23,6 @@
 			</g:if>
 			<ol class="property-list solicitudVacaciones">
 			
-				<g:if test="${solicitudVacaciones?.empleado}">
-				<li class="fieldcontain">
-					<span id="empleado-label" class="property-label"><g:message code="solicitudVacaciones.empleado.label" default="Empleado" /></span>
-					
-						<span class="property-value" aria-labelledby="empleado-label"><g:link controller="empleado" action="show" id="${solicitudVacaciones?.empleado?.id}">${solicitudVacaciones?.empleado?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.fechaInicial}">
-				<li class="fieldcontain">
-					<span id="fechaInicial-label" class="property-label"><g:message code="solicitudVacaciones.fechaInicial.label" default="Fecha Inicial" /></span>
-					
-						<span class="property-value" aria-labelledby="fechaInicial-label"><g:formatDate date="${solicitudVacaciones?.fechaInicial}" /></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.fechaFinal}">
-				<li class="fieldcontain">
-					<span id="fechaFinal-label" class="property-label"><g:message code="solicitudVacaciones.fechaFinal.label" default="Fecha Final" /></span>
-					
-						<span class="property-value" aria-labelledby="fechaFinal-label"><g:formatDate date="${solicitudVacaciones?.fechaFinal}" /></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.usuarioCrea}">
-				<li class="fieldcontain">
-					<span id="usuarioCrea-label" class="property-label"><g:message code="solicitudVacaciones.usuarioCrea.label" default="Usuario Crea" /></span>
-					
-						<span class="property-value" aria-labelledby="usuarioCrea-label"><g:link controller="usuario" action="show" id="${solicitudVacaciones?.usuarioCrea?.id}">${solicitudVacaciones?.usuarioCrea?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.dateCreated}">
-				<li class="fieldcontain">
-					<span id="dateCreated-label" class="property-label"><g:message code="solicitudVacaciones.dateCreated.label" default="Date Created" /></span>
-					
-						<span class="property-value" aria-labelledby="dateCreated-label"><g:formatDate date="${solicitudVacaciones?.dateCreated}" /></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${solicitudVacaciones?.usuarioRecibe}">
 				<li class="fieldcontain">
 					<span id="usuarioRecibe-label" class="property-label"><g:message code="solicitudVacaciones.usuarioRecibe.label" default="Usuario Recibe" /></span>
@@ -86,6 +41,7 @@
 				</li>
 				</g:if>
 			
+			<g:if test="${(permisos >= 3)}">
 				<g:if test="${solicitudVacaciones?.usuarioAutoriza}">
 				<li class="fieldcontain">
 					<span id="usuarioAutoriza-label" class="property-label"><g:message code="solicitudVacaciones.usuarioAutoriza.label" default="Usuario Autoriza" /></span>
@@ -94,6 +50,7 @@
 					
 				</li>
 				</g:if>
+			</g:if>
 			
 				<g:if test="${solicitudVacaciones?.fechaAutoriza}">
 				<li class="fieldcontain">
@@ -113,23 +70,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${solicitudVacaciones?.telContacto}">
-				<li class="fieldcontain">
-					<span id="telContacto-label" class="property-label"><g:message code="solicitudVacaciones.telContacto.label" default="Tel Contacto" /></span>
-					
-						<span class="property-value" aria-labelledby="telContacto-label"><g:fieldValue bean="${solicitudVacaciones}" field="telContacto"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.email}">
-				<li class="fieldcontain">
-					<span id="email-label" class="property-label"><g:message code="solicitudVacaciones.email.label" default="Email" /></span>
-					
-						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${solicitudVacaciones}" field="email"/></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${solicitudVacaciones?.solicitudSalida}">
 				<li class="fieldcontain">

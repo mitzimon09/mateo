@@ -183,7 +183,7 @@ class SolicitudRHController {
     }
     
     @Secured(['ROLE_RHOPER', 'ROLE_DIRRH'])
-    def autorizar = {
+    def autorizar () {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){

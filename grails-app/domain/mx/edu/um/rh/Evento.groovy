@@ -15,7 +15,7 @@ class Evento {
         nombre maxSize: 50
         descripcion maxSize: 250
         prorroga maxSize: 10, min: 0
-        status maxSize: 250, inList:[Constantes.STATUS_CREADO, Constantes.STATUS_INICIADO, Constantes.STATUS_TERMINADO]
+        status maxSize: 250, inList:[Constantes.STATUS_ABIERTO, Constantes.STATUS_INICIADO, Constantes.STATUS_CERRADO]
     }
     
     static mapping = {

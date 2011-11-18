@@ -20,4 +20,24 @@ class SolicitudVacacionesService {
         }
 		return solicitudesVacaciones.list()
      }
+     
+     List<DiasFeriados> getDiasFeriadosEnElRango(Date fechaInicial, Date fechaFinal) throws NullPointerException{
+		def diasFeriadosList = DiasFeriados.diasFeriadosPorFecha(fechaInicial, fechaFinal)
+		if(diasFeriadosList== null){
+            throw new NullPointerException("solicitudesVacaciones inexistente")
+        }
+        return diasFeriadosList.list()
+     }
+     
+     Integer totalDeDiasDeVacaciones(Empleado empleado){
+     	def vacaciones = Vacaciones.diasTotales(empleado).list()
+     	//def lista = vacaciones.list()
+     	//log.debug " cuestiones " + lista.size()
+     	log.debug "vacaciones " + vacaciones
+     	int dias = 0;
+     	for (Vacaciones vacacion in vacaciones){
+     		dias += vacacion.dias;
+     	}
+     	return dias;
+     }
 }

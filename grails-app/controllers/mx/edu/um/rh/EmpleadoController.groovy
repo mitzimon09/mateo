@@ -41,7 +41,6 @@ class EmpleadoController {
 
     def ver = {
         def empleado = Empleado.get(params.id)
-        def eventos = empleadoService.eventosPorEmpleado(empleado)
         if (!empleado) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
             redirect(action: "lista")
@@ -127,4 +126,9 @@ class EmpleadoController {
         return empleados.list()
     }
     
+    def eventos () {
+        def empleado = Empleado.get(params.id)
+        def empleadoEventos = empleadoService.eventosPorEmpleado(empleado)
+        [empleadoEventos: empleadoEventos]
+    }
 }

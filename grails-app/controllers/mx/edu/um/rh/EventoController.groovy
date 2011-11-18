@@ -152,7 +152,7 @@ class EventoController {
     
     def iniciarEvento = {
         def evento = Evento.get(params.id)
-        if(evento.status == Constantes.STATUS_CREADO){
+        if(evento.status == Constantes.STATUS_ABIERTO){
             evento.status = Constantes.STATUS_INICIADO
             render(view: "paseLista", model: [evento: evento])
         }else {
@@ -164,10 +164,10 @@ class EventoController {
     def cerrarEvento = {
         def evento = Evento.get(params.id)
         if(evento.status == Constantes.STATUS_INICIADO) {
-            evento.status = Constantes.STATUS_TERMINADO
+            evento.status = Constantes.STATUS_CERRADO
         }
         def empleadoEventos = EmpleadoEvento.findByEvento(evento).list()
-        log.debug "empleadoEventos >>>>>>>>>>>>>>>>>>>" + empleadoEventos
+        log.debug "empleadoEventos > " + empleadoEventos
         def temp = 1
         for(empleadoEvento in empleadoEventos) {
             def eventoRegistros = EventoRegistro.findAllByEmpleadoEvento(empleadoEvento)
@@ -246,9 +246,8 @@ class EventoController {
     
     def reporte() {
         def evento = Evento.get(params.id)
-        if(evento.status == Constantes.STATUS_TERMINADO) {
+        if(evento.status == Constantes.STATUS_CERRADO) {
             def empleadoEventos = EmpleadoEvento.findByEvento(evento).list()
-            log.debug "empleadoEventos >>>>>>>>>>>>>>>>>>>" + empleadoEventos
             render(view: "reporte", model: [evento:evento, empleadoEventos: empleadoEventos])
         } else {
             redirect(action: "ver", id: evento.id)

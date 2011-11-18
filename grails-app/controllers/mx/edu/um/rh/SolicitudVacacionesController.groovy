@@ -3,6 +3,7 @@ package mx.edu.um.rh
 import org.springframework.dao.DataIntegrityViolationException
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import mx.edu.um.rh.*
 
 class SolicitudVacacionesController extends SolicitudRHController{
 	def springSecurityService
@@ -21,32 +22,52 @@ class SolicitudVacacionesController extends SolicitudRHController{
     }
 
     def nueva() {
-    	def solicitudVacaciones = new SolicitudVacaciones()
-        solicitudVacaciones.properties = params
-        return [solicitudVacaciones: solicitudVacaciones]
+        return [solicitudVacaciones: new SolicitudVacaciones(params)]
     }
 
     def crea() {
-        def solicitudVacaciones = new SolicitudVacaciones(params)
-        solicitudVacaciones.fechaCaptura = new Date()
-        solicitudVacaciones.usuarioCrea = springSecurityService.currentUser
+        params.fechaCaptura = new Date()
+        params.usuarioCrea = springSecurityService.currentUser
+        params.diasVacaciones = params.fechaFinal - params.fechaInicial
+        boolean primaAnual = derechoAPrimaVacacionalUnaVezAnual(Integer.parseInt(params.empleado.id))
         
-        boolean primaAnual = derechoAPrimaVacacionalUnaVezAnual(solicitudVacaciones.empleado)
-        if ((solicitudVacaciones.diasVacaciones < 7) || !primaAnual){
-        	solicitudVacaciones.userPrimaVacacional = 0.00
+        if (!((params.diasVacaciones > 7) && primaAnual)){//si los dias no (son mayores a 7 y tiene derecho)
+        	params.userPrimaVacacional = 0.00
         	def date = new Date()
         }
-        boolean visitaAnual = visitaPadresUnaVezAnual(solicitudVacaciones.empleado)
-        //if kilometros >= 900, se agregan 2 días a las vacaciones del empleado
-        if (((solicitudVacaciones.kilometros >= 900) && (solicitudVacaciones.visitaPadres)) && visitaAnual){
-        	int dias = solicitudVacaciones.diasVacaciones
-        	solicitudVacaciones.fechaFinal += 2
+        boolean visitaAnual = visitaPadresUnaVezAnual(Integer.parseInt(params.empleado.id))
+        boolean vacaciones900 = false
+        
+		params.fechaFinal += terminanVacacionesEnViernesOSabado(params.fechaFinal)
+        params.diasVacaciones = params.fechaFinal - params.fechaInicial
+
+        //if kilometros >= 900, se restan 2 días a las vacaciones del empleado
+        if (((params.kilometros >= 900) && (params.visitaPadres)) && visitaAnual){
+        	params.diasVacaciones -= 2
+        	flash.message = "Se te han dado 2 días extras por tu visita a padres a más de 900 km anual"
+        	vacaciones900 = true
         }
         
-		solicitudVacaciones.fechaFinal += terminanVacacionesEnViernesOSabado(solicitudVacaciones.fechaFinal)
-        solicitudVacaciones.diasVacaciones = solicitudVacaciones.fechaFinal - solicitudVacaciones.fechaInicial
         
         
+        int diasferiados = solicitudVacacionesService.getDiasFeriadosEnElRango(params.fechaInicial, params.fechaFinal).size()
+        params.diasVacaciones -= diasferiados;
+        if (diasferiados >1){
+        	flash.message = "No se han contado " + diasferiados + " días por ser días feriados"
+        }
+        else if (diasferiados == 1 ){
+        	flash.message = "No se ha contado " + diasferiados + " día por ser día feriado"
+        }
+        
+        def solicitudVacaciones = new SolicitudVacaciones(params)
+        def empleado = Empleado.get(params.empleado.id)
+        int dias = solicitudVacacionesService.totalDeDiasDeVacaciones(empleado)
+        if ((dias - solicitudVacaciones.diasVacaciones) < 0){
+        	flash.error = "Solo tienes derecho a " + dias + " días de vacaciones y haz pedido " + solicitudVacaciones.diasVacaciones +". Tu solicitud no puede ser procesada"
+        	//solicitudVacaciones.save(flush: false)
+        	//render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
+            return
+        }
         if (!solicitudVacaciones.save(flush: true)) {
             render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
             return
@@ -58,6 +79,7 @@ class SolicitudVacacionesController extends SolicitudRHController{
 
     def ver() {
         def solicitudVacaciones = SolicitudVacaciones.get(params.id)
+        
         def permisos = permisos()
         if (!solicitudVacaciones) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudVacaciones.label', default: 'SolicitudVacaciones'), params.id])
@@ -67,6 +89,11 @@ class SolicitudVacacionesController extends SolicitudRHController{
 
         [solicitudVacaciones: solicitudVacaciones, permisos: permisos]
     }
+        def autorizar () {
+        	super.autorizar()
+        	Vacaciones vacaciones = new Vacaciones(dateCreated: new Date(), descripcion: "Vacaciones", dias: params.diasVacaciones, usuario: springSecurityService.currentUser, empleado: params.empleado, solcitudVacaciones: solicitudVacaciones, empresa: params.empleado.empresa).save()
+        	
+        }
 
     def edita() {
         def solicitudVacaciones = SolicitudVacaciones.get(params.id)
@@ -129,7 +156,8 @@ class SolicitudVacacionesController extends SolicitudRHController{
         }
     }
     
-    def derechoAPrimaVacacionalUnaVezAnual(Empleado empleado){
+    def derechoAPrimaVacacionalUnaVezAnual(int empleadoid){
+    	def empleado = Empleado.get(empleadoid)
     	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
     	if (solicitudesVacaciones == null){
     		return true
@@ -142,7 +170,8 @@ class SolicitudVacacionesController extends SolicitudRHController{
     	return true
     }
     
-    def visitaPadresUnaVezAnual(Empleado empleado){
+    def visitaPadresUnaVezAnual(int empleadoid){
+    	def empleado = Empleado.get(empleadoid)
     	def solicitudesVacaciones = solicitudVacacionesService.getSolicitudesAnuales(empleado)
     	for (SolicitudVacaciones tmp in solicitudesVacaciones){
     		if (tmp.visitaPadres){

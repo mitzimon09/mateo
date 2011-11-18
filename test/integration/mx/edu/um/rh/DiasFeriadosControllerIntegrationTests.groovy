@@ -1,6 +1,5 @@
 package mx.edu.um.rh
 
-
 import grails.test.mixin.*
 import grails.test.mixin.support.*
 import org.junit.*
@@ -9,22 +8,20 @@ import general.BaseIntegrationTest
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(DiasFeriadosController)
+//@TestFor(DiasFeriadosController)
 class DiasFeriadosControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService
 	
     @Test
     void MostrarListaDeDiasFeriadoss() {
-		authenticateAdmin()
+		authenticateRHOper()
 		
 		def currentUser = springSecurityService.currentUser
-        System.out.println("user >" + currentUser)
+        println("user >" + currentUser)
         for(i in 1..20) {
         	def diasFeriados = new DiasFeriados(
                 descripcion: 'test$i'
-                , diadado: 's'
-                , fecharegistro: new Date()
                 , fecha: new Date()
                 , user: currentUser
 		    ).save()
@@ -39,31 +36,24 @@ class DiasFeriadosControllerIntegrationTests extends BaseIntegrationTest {
 
 		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.diasFeriadoss
+		assertNotNull model.diasFeriados
 
-        assertEquals 10, model.diasFeriadoss.size()
-        assert 20 <= model.totalDeDiasFeriadoss
+        assertEquals 10, model.diasFeriados.size()
+        assert 20 <= model.totalDeDiasFeriados
     }
 
     @Test
     void CrearDiasFeriados() {
-    	authenticateAdmin()
-		
-		def currentUser = springSecurityService.currentUser
+    	authenticateRHOper()
 
 		def controller = new DiasFeriadosController()
         controller.springSecurityService = springSecurityService
+		def currentUser = springSecurityService.currentUser
         
-        def categoria = new Categoria(
-            nombre: 'test'
-        ).save()
-
         def model = controller.nuevo()
         assert model
         assert model.diasFeriados
         controller.params.descripcion = "test"
-        controller.params.diadado = 's'
-        controller.params.fecharegistro = new Date()
         controller.params.fecha = new Date()
         controller.params.user = currentUser
         controller.crea()
@@ -74,14 +64,12 @@ class DiasFeriadosControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void ModificarDiasFeriados() {
-        authenticateAdmin()
+        authenticateRHOper()
 		
 		def currentUser = springSecurityService.currentUser
 
     	def diasFeriados = new DiasFeriados(
             descripcion: 'test'
-            , diadado: 's'
-            , fecharegistro: new Date()
             , fecha: new Date()
             , user: currentUser
 	    ).save()
@@ -109,14 +97,12 @@ class DiasFeriadosControllerIntegrationTests extends BaseIntegrationTest {
     
     @Test
     void EliminarDiasFeriados() {
-        authenticateAdmin()
+        authenticateRHOper()
 		
 		def currentUser = springSecurityService.currentUser
     	
     	def diasFeriados = new DiasFeriados(
             descripcion: 'test'
-            , diadado: 's'
-            , fecharegistro: new Date()
             , fecha: new Date()
             , user: currentUser
 	    ).save()

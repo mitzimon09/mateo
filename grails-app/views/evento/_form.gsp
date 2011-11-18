@@ -39,7 +39,7 @@
 		<g:message code="evento.hora_inicio.label" default="Horainicio" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:datePicker name="hora_inicio" precision="day" value="${evento?.hora_inicio}"  />
+	<g:datePicker name="hora_inicio" precision="minute" value="${evento?.hora_inicio}"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: evento, field: 'hora_final', 'error')} required">
@@ -47,6 +47,6 @@
 		<g:message code="evento.hora_final.label" default="Horafinal" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:datePicker name="hora_final" precision="day" value="${evento?.hora_final}"  />
+	<g:datePicker name="hora_final" precision="minute" value="${evento?.hora_final}"  />
 </div>
 
