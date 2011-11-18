@@ -28,7 +28,7 @@ class SolicitudVacacionesController extends SolicitudRHController{
     def crea() {
         params.fechaCaptura = new Date()
         params.usuarioCrea = springSecurityService.currentUser
-        params.diasVacaciones = params.fechaFinal - params.fechaInicial
+        params.diasVacaciones = (params.fechaFinal - params.fechaInicial)+1
         boolean primaAnual = derechoAPrimaVacacionalUnaVezAnual(Integer.parseInt(params.empleado.id))
         
         if (!((params.diasVacaciones > 7) && primaAnual)){//si los dias no (son mayores a 7 y tiene derecho)
@@ -38,8 +38,15 @@ class SolicitudVacacionesController extends SolicitudRHController{
         boolean visitaAnual = visitaPadresUnaVezAnual(Integer.parseInt(params.empleado.id))
         boolean vacaciones900 = false
         
-		params.fechaFinal += terminanVacacionesEnViernesOSabado(params.fechaFinal)
-        params.diasVacaciones = params.fechaFinal - params.fechaInicial
+        int weekend = terminanVacacionesEnViernesOSabado(params.fechaFinal)
+		params.fechaFinal += weekend
+        params.diasVacaciones = (params.fechaFinal - params.fechaInicial)+1
+        if (weekend == 1){
+        	flash.error = "Se te ha contado un día más por terminar tus vacaciones en sábado"
+        }
+        else if(weekend == 2){
+        	flash.error = "Se te han contado 2 días más por terminar tus vacaciones en viernes"
+        }
 
         //if kilometros >= 900, se restan 2 días a las vacaciones del empleado
         if (((params.kilometros >= 900) && (params.visitaPadres)) && visitaAnual){
@@ -62,10 +69,10 @@ class SolicitudVacacionesController extends SolicitudRHController{
         def solicitudVacaciones = new SolicitudVacaciones(params)
         def empleado = Empleado.get(params.empleado.id)
         int dias = solicitudVacacionesService.totalDeDiasDeVacaciones(empleado)
-        if ((dias - solicitudVacaciones.diasVacaciones) < 0){
+        if ((dias - solicitudVacaciones.diasVacaciones) < 0){terminanVacacionesEnViernesOSabado(params.fechaFinal)
         	flash.error = "Solo tienes derecho a " + dias + " días de vacaciones y haz pedido " + solicitudVacaciones.diasVacaciones +". Tu solicitud no puede ser procesada"
-        	//solicitudVacaciones.save(flush: false)
-        	//render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
+        	solicitudVacaciones.save(flush: true)
+        	render(view: "nueva", model: [solicitudVacaciones: solicitudVacaciones])
             return
         }
         if (!solicitudVacaciones.save(flush: true)) {
