@@ -10,8 +10,8 @@
 				<li><g:link class="home" controller="RH"><g:message code="rh.list.label" default="RH" /></g:link></li>
 				<li><g:link class="list" controller="grupo"><g:message code="grupo.list.label" default="Grupo" /></g:link></li>
 				<li><g:link class="list" controller="categoria"><g:message code="categoria.list.label" default="Categoria" /></g:link></li>
-				<li><g:link class="list" controller="seccion"><g:message code="categoria.list.label" default="Seccion" /></g:link></li>
-				<li><g:link class="list" controller="puesto"><g:message code="puesto.list.label" default="Puesto" /></g:link></li>
+				<li><g:link class="list" controller="seccion"><g:message code="categoria.list.label" default="Puesto" /></g:link></li>
+				<li><g:link class="list" controller="puesto"><g:message code="puesto.list.label" default="Seccion" /></g:link></li>
 				<li><g:link class="list" controller="nacionalidades"><g:message code="nacionalidad.list.label" default="Nacionalidad" /></g:link></li>
 				<li><g:link class="list" controller="evento"><g:message code="evento.list.label" default="Evento" /></g:link></li>
 				<li><g:link class="list" controller="universidad"><g:message code="universidad.list.label" default="Universidad" /></g:link></li>
