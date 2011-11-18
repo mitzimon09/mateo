@@ -16,4 +16,12 @@ class DiasFeriados {
     static mapping = {
         table name:'calendario', schema:'moises'
     }
+    static namedQueries = {
+    	diasFeriadosPorFecha{ Date fechaEmpiezaRango, Date fechaTerminaRango ->
+    		and {
+    			ge 'fecha', fechaEmpiezaRango
+    			le 'fecha', fechaTerminaRango
+    		}
+    	}
+    }
 }

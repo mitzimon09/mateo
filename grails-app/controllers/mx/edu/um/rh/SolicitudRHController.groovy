@@ -4,6 +4,7 @@ import general.*
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import mx.edu.um.Constantes
 
 class SolicitudRHController {
 
@@ -33,6 +34,7 @@ class SolicitudRHController {
     def nueva = {
         def solicitudRH = new SolicitudRH()
         solicitudRH.properties = params
+        solicitudRH.fechaCaptura = new Date()
         return [solicitudRH: solicitudRH]
     }
 
@@ -50,23 +52,26 @@ class SolicitudRHController {
 
     def ver = {
         def solicitudRH = SolicitudRH.get(params.id)
+        def permisos = permisos()
+        log.debug "fechas " (solicitudRH.fechaFinal - solicitudRH.fechaInicial)
         if (!solicitudRH) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
             redirect(action: "lista")
         }
         else {
-            [solicitudRH: solicitudRH]
+            [solicitudRH: solicitudRH, permisos: permisos]
         }
     }
 
     def edita = {
         def solicitudRH = SolicitudRH.get(params.id)
+        def permisos = permisos()
         if (!solicitudRH) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
             redirect(action: "lista")
         }
         else {
-            return [solicitudRH: solicitudRH]
+            return [solicitudRH: solicitudRH, permisos: permisos]
         }
     }
 
@@ -100,15 +105,20 @@ class SolicitudRHController {
     def elimina = {
         def solicitudRH = SolicitudRH.get(params.id)
         if (solicitudRH) {
-            try {
-                solicitudRH.delete(flush: true)
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
-                redirect(action: "lista")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
-                redirect(action: "ver", id: params.id)
-            }
+        if(solicitudRH.status.equals("CR")){
+		        try {
+		            solicitudRH.delete(flush: true)
+		            flash.message = message(code: 'default.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
+		            redirect(action: "lista")
+		        }
+		        catch (org.springframework.dao.DataIntegrityViolationException e) {
+		            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
+		            redirect(action: "ver", id: params.id)
+		        }
+		    }
+		    else{
+		    	cancelar()
+		    }
         }
         else {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
@@ -121,7 +131,7 @@ class SolicitudRHController {
     def enviar = {
 		def solicitudRH = SolicitudRH.get(params.id)
 		if (solicitudRH){
-			if(solicitudRH.status.equals("CR") || solicitudRH.status.equals("SU")){
+			if(solicitudRH.status.equals(Constantes.STATUS_CREADO) || solicitudRH.status.equals(Constantes.STATUS_SUSPENDIDO)){
 				solicitudRH = procesoService.enviar(solicitudRH)
 				solicitudRH.save(flush:true)
 				redirect(action: "lista")
@@ -137,15 +147,16 @@ class SolicitudRHController {
     def aprobar = {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioRecibe = springSecurityService.currentUser
 			if (solicitudRH){
-				if(solicitudRH.status.equals("EN") || solicitudRH.status.equals("RE")){
+				solicitudRH.usuarioRecibe = springSecurityService.currentUser
+				solicitudRH.fechaRecibe = new Date()
+				if(solicitudRH.status.equals(Constantes.STATUS_ENVIADO) || solicitudRH.status.equals(Constantes.STATUS_REVISADO)){
 					solicitudRH = procesoService.aprobar(solicitudRH)
 					solicitudRH.usuarioRecibe = springSecurityService.currentUser
 					solicitudRH.save(flush:true)
 					redirect(action: "lista")
 				}
-				else if (solicitudRH.status.equals("CR")){
+				else if (solicitudRH.status.equals(Constantes.STATUS_CREADO)){
 					flash.message = message(code: 'solicitudRH.status.message1', args: [message(code: 'solicitudRH.label', default: 'SolicitudRH'), params.id])
 			        redirect(action: "lista")
 				}
@@ -162,7 +173,7 @@ class SolicitudRHController {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){
-				if(solicitudRH.status.equals("AP")){
+				if(solicitudRH.status.equals(Constantes.STATUS_APROBADO)){
 					solicitudRH = procesoService.revisar(solicitudRH)
 					solicitudRH.save(flush:true)
 					redirect(action: "lista")
@@ -172,12 +183,13 @@ class SolicitudRHController {
     }
     
     @Secured(['ROLE_RHOPER', 'ROLE_DIRRH'])
-    def autorizar = {
+    def autorizar () {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
-			solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 			if (solicitudRH){
-				if(solicitudRH.status.equals("RE")){
+				solicitudRH.usuarioAutoriza = springSecurityService.currentUser
+				solicitudRH.fechaAutoriza = new Date()
+				if(solicitudRH.status.equals(Constantes.STATUS_REVISADO)){
 					solicitudRH = procesoService.autorizar(solicitudRH)
 					solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 					solicitudRH.save(flush:true)
@@ -192,7 +204,7 @@ class SolicitudRHController {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){
 				if (solicitudRH.observaciones != ""){
-					if(solicitudRH.status.equals("EN")){
+					if(solicitudRH.status.equals(Constantes.STATUS_ENVIADO)){
 						solicitudRH = procesoService.rechazar(solicitudRH)
 						solicitudRH.observaciones = params.observaciones
 						solicitudRH.save(flush:true)
@@ -263,4 +275,26 @@ class SolicitudRHController {
 	
 		render(view: "rango")
 	}
+	
+	def permisos = {
+        //total de Permisos, 1 = Enviar/continuar proceso despues de suspendida, 2 = Suspender/Rechazar/aprobar, 3= rhoper:revisar/autorizar/rechazar
+        //3= dirh: rechazar/autorizar/cancelar, 4 = Todos
+        def totalPermisos = 0
+        if(SpringSecurityUtils.ifAnyGranted('ROLE_USER')) {
+            totalPermisos = 1
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_CCP')){
+            totalPermisos = 2
+        }else if(SpringSecurityUtils.ifAnyGranted('ROLE_RHOPER')){
+            totalPermisos = 3
+        }
+        else if (SpringSecurityUtils.ifAnyGranted('ROLE_DIRRH')){
+        	totalPermisos = 4
+        }
+        if (SpringSecurityUtils.ifAnyGranted('ROLE_ADMIN')){
+        	  totalPermisos = 5
+        }
+        log.debug "totalPermisosCompra = " + totalPermisos
+        return totalPermisos
+    }
+    
 }

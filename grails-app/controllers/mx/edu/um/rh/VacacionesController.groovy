@@ -24,7 +24,7 @@ class VacacionesController {
         return [vacaciones: vacaciones]
     }
 
-    def save = {
+    def crea = {
         def vacaciones = new Vacaciones(params)
         if (vacaciones.save(flush: true)) {
             flash.message = message(code: 'default.saveted.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), vacaciones.id])

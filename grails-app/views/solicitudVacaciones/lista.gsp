@@ -25,17 +25,13 @@
 				<thead>
 					<tr>
 					
+						<th><g:message code="solicitudVacaciones.id.label" default="Solicitud" /></th>
+						
 						<th><g:message code="solicitudVacaciones.empleado.label" default="Empleado" /></th>
-					
-						<th><g:message code="solicitudVacaciones.empresa.label" default="Empresa" /></th>
-					
-						<g:sortableColumn property="fechaCaptura" title="${message(code: 'solicitudVacaciones.fechaCaptura.label', default: 'Fecha Captura')}" />
 					
 						<g:sortableColumn property="fechaInicial" title="${message(code: 'solicitudVacaciones.fechaInicial.label', default: 'Fecha Inicial')}" />
 					
 						<g:sortableColumn property="fechaFinal" title="${message(code: 'solicitudVacaciones.fechaFinal.label', default: 'Fecha Final')}" />
-					
-						<g:sortableColumn property="fechaRecibeJefe" title="${message(code: 'solicitudVacaciones.fechaRecibeJefe.label', default: 'Fecha Recibe Jefe')}" />
 					
 					</tr>
 				</thead>
@@ -43,17 +39,13 @@
 				<g:each in="${solicitudesVacaciones}" status="i" var="solicitudVacaciones">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${solicitudesVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
+						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "folio")}</g:link></td>
 					
-						<td>${fieldValue(bean: solicitudVacaciones, field: "empresa")}</td>
-					
-						<td><g:formatDate date="${solicitudVacaciones.fechaCaptura}" /></td>
+						<td><g:link controller="empleado" action="ver" id="${solicitudVacaciones.empleado.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
 					
 						<td><g:formatDate date="${solicitudVacaciones.fechaInicial}" /></td>
 					
 						<td><g:formatDate date="${solicitudVacaciones.fechaFinal}" /></td>
-					
-						<td><g:formatDate date="${solicitudVacaciones.fechaRecibeJefe}" /></td>
 					
 					</tr>
 				</g:each>

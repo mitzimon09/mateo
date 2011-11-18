@@ -8,57 +8,70 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.authentication.TestingAuthenticationToken
+import mx.edu.um.Constantes
+import mx.edu.um.rh.*
 
 class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 	def springSecurityService
 	def procesoService
+	def solicitudVacacionesService
 
     @Test
     void debieraMostrarListaDeSolicitudesDeVacaciones() {
 	    authenticateUser()
-    	def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+    	def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
 		assertNotNull currentUser
@@ -75,6 +88,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
 				, dateCreated: new Date()
+				, folio: "test$i"
 			).save()
         }
         
@@ -92,49 +106,59 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     
     @Test
     void debieraCrearSolicitudVacaciones() {
-    	def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+    	def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -154,7 +178,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.kilometros = 8
         controller.params.usuarioCrea = currentUser
         controller.params.dateCreated = new Date()
-        
+        controller.params.folio = "test"
         
         controller.crea()
         
@@ -165,49 +189,59 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     @Test
     void debieraActualizarSolicitudVacaciones() {
 		
-		def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+		def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -222,6 +256,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
         
         def controller = new SolicitudVacacionesController()
@@ -252,49 +287,59 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
     void usuarioEmpleadoEnviaSolicitudVacaciones() {
 	      authenticateUser()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	     def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -320,8 +365,9 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, destino: "test"
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
-				, startus: "CR"
+				, status: "CR"
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 		
 		def controller = new SolicitudVacacionesController()
@@ -334,55 +380,65 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         assert model.solicitudVacaciones
         
         controller.enviar()
-        assertEquals "EN", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_ENVIADO, solicitudVacaciones.status
     }
     @Test
     void jefeCCostoDebieraPoderAprobarSolicitudVacaciones() {
 		authenticateCCP()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -409,70 +465,81 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, destino: "test"
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
-				, status: "EN"
+				, status: Constantes.STATUS_ENVIADO
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 
         def controller = new SolicitudVacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudVacaciones.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudVacaciones.status
 		
 		controller.params.id = solicitudVacaciones.id
         def model = controller.edita()
         assert model.solicitudVacaciones
         
         controller.aprobar()
-        assertEquals "AP", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_APROBADO, solicitudVacaciones.status
     }
     
     @Test
     void RHOperDebieraPoderRevisarSolicitudVacaciones() {
 		authenticateRHOper()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -501,6 +568,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, usuarioCrea: currentUser
 				, status: "AP"
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 
         def controller = new SolicitudVacacionesController()
@@ -513,56 +581,66 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         assert model.solicitudVacaciones
         
         controller.revisar()
-        assertEquals "RE", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_REVISADO, solicitudVacaciones.status
     }
     
     @Test
     void RHOperDebieraPoderAutorizarSolicitudVacaciones() {
 		authenticateRHOper()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -589,70 +667,81 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, destino: "test"
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
-				, status: "RE"
+				, status: Constantes.STATUS_REVISADO
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 
         def controller = new SolicitudVacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "RE", solicitudVacaciones.status
+		assertEquals Constantes.STATUS_REVISADO, solicitudVacaciones.status
 		
 		controller.params.id = solicitudVacaciones.id
         def model = controller.edita()
         assert model.solicitudVacaciones
         
         controller.autorizar()
-        assertEquals "AU", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_AUTORIZADO, solicitudVacaciones.status
     }
     
         @Test
     void jefeCCostoRHOperDirRHDebieranPoderRechazarSolicitudVacaciones() {
 	      authenticateCCP()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	     def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -678,70 +767,81 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, destino: "test"
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
-				, status: "EN"
+				, status: Constantes.STATUS_ENVIADO
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 
         def controller = new SolicitudVacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudVacaciones.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudVacaciones.status
 		
 		controller.params.id = solicitudVacaciones.id
         def model = controller.edita()
         assert model.solicitudVacaciones
         
         controller.rechazar()
-        assertEquals "RE", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_RECHAZADO , solicitudVacaciones.status
     }
     
        @Test
     void dirRHDebieraPoderCancelarSolicitudVacaciones() {
 	      authenticateDirRH()
 	      
-	      def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+	     def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-    
-    	def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def usuario = new Usuario (
     		username: "test"
@@ -768,69 +868,80 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, destino: "test"
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
-				, status: "EN"
+				, status: Constantes.STATUS_ENVIADO
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
 
         def controller = new SolicitudVacacionesController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "EN", solicitudVacaciones.status
+		assertEquals Constantes.STATUS_ENVIADO, solicitudVacaciones.status
 		
 		controller.params.id = solicitudVacaciones.id
         def model = controller.edita()
         assert model.solicitudVacaciones
         
         controller.cancelar()
-        assertEquals "CA", solicitudVacaciones.status
+        assertEquals Constantes.STATUS_CANCELADO, solicitudVacaciones.status
     }
     
     @Test
     void debieraAcumularObservaciones() {
 		
-		def organizacion = new Organizacion (
-            codigo: 'TST1'
-            , nombre: 'TEST-1'
-            , nombreCompleto: 'TEST-1'
+		def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
         ).save()
+        assertNotNull organizacion
 
-		def empresa = new Empresa(
-                codigo: "emp2"
-                , nombre: "emp"
-                , nombreCompleto: 'emptest'
-                , organizacion: organizacion
-            ).save()
-            
-        def tipoEmpleado = new TipoEmpleado (
-        	descripcion: "test"
-        	, prefijo: "666"
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
         ).save()
-    
-    	def empleado = new Empleado (
-			clave: "1110000"
-			, nombre: "test"
-			, apPaterno: "test"
-			, apMaterno: "test"
-			, genero: "fm"
-			, fechaNacimiento: new Date()
-			, direccion: "aqui"
-			, status: "23"
-			, empresa: empresa
-			//
-			, tipo: tipoEmpleado
-			, curp: 1234567890097876
-        	, escalafon: 3
-        	, turno: 1
-        	, rfc: 12345678901234
-        	, modalidad: "tt"
-        	, fechaAlta: new Date()
-        	, antiguedadFiscal: new BigDecimal(0.00)
-        	, antiguedadBase: new BigDecimal(0.00)
-        	//
-        	, estadoCivil: "te"
-        	, madre: "test"
-        	, padre: "test"
-		).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
 		
 		def currentUser = springSecurityService.currentUser
 		
@@ -845,6 +956,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
 				, kilometros: new Integer(1)
 				, usuarioCrea: currentUser
 				, dateCreated: new Date()
+				, folio: "test"
 			).save()
         
         def controller = new SolicitudVacacionesController()
@@ -869,5 +981,672 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         solicitudVacaciones.refresh()
         assertEquals "otro", solicitudVacaciones.destino
         assertEquals new Integer(5), solicitudVacaciones.kilometros
+    }
+    
+    @Test
+    void debieraPodePedirPrimaVacacionalSoloConMasDe7DiasDeVacaciones(){
+    	authenticateDirRH()
+	     def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	
+    	def fechaInicial = new Date()
+    	fechaInicial = fechaInicial - 10
+    	def currentUser = springSecurityService.currentUser
+    	   	
+    	def controller = new SolicitudVacacionesController()
+        
+        def model = controller.nueva()
+        
+        controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = new Date()-1
+        controller.params.fechaFinal = new Date()
+        controller.params.destino = "test"
+        controller.params.kilometros = 8
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        
+        
+		//find a way to assert the result of crea()
+        assertEquals 0, controller.params.userPrimaVacacional, 0 
+
+    }
+    
+    @Test
+    void primaVacacionalSolicitadaSoloUnaVezAlAnio(){
+    	authenticateDirRH()
+	    def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	
+    	
+    	def solicitudVacaciones = new SolicitudVacaciones (
+				empleado: empleado
+				, empresa: empleado.empresa
+				, fechaCaptura: new Date()
+				, fechaInicial: new Date()-30
+				, fechaFinal: new Date()
+				, diasVacaciones: new Integer(1)
+				, destino: "test"
+				, kilometros: new Integer(1)
+				, usuarioCrea: currentUser
+				, status: Constantes.STATUS_ENVIADO
+				, dateCreated: new Date()
+				, folio: "test"
+				, userPrimaVacacional: 1000
+			).save()
+    	   	
+    	def controller = new SolicitudVacacionesController()
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = new Date()-30
+        controller.params.fechaFinal = new Date()
+        controller.params.diasVacaciones = 30
+        controller.params.destino = "test"
+        controller.params.kilometros = 8
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        model.solicitudVacaciones.id = controller.crea()
+		//find a way to assert the result of crea()
+        assertEquals 0, controller.params.userPrimaVacacional, 0 //AssertionError: expected:<0.0> but was:<1000.0>
+		
+    }
+    @Test
+    void agregar2DiasDeVacacionesSiVisitaPadresYSonMasDe900Kilometros(){
+    	authenticateDirRH()
+	      def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	assertNotNull usuario
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	assertNotNull usuarioEmpleado
+    	
+    	Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR), 11, 13, 0, 0)
+		def datej = jueves.getTime()
+    	
+		def solicitudVacaciones = new SolicitudVacaciones (
+			empleado: empleado
+			, empresa: empleado.empresa
+			, fechaCaptura: new Date()
+			, fechaInicial: datej-30
+			, fechaFinal: datej
+			, diasVacaciones: new Integer(1)
+			, destino: "test"
+			, kilometros: new Integer(1)
+			, usuarioCrea: currentUser
+			, status: Constantes.STATUS_ENVIADO
+			, dateCreated: new Date()
+			, folio: "test"
+			, userPrimaVacacional: new BigDecimal(1000.00)
+		).save()
+		assertNotNull solicitudVacaciones
+
+    	def controller = new SolicitudVacacionesController()
+	   	
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = datej-30
+        controller.params.fechaFinal = datej
+        controller.params.destino = "test"
+        controller.params.kilometros = 1000
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.visitaPadres = true
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        
+        assert controller
+        assert controller.response.redirectedUrl.startsWith('/solicitudVacaciones/ver')
+        
+        
+        assertEquals 28,controller.params.diasVacaciones
+    	
+    }
+    
+        @Test
+    void agregarDiasExtrasSiVacacionesTerminanEnViernesOSabado(){
+    	authenticateDirRH()
+	      def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	assertNotNull usuario
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	assertNotNull usuarioEmpleado
+    	
+    	def controller = new SolicitudVacacionesController()
+		
+    	   	
+    	Calendar viernes = Calendar.getInstance()
+		viernes.set(viernes.get(Calendar.YEAR)-100, 10, 10, 0, 0)
+		def datev = viernes.getTime()
+		
+		Calendar sabado = Calendar.getInstance()
+		sabado.set(sabado.get(Calendar.YEAR), 10, 12, 0, 0)
+		def dates = sabado.getTime()
+    	   	
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = datev - 30
+        controller.params.fechaFinal = datev
+        controller.params.destino = "test"
+        controller.params.kilometros = 1000
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        assertEquals 32, controller.params.diasVacaciones
+    	
+    }
+    
+    @Test
+    void noContarDiasFeriadosComoVacaciones(){
+    	authenticateDirRH()
+	      def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	assertNotNull usuario
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	assertNotNull usuarioEmpleado
+    	
+    	def controller = new SolicitudVacacionesController()
+
+		authenticateRHOper()
+		currentUser = springSecurityService.currentUser
+
+		Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR)-100, 11, 17, 0, 0)
+		def datej = jueves.getTime()
+		
+    	def diasFeriados = new DiasFeriados(
+            descripcion: 'test'
+            , fecha: datej -7
+            , user: currentUser
+	    ).save()
+		assertNotNull diasFeriados
+    	   	
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = datej -30
+        controller.params.fechaFinal = datej
+        controller.params.destino = "test"
+        controller.params.kilometros = 10
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.visitaPadres = true
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        assertEquals 29, controller.params.diasVacaciones
+    	
+    }
+    
+    @Test
+    void validarSiHayDiasDeVacacionesDisponibles(){
+    	authenticateDirRH()
+	      def currentUser = springSecurityService.currentUser
+	    def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+            
+    	Empleado empleado = new Empleado(
+            clave : "1110000"
+            , nombre : "test"
+            , apPaterno : "test"
+            , apMaterno : "test"
+            , genero : Constantes.GENERO_FEMENINO
+            , fechaNacimiento : new Date()
+            , direccion : "test"
+            , status : Constantes.STATUS_ACTIVO
+            , empresa: empresa
+            , curp : "test123"
+            , rfc : "ABC-1234567890"
+            , escalafon : 75
+            , turno : 100
+            , fechaAlta : new Date()
+            , modalidad : Constantes.MODALIDAD_APOYO
+            , antiguedadBase : new BigDecimal(0.00)
+            , antiguedadFiscal : new BigDecimal(0.00)
+            , padre : "test"
+            , madre: "test"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
+            , tipo: tipoEmpleado
+            , grupo: grupo
+        ).save()
+        assertNotNull empleado
+		
+		def usuario = new Usuario (
+    		username: "test"
+    		, password: "test"
+    		, nombre: "test"
+    		, apellido: "test"
+    		, correo: "test@test.test"
+    		, empresa: empresa
+    	).save()
+    	assertNotNull usuario
+    	
+    	def usuarioEmpleado = new UsuarioEmpleado (
+    		usuario: usuario
+    		, empleado: empleado
+    	).save()
+    	assertNotNull usuarioEmpleado
+    	
+		
+		def vacaciones = new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: 2
+			).save()
+			
+			new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: 18
+			).save()
+			
+			new Vacaciones (
+				empleado: empleado
+				, usuario: currentUser
+				, descripcion: "test"
+				, empresa: empresa
+				, dias: -5
+			).save()
+		
+		authenticateRHOper()
+		
+		currentUser = springSecurityService.currentUser
+
+		Calendar jueves = Calendar.getInstance()
+		jueves.set(jueves.get(Calendar.YEAR)-100, 10, 10, 0, 0)
+		def datej = jueves.getTime()		
+    	
+		
+    	def controller = new SolicitudVacacionesController()
+    	   	
+		def model = controller.nueva()
+		controller.params.empleado = empleado
+        controller.params.empresa = empleado.empresa
+        controller.params.fechaCaptura =  new Date()
+        controller.params.fechaInicial = datej -30
+        controller.params.fechaFinal = datej
+        controller.params.destino = "test"
+        controller.params.kilometros = 1000
+        controller.params.usuarioCrea = currentUser
+        controller.params.dateCreated = new Date()
+        controller.params.visitaPadres = true
+        controller.params.folio = "test"
+        controller.params.userPrimaVacacional = new BigDecimal(1000.00)
+        controller.crea()
+        assertEquals 30, controller.params.diasVacaciones
+        
+        int dias = solicitudVacacionesService.totalDeDiasDeVacaciones(empleado)
+        assertEquals 15, dias
+    	
     }
 }

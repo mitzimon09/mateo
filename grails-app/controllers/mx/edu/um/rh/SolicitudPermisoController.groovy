@@ -1,6 +1,8 @@
 package mx.edu.um.rh
 
 import org.springframework.dao.DataIntegrityViolationException
+import grails.plugins.springsecurity.Secured
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 class SolicitudPermisoController extends SolicitudRHController{
 
@@ -16,11 +18,14 @@ class SolicitudPermisoController extends SolicitudRHController{
     }
 
     def nueva() {
-        [solicitudPermiso: new SolicitudPermiso(params)]
+    	def solicitudPermiso = new SolicitudPermiso()
+        solicitudPermiso.properties = params
+        return [solicitudPermiso: solicitudPermiso]
     }
 
     def crea() {
         def solicitudPermiso = new SolicitudPermiso(params)
+        solicitudPermiso.usuarioCrea = springSecurityService.currentUser
         if (!solicitudPermiso.save(flush: true)) {
             render(view: "crea", model: [solicitudPermiso: solicitudPermiso])
             return
@@ -32,24 +37,26 @@ class SolicitudPermisoController extends SolicitudRHController{
 
     def ver() {
         def solicitudPermiso = SolicitudPermiso.get(params.id)
+        def permisos = permisos()
         if (!solicitudPermiso) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudPermiso.label', default: 'SolicitudPermiso'), params.id])
             redirect(action: "lista")
             return
         }
 
-        [solicitudPermiso: solicitudPermiso]
+        [solicitudPermiso: solicitudPermiso, permisos: permisos]
     }
 
     def edita() {
         def solicitudPermiso = SolicitudPermiso.get(params.id)
+        def permisos = permisos()
         if (!solicitudPermiso) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'solicitudPermiso.label', default: 'SolicitudPermiso'), params.id])
             redirect(action: "lista")
             return
         }
 
-        [solicitudPermiso: solicitudPermiso]
+        [solicitudPermiso: solicitudPermiso, permisos: permisos]
     }
 
     def actualiza() {

@@ -8,7 +8,7 @@ class Vacaciones {
 	Usuario usuario
 	Empleado empleado
 	String status = "U"
-	SolicitudSalida solicitudSalida
+	SolicitudVacaciones solicitudVacaciones
 	Empresa empresa
 	
 	
@@ -21,7 +21,7 @@ class Vacaciones {
     	usuario blank: false
     	empleado blank: false
     	status inList: ["P", "U"]
-    	solicitudSalida nullable:true
+    	solicitudVacaciones nullable:true
     }
     
     static mapping = {
@@ -31,10 +31,16 @@ class Vacaciones {
     static namedQueries = {
         vacacionesParametros{Vacaciones vacaciones ->
         	if (vacaciones){
-        		if(vacaciones.solicitudSalida){
-        			eq 'solicitudSalida', vacaciones.solicitudSalida
+        		if(vacaciones.solicitudVacaciones){
+        			eq 'solicitudVacaciones', vacaciones.solicitudVacaciones
         		}
         	}
         }
+        diasTotales{Empleado empleado ->
+        	if (empleado){
+        		eq 'empleado', empleado
+        	}
+        }
+        
     }
 }
