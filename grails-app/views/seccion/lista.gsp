@@ -1,11 +1,9 @@
-
-<%@ page import="mx.edu.um.rh.Seccion" %>
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'seccion.label', default: 'Seccion')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
+        <title><g:message code="seccion.lista" /></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="main" />
 	</head>
 	<body>
 		<a href="#list-seccion" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
