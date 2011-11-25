@@ -26,8 +26,10 @@ class VacacionesController {
 
     def crea = {
         def vacaciones = new Vacaciones(params)
+        params.empresa = params.empleado.empresa
+        params.usuario = springSecurityService.currentUser
         if (vacaciones.save(flush: true)) {
-            flash.message = message(code: 'default.saveted.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), vacaciones.id])
+            flash.message = message(code: 'default.created.message', args: [message(code: 'vacaciones.label', default: 'Vacaciones'), vacaciones.id])
             redirect(action: "ver", id: vacaciones.id)
         }
         else {

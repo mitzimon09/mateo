@@ -7,7 +7,7 @@ class Vacaciones {
 	int dias
 	Usuario usuario
 	Empleado empleado
-	String status = "U"
+	String status = "U"//usuario
 	SolicitudVacaciones solicitudVacaciones
 	Empresa empresa
 	

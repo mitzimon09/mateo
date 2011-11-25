@@ -15,19 +15,17 @@ class SolicitudRH {
 	Date fechaRecibe
 	Usuario usuarioAutoriza //dirRH
 	Date fechaAutoriza
-	Observaciones observaciones
+	Set observaciones
 	String telContacto
 	String email
 	SolicitudSalida solicitudSalida
 	Vacaciones vacaciones
-	String status = "CR"
+	String status = Constantes.STATUS_CREADO
 	JefeCCosto jefeCCosto
-	
 	String folio
 	
-	
-	
 	static belongsTo = {[Empleado:empleado, Empresa:empresa]}
+	static hasMany = [observaciones: Observaciones]
 
     static constraints = {
     	empleado blank:false

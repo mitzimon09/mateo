@@ -52,7 +52,7 @@
 					
 						<td>${fieldValue(bean: vacaciones, field: "status")}</td>
 					
-						<td>${fieldValue(bean: vacaciones, field: "solicitudSalida")}</td>
+						<td>${fieldValue(bean: vacaciones, field: "solicitudVacaciones")}</td>
 					
 					</tr>
 				</g:each>
