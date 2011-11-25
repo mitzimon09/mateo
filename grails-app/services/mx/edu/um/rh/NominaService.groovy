@@ -88,7 +88,6 @@ class NominaService {
         perdedsEmpleado.addAll(e.perdeds.values())
 
         Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(e)
-        log.debug "percepciones sustituidas en el Map: ${percepcionesMap.getProperties()}"
         log.debug "percepciones sustituidas en el Map: ${percepcionesMap}"
 
         percepcionesValoresEmpleado.add(e.clave)

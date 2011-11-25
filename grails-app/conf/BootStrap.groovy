@@ -1,3 +1,5 @@
+import mx.edu.um.rh.*
+
 class BootStrap {
 
     def springSecurityService
@@ -95,6 +97,35 @@ class BootStrap {
             admin.save(flush:true)
             general.UsuarioRol.create(admin, rolAdmin, true)
         }
+
+        /*log.info "Agregando Percepcion de Prueba a BD"
+
+        PerDed perded = new PerDed(
+            clave: "PD000",
+            nombre: "PERCEPCION PRUEBA",
+            naturaleza: "C",
+            frecuenciaPago: "PERIODO 1",
+            status: "A",
+            formula: "%",
+        ).save(flush:true)
+
+        Atributo atributo = new Atributo(
+            nombre: "ATTR_A",
+            descripcion : "ATTR_A",
+            simbolo : "TE",
+            perded: perded
+        )
+        perded.addToAtributos(atributo)
+
+        Atributo atributo2 = new Atributo(
+            nombre: "ATTR_B",
+            descripcion : "ATTR_B",
+            simbolo : "TS",
+            perded : perded
+        )
+        perded.addToAtributos(atributo2)
+
+        perded.save(flush:true)*/
         
         log.info("Aplicacion inicializada")
     }

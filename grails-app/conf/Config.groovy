@@ -93,7 +93,7 @@ log4j = {
 
     warn   'org.mortbay.log'
 
-    debug  'grails.app','test.integration'//'org.hibernate'
+    debug  'grails.app','test.integration'//,'org.hibernate'
 
     //trace  'org.hibernate.type'
 

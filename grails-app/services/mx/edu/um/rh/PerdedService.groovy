@@ -62,4 +62,69 @@ class PerdedService {
         log.debug "Map Global (GX) sustituido.size: ${mapGX.size()}"
         return mapGX
     }
+
+    /**
+     * Devuelve un Map<(String)ClavePercepcion,(String)formulaPerecepcion> de las Percepciones que tengan como Atributo "Palabra Reservada"
+     **/
+    Map<String,String> getMapPerdedsReservadas(){
+        Map<String,String> perdedsReservadasMap = new HashMap<String,String>()
+        //Traer todas las Perdeds
+        List<PerDed> perdeds = PerDed.findAll()
+        assert perdeds
+        log.debug "perdeds totales.size() --> ${perdeds.size()}"
+
+        List<PerDed> perdedsReservadas = new ArrayList<PerDed>()
+
+        //Filtrar solo las que tengan atributo Palabra Reservada (usar el Map de atributos que devuelve Perdeds
+        for (p in perdeds){
+            log.debug "percepcion: ${p}"
+            if(p.atributos.containsValue(Atributo.findBySimbolo("PR"))){
+                perdedsReservadas.add(p)
+            }
+        }
+        log.debug "perdedsReservadas.size() --> ${perdedsReservadas.size()}"
+        
+        for(PerDed perded : perdedsReservadas){
+            log.debug "percepcion: ${perded} | ${perded.clave}"
+            perdedsReservadasMap.put(perded.clave,perded.formula)
+        }
+        log.debug "perdedsReservadasMap.size() --> ${perdedsReservadasMap.size()}"
+        return perdedsReservadasMap
+    }
+
+    /**
+     * Crea una Nueva Percepcion con al menos un Atributo. En caso de que ya exista la Percepcion, simplemente le agrega el Atributo
+     **/
+    Boolean crearPerDed(PerDed perded, Atributo atributo){
+        agregarAtributoToPerded(perded, atributo)
+    }
+
+    /**
+     * Agrega un atributo a una Perded. Las relaciones estan asi --> PerDed --> PerdDedAtributo --> Atributo
+     * Por lo que este metodo, crea en realidad la relaicon PerDedAtributo
+    **/
+    Boolean agregarAtributoToPerded(PerDed perded, Atributo atributo){
+        PerDedAtributo pda = new PerDedAtributo(
+            atributo : atributo,
+            perded : perded
+        )
+        perded.addToAtributos(pda)
+
+        return perded.save() ? true : false
+
+    }
+
+    /**
+     * Devuelve una lista con las percepciones(PerDed) que contengan el atributo indicado
+    **/
+    List<PerDed> getPerDedsByAtributo(Atributo atributo){
+        List<PerDed> perdedsWithAtributoEspecificado = new ArrayList<PerDed>()
+        List<PerDedAtributo> pdaList = PerDedAtributo.findAllByAtributo(atributo)
+
+        for(p in pdaList){
+            perdedsWithAtributoEspecificado.add(p.perded)
+        }
+
+        return perdedsWithAtributoEspecificado
+    }
 }
