@@ -1,5 +1,7 @@
 package mx.edu.um.rh
 
+import mx.edu.um.Constantes
+
 class PerDed {
     String clave
     String nombre
@@ -42,57 +44,57 @@ class PerDed {
 
     Boolean tieneAtributoPercepcionBasica(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("BASICA")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_BASICA)) ? true : false
     }
 
     Boolean tieneAtributoPrevisionSocial(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("PREVISION_SOCIAL")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_PREVISION_SOCIAL)) ? true : false
     }
 
     Boolean tieneAtributoDiezmo(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("DIEZMO")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_DIEZMO)) ? true : false
     }
 
     Boolean tieneAtributoSobresueldo(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("SOBRESUELDO")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_SOBRESUELDO)) ? true : false
     }
 
     Boolean tieneAtributoISPT(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("ISPT")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_ISPT)) ? true : false
     }
 
     Boolean tieneAtributoPNomina(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("NOMINA")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_NOMINA)) ? true : false
     }
 
     Boolean tieneAtributoBaseNomina(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("BASE_NOMINA")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_BASE_NOMINA)) ? true : false
     }
 
     Boolean tieneAtributoPorcentajeNomina(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("PORCENTEAJE_NOMINA")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_PORCENTAJE_NOMINA)) ? true : false
     }
 
     Boolean tieneAtributoValor(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("VALOR")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_VALOR)) ? true : false
     }
 
     Boolean tieneAtributoPalabraReservada(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("PALABRA_RESERVADA")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)) ? true : false
     }
 
     Boolean tieneAtributoPercepcionRH(){
         Map <String,Atributo> atributosMap = getAtributosMap()
-        return atributosMap.containsValue(Atributo.findByNombre("PERCEPCION_RH")) ? true : false
+        return atributosMap.containsValue(Atributo.findByNombre(Constantes.ATRIBUTO_PERCEPCION_RH)) ? true : false
     }
 
     String toString(){

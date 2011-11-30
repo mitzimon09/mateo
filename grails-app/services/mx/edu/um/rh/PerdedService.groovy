@@ -69,22 +69,15 @@ class PerdedService {
     Map<String,String> getMapPerdedsReservadas(){
         Map<String,String> perdedsReservadasMap = new HashMap<String,String>()
         //Traer todas las Perdeds
-        List<PerDed> perdeds = PerDed.findAll()
-        assert perdeds
-        log.debug "perdeds totales.size() --> ${perdeds.size()}"
 
-        List<PerDed> perdedsReservadas = new ArrayList<PerDed>()
+        Atributo atributo = Atributo.findByNombre("PALABRA_RESERVADA")
+        log.debug "atributo: ${atributo}"
 
-        //Filtrar solo las que tengan atributo Palabra Reservada (usar el Map de atributos que devuelve Perdeds
-        for (p in perdeds){
-            log.debug "percepcion: ${p}"
-            if(p.atributos.containsValue(Atributo.findBySimbolo("PR"))){
-                perdedsReservadas.add(p)
-            }
-        }
-        log.debug "perdedsReservadas.size() --> ${perdedsReservadas.size()}"
+        List<PerDed> perdedsReservadasList = getPerDedsByAtributo(atributo)
+
+        log.debug "perdedsReservadasList.size() --> ${perdedsReservadasList.size()}"
         
-        for(PerDed perded : perdedsReservadas){
+        for(PerDed perded : perdedsReservadasList){
             log.debug "percepcion: ${perded} | ${perded.clave}"
             perdedsReservadasMap.put(perded.clave,perded.formula)
         }
@@ -125,6 +118,7 @@ class PerdedService {
             perdedsWithAtributoEspecificado.add(p.perded)
         }
 
+        log.debug "perdedsFilterByAtributo: ${perdedsWithAtributoEspecificado.size()}"
         return perdedsWithAtributoEspecificado
     }
 }

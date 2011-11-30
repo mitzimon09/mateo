@@ -15,6 +15,50 @@ class NominaService {
     def perdedService
 
     /**
+     * Obtiene el Map de Formulas para las Percepciones que tengan el Atributo Palabra Reservada
+     * Map<(String)ClavePercepcion,(String)formulaPerecepcion>
+     **/
+    Map<String,String> getMapPerDedsReservadas(){
+        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        Map<String,String> mapPerdedsReservadas = new TreeMap<String,String>()
+        List<PerDed> perdedsReservadas = perdedService.getPerDedsByAtributo(palabraReservada)
+
+        for(p in perdedsReservadas){
+            log.debug "percepcion: ${p} | ${p.clave}"
+            mapPerdedsReservadas.put(p.clave,p.formula)
+        }
+
+        log.debug "mapPerdedsReservadas.size(): ${mapPerdedsReservadas.values().size()}"
+        return mapPerdedsReservadas
+    }
+
+    /**
+     * Obtenie un Map con las PercepcionesReservadas, pero con sus formulas ya sustituidas
+     **/
+    Map<String,String> getMapPerdedsReservadasWithPorcenatjaesSustituidos(){
+        Map<String,String> mapPerdesReservadas = getMapPerDedsReservadas()
+
+        List<Porcentaje> porcentajes = Porcentaje.findAll()
+
+        for(Porcentaje porcentaje : porcentajes){
+            if(mapPerdesReservadas.containsKey(porcentaje.perded.clave)){
+                String formulaOriginal = mapPerdesReservadas.get(porcentaje.perded.clave)
+                log.debug "formulaOriginal: ${formulaOriginal}"
+
+                String formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
+                formulaOriginal.replaceAll("&", porcentaje.valorDos.toString())
+
+                log.debug "formulaSustituida: ${formulaSustituida}"
+
+                mapPerdesReservadas.put(porcentaje.perded.clave, formulaSustituida)
+            }
+        }
+
+        log.debug "MapPerdesReservadas sustituido.size: ${mapPerdesReservadas.size()}"
+        return mapPerdesReservadas
+    }
+
+    /**
      * Obtiene el Map de Formulas Completo de un Empleado, pero aun sin sustituir las formulas del Empleado
      * Map<(String)ClavePercepcion,(String)formulaPerecepcion>
     **/

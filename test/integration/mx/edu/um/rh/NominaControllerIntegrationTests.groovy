@@ -76,6 +76,9 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertNotNull grupoX
     }
 
+    /**
+     * Este metodo crea unos Atributos de Prueba para que se puedan ocupar en las pruebas
+     **/
     public crearAtributos(){
         Atributo atrA = new Atributo(
             nombre: "ATR_A",
@@ -88,70 +91,87 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             nombre: "ATR_B",
             descripcion : "ATR_B",
             simbolo : "_B"
-        )
+        ).save()
         assert atrB
 
         Atributo atrC = new Atributo(
             nombre: "ATR_C",
             descripcion : "ATR_C",
             simbolo : "_C"
-        )
+        ).save()
         assert atrC
 
         Atributo atrD = new Atributo(
             nombre: "ATR_D",
             descripcion : "ATR_D",
             simbolo : "_D"
-        )
+        ).save()
         assert atrD
 
-        Atributo palabraReservada = Atributo.findBySimbolo("PR")
+        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
         if(!palabraReservada){
-            palabraReservada(
-                nombre: "Palabra Reservada",
+            palabraReservada = new Atributo(
+                nombre: "PALABRA_RESERVADA",
                 descripcion : "Palabra Reservada",
                 simbolo : "PR"
-            ).save()
+            ).save(flush:true)
             assert palabraReservada
         }
+        assert palabraReservada
     }
 
-    public crearPerdeds(){
+    /**
+     * Este metodo crea algunas Percepciones (PerDed) con sus respectivos atributos(PerDedAtributo)
+     **/
+    List<PerDed> crearPerdeds(){
         println "Creando Perdeds"
 
+        Atributo atrA = Atributo.findByNombre("ATR_A")
+        assert atrA
+        Atributo atrB = Atributo.findByNombre("ATR_B")
+        assert atrB
+        Atributo atrC = Atributo.findByNombre("ATR_C")
+        assert atrC
+        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        assert palabraReservada
+
+
+        List<PerDed> perdedsCreadas = new ArrayList<PerDed>()
+
+        //Creando Percepcion de Prueba PD101
         PerDed PD101 = new PerDed(
             clave: "PD101",
             nombre: "PERCEPCION UNO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "%",
-            atributos : ["A":"B"]
-        ).save()
-        assertNotNull PD101
-
+            formula: "%"
+        )
         //agregarle sus atributos a PD101
         PerDedAtributo paPD101_A = new PerDedAtributo(
-            atributo : Atributo.findByNombre("ATR_A"),
+            atributo : atrA,
             perded : PD101
         )
         PD101.addToAtributos(paPD101_A)
 
         PerDedAtributo paPD101_B = new PerDedAtributo(
-            atributo : Atributo.findByNombre("ATR_B"),
+            atributo : atrB,
             perded : PD101
         )
         PD101.addToAtributos(paPD101_B)
 
         PerDedAtributo paPD101_PR = new PerDedAtributo(
-            atributo : Atributo.findByNombre("Palabra Reservada"),
+            atributo : palabraReservada,
             perded : PD101
         )
         PD101.addToAtributos(paPD101_PR)
 
         PD101.save()
-        assertTrue 3 , PD101.atributos.size()
+        assert PD101
+        perdedsCreadas.add(PD101)
+        assertEquals 3 , PD101.atributos.size()
 
+        //Creando Percepcion de Prueba PD102
         PerDed PD102 = new PerDed(
             clave: "PD102",
             nombre: "PERCEPCION DOS",
@@ -159,92 +179,135 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             frecuenciaPago: "PERIODO 1",
             status: "A",
             formula: "%",
-            atributos : ["A":"B"]
-        ).save()
-        assertNotNull PD102
-
+        )
         //agregarle sus atributos a PD102
         PerDedAtributo paPD102_A = new PerDedAtributo(
-            atributo : Atributo.findByNombre("ATR_A"),
+            atributo : atrA,
             perded : PD102
         )
         PD102.addToAtributos(paPD102_A)
 
         PerDedAtributo paPD102_B = new PerDedAtributo(
-            atributo : Atributo.findByNombre("ATR_B"),
+            atributo : atrB,
             perded : PD102
         )
         PD102.addToAtributos(paPD102_B)
 
         PerDedAtributo paPD102_C = new PerDedAtributo(
-            atributo : Atributo.findByNombre("ATR_C"),
+            atributo : atrC,
             perded : PD102
         )
         PD102.addToAtributos(paPD102_C)
 
         PerDedAtributo paPD102_PR = new PerDedAtributo(
-            atributo : Atributo.findByNombre("Palabra Reservada"),
+            atributo : palabraReservada,
             perded : PD101
         )
         PD101.addToAtributos(paPD102_PR)
 
         PD102.save()
-        assertTrue 4 , PD101.atributos.size()
+        assert PD102
+        perdedsCreadas.add(PD102)
+        assertEquals 4 , PD101.atributos.size()
 
+        //Creando Percepcion de Prueba PD103
         PerDed PD103 = new PerDed(
             clave: "PD103",
             nombre: "PERCEPCION TRES",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD001 * PD007",//"PD101 * PD107",
-            atributos: ["A":"B"]
-        ).save()
-        assertNotNull PD103
+            formula: "PD101 * PD107"
+        )
+        //agregarle sus atributos a PD103
+        PerDedAtributo paPD103_PR = new PerDedAtributo(
+            atributo : palabraReservada,
+            perded : PD103
+        )
+        PD103.addToAtributos(paPD103_PR)
+        PD103.save()
+        assert PD103
+        perdedsCreadas.add(PD103)
 
+        //Creando Percepcion de Prueba PD104
         PerDed PD104 = new PerDed(
             clave: "PD104",
             nombre: "TPERCEPCION CUATRO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "PD002",//"PD102",
-            atributos: ["A":"B"]
-        ).save()
-        assertNotNull PD104
+            formula: "PD102"
+        )
+        //agregarle sus atributos a PD104
+        PerDedAtributo paPD104_PR = new PerDedAtributo(
+            atributo : palabraReservada,
+            perded : PD104
+        )
+        PD104.addToAtributos(paPD104_PR)
+        PD104.save()
+        assert PD104
+        perdedsCreadas.add(PD104)
 
+        //Creando Percepcion de Prueba PD105
         PerDed PD105 = new PerDed(
             clave: "PD105",
             nombre: "PERCEPCION CINCO",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD002",//"% * PD102",
-            atributos: ["A":"B"]
-        ).save()
-        assertNotNull PD105
+            formula: "% * PD102"
+        )
+        //agregarle sus atributos a PD105
+        PerDedAtributo paPD105_PR = new PerDedAtributo(
+            atributo : palabraReservada,
+            perded : PD105
+        )
+        PD105.addToAtributos(paPD105_PR)
+        PD105.save()
+        assert PD105
+        perdedsCreadas.add(PD105)
 
+        //Creando Percepcion de Prueba PD106
         PerDed PD106 = new PerDed(
             clave: "PD106",
             nombre: "PERCEPCION SEIS",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "% * PD001",//"% * PD101",
-            atributos: ["A":"B"]
-        ).save()
-        assertNotNull PD106
+            formula: "% * PD101"
+        )
+        //agregarle sus atributos a PD106
+        PerDedAtributo paPD106_PR = new PerDedAtributo(
+            atributo : palabraReservada,
+            perded : PD106
+        )
+        PD106.addToAtributos(paPD106_PR)
+        PD106.save()
+        assert PD106
+        perdedsCreadas.add(PD106)
 
+        //Creando Percepcion de Prueba PD107
         PerDed PD107 = new PerDed(
             clave: "PD107",
             nombre: "PERCEPCION SIETE",
             naturaleza: "C",
             frecuenciaPago: "PERIODO 1",
             status: "A",
-            formula: "0",
-            atributos: ["A":"B"]
-        ).save()
-        assertNotNull PD107
+            formula: "0"
+        )
+        //agregarle sus atributos a PD107
+        PerDedAtributo paPD107_PR = new PerDedAtributo(
+            atributo : palabraReservada,
+            perded : PD107
+        )
+        PD107.addToAtributos(paPD107_PR)
+        PD107.save()
+        assert PD107
+        println "PD107: ${PD107}"
+        println "perdedsCreadas: ${perdedsCreadas}"
+        perdedsCreadas.add(PD107)
+
+        return perdedsCreadas
     }
 
     public crearPorcentajes(){
@@ -443,20 +506,46 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraArmarMapPercepcionesReservadas(){
-        log.debug 'debieraArmarMapPercepcionesReservadas'
+        crearAtributos()
+        crearPerdeds()
 
+        List<PerDed> perdedsReservadasList = PerDed.findAll() //traer TODAS las PerDed
+        //filtrar todas las que NO SEAN RESERVADAS
+        for(int i = 0; i < perdedsReservadasList.size(); i++){
+            PerDed p = perdedsReservadasList.get(i)
+            if(!p.tieneAtributoPalabraReservada()){
+                perdedsReservadasList.remove(i)
+            }
+        }
+        println "perdedsReservadasList.size(): ${perdedsReservadasList.size()}" //Deben ser 18
+        
+        Map<String,String> perdedsReservadasMap = nominaService.getMapPerDedsReservadas()
+        assert perdedsReservadasMap
+
+        assertEquals perdedsReservadasList.size() , perdedsReservadasMap.values().size()
+
+        //verificar que las percepciones de la lista estan en el Map
+        for(perded in perdedsReservadasList){
+            assert perdedsReservadasMap.containsKey(perded.clave)
+        }
+    }
+
+    @Test
+    void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
 
-        Map<String,String> perdedsReservadas = perdedService.getMapPerdedsReservadas()
-        assert perdedsReservadas
+        Map<String,String> mapConPorcentajesSustituidos = nominaService.getMapPerdedsReservadasWithPorcenatjaesSustituidos()
 
-        for(pr in perdedsReservadas){
-            println "pr: ${pr}"
-        }
-        
         Pattern p = Pattern.compile("%") //Valida que no exista el simbolo % en ningun String de la formula
-        for(String f : perdedsReservadas){
+        for(String f : mapConPorcentajesSustituidos){
+            Matcher m = p.matcher(f)
+            assertTrue !m.find()
+        }
+
+        p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
+        for(String f : mapConPorcentajesSustituidos){
             Matcher m = p.matcher(f)
             assertTrue !m.find()
         }

@@ -40,11 +40,11 @@ class PerdedControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assert atrD
 
-        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo palabraReservada = Atributo.findByNombre("Palabra Reservada")
 //        println "palabraReservada: ${palabraReservada}"
         if(!palabraReservada){
             palabraReservada = new Atributo(
-                nombre: "PALABRA_RESERVADA",
+                nombre: "Palabra Reservada",
                 descripcion : "Palabra Reservada",
                 simbolo : "PR"
             ).save(flush:true)
@@ -66,7 +66,7 @@ class PerdedControllerIntegrationTests extends BaseIntegrationTest {
         assert atrB
         Atributo atrC = Atributo.findByNombre("ATR_C")
         assert atrC
-        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo palabraReservada = Atributo.findByNombre("Palabra Reservada")
         assert palabraReservada
 
 
@@ -318,13 +318,43 @@ class PerdedControllerIntegrationTests extends BaseIntegrationTest {
         List percepcionesCreadas = crearPerdeds()
         println "percepciones creadas: ${percepcionesCreadas.size()}"
        
-        Atributo atributo = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo atributo = Atributo.findByNombre("Palabra Reservada")
 
         List<PerDed> percepcionesWithAtributoEspecifico = perdedService.getPerDedsByAtributo(atributo)
+        assert percepcionesWithAtributoEspecifico.size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
 
-        assertEquals 7 , percepcionesWithAtributoEspecifico.size()
+        for(PerDed p : percepcionesWithAtributoEspecifico){
+            println "Percepcion: ${p.clave} - Map Atributos: ${p.atributos}"
+            assert p.tieneAtributoPalabraReservada() //Valida que todas las percepciones tengan el atributo "Palabra Reservada"
+        }
     }
 
+    /**
+     * Trae el Map de todas las percepciones con el atributo "Palabra Reservada"
+     * Map --> <(String)ClavePercepcion,(String)formulaPerecepcion>
+     **/
+    @Test
+    void debieraTraerPercepcionesWithAtributoPalabraReservada(){
+        crearAtributos()
+        crearPerdeds()
+
+        Atributo atributo = Atributo.findByNombre("Palabra Reservada")
+        List<PerDed> percepcionesReservadasList = perdedService.getPerDedsByAtributo(atributo)
+        assert percepcionesReservadasList
+
+        Map<String,String> percepcionesReservadasMap = getMapPerdedsReservadas()
+        assert percepcionesReservadasMap.values().size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
+
+        //Valida que el map contenga todas las percepciones de la lista y las formulas sean correctas
+        for(PerDed p : percepcionesReservadasList){
+            assert p.percepcionesReservadasMap.containsKey(p.clave)
+            assert p.percepcionesReservadasMap.get(p.clave).equals(p.formula)
+        }
+    }
+
+    /**
+    * Prueba que funcionen los metodos de las Percepciones (PerDed) que nos dicen si tiene o no tal o cual atributo
+    **/
     @Test
     void debieraProbarMetodosDePercepcionParaAveriguarSusAtributos(){
         crearAtributos()

@@ -47,6 +47,19 @@ class Constantes {
     static final String ESTADO_CIVIL_CASADO="CA"
     static final String ESTADO_CIVIL_DIVORSIADO="DI"
     static final String ESTADO_CIVIL_UNION_LIBRE="UL"
-    
+
+    //Constantes para Atributos de las Percepciones
+    static final String ATRIBUTO_BASICA="Basica"
+    static final String ATRIBUTO_PREVISION_SOCIAL="Prevision social"
+    static final String ATRIBUTO_DIEZMO="Diezmo"
+    static final String ATRIBUTO_SOBRESUELDO="Sobresueldo"
+    static final String ATRIBUTO_ISPT="ISPT"
+    static final String ATRIBUTO_NOMINA="Nomina"
+    static final String ATRIBUTO_BASE_NOMINA="Base Nomina"
+    static final String ATRIBUTO_PORCENTAJE_NOMINA="Porcentaje Nomina"
+    static final String ATRIBUTO_VALOR="Valor"
+    static final String ATRIBUTO_PALABRA_RESERVADA="Palabra Reservada"
+    static final String ATRIBUTO_PERCEPCION_RH="Percepciones de RH"
+
 }
 

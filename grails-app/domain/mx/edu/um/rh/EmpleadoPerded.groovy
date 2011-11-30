@@ -4,7 +4,7 @@ class EmpleadoPerded {
     PerDed perded
     BigDecimal importe
     String tipoImporte
-    String atributos
+//    String atributos
     Boolean otorgado
     Boolean isEditableByNOM
 
