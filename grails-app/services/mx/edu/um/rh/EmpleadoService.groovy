@@ -92,7 +92,7 @@ class EmpleadoService implements EmpleadoServiceInt {
         def empleadoPuestos = empleadoPuestoService.getEmpleadosByEmpresaAndCCosto(empleado.empresa, empleadoPuesto.cCosto)
         def empleados = new ArrayList<EmpleadoPuesto>()
         for (EmpleadoPuesto empleadoPuesto1 in empleadoPuestos){
-        	empleados.add(empleadoPuesto1.empleado)
+            empleados.add(empleadoPuesto1.empleado)
         }
         return empleados
     }
@@ -173,7 +173,9 @@ class EmpleadoService implements EmpleadoServiceInt {
     }
 
     boolean addPercepcionToEmpleado(Empleado empleado, PerDed perded, BigDecimal importe, String tipoImporte, String atributos, boolean otorgado, boolean isEditableByNOM){
-        EmpleadoPerded empleadoPerded = new EmpleadoPerded(
+        println"otorgado "+otorgado
+        println "isEditable "+isEditableByNOM
+        def empleadoPerded = new EmpleadoPerded(
             perded : perded,
             empleado : empleado,
             importe : importe,
@@ -181,11 +183,13 @@ class EmpleadoService implements EmpleadoServiceInt {
             atributos : atributos,
             otorgado : otorgado,
             isEditableByNOM : isEditableByNOM
-        )
+        ).save(flush:true)
+        assert empleadoPerded
+        println "empleadoPerded "+empleadoPerded
 
         empleado.addToPerdedsList(empleadoPerded)
         
-        if(empleado.save()){
+        if(!empleado.hasErrors() && empleado.save(flash:true)){
             log.debug "true"
             return true
         }
@@ -198,7 +202,7 @@ class EmpleadoService implements EmpleadoServiceInt {
     /**
      * Modifica una percepcion (EmpleadoPerded)
      * La percepcion (EmpleadoPerded) del Parametro debe ya traer asignados los cambios con los que se va a guardar
-    **/
+     **/
     boolean updatePercepcionFromEmpleado(EmpleadoPerded empleadoPerded){
         if(empleadoPerded.save()){
             return true
@@ -224,7 +228,7 @@ class EmpleadoService implements EmpleadoServiceInt {
 
     /**
      * Elimina una percepcion (EmpleadoPerded)
-    **/
+     **/
     Boolean deletePercepcionFromEmpleado(Empleado empleado, EmpleadoPerded empleadoPerded){
 
         Boolean removio = empleado.removeFromPerdedsList(empleadoPerded)

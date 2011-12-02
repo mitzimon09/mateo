@@ -187,6 +187,7 @@ class Empleado {
 
     /*
      *Este  Metodo carga un map con las perdeds del empleado cuando se llama empleado.perdeds
+     *Map <Perded.id,EmpleadoPerded>
      */
     Map getPerdeds(){
         log.debug "getPerdeds"
