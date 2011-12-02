@@ -459,6 +459,58 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     }
 
     /**
+     * Devuelve un Map<(String)ClavePercepcion,(String)formulaPerecepcion> de las Percepciones que tengan como Atributo "Palabra Reservada"
+     * A estas Perceciones no se les sustituyen las formulas ya que no tienen valores a sustituir
+     **/
+    @Test
+    void debieraArmarMapPercepcionesReservadas(){
+        crearGrupos()
+        crearAtributos()
+        crearPerdeds()
+        crearPorcentajes()
+
+        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
+        List<PerDed> percepcionesReservadasList = perdedService.getPerDedsByAtributo(atributo)
+        assert percepcionesReservadasList
+
+        Map<String,String> percepcionesReservadasMap = perdedService.getMapPerdedsReservadas()
+        assert percepcionesReservadasMap.values().size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
+
+        //Valida que el map contenga todas las percepciones de la lista y las formulas sean correctas
+        for(PerDed p : percepcionesReservadasList){
+            assert percepcionesReservadasMap.containsKey(p.clave)
+            assert percepcionesReservadasMap.get(p.clave).equals(p.formula)
+        }
+    }
+
+    @Test
+    void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
+        crearGrupos()
+        crearAtributos()
+        crearPerdeds()
+        crearPorcentajes()
+
+        Map<String,String> mapConPorcentajesSustituidos = perdedService.getMapPerdedsReservadasWithPorcenatjaesSustituidos()
+        assert mapConPorcentajesSustituidos.values().size() > 7
+
+        List<String> mapConPorcentajesSustituidosList = new ArrayList<String>()
+        mapConPorcentajesSustituidosList.addAll(mapConPorcentajesSustituidos.values())
+        assert mapConPorcentajesSustituidosList.size() != 0
+
+        Pattern p = Pattern.compile("%") //Valida que no exista el simbolo % en ningun String de la formula
+        for(String f : mapConPorcentajesSustituidosList){
+            Matcher m = p.matcher(f)
+            assertTrue !m.find()
+        }
+
+        p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
+        for(String f : mapConPorcentajesSustituidosList){
+            Matcher m = p.matcher(f)
+            assertTrue !m.find()
+        }
+    }
+    
+    /**
      * Comprueba que se pueda obtener el Map de Formulas del Grupo X.
      * Map<(String)ClavePercepcion,(String)formulaPercepcion>
      * Las formulas se van a traer de la tabla PERDEDS
@@ -502,31 +554,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     }
 
     /**
-     * Devuelve un Map<(String)ClavePercepcion,(String)formulaPerecepcion> de las Percepciones que tengan como Atributo "Palabra Reservada"
-     * A estas Perceciones no se les sustituyen las formulas ya que no tienen valores a sustituir
-     **/
-    @Test
-    void debieraArmarMapPercepcionesReservadas(){
-        crearGrupos()
-        crearAtributos()
-        crearPerdeds()
-        crearPorcentajes()
-
-        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
-        List<PerDed> percepcionesReservadasList = perdedService.getPerDedsByAtributo(atributo)
-        assert percepcionesReservadasList
-
-        Map<String,String> percepcionesReservadasMap = perdedService.getMapPerdedsReservadas()
-        assert percepcionesReservadasMap.values().size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
-
-        //Valida que el map contenga todas las percepciones de la lista y las formulas sean correctas
-        for(PerDed p : percepcionesReservadasList){
-            assert percepcionesReservadasMap.containsKey(p.clave)
-            assert percepcionesReservadasMap.get(p.clave).equals(p.formula)
-        }
-    }
-    
-    /**
      *Prueba que se sustituyan los valores en las formulas en el Map del GrupoX
      *Para el Pattern y Matcher ver: http://www.programacion.com/articulo/expresiones_regulares_en_java_127
      **/
@@ -561,33 +588,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
         p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
         for(String f : valuesMapGXSustituido){
-            Matcher m = p.matcher(f)
-            assertTrue !m.find()
-        }
-    }
-
-    @Test
-    void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
-        crearGrupos()
-        crearAtributos()
-        crearPerdeds()
-        crearPorcentajes()
-
-        Map<String,String> mapConPorcentajesSustituidos = nominaService.getMapPerdedsReservadasWithPorcenatjaesSustituidos()
-        assert mapConPorcentajesSustituidos.values().size() > 7
-
-        List<String> mapConPorcentajesSustituidosList = new ArrayList<String>()
-        mapConPorcentajesSustituidosList.addAll(mapConPorcentajesSustituidos.values())
-        assert mapConPorcentajesSustituidosList.size() != 0
-
-        Pattern p = Pattern.compile("%") //Valida que no exista el simbolo % en ningun String de la formula
-        for(String f : mapConPorcentajesSustituidosList){
-            Matcher m = p.matcher(f)
-            assertTrue !m.find()
-        }
-
-        p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
-        for(String f : mapConPorcentajesSustituidosList){
             Matcher m = p.matcher(f)
             assertTrue !m.find()
         }

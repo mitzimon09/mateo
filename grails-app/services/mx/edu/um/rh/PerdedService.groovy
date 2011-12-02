@@ -1,17 +1,75 @@
 package mx.edu.um.rh
-import mx.edu.um.rh.interfaces.*
 import mx.edu.um.Constantes
 
 class PerdedService {
+
+//    def nominaService
+
+    /**
+     * Devuelve un Map<(String)ClavePercepcion,(String)formulaPerecepcion> de las Percepciones que tengan como Atributo "Palabra Reservada"
+     **/
+    Map<String,String> getMapPerdedsReservadas(){
+        Map<String,String> perdedsReservadasMap = new HashMap<String,String>()
+        //Traer todas las Perdeds
+
+        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
+        log.debug "atributo: ${atributo}"
+
+        List<PerDed> perdedsReservadasList = getPerDedsByAtributo(atributo)
+
+        log.debug "perdedsReservadasList.size() --> ${perdedsReservadasList.size()}"
+
+        for(PerDed perded : perdedsReservadasList){
+            log.debug "percepcion: ${perded} | ${perded.clave}"
+            perdedsReservadasMap.put(perded.clave,perded.formula)
+        }
+        log.debug "perdedsReservadas (sin sustituir): ${perdedsReservadasMap}}"
+        log.debug "perdedsReservadasMap.size() --> ${perdedsReservadasMap.size()}"
+        return perdedsReservadasMap
+    }
+
+/**
+     * Obtenie un Map con las PercepcionesReservadas, pero con sus formulas ya sustituidas
+     **/
+    Map<String,String> getMapPerdedsReservadasWithPorcenatjaesSustituidos(){
+        log.debug "Entro a getMapPerdedsReservadasWithPorcenatjaesSustituidos"
+        Map<String,String> mapPerdedsReservadas = getMapPerdedsReservadas()
+
+        List<Porcentaje> porcentajes = new ArrayList<Porcentaje>()
+        porcentajes = Porcentaje.findAll()
+        log.debug "porcentajes.size(): ${porcentajes.size()}"
+
+        for(Porcentaje porcentaje : porcentajes){
+            if(mapPerdedsReservadas.containsKey(porcentaje.perded.clave)){
+                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
+                String formulaOriginal = mapPerdedsReservadas.get(porcentaje.perded.clave)
+
+                log.debug "formulaOriginal: ${formulaOriginal}"
+                String formulaSustituida = ""
+                formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
+                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
+                log.debug "formulaSustituida: ${formulaSustituida}"
+
+                mapPerdedsReservadas.put(porcentaje.perded.clave, formulaSustituida)
+            }
+        }
+        log.debug "mapPerdedsReservadas (sustituidas): ${mapPerdedsReservadas}"
+        log.debug "MapPerdesReservadas sustituido.size: ${mapPerdedsReservadas.size()}"
+        return mapPerdedsReservadas
+    }
 
    /**
      * Obtiene el Map de formulas del Grupo X (id=6)
      * En este punto, las formulas contienen el simbolo de % que se sustituira luego por el porcentaje adecuado de la formula
      * Map<(String)ClavePercepcion,(String)formulaPercepcion>
+     * Nota: Este Map ya contiene tambien las formulas sustituidas de las percepciones reservadas
      **/
     Map<String,String> getMapFormulasGrupoX() throws NullPointerException{
         log.debug 'Entro a getMapGrupoX'
-        Map<String,String> mapGX = new TreeMap<String,String>()
+        //SOLO HAY QUE CAMBIAR EL TEST QUE PRUEBA EL MAP DE LAS FORMULAS DEL GRUPO X
+
+//        Map<String,String> mapGX = new TreeMap<String,String>()
+        Map<String,String> mapGX = getMapPerdedsReservadasWithPorcenatjaesSustituidos()
 
         List<Porcentaje> porcentajes = Porcentaje.findAllByGrupo(Grupo.findByNombre("X"))
 //        log.debug "porcentajes.size ${porcentajes.size()}"
@@ -67,29 +125,6 @@ class PerdedService {
         log.debug "mapGrupoX (sustituido): ${mapGX}"
         log.debug "Map Global (GX) sustituido.size: ${mapGX.size()}"
         return mapGX
-    }
-
-    /**
-     * Devuelve un Map<(String)ClavePercepcion,(String)formulaPerecepcion> de las Percepciones que tengan como Atributo "Palabra Reservada"
-     **/
-    Map<String,String> getMapPerdedsReservadas(){
-        Map<String,String> perdedsReservadasMap = new HashMap<String,String>()
-        //Traer todas las Perdeds
-
-        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
-        log.debug "atributo: ${atributo}"
-
-        List<PerDed> perdedsReservadasList = getPerDedsByAtributo(atributo)
-
-        log.debug "perdedsReservadasList.size() --> ${perdedsReservadasList.size()}"
-        
-        for(PerDed perded : perdedsReservadasList){
-            log.debug "percepcion: ${perded} | ${perded.clave}"
-            perdedsReservadasMap.put(perded.clave,perded.formula)
-        }
-        log.debug "perdedsReservadas (sin sustituir): ${perdedsReservadasMap}}"
-        log.debug "perdedsReservadasMap.size() --> ${perdedsReservadasMap.size()}"
-        return perdedsReservadasMap
     }
 
     /**

@@ -4,7 +4,6 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.util.regex.*
-import mx.edu.um.rh.interfaces.*
 import mx.edu.um.common.evaluador.*
 import enums.TipoNomina
 
@@ -14,35 +13,35 @@ class NominaService {
     def empleadoService
     def perdedService
 
-    /**
-     * Obtenie un Map con las PercepcionesReservadas, pero con sus formulas ya sustituidas
-     **/
-    Map<String,String> getMapPerdedsReservadasWithPorcenatjaesSustituidos(){
-        log.debug "Entro a getMapPerdedsReservadasWithPorcenatjaesSustituidos"
-        Map<String,String> mapPerdedsReservadas = perdedService.getMapPerdedsReservadas()
-
-        List<Porcentaje> porcentajes = new ArrayList<Porcentaje>()
-        porcentajes = Porcentaje.findAll()
-        log.debug "porcentajes.size(): ${porcentajes.size()}"
-
-        for(Porcentaje porcentaje : porcentajes){
-            if(mapPerdedsReservadas.containsKey(porcentaje.perded.clave)){
-                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
-                String formulaOriginal = mapPerdedsReservadas.get(porcentaje.perded.clave)
-
-                log.debug "formulaOriginal: ${formulaOriginal}"
-                String formulaSustituida = ""
-                formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
-                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
-                log.debug "formulaSustituida: ${formulaSustituida}"
-
-                mapPerdedsReservadas.put(porcentaje.perded.clave, formulaSustituida)
-            }
-        }
-        log.debug "mapPerdedsReservadas (sustituidas): ${mapPerdedsReservadas}"
-        log.debug "MapPerdesReservadas sustituido.size: ${mapPerdedsReservadas.size()}"
-        return mapPerdedsReservadas
-    }
+//    /**
+//     * Obtenie un Map con las PercepcionesReservadas, pero con sus formulas ya sustituidas
+//     **/
+//    Map<String,String> getMapPerdedsReservadasWithPorcenatjaesSustituidos(){
+//        log.debug "Entro a getMapPerdedsReservadasWithPorcenatjaesSustituidos"
+//        Map<String,String> mapPerdedsReservadas = perdedService.getMapPerdedsReservadas()
+//
+//        List<Porcentaje> porcentajes = new ArrayList<Porcentaje>()
+//        porcentajes = Porcentaje.findAll()
+//        log.debug "porcentajes.size(): ${porcentajes.size()}"
+//
+//        for(Porcentaje porcentaje : porcentajes){
+//            if(mapPerdedsReservadas.containsKey(porcentaje.perded.clave)){
+//                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
+//                String formulaOriginal = mapPerdedsReservadas.get(porcentaje.perded.clave)
+//
+//                log.debug "formulaOriginal: ${formulaOriginal}"
+//                String formulaSustituida = ""
+//                formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
+//                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
+//                log.debug "formulaSustituida: ${formulaSustituida}"
+//
+//                mapPerdedsReservadas.put(porcentaje.perded.clave, formulaSustituida)
+//            }
+//        }
+//        log.debug "mapPerdedsReservadas (sustituidas): ${mapPerdedsReservadas}"
+//        log.debug "MapPerdesReservadas sustituido.size: ${mapPerdedsReservadas.size()}"
+//        return mapPerdedsReservadas
+//    }
 
     /**
      * Obtiene el Map de Formulas Completo de un Empleado, pero aun sin sustituir las formulas del Empleado
