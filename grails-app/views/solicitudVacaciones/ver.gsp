@@ -1,5 +1,5 @@
 
-<%@ page import="mx.edu.um.rh.SolicitudVacaciones" %>
+<%@ page import="mx.edu.um.rh.SolicitudVacaciones", import="mx.edu.um.Constantes" %>
 <!doctype html>
 <html>
 	<head>
@@ -36,23 +36,6 @@
 				</li>
 				</g:if>
 				
-				<g:if test="${solicitudVacaciones?.telContacto}">
-				<li class="fieldcontain">
-					<span id="telContacto-label" class="property-label"><g:message code="solicitudVacaciones.telContacto.label" default="Tel Contacto" /></span>
-					
-						<span class="property-value" aria-labelledby="telContacto-label"><g:fieldValue bean="${solicitudVacaciones}" field="telContacto"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.email}">
-				<li class="fieldcontain">
-					<span id="email-label" class="property-label"><g:message code="solicitudVacaciones.email.label" default="Email" /></span>
-					
-						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${solicitudVacaciones}" field="email"/></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${solicitudVacaciones?.fechaInicial}">
 				<li class="fieldcontain">
@@ -68,6 +51,32 @@
 					<span id="fechaFinal-label" class="property-label"><g:message code="solicitudVacaciones.fechaFinal.label" default="Fecha Final" /></span>
 					
 						<span class="property-value" aria-labelledby="fechaFinal-label"><g:formatDate date="${solicitudVacaciones?.fechaFinal}" /></span>
+					
+				</li>
+				</g:if>
+				
+				<g:if test="${solicitudVacaciones?.diasVacaciones}">
+				<li class="fieldcontain">
+					<span id="diasVacaciones-label" class="property-label"><g:message code="solicitudVacaciones.diasVacaciones.label" default="Dias Vacaciones" /></span>
+					
+						<span class="property-value" aria-labelledby="diasVacaciones-label"><g:fieldValue bean="${solicitudVacaciones}" field="diasVacaciones"/></span>
+					
+				</li>
+				</g:if>
+				
+				<g:if test="${solicitudVacaciones?.telContacto}">
+				<li class="fieldcontain">
+					<span id="telContacto-label" class="property-label"><g:message code="solicitudVacaciones.telContacto.label" default="Tel Contacto" /></span>
+					
+						<span class="property-value" aria-labelledby="telContacto-label"><g:fieldValue bean="${solicitudVacaciones}" field="telContacto"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${solicitudVacaciones?.email}">
+				<li class="fieldcontain">
+					<span id="email-label" class="property-label"><g:message code="solicitudVacaciones.email.label" default="Email" /></span>
+						<span class="property-value" aria-labelledby="email-label"><g:fieldValue bean="${solicitudVacaciones}" field="email"/></span>
 					
 				</li>
 				</g:if>
@@ -100,14 +109,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${solicitudVacaciones?.diasVacaciones}">
-				<li class="fieldcontain">
-					<span id="diasVacaciones-label" class="property-label"><g:message code="solicitudVacaciones.diasVacaciones.label" default="Dias Vacaciones" /></span>
-					
-						<span class="property-value" aria-labelledby="diasVacaciones-label"><g:fieldValue bean="${solicitudVacaciones}" field="diasVacaciones"/></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${solicitudVacaciones?.destino}">
 				<li class="fieldcontain">
@@ -143,16 +144,6 @@
 					
 				</li>
 				</g:if>
-			
-				<g:if test="${solicitudVacaciones?.observaciones}">
-				<li class="fieldcontain">
-					<span id="observaciones-label" class="property-label"><g:message code="solicitudVacaciones.observaciones.label" default="Observaciones" /></span>
-					
-						<span class="property-value" aria-labelledby="observaciones-label"><g:link controller="observaciones" action="ver" id="${solicitudVacaciones?.observaciones?.id}">${solicitudVacaciones?.observaciones?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
 			
 				<g:if test="${solicitudVacaciones?.solicitudSalida}">
 				<li class="fieldcontain">
@@ -209,14 +200,12 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${solicitudVacaciones?.nacional}">
 				<li class="fieldcontain">
 					<span id="nacional-label" class="property-label"><g:message code="solicitudVacaciones.nacional.label" default="Nacional" /></span>
 					
 						<span class="property-value" aria-labelledby="nacional-label"><g:formatBoolean boolean="${solicitudVacaciones?.nacional}" /></span>
 					
 				</li>
-				</g:if>
 				
 				<li class="fieldcontain">
 					<span id="userPrimaVacacional-label" class="property-label"><g:message code="solicitudVacaciones.userPrimaVacacional.label" default="Prima Vacacional" /></span>
@@ -240,12 +229,19 @@
 				</g:if>
 				</g:if>
 				
+				<g:each var="book" in="${books}">
+     <p>Title: ${book.title}</p>
+     <p>Author: ${book.author}</p>
+</g:each>
+				
 				<g:if test="${solicitudVacaciones?.observaciones}">
 				<li class="fieldcontain">
 					<span id="observaciones-label" class="property-label"><g:message code="solicitudVacaciones.observaciones.label" default="Observaciones" /></span>
-					
-						<span class="property-value" aria-labelledby="observaciones-label"><g:link controller="observaciones" action="show" id="${solicitudVacaciones?.observaciones?.id}">${solicitudVacaciones?.observaciones?.encodeAsHTML()}</g:link></span>
-					
+					<ul>
+					<g:each var="observacion" in="${solicitudVacaciones?.observaciones}">
+							<li><span class="property-value" aria-labelledby="observaciones-label"><p>${observacion.observaciones}</p></span></li>
+					</g:each>
+					</ul>
 				</li>
 				</g:if>
 				
@@ -280,6 +276,15 @@
 				</g:if>
 			</g:if>
 			
+			<g:if test="${solicitudPermiso?.status}">
+				<li class="fieldcontain">
+					<span id="status-label" class="property-label"><g:message code="solicitudPermiso.status.label" default="Status" /></span>
+					
+						<span class="property-value" aria-labelledby="status-label"><g:fieldValue bean="${solicitudPermiso}" field="status"/></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form>
 				<fieldset class="buttons">
@@ -287,30 +292,30 @@
 					<g:link class="edit" action="edita" id="${solicitudVacaciones?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 					<g:if test="${(permisos == 1 || permisos == 5)}">
-						<g:if test="${solicitudVacaciones?.status.equals('CR') || solicitudVacaciones?.status.equals('SU')}">
+						<g:if test="${solicitudVacaciones?.status.equals(Constantes.STATUS_CREADO) || solicitudVacaciones?.status.equals(Constantes.STATUS_SUSPENDIDO)}">
 				  			<g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
 						</g:if>
 					</g:if>
 					<g:if test="${(permisos == 2 || permisos == 5)}">
-						<g:if test="${solicitudVacaciones?.status.equals('EN')}">
+						<g:if test="${solicitudVacaciones?.status.equals(Constantes.STATUS_ENVIADO)}">
 				  			<g:actionSubmit class="aprobar" action="aprobar" value="${message(code: 'default.button.aprobar.label', default: 'Aprobar')}" />
   							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
   							<g:actionSubmit class="suspender" action="suspender" value="${message(code: 'default.button.suspender.label', default: 'Suspender')}" />
 						</g:if>
 					</g:if>
 					<g:if test="${(permisos == 3 || permisos == 5)}">
-						<g:if test="${solicitudVacaciones?.status.equals('AP')}">
+						<g:if test="${solicitudVacaciones?.status.equals(Constantes.STATUS_APROBADO)}">
 				  			<g:actionSubmit class="revisar" action="revisar" value="${message(code: 'default.button.revisar.label', default: 'Aprobar')}" />
   							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
 						</g:if>
-						<g:if test="${solicitudVacaciones?.status.equals('RV')}">
+						<g:if test="${solicitudVacaciones?.status.equals(Constantes.STATUS_REVISADO)}">
 							<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
 							<g:actionSubmit class="autorizar" action="autorizar" value="${message(code: 'default.button.autorizar.label', default: 'Autorizar')}" />
 						</g:if>
 					</g:if>
 					<g:if test="${(permisos == 4 || permisos == 0)}">
 						<g:actionSubmit class="cancelar" action="cancelar" value="${message(code: 'default.button.cancelar.label', default: 'Cancelar')}" />
-						<g:if test="${!solicitudVacaciones?.status.equals('RV')}">
+						<g:if test="${!solicitudVacaciones?.status.equals(Constantes.STATUS_REVISADO)}">
 				  			<g:actionSubmit class="rechazar" action="rechazar" value="${message(code: 'default.button.rechazar.label', default: 'Rechazar')}" />
 							<g:actionSubmit class="autorizar" action="autorizar" value="${message(code: 'default.button.autorizar.label', default: 'Autorizar')}" />
 						</g:if>

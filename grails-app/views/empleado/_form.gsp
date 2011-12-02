@@ -13,7 +13,7 @@
    <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Datos Emplado</a></li>
-                <li><a href="http://localhost:8080/mateo/empleadoPuesto/nuevo"><span>Empleado Puesto</span></a></li>
+                <li><a href="#tabs-2"><span>Percepciones</span></a></li>
 		<li><a href="#tabs-3">Dependientes</a></li>
 	</ul>
 	<div id="tabs-1">
@@ -319,7 +319,17 @@
   <h3><a href="#"></a></h3>
 </div>
 </div>
-     	
+     	<div id="tabs-2">
+          
+          
+          <div class="fieldcontain ${hasErrors(bean: empleado, field: 'nombre', 'error')} required">
+	<label for="nombre">
+		<g:message code="empleado.nombre.label" default="Nombre" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textField name="nombre" maxlength="50" required="" value="${empleado?.nombre}"/>
+</div>
+</div>	
 	<div id="tabs-3">
 </div>
 </div>

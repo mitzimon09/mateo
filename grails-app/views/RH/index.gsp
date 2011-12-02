@@ -12,6 +12,7 @@
 				<li><g:link class="list" controller="empleado"><g:message code="empleado.list.label" default="Empleado" /></g:link></li>
 			    <li><g:link class="list" controller="solicitudVacaciones"><g:message code="permisos.list.label" default="Solicitud Vacaciones" /></g:link></li>
 			    <li><g:link class="list" controller="vacaciones"><g:message code="permisos.list.label" default="Vacaciones" /></g:link></li>
+			    <li><g:link class="list" controller="SolicitudPermiso"><g:message code="solicitudPermiso.list.label" default="Solicitud de permiso" /></g:link></li>
 			</ul>
 		</div>
         <div class="content">

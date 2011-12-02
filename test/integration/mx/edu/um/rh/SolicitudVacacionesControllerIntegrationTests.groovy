@@ -983,7 +983,7 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals new Integer(5), solicitudVacaciones.kilometros
     }
     
-    @Test
+    /*@Test
     void debieraPodePedirPrimaVacacionalSoloConMasDe7DiasDeVacaciones(){
     	authenticateDirRH()
 	     def organizacion = new Organizacion(
@@ -1648,5 +1648,5 @@ class SolicitudVacacionesControllerIntegrationTests extends BaseIntegrationTest{
         int dias = solicitudVacacionesService.totalDeDiasDeVacaciones(empleado)
         assertEquals 15, dias
     	
-    }
+    }*/
 }

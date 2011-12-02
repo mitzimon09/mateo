@@ -12,9 +12,8 @@
 <div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'folio', 'error')} required">
 	<label for="folio">
 		<g:message code="solicitudPermiso.folio.label" default="Folio" />
-		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="folio" required="" value="${solicitudPermiso?.folio}"/>
+	<g:textField name="folio"  value="${solicitudPermiso?.folio}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'fechaInicial', 'error')} required">
@@ -31,14 +30,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:datePicker name="fechaFinal" precision="day"  value="${solicitudPermiso?.fechaFinal}"  />
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'observaciones', 'error')} ">
-	<label for="observaciones">
-		<g:message code="solicitudPermiso.observaciones.label" default="Observaciones" />
-		
-	</label>
-	<g:select id="observaciones" name="observaciones.id" from="${mx.edu.um.rh.Observaciones.list()}" optionKey="id" value="${solicitudPermiso?.observaciones?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'telContacto', 'error')} ">
@@ -73,6 +64,14 @@
 	<g:checkBox name="actualizacion" value="${solicitudPermiso?.actualizacion}" />
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'personal', 'error')} ">
+	<label for="personal">
+		<g:message code="solicitudPermiso.personal.label" default="Personal" />
+		
+	</label>
+	<g:checkBox name="personal" value="${solicitudPermiso?.personal}" />
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'empresa', 'error')} required">
 	<label for="empresa">
 		<g:message code="solicitudPermiso.empresa.label" default="Empresa" />
@@ -97,19 +96,18 @@
 	<g:field type="number" name="otros" required="" value="${fieldValue(bean: solicitudPermiso, field: 'otros')}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'totalDeGastos', 'error')} required">
-	<label for="totalDeGastos">
-		<g:message code="solicitudPermiso.totalDeGastos.label" default="Total De Gastos" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field type="number" name="totalDeGastos" required="" value="${fieldValue(bean: solicitudPermiso, field: 'totalDeGastos')}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: solicitudPermiso, field: 'viaticos', 'error')} required">
 	<label for="viaticos">
 		<g:message code="solicitudPermiso.viaticos.label" default="Viaticos" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field type="number" name="viaticos" required="" value="${fieldValue(bean: solicitudPermiso, field: 'viaticos')}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: solicitudVacaciones, field: 'observacion', 'error')} ">
+	<label for="observacion">
+		<g:message code="solicitudVacaciones.observacion.label" default="Observaciones" />
+	</label>
+	<g:textField name="observacion"/>
 </div>
 

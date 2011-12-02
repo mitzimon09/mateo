@@ -5,6 +5,7 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import mx.edu.um.Constantes
+import mx.edu.um.rh.*
 
 class SolicitudRHController {
 
@@ -187,7 +188,6 @@ class SolicitudRHController {
     	//(SpringSecurityUtils.ifAnyGranted('ROLE_DIRFIN') || SpringSecurityUtils.ifAnyGranted('ROLE_CCP')) {
 			def solicitudRH = SolicitudRH.get(params.id)
 			if (solicitudRH){
-				solicitudRH.usuarioAutoriza = springSecurityService.currentUser
 				solicitudRH.fechaAutoriza = new Date()
 				if(solicitudRH.status.equals(Constantes.STATUS_REVISADO)){
 					solicitudRH = procesoService.autorizar(solicitudRH)

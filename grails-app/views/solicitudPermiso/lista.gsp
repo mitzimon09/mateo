@@ -27,6 +27,8 @@
 					
 						<th><g:message code="solicitudPermiso.id.label" default="Solicitud" /></th>
 						
+						<th><g:message code="solicitudPermiso.id.label" default="Folio" /></th>
+						
 						<th><g:message code="solicitudPermiso.empleado.label" default="Empleado" /></th>
 					
 						<g:sortableColumn property="fechaInicial" title="${message(code: 'solicitudPermiso.fechaInicial.label', default: 'Fecha Inicial')}" />
@@ -39,6 +41,8 @@
 				<g:each in="${solicitudesPermiso}" status="i" var="solicitudPermiso">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
+						<td><g:link action="ver" id="${solicitudPermiso.id}">${fieldValue(bean: solicitudPermiso, field: "id")}</g:link></td>
+						
 						<td><g:link action="ver" id="${solicitudPermiso.id}">${fieldValue(bean: solicitudPermiso, field: "folio")}</g:link></td>
 					
 						<td><g:link controller="empleado" action="ver" id="${solicitudPermiso.empleado.id}">${fieldValue(bean: solicitudPermiso, field: "empleado")}</g:link></td>
