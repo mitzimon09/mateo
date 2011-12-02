@@ -4,8 +4,8 @@ import general.*
 
 class Porcentaje {
     
-    BigDecimal valor = new BigDecimal("0.00")
-    BigDecimal valorDos = new BigDecimal("0.00")
+    BigDecimal valor = new BigDecimal("0.00") //%
+    BigDecimal valorDos = new BigDecimal("0.00") //&
     PerDed perded
     Grupo grupo
     //Empresa empresa //Posteriormente el Ejercicio_ID y CCosto_id se sutituiran por la empresa
@@ -26,6 +26,6 @@ class Porcentaje {
     }
 
     String toString() {
-        "$valor $valorDos perded: ${perded.id} grupo: ${grupo.nombre}"
+        "valor: ${valor} valorDos: ${valorDos} perded: ${perded.clave} grupo: ${grupo.nombre}"
     }
 }

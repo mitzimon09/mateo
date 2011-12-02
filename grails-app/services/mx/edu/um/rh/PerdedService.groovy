@@ -1,5 +1,6 @@
 package mx.edu.um.rh
 import mx.edu.um.rh.interfaces.*
+import mx.edu.um.Constantes
 
 class PerdedService {
 
@@ -42,16 +43,20 @@ class PerdedService {
         Map<String,String> mapGX = getMapFormulasGrupoX()
 
         List<Porcentaje> porcentajes = new ArrayList<Porcentaje>()
-
         porcentajes = Porcentaje.findAll()
+        log.debug "porcentajes.size(): ${porcentajes.size()}"
 
         for(Porcentaje porcentaje : porcentajes){
             if(mapGX.containsKey(porcentaje.perded.clave)){
+                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
+
+                log.debug "porcentaje: ${porcentaje}"
+
                 String formulaOriginal = mapGX.get(porcentaje.perded.clave)
                 log.debug "formulaOriginal: ${formulaOriginal}"
 
                 String formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
-                formulaOriginal.replaceAll("&", porcentaje.valorDos.toString())
+                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
 
                 log.debug "formulaSustituida: ${formulaSustituida}"
 
@@ -59,6 +64,7 @@ class PerdedService {
             }
         }
 
+        log.debug "mapGrupoX (sustituido): ${mapGX}"
         log.debug "Map Global (GX) sustituido.size: ${mapGX.size()}"
         return mapGX
     }
@@ -70,7 +76,7 @@ class PerdedService {
         Map<String,String> perdedsReservadasMap = new HashMap<String,String>()
         //Traer todas las Perdeds
 
-        Atributo atributo = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
         log.debug "atributo: ${atributo}"
 
         List<PerDed> perdedsReservadasList = getPerDedsByAtributo(atributo)
@@ -81,6 +87,7 @@ class PerdedService {
             log.debug "percepcion: ${perded} | ${perded.clave}"
             perdedsReservadasMap.put(perded.clave,perded.formula)
         }
+        log.debug "perdedsReservadas (sin sustituir): ${perdedsReservadasMap}}"
         log.debug "perdedsReservadasMap.size() --> ${perdedsReservadasMap.size()}"
         return perdedsReservadasMap
     }
@@ -112,6 +119,7 @@ class PerdedService {
     **/
     List<PerDed> getPerDedsByAtributo(Atributo atributo){
         List<PerDed> perdedsWithAtributoEspecificado = new ArrayList<PerDed>()
+
         List<PerDedAtributo> pdaList = PerDedAtributo.findAllByAtributo(atributo)
 
         for(p in pdaList){

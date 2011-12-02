@@ -1,6 +1,7 @@
 package mx.edu.um.rh
 
 import static org.junit.Assert.*
+import mx.edu.um.Constantes
 import general.*
 import org.junit.*
 
@@ -338,17 +339,19 @@ class PerdedControllerIntegrationTests extends BaseIntegrationTest {
         crearAtributos()
         crearPerdeds()
 
-        Atributo atributo = Atributo.findByNombre("Palabra Reservada")
+        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
+        println "atributo: ${atributo}"
+        assert atributo
         List<PerDed> percepcionesReservadasList = perdedService.getPerDedsByAtributo(atributo)
         assert percepcionesReservadasList
 
-        Map<String,String> percepcionesReservadasMap = getMapPerdedsReservadas()
+        Map<String,String> percepcionesReservadasMap = perdedService.getMapPerdedsReservadas()
         assert percepcionesReservadasMap.values().size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
 
         //Valida que el map contenga todas las percepciones de la lista y las formulas sean correctas
         for(PerDed p : percepcionesReservadasList){
-            assert p.percepcionesReservadasMap.containsKey(p.clave)
-            assert p.percepcionesReservadasMap.get(p.clave).equals(p.formula)
+            assert percepcionesReservadasMap.containsKey(p.clave)
+            assert percepcionesReservadasMap.get(p.clave).equals(p.formula)
         }
     }
 

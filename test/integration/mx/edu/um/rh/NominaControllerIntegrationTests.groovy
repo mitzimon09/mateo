@@ -108,14 +108,16 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         ).save()
         assert atrD
 
-        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo palabraReservada = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
+//        println "palabraReservada: ${palabraReservada}"
         if(!palabraReservada){
             palabraReservada = new Atributo(
-                nombre: "PALABRA_RESERVADA",
-                descripcion : "Palabra Reservada",
+                nombre: Constantes.ATRIBUTO_PALABRA_RESERVADA,
+                descripcion : Constantes.ATRIBUTO_PALABRA_RESERVADA,
                 simbolo : "PR"
             ).save(flush:true)
             assert palabraReservada
+//            println "palabraReservada: ${palabraReservada}"
         }
         assert palabraReservada
     }
@@ -125,14 +127,13 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     List<PerDed> crearPerdeds(){
         println "Creando Perdeds"
-
         Atributo atrA = Atributo.findByNombre("ATR_A")
         assert atrA
         Atributo atrB = Atributo.findByNombre("ATR_B")
         assert atrB
         Atributo atrC = Atributo.findByNombre("ATR_C")
         assert atrC
-        Atributo palabraReservada = Atributo.findByNombre("PALABRA_RESERVADA")
+        Atributo palabraReservada = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
         assert palabraReservada
 
 
@@ -469,9 +470,9 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraArmarMapFormulasGrupoX(){
-        log.debug 'testArmarMapGrupoX'
-
         crearGrupos()
+        crearAtributos()
+
         println "grupos: ${Grupo.findAll().size()}"
         assertNotNull Grupo.findAll()
         assertTrue Grupo.findAll().size() != 0
@@ -506,60 +507,33 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraArmarMapPercepcionesReservadas(){
-        crearAtributos()
-        crearPerdeds()
-
-        List<PerDed> perdedsReservadasList = PerDed.findAll() //traer TODAS las PerDed
-        //filtrar todas las que NO SEAN RESERVADAS
-        for(int i = 0; i < perdedsReservadasList.size(); i++){
-            PerDed p = perdedsReservadasList.get(i)
-            if(!p.tieneAtributoPalabraReservada()){
-                perdedsReservadasList.remove(i)
-            }
-        }
-        println "perdedsReservadasList.size(): ${perdedsReservadasList.size()}" //Deben ser 18
-        
-        Map<String,String> perdedsReservadasMap = nominaService.getMapPerDedsReservadas()
-        assert perdedsReservadasMap
-
-        assertEquals perdedsReservadasList.size() , perdedsReservadasMap.values().size()
-
-        //verificar que las percepciones de la lista estan en el Map
-        for(perded in perdedsReservadasList){
-            assert perdedsReservadasMap.containsKey(perded.clave)
-        }
-    }
-
-    @Test
-    void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
+        crearGrupos()
         crearAtributos()
         crearPerdeds()
         crearPorcentajes()
 
-        Map<String,String> mapConPorcentajesSustituidos = nominaService.getMapPerdedsReservadasWithPorcenatjaesSustituidos()
+        Atributo atributo = Atributo.findByNombre(Constantes.ATRIBUTO_PALABRA_RESERVADA)
+        List<PerDed> percepcionesReservadasList = perdedService.getPerDedsByAtributo(atributo)
+        assert percepcionesReservadasList
 
-        Pattern p = Pattern.compile("%") //Valida que no exista el simbolo % en ningun String de la formula
-        for(String f : mapConPorcentajesSustituidos){
-            Matcher m = p.matcher(f)
-            assertTrue !m.find()
-        }
+        Map<String,String> percepcionesReservadasMap = perdedService.getMapPerdedsReservadas()
+        assert percepcionesReservadasMap.values().size() > 7 //Valida que al menos se traigan las Percepciones de Prueba (crearPerdeds())
 
-        p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
-        for(String f : mapConPorcentajesSustituidos){
-            Matcher m = p.matcher(f)
-            assertTrue !m.find()
+        //Valida que el map contenga todas las percepciones de la lista y las formulas sean correctas
+        for(PerDed p : percepcionesReservadasList){
+            assert percepcionesReservadasMap.containsKey(p.clave)
+            assert percepcionesReservadasMap.get(p.clave).equals(p.formula)
         }
     }
-
+    
     /**
      *Prueba que se sustituyan los valores en las formulas en el Map del GrupoX
      *Para el Pattern y Matcher ver: http://www.programacion.com/articulo/expresiones_regulares_en_java_127
      **/
     @Test
     void debieraSustituirPorcentajesEnFormulasGrupoX(){
-        log.debug 'testSustituirPorcentajesEnFormulasGrupoX'
-
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
 
@@ -592,6 +566,33 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         }
     }
 
+    @Test
+    void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
+        crearGrupos()
+        crearAtributos()
+        crearPerdeds()
+        crearPorcentajes()
+
+        Map<String,String> mapConPorcentajesSustituidos = nominaService.getMapPerdedsReservadasWithPorcenatjaesSustituidos()
+        assert mapConPorcentajesSustituidos.values().size() > 7
+
+        List<String> mapConPorcentajesSustituidosList = new ArrayList<String>()
+        mapConPorcentajesSustituidosList.addAll(mapConPorcentajesSustituidos.values())
+        assert mapConPorcentajesSustituidosList.size() != 0
+
+        Pattern p = Pattern.compile("%") //Valida que no exista el simbolo % en ningun String de la formula
+        for(String f : mapConPorcentajesSustituidosList){
+            Matcher m = p.matcher(f)
+            assertTrue !m.find()
+        }
+
+        p = Pattern.compile("&") //Valida que no exista el simbolo & en ningun String de la formula
+        for(String f : mapConPorcentajesSustituidosList){
+            Matcher m = p.matcher(f)
+            assertTrue !m.find()
+        }
+    }
+
     /**
      * Comprueba que se trainga el Map de Formulas Completo de un Empleado, pero aun sin sustituir las del Empleado
      * Map<(String)ClavePercepcion,(String)formulaPerecepcion>
@@ -600,10 +601,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     void debieraArmarMapDeFormulasPorEmpleado(){ 
         log.debug 'testArmarMapDeFormulasPorEmpleado'
 
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -630,10 +632,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     @Test
     void debieraSustituirPorcentajesEnFormulasDeEmpleado(){
 
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
         
         def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -700,10 +703,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     @Test
     void debieraRegresarNominaDeUnEmpleado(){
 
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -733,10 +737,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     @Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
 
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -819,10 +824,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarPercecionEspecificadaUnEmpleado(){
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -841,10 +847,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
         void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
@@ -877,10 +884,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         List<Empleado> empleados = new ArrayList<Empleado>()
 
@@ -926,10 +934,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraRegresarNominaDiariaDeUnEmpleado(){
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         def clave = "9800000"
         Empleado empleado = crearEmpleadoPrueba(clave)
@@ -980,10 +989,11 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaDiariaDeUnRangoDeEmpleados(){
+        crearTipoEmpleados()
         crearGrupos()
+        crearAtributos()
         crearPerdeds()
         crearPorcentajes()
-        crearTipoEmpleados()
 
         List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 
