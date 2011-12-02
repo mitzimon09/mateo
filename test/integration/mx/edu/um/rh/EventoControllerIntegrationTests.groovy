@@ -28,8 +28,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
                 , descripcion: 'test'
                 , hora_inicio: new Date()
                 , hora_final: new Date()
-                , status: Constantes.STATUS_ABIERTO
-                ,
 		    ).save()
     		assertNotNull evento
         }
@@ -64,16 +62,10 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.descripcion = 'test'
         controller.params.hora_inicio = new Date()
         controller.params.hora_final = new Date()
-        controller.params.status = Constantes.STATUS_ABIERTO
         controller.crea()
         
         assert controller
         assert controller.response.redirectedUrl.startsWith('/evento/ver')
-        
-        def id = controller.params.id
-        def evento = Evento.get(id)
-        assertEquals 'test', evento.nombre
-        
     }
     
     @Test
@@ -87,7 +79,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , status: Constantes.STATUS_ABIERTO
 	    ).save()
 		assertNotNull evento
     		
@@ -122,7 +113,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , status: Constantes.STATUS_ABIERTO
 	    ).save()
 		assertNotNull evento
         
@@ -148,7 +138,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , status: Constantes.STATUS_ABIERTO
 	    ).save()
 		assertNotNull evento
 		
@@ -175,11 +164,11 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
 		
         def controller = new EventoController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = evento.id
         assertEquals Constantes.STATUS_INICIADO, evento.status
-        
+        controller.params.id = evento.id
+        assertEquals evento.id, controller.params.id
         controller.cerrarEvento()
-        assertEquals evento.status, Constantes.STATUS_TERMINADO
+        assertEquals evento.status, Constantes.STATUS_CERRADO
 	}
 	
 	@Test
@@ -243,19 +232,19 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , status: Constantes.STATUS_INICIADO
-            //, clave: '9800001'
+            ,status: Constantes.STATUS_ABIERTO
 	    ).save()
 		assertNotNull evento
 		
 		def controller = new EventoController()
         //controller.springSecurityService = springSecurityService
-        controller.params.evento.id = evento.id
-        assertEquals evento.id, controller.params.evento
-        controller.params.clave = 9809999
-        assertEquals Constantes.STATUS_INICIADO, evento.status
+        controller.params.id = evento.id
+        assertEquals evento.id, controller.params.id
+        controller.params.clave = empleado.clave
+        assertEquals empleado.clave, controller.params.clave
+        assertEquals Constantes.STATUS_ABIERTO, evento.status
         controller.paseLista()
-                
-        //def model = controller.paseLista()
 	}
+	
+	
 }

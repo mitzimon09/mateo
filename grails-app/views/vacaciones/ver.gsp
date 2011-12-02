@@ -68,14 +68,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${vacaciones?.solicitudSalida}">
-				<li class="fieldcontain">
-					<span id="solicitudSalida-label" class="property-label"><g:message code="vacaciones.solicitudSalida.label" default="Solicitud Salida" /></span>
-					
-						<span class="property-value" aria-labelledby="solicitudSalida-label"><g:link controller="solicitudSalida" action="ver" id="${vacaciones?.solicitudSalida?.id}">${vacaciones?.solicitudSalida?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
 			
 				<g:if test="${vacaciones?.dateCreated}">
 				<li class="fieldcontain">

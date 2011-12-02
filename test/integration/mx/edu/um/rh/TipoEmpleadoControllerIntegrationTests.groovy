@@ -9,7 +9,7 @@ import general.BaseIntegrationTest
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(TipoEmpleadoController)
+//@TestFor(TipoEmpleadoController)
 class TipoEmpleadoControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService

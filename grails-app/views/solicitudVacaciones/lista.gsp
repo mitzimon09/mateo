@@ -39,7 +39,8 @@
 				<g:each in="${solicitudesVacaciones}" status="i" var="solicitudVacaciones">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "folio")}</g:link></td>
+					
+						<td><g:link action="ver" id="${solicitudVacaciones.id}">${fieldValue(bean: solicitudVacaciones, field: "id")}</g:link></td>
 					
 						<td><g:link controller="empleado" action="ver" id="${solicitudVacaciones.empleado.id}">${fieldValue(bean: solicitudVacaciones, field: "empleado")}</g:link></td>
 					

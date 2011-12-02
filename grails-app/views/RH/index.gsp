@@ -10,8 +10,8 @@
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/>&nbsp;&gt;</a></li>
 				<li><g:link class="list" controller="catalogo"><g:message code="catalogo.list.label" default="Catálogos" /></g:link></li>
 				<li><g:link class="list" controller="empleado"><g:message code="empleado.list.label" default="Empleado" /></g:link></li>
-			    <li><g:link class="list" controller="solicitudVacaciones"><g:message code="permisos.list.label" default="Vacaciones" /></g:link></li>
-			    <li><g:link class="list" controller="solicitudSalida"><g:message code="permisos.list.label" default="Salidas" /></g:link></li>
+			    <li><g:link class="list" controller="solicitudVacaciones"><g:message code="permisos.list.label" default="Solicitud Vacaciones" /></g:link></li>
+			    <li><g:link class="list" controller="vacaciones"><g:message code="permisos.list.label" default="Vacaciones" /></g:link></li>
 			</ul>
 		</div>
         <div class="content">

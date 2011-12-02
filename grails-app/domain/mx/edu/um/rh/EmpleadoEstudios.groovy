@@ -1,6 +1,7 @@
 package mx.edu.um.rh
 
 import general.Usuario
+import mx.edu.um.Constantes
 
 class EmpleadoEstudios {
     Empleado empleado
@@ -14,7 +15,7 @@ class EmpleadoEstudios {
 
     static constraints = {
         fecha_titulacion nullable: true
-        status inList:['A','I']
+        status inList:[Constantes.STATUS_ACTIVO, Constantes.STATUS_INACTIVO]
     }
     
     static mapping = {

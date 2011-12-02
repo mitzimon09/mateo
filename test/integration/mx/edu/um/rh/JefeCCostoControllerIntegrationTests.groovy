@@ -8,7 +8,7 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(JefeCCostoController)
+//@TestFor(JefeCCostoController)
 class JefeCCostoControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test

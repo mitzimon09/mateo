@@ -13,7 +13,7 @@ import mx.edu.um.contabilidad.CCostoPK
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(EmpleadoPuestoController)
+//@TestFor(EmpleadoPuestoController)
 class EmpleadoPuestoControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService

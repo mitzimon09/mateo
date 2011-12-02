@@ -40,13 +40,13 @@ class Constantes {
     static final String GENERO_MASCULINO="M"
     static final String GENERO_FEMENINO="F"
     
-    static final String MODALIDAD_APOYO="AP"
-    static final String MODALIDAD_DOCENTE="DO"
+    static final String MODALIDAD_APOYO="A"
+    static final String MODALIDAD_DOCENTE="D"
     
-    static final String ESTADO_CIVIL_SOLTERO="SO"
-    static final String ESTADO_CIVIL_CASADO="CA"
+    static final String ESTADO_CIVIL_SOLTERO="S"
+    static final String ESTADO_CIVIL_CASADO="C"
     static final String ESTADO_CIVIL_DIVORSIADO="DI"
-    static final String ESTADO_CIVIL_UNION_LIBRE="UL"
+    static final String ESTADO_CIVIL_VIUDO="V"
     
 }
 

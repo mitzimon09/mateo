@@ -5,6 +5,7 @@ import general.BaseIntegrationTest
 import general.Organizacion
 import general.Empresa
 import general.Usuario
+import mx.edu.um.Constantes
 
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
@@ -33,30 +34,45 @@ class EmpleadoEstudiosControllerIntegrationTests extends BaseIntegrationTest {
             , organizacion: organizacion
         ).save()
         assertNotNull empresa
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
         		
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
 			, apPaterno: "test"
 			, apMaterno: "test"
-			, genero: "fm"
+			, genero: Constantes.GENERO_MASCULINO
 			, fechaNacimiento: new Date()
 			, direccion: "aqui"
-			, status: "23"
+			, status: Constantes.STATUS_ACTIVO
 			, empresa: empresa
 			//
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
         	, rfc: 12345678901234
-        	, modalidad: "tt"
+        	, modalidad: Constantes.MODALIDAD_APOYO
         	, fechaAlta: new Date()
         	, antiguedadFiscal: new BigDecimal(0.00)
         	, antiguedadBase: new BigDecimal(0.00)
         	//
-        	, estadoCivil: "te"
+        	, estadoCivil: Constantes.ESTADO_CIVIL_SOLTERO
         	, madre: "test"
         	, padre: "test"
+        	, grupo: grupo
+        	, tipo: tipoEmpleado
 		).save()
 		assertNotNull empleado
 
@@ -87,7 +103,7 @@ class EmpleadoEstudiosControllerIntegrationTests extends BaseIntegrationTest {
                 , nombre_estudios: 'test'
                 , titulado: true
                 , fecha_titulacion: new Date()
-                , status: 'A'
+                , status: Constantes.STATUS_ACTIVO
                 , nivel_estudios: nivelEstudios
                 , user_captura: usuario
                 , fecha_captura: new Date()
@@ -105,83 +121,165 @@ class EmpleadoEstudiosControllerIntegrationTests extends BaseIntegrationTest {
         ArrayList<EmpleadoEstudios> estudiosEmpleado = empleado.estudios
         assertNotNull estudiosEmpleado
         assertEquals empleado, estudiosEmpleado.get(0).empleado
-
-        
     }
+
 /*
     @Test
+    void CrearEmpleadoEstudio() {
     	authenticateAdmin()
-    void CrearEmpleadoEstidio() {
 		
+		authenticateAdmin()
+		
+		//crear empleado
+    	def organizacion = new Organizacion (
+            codigo: 'TST1'
+            , nombre: 'TEST-1'
+            , nombreCompleto: 'TEST-1'
+        ).save()
+        assertNotNull organizacion
+
+		def empresa = new Empresa(
+            codigo: "emp2"
+            , nombre: "emp"
+            , nombreCompleto: 'emptest'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+        
+        def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
+        
+        def grupo = new Grupo(
+            nombre : "A"
+            , minimo : 103
+            , maximo : 141
+        ).save()
+        assertNotNull grupo
+        		
+    	def empleado = new Empleado (
+			clave: "1110000"
+			, nombre: "test"
+			, apPaterno: "test"
+			, apMaterno: "test"
+			, genero: Constantes.GENERO_MASCULINO
+			, fechaNacimiento: new Date()
+			, direccion: "aqui"
+			, status: Constantes.STATUS_ACTIVO
+			, empresa: empresa
+			//
+			, curp: 1234567890097876
+        	, escalafon: 3
+        	, turno: 1
+        	, rfc: 12345678901234
+        	, modalidad: Constantes.MODALIDAD_APOYO
+        	, fechaAlta: new Date()
+        	, antiguedadFiscal: new BigDecimal(0.00)
+        	, antiguedadBase: new BigDecimal(0.00)
+        	//
+        	, estadoCivil: Constantes.ESTADO_CIVIL_SOLTERO
+        	, madre: "test"
+        	, padre: "test"
+        	, grupo: grupo
+        	, tipo: tipoEmpleado
+		).save()
+		assertNotNull empleado
+
+        //crear nivel de estudios
+    	def nivelEstudios = new NivelEstudios(
+            nombre: 'test'
+	    ).save()
+		assertNotNull nivelEstudios
+
+		//crear usuario
+		def usuario = new Usuario(
+		    username: 'test'
+            , password: 'test'
+            , nombre: 'test'
+            , apellido: 'test'
+            , correo: 'test'
+            , empresa: empresa
+        ).save()
+        assertNotNull usuario
+        
 		def currentUser = springSecurityService.currentUser
 
-		def controller = new EmpleadoEstidioController()
+		def controller = new EmpleadoEstudiosController()
         controller.springSecurityService = springSecurityService
         
         def model = controller.nuevo()
         assert model
-        assert model.empleadoEstidio
-        controller.params.nombre = "test"
+        assert model.empleadoEstudios
+        controller.params.empleado = empleado
+        controller.params.nombre_estudios = 'test1'
+        controller.params.titulado = true
+        controller.params.fecha_titulacion = new Date()
+        controller.params.status = Constantes.STATUS_ACTIVO
+        controller.params.nivel_estudios = nivelEstudios
+        controller.params.user_captura = usuario
+        controller.params.fecha_captura = new Date()
         controller.crea()
         
         assert controller
-        assert controller.response.redirectedUrl.startsWith('/empleadoEstidio/ver')
+        assert controller.response.redirectedUrl.startsWith('/empleadoEstudio/ver')
     }
     
     @Test
-    void ModificarEmpleadoEstidio() {
+    void ModificarEmpleadoEstudio() {
         authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser
 
-        def empleadoEstidio = new EmpleadoEstidio(
+        def empleadoEstudio = new EmpleadoEstudio(
             nombre: 'test'
 	    ).save()
-		assertNotNull empleadoEstidio
+		assertNotNull empleadoEstudio
     		
-        def controller = new EmpleadoEstidioController()
+        def controller = new EmpleadoEstudioController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = empleadoEstidio.id
+        controller.params.id = empleadoEstudio.id
         def model = controller.ver()
-        assert model.empleadoEstidio
-        assertEquals "test", model.empleadoEstidio.nombre
+        assert model.empleadoEstudio
+        assertEquals "test", model.empleadoEstudio.nombre
 
-        controller.params.id = empleadoEstidio.id
+        controller.params.id = empleadoEstudio.id
         model = controller.edita()
-        assert model.empleadoEstidio
-        assertEquals "test", model.empleadoEstidio.nombre
+        assert model.empleadoEstudio
+        assertEquals "test", model.empleadoEstudio.nombre
 
         controller.params.nombre = 'test1'
         controller.actualiza()
-        assert controller.response.redirectedUrl.startsWith('/empleadoEstidio/ver')
+        assert controller.response.redirectedUrl.startsWith('/empleadoEstudio/ver')
 
-        empleadoEstidio.refresh()
-        assertEquals 'test1', empleadoEstidio.nombre
+        empleadoEstudio.refresh()
+        assertEquals 'test1', empleadoEstudio.nombre
     }
     
     @Test
-    void EliminarEmpleadoEstidio() {
+    void EliminarEmpleadoEstudio() {
         authenticateAdmin()
 		
 		def currentUser = springSecurityService.currentUser
     	
-    	def empleadoEstidio = new EmpleadoEstidio(
+    	def empleadoEstudio = new EmpleadoEstudio(
             nombre: 'test'
 	    ).save()
-		assertNotNull empleadoEstidio
+		assertNotNull empleadoEstudio
         
-        def controller = new EmpleadoEstidioController()
+        def controller = new EmpleadoEstudioController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = empleadoEstidio.id
+        controller.params.id = empleadoEstudio.id
         def model = controller.ver()
-        assert model.empleadoEstidio
-        assertEquals "test", model.empleadoEstidio.nombre
+        assert model.empleadoEstudio
+        assertEquals "test", model.empleadoEstudio.nombre
 
-        controller.params.id = empleadoEstidio.id
+        controller.params.id = empleadoEstudio.id
         controller.elimina()
-        assert controller.response.redirectedUrl.startsWith("/empleadoEstidio/lista")
+        assert controller.response.redirectedUrl.startsWith("/empleadoEstudio/lista")
 
-        model = EmpleadoEstidio.get(empleadoEstidio.id)
+        model = EmpleadoEstudio.get(empleadoEstudio.id)
         assert !model
     }
 */

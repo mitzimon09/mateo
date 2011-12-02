@@ -8,7 +8,7 @@ import general.BaseIntegrationTest
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(EmpleadoPersonalesController)
+//@TestFor(EmpleadoPersonalesController)
 class EmpleadoPersonalesControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService
@@ -42,10 +42,10 @@ class EmpleadoPersonalesControllerIntegrationTests extends BaseIntegrationTest {
 
 		def model = controller.lista()
 		assertNotNull model
-		assertNotNull model.empleadoPersonaless
+		assertNotNull model.empleadoPersonales
 
-        assertEquals 10, model.empleadoPersonaless.size()
-        assert 20 <= model.totalDeEmpleadoPersonaless
+        assertEquals 10, model.empleadoPersonales.size()
+        assert 20 <= model.totalDeEmpleadoPersonales
     }
 
     @Test

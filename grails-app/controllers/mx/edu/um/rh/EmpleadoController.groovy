@@ -40,6 +40,10 @@ class EmpleadoController {
     }
 
     def ver = {
+        log.debug "session.empleado > " + session.empleado
+        //if(session.empleado){
+        //    params.id = session.empleado
+        //}
         def empleado = Empleado.get(params.id)
         if (!empleado) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
@@ -131,4 +135,27 @@ class EmpleadoController {
         def empleadoEventos = empleadoService.eventosPorEmpleado(empleado)
         [empleadoEventos: empleadoEventos]
     }
+    
+    def buscar(){
+        render(view: "buscarEmpleado")
+    }
+    
+    def buscarEmpleado() {
+        log.debug "Params > " + params
+        def filtro = "%${params.term}%"
+        def empleados = Empleado.listaConFiltro(filtro).list(params)
+        def lista = []
+        for(empleado in empleados) {
+            def value = empleado.clave + " " + empleado.nombreCompleto
+            lista << [id: empleado.id, value: value]
+        }
+        //log.debug "Lista >: " + lista
+        render lista as JSON
+    }
+    
+    def cargarEmpleado() {
+        session.empleado = params.empleado.id
+        redirect(action: "ver", id: session.empleado)
+    }
+    
 }

@@ -1,16 +1,15 @@
 package mx.edu.um.rh
 
-class Colegio {
+class Relacion {
     String nombre
-    String status
 
     static constraints = {
-        nombre maxSize: 60
-        status maxSize: 2
+        nombre maxSize: 10, nullable: false
     }
-
+    
     static mapping = {
-        table name:'colegios', schema:'aron'
+        table name:'cat_relacion', schema:'aron'
+        id column: 'id_relacion'
     }
     
     String toString() {
