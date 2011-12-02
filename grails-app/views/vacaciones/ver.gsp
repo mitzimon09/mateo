@@ -68,11 +68,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${vacaciones?.solicitudSalida}">
+				<g:if test="${vacaciones?.solicitudVacaciones}">
 				<li class="fieldcontain">
-					<span id="solicitudSalida-label" class="property-label"><g:message code="vacaciones.solicitudSalida.label" default="Solicitud Salida" /></span>
+					<span id="solicitudSalida-label" class="property-label"><g:message code="vacaciones.solicitudVacaciones.label" default="Solicitud Salida" /></span>
 					
-						<span class="property-value" aria-labelledby="solicitudSalida-label"><g:link controller="solicitudSalida" action="ver" id="${vacaciones?.solicitudSalida?.id}">${vacaciones?.solicitudSalida?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="solicitudVacaciones-label"><g:link controller="solicitudVacaciones" action="ver" id="${vacaciones?.solicitudVacaciones?.id}">${vacaciones?.solicitudVacaciones?.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>

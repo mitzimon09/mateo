@@ -1,9 +1,10 @@
 package mx.edu.um.rh
 
 import general.*
+import mx.edu.um.Constantes
 
 class SolicitudRH {
-	Date fechaCaptura
+	Date fechaCaptura = new Date()
 	Empleado empleado
 	Empresa empresa
 	Date fechaInicial
@@ -14,19 +15,17 @@ class SolicitudRH {
 	Date fechaRecibe
 	Usuario usuarioAutoriza //dirRH
 	Date fechaAutoriza
-	Observaciones observaciones
+	Set observaciones
 	String telContacto
 	String email
 	SolicitudSalida solicitudSalida
 	Vacaciones vacaciones
-	String status = "CR"
+	String status = Constantes.STATUS_CREADO
 	JefeCCosto jefeCCosto
-	
 	String folio
 	
-	
-	
 	static belongsTo = {[Empleado:empleado, Empresa:empresa]}
+	static hasMany = [observaciones: Observaciones]
 
     static constraints = {
     	empleado blank:false
@@ -43,7 +42,7 @@ class SolicitudRH {
 		email nullable: true
 		solicitudSalida nullable: true
 		vacaciones nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU']
+		status inList: [Constantes.STATUS_CREADO, Constantes.STATUS_ENVIADO, Constantes.STATUS_REVISADO, Constantes.STATUS_APROBADO, Constantes.STATUS_CANCELADO, Constantes.STATUS_AUTORIZADO, Constantes.STATUS_SUSPENDIDO, Constantes.STATUS_REVISADO, Constantes.STATUS_RECHAZADO]
 		jefeCCosto nullable: true
 		folio nullable: true
     }

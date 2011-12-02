@@ -59,7 +59,7 @@
 					<g:actionSubmit class="delete" action="elimina" value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 					<g:if test="${(permisos == 1 || permisos == 4)}">
 						<g:if test="${compra.status.equals('CREADA')}">
-				  		<g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
+				  			<g:actionSubmit class="enviar" action="enviar" value="${message(code: 'default.button.enviar.label', default: 'Enviar')}" />
 						</g:if>
 					</g:if>
 					<g:if test="${permisos == 2 || permisos == 4}">

@@ -15,50 +15,50 @@ class ObservacionesController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [observacionesInstanceList: Observaciones.list(params), observacionesInstanceTotal: Observaciones.count()]
+        [observacionesList: Observaciones.list(params), observacionesTotal: Observaciones.count()]
     }
 
     def create() {
-        [observacionesInstance: new Observaciones(params)]
+        [observaciones: new Observaciones(params)]
     }
 
     def save() {
-        def observacionesInstance = new Observaciones(params)
-        observacionesInstance.usuario = springSecurityService.currentUser
-        if (!observacionesInstance.save(flush: true)) {
-            render(view: "create", model: [observacionesInstance: observacionesInstance])
+        def observaciones = new Observaciones(params)
+        observaciones.usuario = springSecurityService.currentUser
+        if (!observaciones.save(flush: true)) {
+            render(view: "create", model: [observaciones: observaciones])
             return
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), observacionesInstance.id])
-        redirect(action: "show", id: observacionesInstance.id)
+		flash.message = message(code: 'default.created.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), observaciones.id])
+        redirect(action: "show", id: observaciones.id)
     }
 
     def show() {
-        def observacionesInstance = Observaciones.get(params.id)
-        if (!observacionesInstance) {
+        def observaciones = Observaciones.get(params.id)
+        if (!observaciones) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), params.id])
             redirect(action: "list")
             return
         }
 
-        [observacionesInstance: observacionesInstance]
+        [observaciones: observaciones]
     }
 
     def edit() {
-        def observacionesInstance = Observaciones.get(params.id)
-        if (!observacionesInstance) {
+        def observaciones = Observaciones.get(params.id)
+        if (!observaciones) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), params.id])
             redirect(action: "list")
             return
         }
 
-        [observacionesInstance: observacionesInstance]
+        [observaciones: observaciones]
     }
 
     def update() {
-        def observacionesInstance = Observaciones.get(params.id)
-        if (!observacionesInstance) {
+        def observaciones = Observaciones.get(params.id)
+        if (!observaciones) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), params.id])
             redirect(action: "list")
             return
@@ -66,36 +66,36 @@ class ObservacionesController {
 
         if (params.version) {
             def version = params.version.toLong()
-            if (observacionesInstance.version > version) {
-                observacionesInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+            if (observaciones.version > version) {
+                observaciones.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'observaciones.label', default: 'Observaciones')] as Object[],
                           "Another user has updated this Observaciones while you were editing")
-                render(view: "edit", model: [observacionesInstance: observacionesInstance])
+                render(view: "edit", model: [observaciones: observaciones])
                 return
             }
         }
 
-        observacionesInstance.properties = params
+        observaciones.properties = params
 
-        if (!observacionesInstance.save(flush: true)) {
-            render(view: "edit", model: [observacionesInstance: observacionesInstance])
+        if (!observaciones.save(flush: true)) {
+            render(view: "edit", model: [observaciones: observaciones])
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), observacionesInstance.id])
-        redirect(action: "show", id: observacionesInstance.id)
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), observaciones.id])
+        redirect(action: "show", id: observaciones.id)
     }
 
     def delete() {
-        def observacionesInstance = Observaciones.get(params.id)
-        if (!observacionesInstance) {
+        def observaciones = Observaciones.get(params.id)
+        if (!observaciones) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), params.id])
             redirect(action: "list")
             return
         }
 
         try {
-            observacionesInstance.delete(flush: true)
+            observaciones.delete(flush: true)
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'observaciones.label', default: 'Observaciones'), params.id])
             redirect(action: "list")
         }

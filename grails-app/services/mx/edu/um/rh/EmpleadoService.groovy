@@ -214,13 +214,14 @@ class EmpleadoService implements EmpleadoServiceInt {
     
     def eventosPorEmpleado(Empleado empleado) {
         def eventos = Evento.list()
-        Map<String, String> asistidos = new TreeMap<String, String>()
+        Map<String, String> asistidos = [:]
         for(evento in eventos) {
             def empleadoEvento = EmpleadoEvento.findByEmpleadoAndEvento(empleado, evento)
             if(evento.status == Constantes.STATUS_CERRADO && empleadoEvento != null) {
+            
                 asistidos.put(evento.descripcion, empleadoEvento.status)
             }else{
-                asistidos.put(evento.descripcion, "")
+                asistidos.put(evento.descripcion, "--")
             }
         }
         return asistidos

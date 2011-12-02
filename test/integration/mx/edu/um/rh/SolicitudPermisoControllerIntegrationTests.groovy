@@ -30,6 +30,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -41,6 +46,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -66,7 +72,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 				, fechaInicial: new Date()
 				, fechaFinal: new Date()
 				, diasVacaciones: new Integer(1)
-				
+				, folio: "test$i"
 				, usuarioCrea: currentUser
 				, dateCreated: new Date()
 				, motivo: "test"
@@ -100,6 +106,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -111,6 +122,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -144,7 +156,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
         controller.params.usuarioCrea = currentUser
         controller.params.dateCreated = new Date()
         controller.params.motivo = "test"
-        
+        controller.params.folio = "test"
         
         controller.crea()
         
@@ -168,6 +180,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -179,6 +196,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -240,6 +258,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -251,6 +274,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -322,6 +346,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -333,6 +362,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -406,6 +436,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -417,6 +452,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -470,7 +506,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
         assert model.solicitudPermiso
         
         controller.revisar()
-        assertEquals "RE", solicitudPermiso.status
+        assertEquals "RV", solicitudPermiso.status
     }
     
     @Test
@@ -490,6 +526,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -501,6 +542,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -539,7 +581,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 				, diasVacaciones: new Integer(1)
 				
 				, usuarioCrea: currentUser
-				, status: "RE"
+				, status: "RV"
 				, dateCreated: new Date()
 				, motivo: "test"
 			).save()
@@ -547,7 +589,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
         def controller = new SolicitudPermisoController()
         controller.springSecurityService = springSecurityService
 		controller.procesoService = procesoService
-		assertEquals "RE", solicitudPermiso.status
+		assertEquals "RV", solicitudPermiso.status
 		
 		controller.params.id = solicitudPermiso.id
         def model = controller.edita()
@@ -574,6 +616,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -585,6 +632,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -657,6 +705,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -668,6 +721,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1
@@ -740,6 +794,11 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
                 , organizacion: organizacion
             ).save()
     
+    	def tipoEmpleado = new TipoEmpleado (
+        	descripcion: "test"
+        	, prefijo: "666"
+        ).save()
+    
     	def empleado = new Empleado (
 			clave: "1110000"
 			, nombre: "test"
@@ -751,6 +810,7 @@ class SolicitudPermisoControllerIntegrationTests extends BaseIntegrationTest{
 			, status: "23"
 			, empresa: empresa
 			//
+			, tipo: tipoEmpleado
 			, curp: 1234567890097876
         	, escalafon: 3
         	, turno: 1

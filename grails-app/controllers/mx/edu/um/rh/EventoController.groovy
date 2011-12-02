@@ -10,6 +10,7 @@ import mx.edu.um.Constantes
 class EventoController {
     def springSecurityService
     def empleadoService
+    def eventoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -197,7 +198,7 @@ class EventoController {
             empleadoEvento.tiempoPresente = tiempoPresente/1000
             if(evento.tiempoTotal == empleadoEvento.tiempoPresente) {
                 empleadoEvento.status = Constantes.STATUS_ASISTENCIA
-            } else if(empleadoEvento.tiempoPresente > (evento.tiempoTotal - evento.prorroga)) {
+            } else if(empleadoEvento.tiempoPresente > (evento.tiempoTotal - (evento.prorroga*60))) {
                 empleadoEvento.status = Constantes.STATUS_TARDANZA
             } else {
                 empleadoEvento.status = Constantes.STATUS_INASISTENCIA
@@ -209,33 +210,12 @@ class EventoController {
     def paseLista = {
     	log.info "paseLista"
         def evento = Evento.get(params.evento.id)
-        assert evento
         log.debug "evento > " + evento
         log.debug "clave > " + params.clave
         if(params.clave.size() == 7) {
-		    def empleado = empleadoService.getEmpleado(params.clave)
-		    assert empleado
-		    log.debug "empleado > " + empleado
-	        def empleadoEvento = empleadoService.getEmpleadoEvento(empleado, evento)
-	        assert empleadoEvento
-	        log.debug "empeladoEvento > " + empleadoEvento
-            //def entradas = EventoRegistro.findAllEmpleadoEvento(empleadoEvento)
-            //log.debug "entradas > " + entradas
-            def entro = false
-	        if(empleadoEvento.adentro) {
-	            empleadoEvento.adentro = false
-	            entro = true
-	        } else {
-	            empleadoEvento.adentro = true
-	            entro = false
-	        }
-	        def eventoRegistro = new EventoRegistro (
-	            empleadoEvento: empleadoEvento
-                , adentro: entro
-            ).save()
-            assert eventoRegistro
-            log.debug "eventoRegistro > " + eventoRegistro
-
+        
+            registro(params.clave, evento)
+            
             flash.message = message(code: 'Se registro al Empleado {0} en el evento {1}', args: [params.clave, evento.nombre])
 	        render(view: "paseLista", model: [evento: evento])
         } else {
@@ -252,5 +232,47 @@ class EventoController {
         } else {
             redirect(action: "ver", id: evento.id)
         }
+    }
+    
+    def preparaSubir() {
+        def evento = Evento.get(params.id)
+        log.debug "prepara subir"
+        render(view:'subir', model: [evento: evento])
+    }
+
+    def sube = {
+        def evento = Evento.get(params.id)
+        log.debug "evento > " + evento
+        def file = request.getFile('archivo')
+        def claves = eventoService.subeEmpleados(file)
+        log.debug "claves > " + claves
+        for(def clave in claves){
+            registro(clave, evento)
+        }
+        cerrarEvento(params.id)
+        //redirect(action:'ver', id: evento.id)
+    }
+    
+    def registro(def clave, Evento evento) {
+            def empleado = empleadoService.getEmpleado(clave)
+		    assert empleado
+		    log.debug "empleado > " + empleado
+	        def empleadoEvento = empleadoService.getEmpleadoEvento(empleado, evento)
+	        assert empleadoEvento
+	        log.debug "empeladoEvento > " + empleadoEvento
+            def entro = false
+	        if(empleadoEvento.adentro) {
+	            empleadoEvento.adentro = false
+	            entro = true
+	        } else {
+	            empleadoEvento.adentro = true
+	            entro = false
+	        }
+	        def eventoRegistro = new EventoRegistro (
+	            empleadoEvento: empleadoEvento
+                , adentro: entro
+            ).save()
+            assert eventoRegistro
+            log.debug "eventoRegistro > " + eventoRegistro
     }
 }
