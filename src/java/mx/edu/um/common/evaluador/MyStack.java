@@ -53,4 +53,8 @@ public class MyStack {
 		return stckD[tos--];
 	}
 
+    @Override
+    public String toString() {
+        return ("stckD: " + stckD + " stckS: " + stckS + " tos: " + tos + " und: " + und);
+    }
 }

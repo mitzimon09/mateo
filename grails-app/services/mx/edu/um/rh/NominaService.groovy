@@ -13,42 +13,12 @@ class NominaService {
     def empleadoService
     def perdedService
 
-//    /**
-//     * Obtenie un Map con las PercepcionesReservadas, pero con sus formulas ya sustituidas
-//     **/
-//    Map<String,String> getMapPerdedsReservadasWithPorcenatjaesSustituidos(){
-//        log.debug "Entro a getMapPerdedsReservadasWithPorcenatjaesSustituidos"
-//        Map<String,String> mapPerdedsReservadas = perdedService.getMapPerdedsReservadas()
-//
-//        List<Porcentaje> porcentajes = new ArrayList<Porcentaje>()
-//        porcentajes = Porcentaje.findAll()
-//        log.debug "porcentajes.size(): ${porcentajes.size()}"
-//
-//        for(Porcentaje porcentaje : porcentajes){
-//            if(mapPerdedsReservadas.containsKey(porcentaje.perded.clave)){
-//                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
-//                String formulaOriginal = mapPerdedsReservadas.get(porcentaje.perded.clave)
-//
-//                log.debug "formulaOriginal: ${formulaOriginal}"
-//                String formulaSustituida = ""
-//                formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
-//                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
-//                log.debug "formulaSustituida: ${formulaSustituida}"
-//
-//                mapPerdedsReservadas.put(porcentaje.perded.clave, formulaSustituida)
-//            }
-//        }
-//        log.debug "mapPerdedsReservadas (sustituidas): ${mapPerdedsReservadas}"
-//        log.debug "MapPerdesReservadas sustituido.size: ${mapPerdedsReservadas.size()}"
-//        return mapPerdedsReservadas
-//    }
-
     /**
      * Obtiene el Map de Formulas Completo de un Empleado, pero aun sin sustituir las formulas del Empleado
      * Map<(String)ClavePercepcion,(String)formulaPerecepcion>
     **/
     Map<String,String> getMapPercepcionesEmpleado(Empleado empleado) throws NullPointerException{
-        log.debug 'Entro a getMapPercepcionesEmpleado'
+        log.debug "Entro a getMapPercepcionesEmpleado"
 
         //Se obtienen primero las formulas Globales. Posteriormente se aniadiran las personales del empelado
         Map<String,String> formulasEmpleado = perdedService.getMapGrupoXSustituido()
@@ -68,6 +38,7 @@ class NominaService {
             formulasEmpleado.put(ep.perded.clave,ep.perded.formula)
         }
 
+        log.debug "Map Global + Percepciones Empleado (sin sustituir) : ${formulasEmpleado}"
         log.debug "Map Global + Percepciones Empleado (size) : ${formulasEmpleado.size()}"
         return formulasEmpleado
     }
@@ -77,7 +48,7 @@ class NominaService {
      * las propias del Empleado
     **/
     Map<String,String> getMapPercepcionesSustituidasEmpleado(Empleado empleado) throws NullPointerException{
-        log.debug 'Entro a getMapPercepcionesSustituidasEmpleado'
+        log.debug "Entro a getMapPercepcionesSustituidasEmpleado"
         //Obteniendo el Map de las formulas del Empleado, faltando solo de sustituir las formulas de las percepciones personalizadas del Empleado
         Map<String,String> percepcionesEmpleado = getMapPercepcionesEmpleado(empleado)
 
@@ -87,18 +58,20 @@ class NominaService {
         porcentajes = Porcentaje.findAll()
 
         for(Porcentaje porcentaje : porcentajes){
-            log.debug "Percepcion: ${porcentaje.perded.clave} | ${porcentaje.perded.formula}"
             if(percepcionesEmpleado.containsKey(porcentaje.perded.clave)){
+                log.debug "Sustituyendo percepcion: ${porcentaje.perded.clave}"
+                log.debug "porcentaje: ${porcentaje}"
                 String formulaOriginal = percepcionesEmpleado.get(porcentaje.perded.clave)
                 log.debug "formulaOriginal: ${formulaOriginal}"
 
                 String formulaSustituida = formulaOriginal.replaceAll("%", porcentaje.valor.toString())
-                formulaOriginal.replaceAll("&", porcentaje.valorDos.toString())
+                formulaSustituida = formulaSustituida.replaceAll("&", porcentaje.valorDos.toString())
                 log.debug "formulaSustituida: ${formulaSustituida}"
 
                 percepcionesEmpleado.put(porcentaje.perded.clave, formulaSustituida)
             }
         }
+        log.debug "percepcionesEmpleadoSustituidas (sustituidas): ${percepcionesEmpleado}"
         log.debug "percepcionesEmpleadoSustituidas (size): ${percepcionesEmpleado.size()}"
         return percepcionesEmpleado
     }
@@ -110,7 +83,7 @@ class NominaService {
      * quincenal se divide por 15 y asi sucesivamente
     **/
     List<String> getNominaEmpleado(Empleado e, TipoNomina tipoNomina){
-        log.debug 'Entro a getNominaEmpleado'
+        log.debug "Entro a getNominaEmpleado"
         log.debug "Obteniendo Nomina del Empleado: ${e.clave}"
         Evaluador evaluador = new Evaluador();
         List<String> percepcionesValoresEmpleado = new ArrayList<String>()
@@ -187,7 +160,7 @@ class NominaService {
      * "percepcion , formulaEvaluada"
     **/
     List<List> getNominaEmpleadosPorRango(String claveInicial, String claveFinal, TipoNomina tipoNomina){
-        log.debug 'Entro a getNominaEmpleadosPorRango'
+        log.debug "Entro a getNominaEmpleadosPorRango"
 //        List <Empleado> empleadosTotalesEnBD = Empleado.findAll()
 //        log.debug "empleadosTotales: ${empleadosTotalesEnBD.size()}"
 //
@@ -214,7 +187,7 @@ class NominaService {
      * "percepcion , formulaEvaluada"
     **/
     List<String> getNominaEmpleadosPorTipo(TipoEmpleado tipoEmpleado, TipoNomina tipoNomina){
-        log.debug 'Entro a getNominaEmpleadosPorTipo'
+        log.debug "Entro a getNominaEmpleadosPorTipo"
         List<List> nominaEmpleadosByTipo = new ArrayList<List>()
 
         List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
@@ -231,7 +204,7 @@ class NominaService {
      * Devuelve un String con el valor de la Percepcion especificada de un empleado especifico
     **/
     String getPercepcionEspecificaEmpleado(PerDed percepcionEmp, Empleado empleado){
-        log.debug 'Entro a getPercepcionEspecificaEmpleado'
+        log.debug "Entro a getPercepcionEspecificaEmpleado"
         Evaluador evaluador = new Evaluador();
         Map<String,String> percepcionesMap = getMapPercepcionesSustituidasEmpleado(empleado)
 
@@ -268,7 +241,7 @@ class NominaService {
      * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado en un rango especificado
     **/
     List<String> getPercepcionEspecificaEmpleadosByRango(PerDed percepcion, String claveInicio, String claveFinal){
-        log.debug 'Entro a getPercepcionEspecificaEmpleadosByRango'
+        log.debug "Entro a getPercepcionEspecificaEmpleadosByRango"
         List<String> percepcionesEspecificasEmpleadosByRango = new ArrayList<String>()
         List<Empleado> empleadosFilterByRango = empleadoService.getEmpleadosByRango(claveInicio, claveFinal)
         log.debug "empleadosFilterByRango: ${empleadosFilterByRango.size()}"
@@ -286,7 +259,7 @@ class NominaService {
      * Devuelve una lista, donde cada elemento es el valor de una percepcion especifica de cada empleado de un tipo especifico
     **/
     List<String> getPercepcionEspecificaEmpleadosByType(PerDed percepcion, TipoEmpleado tipoEmpleado){
-        log.debug 'Entro a getPercepcionEspecificaEmpleadosByType'
+        log.debug "Entro a getPercepcionEspecificaEmpleadosByType"
         List<String> percepcionesEspecificasEmpleadosByType = new ArrayList<String>()
         List<Empleado> empleadosFilterByType = empleadoService.getEmpleadosByTipo(tipoEmpleado)
         log.debug "empleadosFilterByType: ${empleadosFilterByType.size()}"
