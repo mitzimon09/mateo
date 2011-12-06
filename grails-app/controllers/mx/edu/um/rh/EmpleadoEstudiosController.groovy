@@ -16,7 +16,7 @@ class EmpleadoEstudiosController {
 
 	def lista = {
 		params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		[empleadoestudios: EmpleadoEstudios.list(params), totalDeEmpleadoEstudios: EmpleadoEstudios.count()]
+		[empleadoEstudios: EmpleadoEstudios.list(params), totalDeEmpleadoEstudios: EmpleadoEstudios.count()]
 	}
 
     def nuevo = {

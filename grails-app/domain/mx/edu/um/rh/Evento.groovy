@@ -8,8 +8,8 @@ class Evento {
     Date hora_inicio
     Date hora_final
     Integer prorroga = new Integer('0')
-    String status = Constantes.STATUS_CREADO
-    Integer tiempoTotal
+    String status = Constantes.STATUS_ABIERTO
+    Integer tiempoTotal = new Integer('0')
     
     static constraints = {
         nombre maxSize: 50

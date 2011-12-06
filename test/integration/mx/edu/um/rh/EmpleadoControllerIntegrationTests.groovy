@@ -316,7 +316,27 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
     @Test
     void MostrarListaDeEmpleados() {
-	authenticateAdmin()
+	    authenticateAdmin()
+	    
+    	def organizacion = new Organizacion(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+        ).save()
+        assertNotNull organizacion
+
+        def empresa = new Empresa(
+            codigo: 'test'
+            , nombre: 'test'
+            , nombreCompleto: 'test'
+            , organizacion: organizacion
+        ).save()
+        assertNotNull empresa
+		def tipoEmpleado = new TipoEmpleado (
+    		descripcion: "test"
+    		, prefijo: "111"
+    	).save()
+    	assertNotNull tipoEmpleado
 		
         def grupo = new Grupo(
             nombre : "A"
@@ -335,7 +355,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , fechaNacimiento : new Date()
                 , direccion : "test"
                 , status : Constantes.STATUS_ACTIVO
-                , empresa: Empresa.findByCodigo("CTL")
+                , empresa: empresa
                 , curp : "test123"
                 , rfc : "ABC-1234567890"
                 , escalafon : 75
@@ -347,7 +367,7 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
                 , padre : "test"
                 , madre: "test"
                 , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
-                , tipo: TipoEmpleado.findByDescripcion("DENOMINACIONAL")
+                , tipo: tipoEmpleado
                 , grupo: grupo
             ).save()
             assertNotNull empleado
@@ -427,13 +447,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
 
     @Test
     void ModificarEmpleado(){
-
-        def grupoPrueba = new Grupo(
-            nombre : "A",
-            minimo : 103,
-            maximo : 141
-        ).save()
-        assertNotNull grupoPrueba
 
     	def organizacion = new Organizacion(
             codigo: 'test'
@@ -769,39 +782,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         }
     }
 
-    /*@Test
-    void debieraTraerEmpleadosByEmpresaAndTipo(){
-        log.debug "debieraTraerEmpleadosByEmpresaAndTipo"
-        //def empresaId=102
-        //def tipoId=1
-        def empresa=Empresa.get(102)
-        def tipo=TipoEmpleado.get(1)
-        assertEquals tipo.descripcion,"DENOMINACIONAL"
-        assertEquals empresa.nombre,"CENTRAL"
-        def empleados=empleadoServiceInt.getEmpleadosByEmpresaAndTipo(empresa,tipo)
-        for(Empleado empleado in empleados){
-            assertEquals 1,empleado.tipo.id
-            assertEquals 102,empleado.empresa.id
-        }
-        assertEquals 432,empleados.size()
-    }
-    @Test
-    void debieraTraerCeroEmpleadosByEmpresaAndTipo(){
-        log.debug "debieraTraerEmpleadosByEmpresaAndTipo"
-        //def empresaId=102
-        //def tipoId=1
-        def empresa=Empresa.get(121)
-        def tipo=TipoEmpleado.get(1)
-        assertEquals tipo.descripcion,"DENOMINACIONAL"
-        assertEquals empresa.nombre,"Prueba"
-        def empleados=empleadoServiceInt.getEmpleadosByEmpresaAndTipo(empresa,tipo)
-        for(Empleado empleado in empleados){
-            assertEquals empleado.tipo.id,1
-            assertEquals empleado.empresa.id,121
-        }
-        assertEquals 0,empleados.size()
-    }*/
-
     @Test
     void debieraTraerEmpleadosByTipo(){
         log.debug "debieraTraerEmpleadosByTipo"
@@ -842,40 +822,6 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         }
         //assertEquals  empleadosEnBD + 10 , empleadosFilterByType.size()
     }
-
-    /*
-    @Test
-    void debieraTraerEmpleadosByEmpresa(){
-        def empresa=Empresa.get(102)
-        assertEquals empresa.nombre,"CENTRAL"
-        def empleados=empleadoServiceInt.getEmpleadosByEmpresa(empresa)
-        for(Empleado empleado in empleados){
-            assertEquals empleado.empresa.id,102
-        }
-        assertEquals 601,empleados.size()
-    }*/
-
-    /*
-    @Test
-    void debieraTraerEmpleadosPorRangoAndEmpresaAndTipo(){
-        //50 empleados
-        //select * from (select * from aron.empleado where clave between '9800001' and '9800093' and status='A'  and empresa_id='102')emp,
-        //(select * from aron.empleadolaborales where id_tipoempleado=1 )lab where emp.id=lab.id
-        //Empresa y tipo
-        def claveUno="9800001"
-        def claveDos="9800093"
-        Empresa empresa=Empresa.get(102)
-        assertEquals empresa.nombre,"CENTRAL"
-        TipoEmpleado tipo=TipoEmpleado.get(1)
-        assertEquals tipo.descripcion,"DENOMINACIONAL"
-        def empleados=empleadoService.getEmpleadosByRangoEmpresaAndTipo(empresa,tipo,claveUno,claveDos)
-        assertNotNull empleados
-        assertEquals 47,empleados.size()
-        for(Empleado emp:empleados){
-            assertEquals 1,emp.empleado.tipo.id
-            assertEquals 102,emp.empresa.id
-        }
-    }*/
 
     
     @Test
@@ -1257,20 +1203,5 @@ class EmpleadoControllerIntegrationTests extends BaseIntegrationTest{
         assertEquals true,tmp.containsKey("empleado.grupo.invalido")
         assertEquals "9800104",tmp.get("empleado.grupo.invalido")
     }
-
-
-    @Test
-    void debieraMostarCuentaContableEmpleadosNomina(){
-        //Pruebas Aun no Implementadas
-    }
-    @Test
-    void debieraMostarCentroCostoEmpleadosNomina(){
-        //Pruebas Aun no Implementadas
-    }
-		*/
-    
-
-    
-
-   
+    */
 }

@@ -1,15 +1,16 @@
 package mx.edu.um.rh
 import general.*
+import mx.edu.um.Constantes
 
 class SolicitudVacaciones extends SolicitudRH{
 	
 	Date fechaRecibeJefe
 	Date fechaRecibeRh
 	Date fechaAutorizacionRh
-	Integer diasVacaciones
+	Integer diasVacaciones = 0
 	
 	Boolean primaVacacional = false
-	Integer userPrimaVacacional
+	BigDecimal userPrimaVacacional = new BigDecimal(0.00)
 	Date fechaPrimaVacacional
 	Boolean visitaPadres = false
 	Boolean nacional = true
@@ -18,7 +19,7 @@ class SolicitudVacaciones extends SolicitudRH{
 	
 	
 	String folioPago
-	String status = "CR"
+	String status = Constantes.STATUS_ENVIADO
 	String furlough
 	
 	static belongsTo = {[Empresa:empresa, Empleado:empleado]}
@@ -39,7 +40,7 @@ class SolicitudVacaciones extends SolicitudRH{
 		folioPago nullable: true
 
 		furlough nullable: true
-		status inList: ['CR', 'EN', 'RE', 'AP', 'CO', 'EN', 'CA', 'AU', 'SU']
+		status inList: [Constantes.STATUS_CREADO, Constantes.STATUS_ENVIADO, Constantes.STATUS_REVISADO, Constantes.STATUS_APROBADO, Constantes.STATUS_CANCELADO, Constantes.STATUS_AUTORIZADO, Constantes.STATUS_SUSPENDIDO, Constantes.STATUS_REVISADO, Constantes.STATUS_RECHAZADO]
 			
     }
     
@@ -53,14 +54,25 @@ class SolicitudVacaciones extends SolicitudRH{
     
     
    static namedQueries = {
-    	SolicitudSalidaParametros{SolicitudSalida solicitudSalida, SolicitudSalida solicitudSalidaDos ->
-            if(solicitudSalida){
-                if(solicitudSalidaDos){
-                    if(solicitudSalida.folio && solicitudSalidaDos.folio){
-                        between("folio", solicitudSalida.folio, solicitudSalidaDos.folio)
+    	solicitudVacacionesParametros{SolicitudVacaciones solicitudVacaciones, SolicitudVacaciones solicitudVacacionesDos ->
+            if(solicitudVacaciones){
+                if(solicitudVacacionesDos){
+                    if(solicitudVacaciones.folio && solicitudVacacionesDos.folio){
+                        between("folio", solicitudVacaciones.folio, solicitudVacacionesDos.folio)
                     }
                 }
             }
+        }
+        
+        solicitudVacacionesAnuales{SolicitudVacaciones solicitudVacaciones ->
+                if (solicitudVacaciones.fechaInicial){
+                	if(solicitudVacaciones.empleado != null){
+				        	and{
+						        ge 'fechaFinal', solicitudVacaciones.fechaInicial
+						        eq 'empleado', solicitudVacaciones.empleado
+				        	}
+		            }
+                }
         }
     }
 }

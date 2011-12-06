@@ -10,6 +10,7 @@ import mx.edu.um.Constantes
 class EventoController {
     def springSecurityService
     def empleadoService
+    def eventoService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -34,7 +35,7 @@ class EventoController {
         //obtenemos los segundos
         long segundos = diferenciaMils / 1000;
         def tiempoTotal = segundos
-        log.debug "tiempoTotal > " + tiempoTotal
+        //log.debug "tiempoTotal > " + tiempoTotal
         //obtenemos las horas
         long horas = segundos / 3600;
         //restamos las horas para continuar con minutos
@@ -43,12 +44,11 @@ class EventoController {
         long minutos = segundos /60;
         segundos -= minutos*60;
         
-        log.debug "horas    > " + horas
-        log.debug "minutos  > " + minutos
-        log.debug "segundos > " + segundos
+        //log.debug "horas    > " + horas
+        //log.debug "minutos  > " + minutos
+        //log.debug "segundos > " + segundos
         
         evento.tiempoTotal = tiempoTotal
-        log.debug "tiempo total > " + evento.tiempoTotal
         if (evento.save(flush: true)) {
             flash.message = message(code: 'default.created.message', args: [message(code: 'evento.label', default: 'Evento'), evento.id])
             redirect(action: "ver", id: evento.id)
@@ -102,7 +102,7 @@ class EventoController {
             //obtenemos los segundos
             long segundos = diferenciaMils / 1000;
             def tiempoTotal = segundos
-            log.debug "tiempoTotal > " + tiempoTotal
+            //log.debug "tiempoTotal > " + tiempoTotal
             //obtenemos las horas
             long horas = segundos / 3600;
             //restamos las horas para continuar con minutos
@@ -111,9 +111,9 @@ class EventoController {
             long minutos = segundos /60;
             segundos -= minutos*60;
             
-            log.debug "horas    > " + horas
-            log.debug "minutos  > " + minutos
-            log.debug "segundos > " + segundos
+            //log.debug "horas    > " + horas
+            //log.debug "minutos  > " + minutos
+            //log.debug "segundos > " + segundos
             
             evento.tiempoTotal = tiempoTotal
             if (!evento.hasErrors() && evento.save(flush: true)) {
@@ -166,76 +166,56 @@ class EventoController {
         if(evento.status == Constantes.STATUS_INICIADO) {
             evento.status = Constantes.STATUS_CERRADO
         }
-        def empleadoEventos = EmpleadoEvento.findByEvento(evento).list()
-        log.debug "empleadoEventos > " + empleadoEventos
-        def temp = 1
-        for(empleadoEvento in empleadoEventos) {
-            def eventoRegistros = EventoRegistro.findAllByEmpleadoEvento(empleadoEvento)
-            if(eventoRegistros.size()%2 != 0 ) {
-                def salida = new EventoRegistro (
-                    empleadoEvento: empleadoEvento
-                    , adentro: false
-                ).save(flush: true)
-                assert salida
-            }
-            empleadoEvento.refresh()
-            log.debug "empleado >>>>> " + empleadoEvento.empleado
-            log.debug "empleadoEvento >>>>> " + empleadoEvento
-            eventoRegistros = EventoRegistro.findAllByEmpleadoEvento(empleadoEvento)
-            log.debug "eventoRegistros >>>>>>>>>>>>>>>>>>>" + eventoRegistros
-            def tiempoPresente = 0
-            def tiempoTmp = 0
-            for(eventoRegistro in eventoRegistros) {
-                if(eventoRegistro.adentro) {
-                    tiempoTmp = eventoRegistro.fecha.getTime()
+        def empleadoEventos = EmpleadoEvento.findByEvento(evento)
+        if(empleadoEventos != null) {
+            empleadoEventos = empleadoEventos.list()
+            log.debug "empleadoEventos > " + empleadoEventos
+            def temp = 1
+            for(empleadoEvento in empleadoEventos) {
+                def eventoRegistros = EventoRegistro.findAllByEmpleadoEvento(empleadoEvento)
+                if(eventoRegistros.size()%2 != 0 ) {
+                    def salida = new EventoRegistro (
+                        empleadoEvento: empleadoEvento
+                        , adentro: false
+                    ).save(flush: true)
+                    assert salida
+                }
+                empleadoEvento.refresh()
+                log.debug "empleado >>>>> " + empleadoEvento.empleado
+                log.debug "empleadoEvento >>>>> " + empleadoEvento
+                eventoRegistros = EventoRegistro.findAllByEmpleadoEvento(empleadoEvento)
+                log.debug "eventoRegistros >>>>>>>>>>>>>>>>>>>" + eventoRegistros
+                def tiempoPresente = 0
+                def tiempoTmp = 0
+                for(eventoRegistro in eventoRegistros) {
+                    if(eventoRegistro.adentro) {
+                        tiempoTmp = eventoRegistro.fecha.getTime()
+                    } else {
+                        tiempoTmp -= eventoRegistro.fecha.getTime()
+                        tiempoPresente += (tiempoTmp*-1)
+                    }
+                }
+                log.debug "tiempoPresente > " + tiempoPresente/1000
+                empleadoEvento.tiempoPresente = tiempoPresente/1000
+                if(evento.tiempoTotal == empleadoEvento.tiempoPresente) {
+                    empleadoEvento.status = Constantes.STATUS_ASISTENCIA
+                } else if(empleadoEvento.tiempoPresente > (evento.tiempoTotal - (evento.prorroga*60))) {
+                    empleadoEvento.status = Constantes.STATUS_TARDANZA
                 } else {
-                    tiempoTmp -= eventoRegistro.fecha.getTime()
-                    tiempoPresente += (tiempoTmp*-1)
+                    empleadoEvento.status = Constantes.STATUS_INASISTENCIA
                 }
             }
-            log.debug "tiempoPresente > " + tiempoPresente/1000
-            empleadoEvento.tiempoPresente = tiempoPresente/1000
-            if(evento.tiempoTotal == empleadoEvento.tiempoPresente) {
-                empleadoEvento.status = Constantes.STATUS_ASISTENCIA
-            } else if(empleadoEvento.tiempoPresente > (evento.tiempoTotal - evento.prorroga)) {
-                empleadoEvento.status = Constantes.STATUS_TARDANZA
-            } else {
-                empleadoEvento.status = Constantes.STATUS_INASISTENCIA
-            }
+        }else {
+            log.debug "el evento no tiene asistentes"
         }
+        
         redirect(action: "lista")
     }
     
     def paseLista = {
-    	log.info "paseLista"
-        def evento = Evento.get(params.evento.id)
-        assert evento
-        log.debug "evento > " + evento
-        log.debug "clave > " + params.clave
+        def evento = Evento.get(params.id)
         if(params.clave.size() == 7) {
-		    def empleado = empleadoService.getEmpleado(params.clave)
-		    assert empleado
-		    log.debug "empleado > " + empleado
-	        def empleadoEvento = empleadoService.getEmpleadoEvento(empleado, evento)
-	        assert empleadoEvento
-	        log.debug "empeladoEvento > " + empleadoEvento
-            //def entradas = EventoRegistro.findAllEmpleadoEvento(empleadoEvento)
-            //log.debug "entradas > " + entradas
-            def entro = false
-	        if(empleadoEvento.adentro) {
-	            empleadoEvento.adentro = false
-	            entro = true
-	        } else {
-	            empleadoEvento.adentro = true
-	            entro = false
-	        }
-	        def eventoRegistro = new EventoRegistro (
-	            empleadoEvento: empleadoEvento
-                , adentro: entro
-            ).save()
-            assert eventoRegistro
-            log.debug "eventoRegistro > " + eventoRegistro
-
+            registro(params.clave, evento)
             flash.message = message(code: 'Se registro al Empleado {0} en el evento {1}', args: [params.clave, evento.nombre])
 	        render(view: "paseLista", model: [evento: evento])
         } else {
@@ -252,5 +232,47 @@ class EventoController {
         } else {
             redirect(action: "ver", id: evento.id)
         }
+    }
+    
+    def preparaSubir() {
+        def evento = Evento.get(params.id)
+        log.debug "prepara subir"
+        render(view:'subir', model: [evento: evento])
+    }
+
+    def sube = {
+        def evento = Evento.get(params.id)
+        log.debug "evento > " + evento
+        def file = request.getFile('archivo')
+        def claves = eventoService.subeEmpleados(file)
+        log.debug "claves > " + claves
+        for(def clave in claves){
+            registro(clave, evento)
+        }
+        cerrarEvento(params.id)
+        //redirect(action:'ver', id: evento.id)
+    }
+    
+    def registro(def clave, Evento evento) {
+            def empleado = empleadoService.getEmpleado(clave)
+		    assert empleado
+		    log.debug "empleado > " + empleado
+	        def empleadoEvento = empleadoService.getEmpleadoEvento(empleado, evento)
+	        assert empleadoEvento
+	        log.debug "empeladoEvento > " + empleadoEvento
+            def entro = false
+	        if(empleadoEvento.adentro) {
+	            empleadoEvento.adentro = false
+	            entro = true
+	        } else {
+	            empleadoEvento.adentro = true
+	            entro = false
+	        }
+	        def eventoRegistro = new EventoRegistro (
+	            empleadoEvento: empleadoEvento
+                , adentro: entro
+            ).save()
+            assert eventoRegistro
+            log.debug "eventoRegistro > " + eventoRegistro
     }
 }

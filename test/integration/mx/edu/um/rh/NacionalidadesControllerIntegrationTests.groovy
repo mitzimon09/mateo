@@ -9,7 +9,7 @@ import general.BaseIntegrationTest
 /**
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
-@TestFor(NacionalidadesController)
+//@TestFor(NacionalidadesController)
 class NacionalidadesControllerIntegrationTests extends BaseIntegrationTest {
 
 	def springSecurityService

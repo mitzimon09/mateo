@@ -40,6 +40,10 @@ class EmpleadoController {
     }
 
     def ver = {
+        log.debug "session.empleado > " + session.empleado
+        //if(session.empleado){
+        //    params.id = session.empleado
+        //}
         def empleado = Empleado.get(params.id)
         if (!empleado) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'empleado.label', default: 'Empleado'), params.clave])
@@ -91,9 +95,9 @@ class EmpleadoController {
     def delete = { //cambio de status
     	def empleado = Empleado.get(params.id)
     	if (empleado){
-    		empleado.status="I" //inactivo
-    		empleado.save(flush:true)
-    		redirect(action: "ver", id: empleado.id)
+            empleado.status="I" //inactivo
+            empleado.save(flush:true)
+            redirect(action: "ver", id: empleado.id)
     	}
     }
     
@@ -103,18 +107,18 @@ class EmpleadoController {
         def empleados = empleadoService.getEmpleadosByTipo(tipoEmpleado)
         Map <String, Empleado> claves = new TreeMap<String, Empleado>()
         for(Empleado empleado : empleados){
-        	claves.put(empleado.clave,empleado)
+            claves.put(empleado.clave,empleado)
         }
         for(i in 1..9999){
-        	def keytmp = i
-        	while ((keytmp + "").length() < 4) {
-		    	keytmp = "0" + keytmp
-		    }
-		    String claveCompleta = tipoEmpleado.prefijo + keytmp
-        	if(!claves.containsKey(claveCompleta)){
-        		log.debug "claveCompleta > " + claveCompleta
-        		return claveCompleta
-        	}
+            def keytmp = i
+            while ((keytmp + "").length() < 4) {
+                keytmp = "0" + keytmp
+            }
+            String claveCompleta = tipoEmpleado.prefijo + keytmp
+            if(!claves.containsKey(claveCompleta)){
+                log.debug "claveCompleta > " + claveCompleta
+                return claveCompleta
+            }
         }
     }
     
@@ -130,5 +134,93 @@ class EmpleadoController {
         def empleado = Empleado.get(params.id)
         def empleadoEventos = empleadoService.eventosPorEmpleado(empleado)
         [empleadoEventos: empleadoEventos]
+    }
+    
+    def buscar(){
+        render(view: "buscarEmpleado")
+    }
+    
+    def buscarEmpleado() {
+        log.debug "Params > " + params
+        def filtro = "%${params.term}%"
+        def empleados = Empleado.listaConFiltro(filtro).list(params)
+        def lista = []
+        for(empleado in empleados) {
+            def value = empleado.clave + " " + empleado.nombreCompleto
+            lista << [id: empleado.id, value: value]
+        }
+        //log.debug "Lista >: " + lista
+        render lista as JSON
+    }
+    
+    def cargarEmpleado() {
+        session.empleado = params.empleado.id
+        redirect(action: "ver", id: session.empleado)
+    }
+    
+    def muestrapercepciones () {
+        def empleado = Empleado.get(params.id)
+        List percepciones = new ArrayList()
+        //def percepciones = empleado.perdedsList
+        //log.debug "percepcipones de empleado: ${empleado.clave} | ${percepciones.size()}"
+        //def empleadoPerded = EmpleadoPerded.findAllByPerded(percepciones)
+        def grupo = empleado.grupo
+        def porcentajes = Porcentaje.findAllByGrupo(Grupo.findByNombre(grupo.nombre))
+        for(p in porcentajes){
+            percepciones.add(p.perded)
+            println("Mis Percepcuones" +p.perded.clave)
+        }
+        
+        // def tipoEmpleado = empleado.tipo
+        //println("Percepciones: " +percepciones)
+        println("Grupo: " +grupo)
+        println("Porcentaje: " +porcentajes)
+        //println("Tipo Emp: " +tipoEmpleados)
+        render(view: "percepciones", model:[empleado:empleado, percepciones:percepciones])
+    }
+    
+    def percepciones (){
+        def empleado = Empleado.get(params.id)
+        [empleado:empleado]
+    }
+    
+    def formagrega (){
+        
+        def empleado = Empleado.get(params.id)
+        def empleadoPerded=new EmpleadoPerded(params)
+        empleadoPerded.empleado=empleado
+        //        
+        //        def perded = PerDed.get(params.id)
+        [empleadoPerded:empleadoPerded]
+    }
+    
+    def grabapercepcion(){
+        log.debug("PARAMETROS EMPLEADOPERDED:           "+params)
+        def empleado = Empleado.get(params.empleado.id)
+        log.debug("EMPLEADO:           "+empleado)
+        def perded = PerDed.get(params.perded.id)
+        log.debug("PERDED:           "+perded)
+        def importe = new BigDecimal(params.importe)
+        log.debug("IMPORTE:           "+importe)
+        def tipoImporte = params.tipoImporte
+        log.debug("TIPOIMPORTE:           "+tipoImporte)
+        def atributos = params.atributos
+        log.debug("ATRIBUTOS:           "+atributos)
+        def otorgado = params.otorgado
+        if(otorgado == "on"){
+            otorgado = true
+        }else {
+            otorgado = false
+        }
+        log.debug("OTORGADO:           "+otorgado)
+        def isEditableByNOM = params.isEditableByNOM
+        if(isEditableByNOM == "on"){
+            isEditableByNOM = true
+        }else {
+            isEditableByNOM = false
+        }
+        log.debug("EDITABLENOM:           "+isEditableByNOM)
+        empleadoService.addPercepcionToEmpleado(empleado, perded, importe, tipoImporte, atributos, otorgado, isEditableByNOM)
+        redirect(action:"ver",id:empleado.id)
     }
 }

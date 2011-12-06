@@ -1,4 +1,4 @@
-<%@ page import="mx.edu.um.rh.SolicitudVacaciones" %>
+<%@ page import="mx.edu.um.rh.SolicitudVacaciones", import="mx.edu.um.Constantes" %>
 <!doctype html>
 <html>
 	<head>
@@ -28,8 +28,8 @@
 			</ul>
 			</g:hasErrors>
 			<g:form method="post" >
-				<g:hiddenField name="id" value="${solicitudesVacaciones?.id}" />
-				<g:hiddenField name="version" value="${solicitudesVacaciones?.version}" />
+				<g:hiddenField name="id" value="${solicitudVacaciones?.id}" />
+				<g:hiddenField name="version" value="${solicitudVacaciones?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

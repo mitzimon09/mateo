@@ -34,8 +34,6 @@
 					
 						<g:sortableColumn property="status" title="${message(code: 'vacaciones.status.label', default: 'Status')}" />
 					
-						<th><g:message code="vacaciones.solicitudSalida.label" default="Solicitud Salida" /></th>
-					
 					</tr>
 				</thead>
 				<tbody>
@@ -52,7 +50,7 @@
 					
 						<td>${fieldValue(bean: vacaciones, field: "status")}</td>
 					
-						<td>${fieldValue(bean: vacaciones, field: "solicitudSalida")}</td>
+						<td>${fieldValue(bean: vacaciones, field: "solicitudVacaciones")}</td>
 					
 					</tr>
 				</g:each>

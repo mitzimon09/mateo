@@ -26,6 +26,7 @@
       <sec:ifLoggedIn>
         <p><a href="${createLink(controller:'usuario',action:'perfil')}"><g:message code="welcome.header.message" /> <sec:username /></a></p>
         <p><a href="${createLink(controller:'usuario',action:'perfil')}">${session?.organizacion} | ${session?.empresa}</a></p>
+        <p>${session?.empleado}</p>
         <p><a href="${createLink(controller:'logout')}"><g:message code="logout.header.message" /></a></p>
       </sec:ifLoggedIn>
     </div>

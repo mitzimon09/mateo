@@ -89,7 +89,7 @@ class Empleado {
         tipo blank: false
         grupo blank: false
         //Personales
-        estadoCivil maxSize: 2, blank: false ,inList:[Constantes.ESTADO_CIVIL_SOLTERO, Constantes.ESTADO_CIVIL_CASADO, Constantes.ESTADO_CIVIL_DIVORSIADO, Constantes.ESTADO_CIVIL_UNION_LIBRE]
+        estadoCivil maxSize: 2, blank: false ,inList:[Constantes.ESTADO_CIVIL_SOLTERO, Constantes.ESTADO_CIVIL_CASADO, Constantes.ESTADO_CIVIL_DIVORSIADO, Constantes.ESTADO_CIVIL_VIUDO]
         madre maxSize: 50, blank: false
         padre maxSize: 50, blank: false
         conyuge maxSize: 50, nullable: true
@@ -187,6 +187,7 @@ class Empleado {
 
     /*
      *Este  Metodo carga un map con las perdeds del empleado cuando se llama empleado.perdeds
+     *Map <Perded.id,EmpleadoPerded>
      */
     Map getPerdeds(){
         log.debug "getPerdeds"
@@ -214,7 +215,7 @@ class Empleado {
      */
     
     static namedQueries = {
-        listaEmpleadosParametros{Empleado empleado, Empleado empleadoDos ->
+        listaEmpleadosParametros { Empleado empleado, Empleado empleadoDos ->
             //Valida que el usuario no venga null
             if(empleado){
                 if(empleadoDos){
@@ -242,6 +243,15 @@ class Empleado {
                         idEq(empleado.empresa.id)
                     }
                 }
+            }
+        }
+        listaConFiltro { filtro ->
+            filtro = "%$filtro%"
+            or {
+                ilike('clave',filtro)
+                ilike('nombre',filtro)
+                ilike('apPaterno',filtro)
+                ilike('apMaterno',filtro)
             }
         }
     }

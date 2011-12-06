@@ -100,5 +100,4 @@ class PerDed {
     String toString(){
         return "clave: ${clave} | nombre: ${nombre} | formula: ${formula} | naturaleza: ${naturaleza}"
     }
-
 }

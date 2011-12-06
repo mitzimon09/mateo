@@ -1,10 +1,8 @@
-
-<%@ page import="mx.edu.um.rh.Seccion" %>
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'seccion.label', default: 'Seccion')}" />
+        <meta name="layout" content="main">
+		<g:set var="entityName" value="${message(code: 'puesto.label', default: 'Puesto')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -24,7 +22,7 @@
 				<thead>
 					<tr>
 					
-						<th><g:message code="seccion.categoria.label" default="Seccion" /></th>
+						<th><g:message code="seccion.categoria.label" default="Puesto" /></th>
 						<g:sortableColumn property="descripcion" title="${message(code: 'seccion.descripcion.label', default: 'Categoria')}" />
 					
 						<g:sortableColumn property="maximo" title="${message(code: 'seccion.maximo.label', default: 'Maximo')}" />

@@ -29,7 +29,7 @@
 			</g:hasErrors>
 			<g:form action="paseLista" >
 				<fieldset class="form">
-	  				<g:hiddenField id="evento" name="evento.id" value="${evento?.id}" />
+	  				<g:hiddenField name="id" value="${evento?.id}" />
 				    //todo aqui <br>
 				    campo para capturar # nomina
 				    <div class="fieldcontain required">
@@ -41,10 +41,13 @@
                     </div>
 				</fieldset>
 				<fieldset class="buttons">
-                    <sec:ifLoggedIn>
-					    <g:submitButton name="paseLista" class="list" id="${evento?.id}" value="Pase De Lista" />
-                        <g:link class="list" action="cerrarEvento" id="${evento?.id}"><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
-                    </sec:ifLoggedIn>
+				    <span class="button">
+                        <sec:ifLoggedIn>
+					        <g:submitButton name="paseLista" class="list" value="Pase De Lista" />
+                            <g:link class="list" action="cerrarEvento" id="${evento?.id}" ><g:message code="default.button.cerrarEvento.label" default="Cerrar Evento" /></g:link>
+                            <g:link class="list" action="preparaSubir" id="${evento?.id}" ><g:message code="default.button.cerrarEvento.label" default="Subir Archivo" /></g:link>
+                        </sec:ifLoggedIn>
+                    <span>
 				</fieldset>
 			</g:form>
 		</div>

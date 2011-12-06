@@ -28,8 +28,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
                 , descripcion: 'test'
                 , hora_inicio: new Date()
                 , hora_final: new Date()
-                , prorroga: '15'
-                , status: Constantes.STATUS_CREADO
 		    ).save()
     		assertNotNull evento
         }
@@ -64,8 +62,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.descripcion = 'test'
         controller.params.hora_inicio = new Date()
         controller.params.hora_final = new Date()
-        controller.params.prorroga = '15'
-        controller.params.status = Constantes.STATUS_CREADO
         controller.crea()
         
         assert controller
@@ -83,8 +79,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , prorroga: '15'
-            , status: Constantes.STATUS_CREADO
 	    ).save()
 		assertNotNull evento
     		
@@ -119,8 +113,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , prorroga: '15'
-            , status: Constantes.STATUS_CREADO
 	    ).save()
 		assertNotNull evento
         
@@ -146,8 +138,6 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , prorroga: '15'
-            , status: Constantes.STATUS_CREADO
 	    ).save()
 		assertNotNull evento
 		
@@ -156,7 +146,7 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         controller.params.id = evento.id
         def model = controller.ver()
         assert model.evento
-        assertEquals Constantes.STATUS_CREADO, model.evento.status
+        assertEquals Constantes.STATUS_ABIERTO, model.evento.status
         model = controller.iniciarEvento()
         assertEquals evento.status, Constantes.STATUS_INICIADO
 	}
@@ -168,18 +158,17 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , prorroga: '15'
             , status: Constantes.STATUS_INICIADO
 	    ).save()
 		assertNotNull evento
 		
         def controller = new EventoController()
         controller.springSecurityService = springSecurityService
-        controller.params.id = evento.id
         assertEquals Constantes.STATUS_INICIADO, evento.status
-        
+        controller.params.id = evento.id
+        assertEquals evento.id, controller.params.id
         controller.cerrarEvento()
-        assertEquals evento.status, Constantes.STATUS_TERMINADO
+        assertEquals evento.status, Constantes.STATUS_CERRADO
 	}
 	
 	@Test
@@ -201,32 +190,40 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
         
         def tipoEmpleado = new TipoEmpleado (
     		descripcion: "test"
-    		, prefijo: "111"
+    		, prefijo: "980"
     	).save()
     	assertNotNull tipoEmpleado
+    	
+    	def grupo = new Grupo(
+            nombre: "1"
+            , maximo: 1
+            , minimo: 1
+	    ).save()
+		assertNotNull grupo
         
 	    Empleado empleado = new Empleado(
-            clave : "9800001"
+            clave : "9809999"
             , nombre : "TESTA"
             , apPaterno : "TESTA"
             , apMaterno : "TESTA"
-            , genero : "FM"
+            , genero : Constantes.GENERO_MASCULINO
             , fechaNacimiento : new Date()
             , direccion : "TEST"
-            , status : "A"
+            , status : Constantes.STATUS_ACTIVO
             , empresa: empresa
             , curp : "TEST123"
             , rfc : "ABC-1234567890"
             , escalafon : 75
             , turno : 100
             , fechaAlta : new Date()
-            , modalidad : "A"
+            , modalidad : Constantes.MODALIDAD_APOYO
             , antiguedadBase : new BigDecimal(0.00)
             , antiguedadFiscal : new BigDecimal(0.00)
             , padre : "TESTP"
             , madre: "TESTM"
-            , estadoCivil : "S"
+            , estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO
             , tipo: tipoEmpleado
+            , grupo: grupo
         ).save()
         assertNotNull empleado
         
@@ -235,20 +232,19 @@ class EventoControllerIntegrationTests extends BaseIntegrationTest {
             , descripcion: 'test'
             , hora_inicio: new Date()
             , hora_final: new Date()
-            , prorroga: '15'
-            , status: Constantes.STATUS_INICIADO
-            //, clave: '9800001'
+            ,status: Constantes.STATUS_ABIERTO
 	    ).save()
 		assertNotNull evento
 		
 		def controller = new EventoController()
         //controller.springSecurityService = springSecurityService
-        controller.params.evento = evento.id
-        assertEquals evento.id, controller.params.evento
-        controller.params.clave = "9800001"
-        assertEquals Constantes.STATUS_INICIADO, evento.status
+        controller.params.id = evento.id
+        assertEquals evento.id, controller.params.id
+        controller.params.clave = empleado.clave
+        assertEquals empleado.clave, controller.params.clave
+        assertEquals Constantes.STATUS_ABIERTO, evento.status
         controller.paseLista()
-                
-        //def model = controller.paseLista()
 	}
+	
+	
 }

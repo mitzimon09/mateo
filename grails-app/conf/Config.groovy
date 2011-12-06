@@ -1,4 +1,4 @@
-de// locations to search for config files that get merged into the main config
+// locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
 grails.config.locations = [ "file:${userHome}/.grails/${appName}-config.groovy" ]
@@ -137,6 +137,8 @@ grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, app
     def session = request.getSession(false)
     session.organizacion = domain[0].organizacion
     session.empresa = domain[0].empresa
+    def empleado = general.UsuarioEmpleado.executeQuery("select ue.empleado from Usuario u, UsuarioEmpleado ue where ue.usuario = u.id and u.username = ?", [e.source.principal.username])
+    session.empleado = empleado[0].id
 }
 
 //To specify a property of the userPrincipal to be logged as the actor name (the person performing the action which triggered the event)
