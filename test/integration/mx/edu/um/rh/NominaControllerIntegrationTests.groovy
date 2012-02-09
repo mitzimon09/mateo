@@ -393,7 +393,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             grupo : Grupo.findByNombre("A"),
             padre : "TESTP",
             madre: "TESTM",
-            estadoCivil : "SO",
+            estadoCivil : Constantes.ESTADO_CIVIL_SOLTERO,
             conyuge : "TESTC",
             fechaMatrimonio : new Date(),
             iglesia : "TESTI",
@@ -454,6 +454,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         assertEquals 4 , perdedsEmpleado.size()
 
         empleado = Empleado.findByClave(claveEmpleado)
+        println "empleado guardado a la BD: ${empleado}"
         println "empleados en BD: ${Empleado.count()}"
         return empleado
     }
@@ -464,6 +465,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraArmarMapPercepcionesReservadas(){
+        println 'debieraArmarMapPercepcionesReservadas'
         crearGrupos()
         crearAtributos()
         crearPerdeds()
@@ -485,6 +487,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
 
     @Test
     void debieraSustituirPorcentajesEnMapPercepcionesReservadas(){
+        println 'debieraSustituirPorcentajesEnMapPercepcionesReservadas'
         crearGrupos()
         crearAtributos()
         crearPerdeds()
@@ -522,6 +525,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraArmarMapFormulasGrupoX(){
+        println 'debieraArmarMapFormulasGrupoX'
         crearGrupos()
         crearAtributos()
 
@@ -559,6 +563,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraSustituirPorcentajesEnFormulasGrupoX(){
+        println 'debieraSustituirPorcentajesEnFormulasGrupoX'
         crearGrupos()
         crearAtributos()
         crearPerdeds()
@@ -599,7 +604,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraArmarMapDeFormulasPorEmpleado(){ 
-        log.debug 'testArmarMapDeFormulasPorEmpleado'
+        println 'debieraArmarMapDeFormulasPorEmpleado'
 
         crearTipoEmpleados()
         crearGrupos()
@@ -631,7 +636,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraSustituirPorcentajesEnFormulasDeEmpleado(){
-
+        println 'debieraSustituirPorcentajesEnFormulasDeEmpleado'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -674,6 +679,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraRegresarmeValorNumericoFromEvaluador(){
+        println 'debieraRegresarmeValorNumericoFromEvaluador'
         Evaluador evaluador = new Evaluador();
 
         String formula = "(12000 + 1000 - 3000) * 10"
@@ -702,7 +708,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaDeUnEmpleado(){
-
+        println 'debieraRegresarNominaDeUnEmpleado'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -736,7 +742,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaPorRangosDeEmpleados(){
-
+        println 'debieraRegresarNominaPorRangosDeEmpleados'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -753,7 +759,6 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
             empleadosPorRango.add(crearEmpleadoPrueba(claveConcatenada))
         }
         assertTrue empleadosPorRango.size() == 10
-
         String claveInicial = "9809000"
         String claveFinal = "9809004"
 
@@ -782,10 +787,13 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     @Test
     void debieraRegresarNominaPorTipoDeEmpleado(){
         println "debieraRegresarNominaPorTipoDeEmpleado"
+        
+//        crearTipoEmpleados()
 //        crearGrupos()
+//        crearAtributos()
 //        crearPerdeds()
 //        crearPorcentajes()
-//        crearTipoEmpleados()
+
 //
 //        List<Empleado> empleadosPorRango = new ArrayList<Empleado>()
 //
@@ -803,7 +811,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
         TipoNomina tipoNomina = TipoNomina.MENSUAL
 
         List<String> nominaEmpleadosPorTipo = nominaService.getNominaEmpleadosPorTipo(tipoEmpleado, tipoNomina)
-        log.debug "nominaEmpleadosPorTipo.size: ${nominaEmpleadosPorTipo.size()}"
+        println "nominaEmpleadosPorTipo.size: ${nominaEmpleadosPorTipo.size()}"
 //        assertTrue nominaEmpleadosPorTipo.size() == 10
 
         println "Nomina Empleados Por Tipo"
@@ -824,6 +832,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarPercecionEspecificadaUnEmpleado(){
+        println 'debieraRegresarPercecionEspecificadaUnEmpleado'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -847,6 +856,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
         void debieraRegresarPercecionEspecificadaPorRangoDeEmpleados(){
+        println 'debieraRegresarPercecionEspecificadaPorRangoDeEmpleados'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -884,6 +894,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarPercecionEspecificadaPorTipoDeEmpleados(){
+        println 'debieraRegresarPercecionEspecificadaPorTipoDeEmpleados'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -934,6 +945,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
      **/
     @Test
     void debieraRegresarNominaDiariaDeUnEmpleado(){
+        println 'debieraRegresarNominaDiariaDeUnEmpleado'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()
@@ -989,6 +1001,7 @@ class NominaControllerIntegrationTests extends BaseIntegrationTest {
     **/
     @Test
     void debieraRegresarNominaDiariaDeUnRangoDeEmpleados(){
+        println 'debieraRegresarNominaDiariaDeUnRangoDeEmpleados'
         crearTipoEmpleados()
         crearGrupos()
         crearAtributos()

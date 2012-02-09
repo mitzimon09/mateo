@@ -5,7 +5,7 @@ class EmpleadoPerded {
     PerDed perded
     BigDecimal importe
     String tipoImporte ='$'
-//    String atributos
+    String atributos
     Boolean otorgado = false
     Boolean isEditableByNOM = false
 
@@ -16,7 +16,7 @@ class EmpleadoPerded {
         perded nullable:false
         importe nullable:false
         tipoImporte maxSize:1, inList:['$','%'], nullable:false
-//        atributos nullable:true
+        atributos nullable:true
         otorgado nullable:true
         isEditableByNOM nullable:true
         
